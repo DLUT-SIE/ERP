@@ -1,0 +1,24 @@
+.half-form{
+    width:30%;
+}
+
+form#subapply label{
+    width:100px;
+}
+div.subapply{
+    margin-left:150px!important;
+    width:250px;
+}
+
+div.subbtn{
+    margin-left:100px!important;
+    width:200px;   
+}
+
+div.nomargin-left{
+    margin-left:0px!important;
+}
+div.status-error{
+    padding: 0px 35px 0px 14px!important;
+    margin-left:130px;
+}
