@@ -7,15 +7,12 @@ ALLOWED_HOSTS = ['*']
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ERP_development',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': '192.168.13.91',
-        'PORT': '3310',
-        'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES',
-        }
+        'PORT': '5436',
     }
 }
 
