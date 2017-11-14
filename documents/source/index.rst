@@ -5,25 +5,22 @@
 
 ERP开发文档
 ===============================
+.. note::
+    这里是ERP的开发文档。
 
 .. toctree::
    :maxdepth: 2
    :glob:
-   :caption: 目录:
+   :caption: 目录
 
    self
-   core/*
-   inventory/*
-   distribution/*
-   process/*
-   procurement/*
-   production/*
+   core/index
+   inventory/index
+   distribution/index
+   process/index
+   procurement/index
+   production/index
    *
-
-
-
-其他
-==================
 
 * :ref:`genindex`
 * :ref:`modindex`
