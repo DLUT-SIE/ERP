@@ -8,11 +8,21 @@ ERP开发文档
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :glob:
+   :caption: 目录:
+
+   self
+   core/*
+   inventory/*
+   distribution/*
+   process/*
+   procurement/*
+   production/*
+   *
 
 
 
-目录
+其他
 ==================
 
 * :ref:`genindex`
