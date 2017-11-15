@@ -1,0 +1,7 @@
+REVIEW_COMMENTS_DEFAULT = -1
+REVIEW_COMMENTS_CHOICES = (
+    (REVIEW_COMMENTS_DEFAULT, '未审核'),
+    (0, '通过'),
+    (1, '不通过'),
+)
+

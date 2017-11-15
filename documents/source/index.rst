@@ -10,7 +10,6 @@ ERP开发文档
 
 .. toctree::
    :maxdepth: 2
-   :glob:
    :caption: 目录
 
    self
@@ -20,7 +19,7 @@ ERP开发文档
    process/index
    procurement/index
    production/index
-   *
+   updates/index
 
 * :ref:`genindex`
 * :ref:`modindex`
