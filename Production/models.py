@@ -125,8 +125,8 @@ class ComprehensiveDepartmentFileList(models.Model):
 class ProductionPlan(models.Model):
     work_order = models.ForeignKey(WorkOrder, verbose_name='工作令',
                                    on_delete=models.CASCADE)
-    identifier = models.CharField(verbose_name='生产计划编号',
-                                  max_length=50, default=gen_uuid)
+    uid = models.CharField(verbose_name='生产计划编号', unique=True,
+                           max_length=50, default=gen_uuid)
     status = models.IntegerField(verbose_name='生产计划状态',
                                  choices=PRODUCTION_PLAN_STATUS_CHOICES,
                                  default=PRODUCTION_PLAN_RELAX)
@@ -137,4 +137,4 @@ class ProductionPlan(models.Model):
         verbose_name_plural = '生产计划'
 
     def __str__(self):
-        return self.identifier
+        return self.uid

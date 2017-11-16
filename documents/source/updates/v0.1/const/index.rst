@@ -6,14 +6,15 @@ const模块
 - 模块重命名为 **Core**
 - 添加模型 **UserInfo**
 - 添加模型 **Department**
-- 移出 **BidFormStatus**, **OrderFormStatus**, **ImplementClassChoices**, **InventoryType** 至 **Procurement(原purchasing)** 模块
+- 移出 **BidFormStatus**, **OrderFormStatus**, 至 **Procurement(原purchasing)** 模块
+- 删除 **ImplementClassChoices**, **InventoryType** 模型
 - **WorkOrder**
     - 字段重命名
 
         =============== ==========
         改动前           改动后
         --------------- ----------
-        index           identifier
+        index           uid
         --------------- ----------
         client_name     client
         --------------- ----------

@@ -6,8 +6,8 @@ from . import SELL_TYPES, MATERIAL_CATEGORY_CHOICES, GENDER_CHOICES
 
 
 class WorkOrder(models.Model):
-    identifier = models.CharField(verbose_name='编号',
-                                  unique=True, max_length=20)
+    uid = models.CharField(verbose_name='编号',
+                           unique=True, max_length=20)
     sell_type = models.IntegerField(verbose_name='销售类型',
                                     choices=SELL_TYPES)
     client = models.CharField(verbose_name='客户名称', max_length=100)
@@ -26,15 +26,15 @@ class WorkOrder(models.Model):
         if self.subworkorder_set.all().count() > 0:
             return
         for index in range(self.count):
-            name = '{}-{}'.format(self.identifier, index)
+            name = '{}-{}'.format(self.uid, index)
             sub_order = SubWorkOrder(order=self, index=index, name=name)
             sub_order.save()
 
     def suffix(self):
-        return self.identifier[2:]
+        return self.uid[2:]
 
     def __str__(self):
-        return self.identifier
+        return self.uid
 
     def getSellType(self):
         raise Warning('Deprecated: This will be removed soon, '
@@ -80,7 +80,7 @@ class Material(models.Model):
 
 class Materiel(models.Model):
     work_order = models.ForeignKey(WorkOrder, verbose_name='所属工作令',
-                              blank=True, null=True)
+                                   blank=True, null=True)
     index = models.CharField(verbose_name='票号', blank=True, max_length=20)
     sub_index = models.CharField(verbose_name='部件号', blank=True,
                                  null=True, max_length=20)

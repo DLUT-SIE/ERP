@@ -448,8 +448,9 @@ class WeldingWorkInstruction(models.Model):
                                  related_name='weld_work_inst_approver')
     approve_date = models.DateField(verbose_name='批准日期',
                                     blank=True, null=True)
-    identifier = models.CharField(verbose_name='文件编号', max_length=100,
-                                  blank=True, null=True)
+    # TODO: unique?
+    uid = models.CharField(verbose_name='文件编号', max_length=100,
+                           blank=True, null=True)
     path = models.FileField(verbose_name='简图', upload_to='%Y/%m/%d',
                             null=True, blank=True)
 
@@ -459,15 +460,15 @@ class WeldingWorkInstruction(models.Model):
 
     def __str__(self):
         return 'RH20-{}-{}'.format(
-            self.detail.specification.work_order.suffix(),
-            self.identifier)
+            self.detail.specification.work_order.suffix(), self.uid)
 
 
 class WeldSeam(models.Model):
     materiel = models.ForeignKey(Materiel, verbose_name='所属物料',
                                  on_delete=models.CASCADE)
-    identifier = models.CharField(verbose_name='焊缝编号', max_length=100,
-                                  blank=True, null=True)
+    # TODO: unique?
+    uid = models.CharField(verbose_name='焊缝编号', max_length=100,
+                           blank=True, null=True)
     seam_type = models.ForeignKey(WeldSeamType, verbose_name='焊缝类型',
                                   on_delete=models.CASCADE)
     weld_position = models.ForeignKey(WeldPositionType,
@@ -551,8 +552,9 @@ class WeldSeam(models.Model):
 
 
 class TransferCard(models.Model):
-    identifier = models.CharField(verbose_name='文件编号', max_length=100,
-                                  null=True, blank=True)
+    # TODO: unique?
+    uid = models.CharField(verbose_name='文件编号', max_length=100,
+                           null=True, blank=True)
     materiel = models.ForeignKey(Materiel, verbose_name='所属零件')
     category = models.IntegerField(verbose_name='流转卡类型',
                                    choices=TRANSFER_CARD_CATEGORY_CHOICES)
@@ -584,7 +586,7 @@ class TransferCard(models.Model):
         header = TRANSFER_HEADER_MAP.get(self.category, 'RH05')
         return '{}-{}- -{}'.format(header,
                                    self.materiel.work_order.suffix(),
-                                   self.identifier)
+                                   self.uid)
 
 
 class WeldingWorkInstructionProcess(models.Model):
@@ -755,8 +757,9 @@ class ProgramingNestingChart(models.Model):
 
 
 class HeatTreatmentTechCard(models.Model):
-    identifier = models.CharField(verbose_name='文件编号', max_length=100,
-                                  blank=True, null=True)
+    # TODO: unique
+    uid = models.CharField(verbose_name='文件编号', max_length=100,
+                           blank=True, null=True)
     writer = models.ForeignKey(User, verbose_name='编制人',
                                blank=True, null=True,
                                related_name='heat_treat_tech_card_writer')
@@ -785,7 +788,7 @@ class HeatTreatmentTechCard(models.Model):
         verbose_name_plural = u'热处理工艺卡'
 
     def __str__(self):
-        return 'RR01-{}'.format(self.identifier)
+        return 'RR01-{}'.format(self.uid)
 
 
 class HeatTreatmentPart(models.Model):
@@ -814,8 +817,9 @@ class HeatTreatmentPart(models.Model):
 
 
 class HeatTreatmentTempMeasuringPointLayout(models.Model):
-    identifier = models.CharField(verbose_name='文件编号', max_length=100,
-                                  blank=True, null=True)
+    # TODO: unique
+    uid = models.CharField(verbose_name='文件编号', max_length=100,
+                           blank=True, null=True)
     tech_card = models.OneToOneField(HeatTreatmentTechCard,
                                      verbose_name='所属工艺卡',
                                      on_delete=models.CASCADE)
@@ -838,7 +842,7 @@ class HeatTreatmentTempMeasuringPointLayout(models.Model):
         verbose_name_plural = '热处理测温点布置'
 
     def __str__(self):
-        return 'RR02-{}'.format(self.identifier)
+        return 'RR02-{}'.format(self.uid)
 
 
 class TechPlan(models.Model):
