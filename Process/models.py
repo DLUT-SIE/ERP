@@ -1,14 +1,18 @@
+# TODO: Split models into different files
 from django.db import models
 from django.core.checks import Warning
 from django.contrb.auth.models import User
 
-from Core.models import WorkOrder, Materiel, Material
-
-from . import (SIGNATURE_CATEGORY_CHOICES, PROCESS_CHOICES,
-               CIRCULATION_CHOICES, WELD_METHODS,
-               NONDESTRUCTIVE_INSPECTION_TYPES,
-               PROCEDURE_QUALIFICATION_INDEXS,
-               WELD_POSITION_CHOICES)
+from Core import (SIGNATURE_CATEGORY_CHOICES, PROCESS_CHOICES,
+                  CIRCULATION_CHOICES, WELD_METHODS,
+                  NONDESTRUCTIVE_INSPECTION_TYPES,
+                  PROCEDURE_QUALIFICATION_INDEXS,
+                  WELD_POSITION_CHOICES,
+                  TRANSFER_CARD_CATEGORY_CHOICES,
+                  TRANSFER_HEADER_MAP,
+                  WWI_TEST_METHOD_CHOICES)
+from Core.models import WorkOrder, Materiel, Material, Department
+from Procurement.models import MaterielExecutionDetail
 
 
 class Signature(models.Model):
@@ -28,6 +32,7 @@ class Signature(models.Model):
                                  on_delete=models.CASCADE)
     review_date = models.DateField(verbose_name='审核日期', blank=True,
                                    null=True)
+    # TODO: editable=False
     category = models.IntegerField(verbose_name='签章类别',
                                    blank=True, null=True,
                                    choices=SIGNATURE_CATEGORY_CHOICES)
@@ -35,6 +40,7 @@ class Signature(models.Model):
     class Meta:
         verbose_name = '签章'
         verbose_name_plural = '签章'
+        abstract = True
 
     def __str__(self):
         return str(self.work_order)
@@ -176,18 +182,18 @@ class ProcessRoute(models.Model):
     # TODO: Create Process when ProcessRoute created
 
 
-class Process(models.Model):
+class ProcessStep(models.Model):
     route = models.ForeignKey(ProcessRoute, verbose_name='工序路线',
                               on_delete=models.CASCADE)
-    name = models.IntegerField(verbose_name='简称',
+    name = models.IntegerField(verbose_name='工序',
                                choices=PROCESS_CHOICES)
     # TODO: man_hours in numerial fields?
     man_hours = models.CharField(verbose_name='工时', max_length=20,
                                  blank=True, null=True,)
 
     class Meta:
-        verbose_name = '工序'
-        verbose_name = '工序'
+        verbose_name = '工序步骤'
+        verbose_name = '工序步骤'
 
     def __str__(self):
         return self.get_name_display()
@@ -479,12 +485,12 @@ class WeldSeam(models.Model):
                                     null=True, blank=True)
     base_metal_2 = models.CharField(verbose_name='母材材质_2', max_length=100,
                                     null=True, blank=True)
-    base_metal_thin_1 = models.CharField(verbose_name='母材厚度_1',
-                                         max_length=100,
-                                         blank=True, null=True)
-    base_metal_thin_2 = models.CharField(verbose_name='母材厚度2',
-                                         max_length=100,
-                                         blank=True, null=True)
+    base_metal_thick_1 = models.CharField(verbose_name='母材厚度_1',
+                                          max_length=100,
+                                          blank=True, null=True)
+    base_metal_thick_2 = models.CharField(verbose_name='母材厚度2',
+                                          max_length=100,
+                                          blank=True, null=True)
     length = models.CharField(verbose_name='长度', max_length=100)
     # TODO: weld_material as Model?
     weld_material_1 = models.ForeignKey(Material, verbose_name='焊丝/焊条_1',
@@ -495,13 +501,14 @@ class WeldSeam(models.Model):
                                     blank=True, null=True,
                                     on_delete=models.CASCADE,
                                     related_name='weld_seam_flux_1')
-    thin_1 = models.CharField(verbose_name='焊材厚度_1', max_length=100,
-                              blank=True, null=True)
+    thick_1 = models.CharField(verbose_name='焊材厚度_1', max_length=100,
+                               blank=True, null=True)
     size_1 = models.CharField(verbose_name='规格_1', max_length=100,
                               blank=True, null=True)
     weight_1 = models.FloatField(verbose_name='重量_1', blank=True, default=0)
     flux_weight_1 = models.FloatField(verbose_name='焊剂重量_1',
                                       blank=True, default=0)
+
     weld_material_2 = models.ForeignKey(Material, verbose_name='焊丝/焊条_2',
                                         blank=True, null=True,
                                         on_delete=models.CASCADE,
@@ -509,13 +516,14 @@ class WeldSeam(models.Model):
     weld_flux_2 = models.ForeignKey(Material, verbose_name='焊剂_2',
                                     blank=True, null=True,
                                     related_name='weld_seam_flux_2')
-    thin_2 = models.CharField(verbose_name='焊材厚度_2', max_length=100,
-                              blank=True, null=True)
+    thick_2 = models.CharField(verbose_name='焊材厚度_2', max_length=100,
+                               blank=True, null=True)
     size_2 = models.CharField(verbose_name='规格_2', max_length=100,
                               blank=True, null=True)
     weight_2 = models.FloatField(verbose_name='重量_2', blank=True, default=0)
     flux_weight_2 = models.FloatField(verbose_name='焊剂重量_2',
                                       blank=True, default=0)
+
     remark = models.CharField(verbose_name='备注', max_length=100,
                               blank=True, null=True)
     weld_joint_detail = models.ForeignKey(
@@ -540,3 +548,371 @@ class WeldSeam(models.Model):
 
     def __str__(self):
         return self.materiel.name
+
+
+class TransferCard(models.Model):
+    identifier = models.CharField(verbose_name='文件编号', max_length=100,
+                                  null=True, blank=True)
+    materiel = models.ForeignKey(Materiel, verbose_name='所属零件')
+    category = models.IntegerField(verbose_name='流转卡类型',
+                                   choices=TRANSFER_CARD_CATEGORY_CHOICES)
+    container_category = models.CharField(verbose_name='容器类别',
+                                          max_length=100,
+                                          blank=True, null=True)
+    parent_name = models.CharField(verbose_name='所属部件名称', max_length=100,
+                                   blank=True, null=True)
+    weld_test_plate_index = models.CharField(verbose_name='焊接试板图号',
+                                             max_length=100,
+                                             blank=True, null=True)
+    parent_test_plate_index = models.CharField(verbose_name='母材试板图号',
+                                               max_length=100,
+                                               blank=True, null=True)
+    material_index = models.CharField(verbose_name='材质标记',
+                                      max_length=100,
+                                      blank=True, null=True)
+    path = models.FileField(verbose_name='文件路径', upload_to='%Y/%m/%d',
+                            null=True, blank=True)
+    tech_requirement = models.CharField(verbose_name='技术要求',
+                                        max_length=1000,
+                                        null=True, blank=True)
+
+    class Meta:
+        verbose_name = '流转卡'
+        verbose_name_plural = '流转卡'
+
+    def __str__(self):
+        header = TRANSFER_HEADER_MAP.get(self.category, 'RH05')
+        return '{}-{}- -{}'.format(header,
+                                   self.materiel.work_order.suffix(),
+                                   self.identifier)
+
+
+class WeldingWorkInstructionProcess(models.Model):
+    instruction = models.ForeignKey(WeldingWorkInstruction,
+                                    verbose_name='焊接作业指导书')
+    index = models.CharField(verbose_name='序号', max_length=100,
+                             null=True, blank=True)
+    name = models.CharField(verbose_name='工序名', max_length=100,
+                            null=True, blank=True)
+    detail = models.CharField(verbose_name='工艺过程及技术要求',
+                              max_length=1000, null=True, blank=True)
+
+    class Meta:
+        verbose_name = '焊接作业指导书工序'
+        verbose_name_plural = '焊接作业指导书工序'
+
+    def __str__(self):
+        return '{}-{}-{}'.format(self.instruction, self.index, self.name)
+
+
+class WeldingWorkInstructionTest(models.Model):
+    instruction = models.ForeignKey(WeldingWorkInstruction,
+                                    verbose_name='焊接作业指导书')
+    index = models.CharField(verbose_name='序号', max_length=100,
+                             null=True, blank=True)
+    test_method = models.IntegerField(verbose_name='检验方',
+                                      null=True, blank=True,
+                                      choices=WWI_TEST_METHOD_CHOICES)
+
+    class Meta:
+        verbose_name = '焊接作业检验'
+        verbose_name_plural = '焊接作业检验'
+
+    def __str__(self):
+        return '{}:检验_{}'.format(self.transfer_card, self.indx)
+
+
+class TransferCardProcess(models.Model):
+    transfer_card = models.ForeignKey(TransferCard,
+                                      verbose_name='流转卡')
+    index = models.CharField(verbose_name='序号', max_length=100,
+                             null=True, blank=True)
+    name = models.CharField(verbose_name='工序名', max_length=100,
+                            null=True, blank=True)
+    detail = models.CharField(verbose_name='工艺过程及技术要求',
+                              max_length=1000, null=True, blank=True)
+
+    class Meta:
+        verbose_name = '流转卡工序'
+        verbose_name_plural = '流转卡工序'
+
+    def __str__(self):
+        return '{}-{}-{}'.format(self.transfer_card, self.index, self.name)
+
+
+# TODO: Any better design to inherit from Signature?
+class TransferCardSignature(models.Model):
+    transfer_card = models.OneToOneField(TransferCard,
+                                         verbose_name='所属流转卡',
+                                         on_delete=models.CASCADE)
+    # TODO: blank=False null=False, Sign when created?
+    writer = models.ForeignKey(User, verbose_name='编制人',
+                               blank=True, null=True,
+                               related_name='transfer_card_signature_writer',
+                               on_delete=models.CASCADE)
+    # TODO: auto_now_add?
+    write_date = models.DateField(verbose_name='编制日期',
+                                  blank=True, null=True)
+    reviewer = models.ForeignKey(User, verbose_name='审核人',
+                                 blank=True, null=True,
+                                 related_name=('transfer_card_signature'
+                                               '_reviewer'),
+                                 on_delete=models.CASCADE)
+    review_date = models.DateField(verbose_name='审核日期', blank=True,
+                                   null=True)
+    proofreader = models.ForeignKey(User, verbose_name='校对人',
+                                    blank=True, null=True,
+                                    related_name=('transfer_card_signature'
+                                                  '_proofreader'),
+                                    on_delete=models.CASCADE)
+    proofread_date = models.DateField(verbose_name='校对日期',
+                                      blank=True, null=True)
+    approver = models.ForeignKey(User, verbose_name='批准人',
+                                 blank=True, null=True,
+                                 related_name=('transfer_card_signature'
+                                               '_approver'),
+                                 on_delete=models.CASCADE)
+    approve_date = models.DateField(verbose_name='批准日期',
+                                    blank=True, null=True)
+
+    class Meta:
+        verbose_name = '流转卡签章'
+        verbose_name_plural = '流转卡签章'
+
+    def __str__(self):
+        return str(self.card)
+
+    @property
+    def status(self):
+        zipped = zip(
+            [self.approver, self.reviewer, self.proofreader, self.writer],
+            ['已批准', '已审核', '已校对', '已编制'])
+        for signed, status_name in zipped:
+            if signed:
+                return status_name
+        return '初创建'
+
+
+class ProcessLibrarySignature(models.Model):
+    work_order = models.OneToOneField(WorkOrder, verbose_name='所属工作令',
+                                      on_delete=models.CASCADE)
+    # TODO: blank=False null=False
+    writer = models.ForeignKey(User, verbose_name='工艺员',
+                               blank=True, null=True,
+                               related_name='process_lib_signature_writer',
+                               on_delete=models.CASCADE)
+    # TODO: auto_now_add?
+    write_date = models.DateField(verbose_name='编制日期',
+                                  blank=True, null=True)
+    quota_clerk = models.ForeignKey(User, verbose_name='定额员',
+                                    blank=True, null=True,
+                                    on_delete=models.CASCADE,
+                                    related_name='process_lib_quota_clerk')
+    quota_date = models.DateField(verbose_name='定额日期',
+                                  blank=True, null=True)
+    proofreader = models.ForeignKey(User, verbose_name='校对人',
+                                    blank=True, null=True,
+                                    related_name='process_lib_proofreader',
+                                    on_delete=models.CASCADE)
+    proofread_date = models.DateField(verbose_name='校对日期',
+                                      blank=True, null=True)
+    statistician = models.ForeignKey(User, verbose_name='统计员',
+                                     blank=True, null=True,
+                                     related_name='process_lib_statistician',
+                                     on_delete=models.CASCADE)
+    statistic_date = models.DateField(verbose_name='统计日期',
+                                      blank=True, null=True)
+
+    class Meta:
+        verbose_name = '工艺库签章'
+        verbose_name_plural = '工艺库签章'
+
+    def __str__(self):
+        return str(self.work_order)
+
+
+class ProgramingNestingChart(models.Model):
+    execution_detail = models.ForeignKey(MaterielExecutionDetail,
+                                         verbose_name='所属执行',
+                                         on_delete=models.CASCADE)
+    name = models.CharField(verbose_name='文件名称', max_length=100)
+    path = models.FileField(verbose_name='文件路径', upload_to='%Y/%m/%d')
+    upload_dt = models.DateTimeField(verbose_name='上传时间',
+                                     auto_now_add=True)
+    # TODO: size as IntegerField
+    size = models.CharField(verbose_name='文件大小', max_length=50,
+                            blank=True, null=True, default=None)
+    # TODO: Review: Is this needed?
+    file_type = models.CharField(verbose_name='文件类型', max_length=50,
+                                 blank=True, null=True, default=None)
+
+    class Meta:
+        verbose_name = '编程套料图'
+        verbose_name_plural = '编程套料图'
+
+    def __str__(self):
+        return self.name
+
+
+class HeatTreatmentTechCard(models.Model):
+    identifier = models.CharField(verbose_name='文件编号', max_length=100,
+                                  blank=True, null=True)
+    writer = models.ForeignKey(User, verbose_name='编制人',
+                               blank=True, null=True,
+                               related_name='heat_treat_tech_card_writer')
+    write_date = models.DateField(verbose_name='编制日期',
+                                  blank=True, null=True)
+    reviewer = models.ForeignKey(User, verbose_name='审核人',
+                                 blank=True, null=True,
+                                 related_name='heat_treat_tech_card_reviewer')
+    review_date = models.DateField(verbose_name='审核日期',
+                                   blank=True, null=True)
+    furnace_temp = models.CharField(verbose_name='进炉温度', max_length=20,
+                                    null=True, blank=True)
+    tapping_temp = models.CharField(verbose_name='出炉温度', max_length=20,
+                                    null=True, blank=True)
+    maximum_temp = models.CharField(verbose_name='最高温度', max_length=20,
+                                    null=True, blank=True)
+    heating_rate = models.CharField(verbose_name='升温速率', max_length=20,
+                                    null=True, blank=True)
+    cooling_rate = models.CharField(verbose_name='降温速率', max_length=20,
+                                    null=True, blank=True)
+    holding_time = models.CharField(verbose_name='保温时间', max_length=20,
+                                    null=True, blank=True)
+
+    class Meta:
+        verbose_name = '热处理工艺卡'
+        verbose_name_plural = u'热处理工艺卡'
+
+    def __str__(self):
+        return 'RR01-{}'.format(self.identifier)
+
+
+class HeatTreatmentPart(models.Model):
+    materiel = models.ForeignKey(Materiel, verbose_name='零件',
+                                 on_delete=models.CASCADE)
+    max_heat_treat_thick = models.CharField(
+        verbose_name='最大热处理厚度', max_length=20, null=True, blank=True)
+    heat_test = models.CharField(verbose_name='热处理检验', max_length=100,
+                                 null=True, blank=True)
+    operator = models.ForeignKey(User, verbose_name='操作者',
+                                 blank=True, null=True,
+                                 on_delete=models.CASCADE)
+    test_result = models.CharField(verbose_name='检验结果', max_length=100,
+                                   null=True, blank=True)
+    card_belong = models.ForeignKey(HeatTreatmentTechCard,
+                                    verbose_name='所属工艺卡',
+                                    null=True, blank=True,
+                                    on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = '热处理件'
+        verbose_name_plural = '热处理件'
+
+    def __str__(self):
+        return str(self.materiel)
+
+
+class HeatTreatmentTempMeasuringPointLayout(models.Model):
+    identifier = models.CharField(verbose_name='文件编号', max_length=100,
+                                  blank=True, null=True)
+    tech_card = models.OneToOneField(HeatTreatmentTechCard,
+                                     verbose_name='所属工艺卡',
+                                     on_delete=models.CASCADE)
+    writer = models.ForeignKey(User, verbose_name='编制人',
+                               blank=True, null=True,
+                               related_name='HTTMPL_writer',
+                               on_delete=models.CASCADE)
+    write_date = models.DateField(verbose_name='编制日期',
+                                  blank=True, null=True)
+    reviewer = models.ForeignKey(User, verbose_name='审核人',
+                                 blank=True, null=True,
+                                 related_name='HTTMPL_reviewer',
+                                 on_delete=models.CASCADE)
+    review_date = models.DateField(verbose_name='审核日期',
+                                   blank=True, null=True)
+    path = models.FileField(verbose_name='文件路径', upload_to='%Y/%m/%d')
+
+    class Meta:
+        verbose_name = '热处理测温点布置'
+        verbose_name_plural = '热处理测温点布置'
+
+    def __str__(self):
+        return 'RR02-{}'.format(self.identifier)
+
+
+class TechPlan(models.Model):
+    # TODO: blank=False, null=False
+    work_order = models.ForeignKey(WorkOrder, verbose_name='所属工作令',
+                                   blank=True, null=True,
+                                   on_delete=models.CASCADE)
+    detail = models.CharField(verbose_name='详细内容', max_length=100,
+                              blank=True, null=True)
+    department = models.ForeignKey(Department, verbose_name='下发部门',
+                                   on_delete=models.CASCADE)
+    estimated_finish_date = models.DateField(verbose_name='计划完成时间')
+    month = models.IntegerField(verbose_name='所属月份')
+    year = models.IntegerField(verbose_name='所属年份')
+
+    class Meta:
+        verbose_name = '技术准备计划'
+        verbose_name_plural = '技术准备计划'
+
+    def __str__(self):
+        return str(self.work_order)
+
+
+class ConnectOrientation(models.Model):
+    work_order = models.ForeignKey(WorkOrder, verbose_name='所属工作令',
+                                   on_delete=models.CASCADE)
+    name = models.CharField(verbose_name='文件名称', max_length=100)
+    path = models.FileField(verbose_name='文件路径', upload_to='%Y/%m/%d')
+    upload_dt = models.DateTimeField(verbose_name='上传时间',
+                                     auto_now_add=True)
+    # TODO: file size as IntegerField
+    size = models.CharField(verbose_name='文件大小', max_length=50,
+                            blank=True, null=True, default=None)
+    # TODO: Review: Is this needed?
+    file_type = models.CharField(verbose_name='文件类型', max_length=50,
+                                 blank=True, null=True, default=None)
+
+    class Meta:
+        verbose_name = '管口方位图'
+        verbose_name_plural = '管口方位图'
+
+    def __str__(self):
+        return self.name
+
+
+class WeldingStep(models.Model):
+    layer = models.CharField(verbose_name='层/道', max_length=100,
+                             blank=True, null=True)
+    weld_method = models.ForeignKey(WeldMethod, verbose_name='所属焊接方法',
+                                    blank=True, null=True,
+                                    on_delete=models.CASCADE)
+    instruction = models.ForeignKey(WeldingWorkInstruction,
+                                    verbose_name='焊接作业指导书')
+    # TODO: Field type?
+    polarity = models.CharField(verbose_name='极性', max_length=100,
+                                blank=True, null=True)
+    # TODO: IntegerField?
+    electricity = models.CharField(verbose_name='电流', max_length=100,
+                                   blank=True, null=True)
+    # TODO: IntegerField?
+    voltage = models.CharField(verbose_name='电流电压', max_length=100,
+                               blank=True, null=True)
+    # TODO: IntegerField?
+    welding_speed = models.CharField(verbose_name='焊接速度', max_length=100,
+                                     blank=True, null=True)
+    # TODO: IntegerField?
+    heat_input = models.CharField(verbose_name='线能量', max_length=100,
+                                  blank=True, null=True)
+    remark = models.CharField(verbose_name='备注', max_length=100,
+                              blank=True, null=True)
+
+    class Meta:
+        verbose_name = '焊接层道卡'
+        verbose_name_plural = '焊接层道卡'
+
+    def __str__(self):
+        return self.layer
