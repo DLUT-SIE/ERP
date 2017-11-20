@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'Core',
+    'Messaging',
     'Process',
     'Procurement',
     'Inventory',
@@ -102,3 +103,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 if not os.path.exists(MEDIA_ROOT):
     os.makedirs(MEDIA_ROOT)
+
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'

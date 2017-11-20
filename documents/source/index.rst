@@ -13,6 +13,7 @@ ERP开发文档
    :caption: 目录
 
    self
+   coding_guidelines/index
    core/index
    inventory/index
    distribution/index

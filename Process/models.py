@@ -3,6 +3,8 @@ from django.db import models
 from django.core.checks import Warning
 from django.contrib.auth.models import User
 
+from Core.models import WorkOrder, Materiel, Material, Department
+from Procurement.models import MaterielExecutionDetail
 from Process import (SIGNATURE_CATEGORY_CHOICES, PROCESS_CHOICES,
                   CIRCULATION_CHOICES, WELD_METHODS,
                   NONDESTRUCTIVE_INSPECTION_TYPES,
@@ -11,8 +13,6 @@ from Process import (SIGNATURE_CATEGORY_CHOICES, PROCESS_CHOICES,
                   TRANSFER_CARD_CATEGORY_CHOICES,
                   TRANSFER_HEADER_MAP,
                   WWI_TEST_METHOD_CHOICES)
-from Core.models import WorkOrder, Materiel, Material, Department
-from Procurement.models import MaterielExecutionDetail
 
 
 class Signature(models.Model):

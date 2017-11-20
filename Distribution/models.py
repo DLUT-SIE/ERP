@@ -2,8 +2,7 @@ from django.db import models
 from django.core.checks import Warning
 
 from Core.models import Department
-
-from . import REVIEW_COMMENTS_CHOICES, REVIEW_COMMENTS_DEFAULT
+from Distribution import REVIEW_COMMENTS_CHOICES, REVIEW_COMMENTS_DEFAULT
 
 
 class Product(models.Model):

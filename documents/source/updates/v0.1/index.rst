@@ -22,6 +22,8 @@ production模块   Production模块(生产管理)
 sell模块         Distribution模块(经销管理)
 --------------- -------------------------------------
 purchasing模块   Procurement模块(采购管理)
+--------------- -------------------------------------
+news模块         Messaging模块(消息模块)
 =============== =====================================
 
 原模块改动
@@ -36,3 +38,4 @@ purchasing模块   Procurement模块(采购管理)
    sell/index
    storage/index
    techdata/index
+   news/index

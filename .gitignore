@@ -104,3 +104,5 @@ ENV/
 documents/build/
 old_stuff/
 migrations/
+static/
+media/
