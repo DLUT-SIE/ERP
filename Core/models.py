@@ -2,7 +2,7 @@ from django.db import models
 from django.core.checks import Warning
 from django.contrib.auth.models import User
 
-from . import SELL_TYPES, MATERIAL_CATEGORY_CHOICES, GENDER_CHOICES
+from Core import SELL_TYPES, MATERIAL_CATEGORY_CHOICES, GENDER_CHOICES
 
 
 class WorkOrder(models.Model):
@@ -157,8 +157,9 @@ class UserInfo(models.Model):
 
 
 class Department(models.Model):
-    admin = models.ForeignKey(User, verbose_name='管理员', blank=True,
-                              null=True, on_delete=models.SET_NULL)
+    admin = models.ForeignKey(User, verbose_name='管理员',
+                              blank=True, null=True,
+                              on_delete=models.SET_NULL)
     name = models.CharField(verbose_name='部门名', max_length=100)
     short_name = models.CharField(verbose_name='简写', max_length=50)
 

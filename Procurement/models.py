@@ -49,16 +49,14 @@ class PurchaseOrderStatus(models.Model):
 class FakeMateriel(Materiel):
     related_material = models.ForeignKey('self', verbose_name='关联伪物料',
                                          null=True, blank=True,
-                                         on_delete=models.CASCADE)
+                                         on_delete=models.SET_NULL)
     origin_materiel = models.ForeignKey(Materiel, verbose_name='原始物料',
                                         null=True, blank=True,
-                                        on_delete=models.CASCADE)
-    # TODO: Should be ForeignKey?
-    work_order = models.CharField(verbose_name='工作令号', max_length=100,
-                                  blank=True, null=True)
+                                        related_name='fake_materiel_origin',
+                                        on_delete=models.SET_NULL)
     sub_order = models.ForeignKey(SubWorkOrder, verbose_name='子工作令',
                                   blank=True, null=True,
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.SET_NULL)
     inventory_type = models.IntegerField(verbose_name='明细类型',
                                          choices=INVENTORY_TYPE,
                                          default=INVENTORY_TYPE_NOTSET)
@@ -89,7 +87,7 @@ class CommentStatus(models.Model):
                                  choices=COMMENT_STATUS_CHOICES)
     next_status = models.ForeignKey('self', verbose_name='下一状态',
                                     null=True, blank=True,
-                                    on_delete=models.CASCADE)
+                                    on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = '招标申请状态'
@@ -136,15 +134,15 @@ class PurchaseOrder(models.Model):
     auditor = models.ForeignKey(User, verbose_name='编制人',
                                 related_name='purchase_order_auditor',
                                 null=True, blank=True,
-                                on_delete=models.CASCADE)
+                                on_delete=models.SET_NULL)
     chief = models.ForeignKey(User, verbose_name='外采科长',
                               related_name='purchase_order_chief',
                               null=True, blank=True,
-                              on_deelte=models.CASCADE)
+                              on_delete=models.SET_NULL)
     approver = models.ForeignKey(User, verbose_name='审批人',
                                  related_name='purchase_order_approver',
                                  null=True, blank=True,
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.SET_NULL)
     tech_requirement = models.TextField(
         verbose_name='工艺需求', max_length=5000, blank=True, null=True)
     # TODO: choices?
@@ -169,7 +167,7 @@ class BiddingSheet(models.Model):
     purchase_order = models.ForeignKey(PurchaseOrder,
                                        verbose_name='对应订购单',
                                        null=True, blank=True,
-                                       on_delete=models.CASCADE)
+                                       on_delete=models.SET_NULL)
     uid = models.CharField(verbose_name='标单编号', unique=True, max_length=20)
     # TODO: auto_now_add?
     create_date = models.DateField(verbose_name='创建日期',
@@ -256,11 +254,11 @@ class MaterielPurchaseRelationSheet(models.Model):
     # TODO: blank=False, null=False
     purchase_order = models.ForeignKey(PurchaseOrder, verbose_name='订购单',
                                        blank=True, null=True,
-                                       on_delete=models.CASCADE)
+                                       on_delete=models.SET_NULL)
     # TODO: blank=False, null=False
     bidding_sheet = models.ForeignKey(BiddingSheet, verbose_name='标单',
                                       blank=True, null=True,
-                                      on_delete=models.CASCADE)
+                                      on_delete=models.SET_NULL)
     count = models.CharField(verbose_name='需求数量',
                              blank=True, null=True, max_length=20)
     # TODO: Rename?
@@ -499,7 +497,7 @@ class MaterialSubApply(models.Model):
                               blank=True, null=True)
     applicant = models.ForeignKey(User, verbose_name='申请人',
                                   null=True, blank=True,
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.SET_NULL)
     status = models.ForeignKey(CommentStatus, verbose_name='招标申请表状态',
                                on_delete=models.CASCADE)
 
@@ -653,7 +651,7 @@ class BiddingAcceptance(models.Model):
                                     null=True, blank=True)
     accept_supplier = models.ForeignKey(Supplier, verbose_name='中标单位',
                                         null=True, blank=True,
-                                        on_delete=models.CASCADE)
+                                        on_delete=models.SET_NULL)
     contact = models.CharField(verbose_name='联系人', max_length=40,
                                null=True, blank=True)
     contact_phone = models.CharField(verbose_name='联系电话', max_length=40,

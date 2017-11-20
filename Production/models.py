@@ -47,7 +47,7 @@ class ProductionUser(models.Model):
     work_group = models.ForeignKey(ProductionWorkGroup,
                                    verbose_name='所属工作组',
                                    blank=True, null=True,
-                                   on_delete=models.CASCADE)
+                                   on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = '生产人员'
@@ -68,7 +68,7 @@ class ProcessDetail(models.Model):
                                  blank=True, null=True,)
     work_group = models.ForeignKey(ProductionWorkGroup, verbose_name='工作组',
                                    blank=True, null=True,
-                                   on_delete=models.CASCADE)
+                                   on_delete=models.SET_NULL)
     # *IMPORTANT*
     # TODO: estimated should be changed if 'Plan' is noun and not verb
     estimated_start_date = models.DateField(verbose_name='计划开始日期',

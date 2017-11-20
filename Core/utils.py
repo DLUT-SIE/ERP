@@ -1,4 +1,4 @@
-from uuid import uui4
+from uuid import uuid4
 
 
 def gen_uuid():

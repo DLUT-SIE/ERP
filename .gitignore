@@ -103,3 +103,4 @@ ENV/
 # ERP
 documents/build/
 old_stuff/
+migrations/

@@ -1,9 +1,9 @@
 # TODO: Split models into different files
 from django.db import models
 from django.core.checks import Warning
-from django.contrb.auth.models import User
+from django.contrib.auth.models import User
 
-from Core import (SIGNATURE_CATEGORY_CHOICES, PROCESS_CHOICES,
+from Process import (SIGNATURE_CATEGORY_CHOICES, PROCESS_CHOICES,
                   CIRCULATION_CHOICES, WELD_METHODS,
                   NONDESTRUCTIVE_INSPECTION_TYPES,
                   PROCEDURE_QUALIFICATION_INDEXS,
@@ -22,14 +22,14 @@ class Signature(models.Model):
     writer = models.ForeignKey(User, verbose_name='编制人',
                                blank=True, null=True,
                                related_name='signature_writer',
-                               on_delete=models.CASCADE)
+                               on_delete=models.SET_NULL)
     # TODO: auto_now_add?
     write_date = models.DateField(verbose_name='编制日期',
                                   blank=True, null=True)
     reviewer = models.ForeignKey(User, verbose_name='审核人',
                                  blank=True, null=True,
                                  related_name='signature_reviewer',
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.SET_NULL)
     review_date = models.DateField(verbose_name='审核日期', blank=True,
                                    null=True)
     # TODO: editable=False
@@ -79,7 +79,7 @@ class PrincipalItem(models.Model):
     # TODO: material or materiel ?
     material = models.ForeignKey(Material, verbose_name='材质',
                                  null=True, blank=True,
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.SET_NULL)
     stardard = models.CharField(verbose_name='执行标准', max_length=100,
                                 null=True, blank=True)
     status = models.CharField(verbose_name='供货状态', max_length=100,
@@ -148,7 +148,7 @@ class WeldQuota(models.Model):
     # TODO: null=False blank=False
     order = models.ForeignKey(WorkOrder, verbose_name='所属工作令',
                               null=True, blank=True,
-                              on_delete=models.CASCADE)
+                              on_delete=models.SET_NULL)
     material = models.ForeignKey(Material, verbose_name='焊材',
                                  on_delete=models.CASCADE)
     size = models.CharField(verbose_name='规格', max_length=100,
@@ -250,19 +250,19 @@ class WeldingProcessSpecification(models.Model):
 
     lister = models.ForeignKey(User, verbose_name='编制人',
                                blank=True, null=True,
-                               on_delete=models.CASCADE,
+                               on_delete=models.SET_NULL,
                                related_name='weld_proc_spec_lister')
     list_date = models.DateField(verbose_name='编制日期',
                                  blank=True, null=True)
     auditor = models.ForeignKey(User, verbose_name='审核人',
                                 blank=True, null=True,
-                                on_delete=models.CASCADE,
+                                on_delete=models.SET_NULL,
                                 related_name='weld_proc_spec_auditor')
     audit_date = models.DateField(verbose_name='审核日期',
                                   blank=True, null=True)
     approver = models.ForeignKey(User, verbose_name='批准人',
                                  blank=True, null=True,
-                                 on_delete=models.CASCADE,
+                                 on_delete=models.SET_NULL,
                                  related_name='weld_proc_sped_approver')
     approve_date = models.DateField(verbose_name='批准日期',
                                     blank=True, null=True)
@@ -371,11 +371,11 @@ class WeldJointTechDetail(models.Model):
                                       on_delete=models.CASCADE)
     weld_method_1 = models.ForeignKey(WeldMethod, verbose_name='焊接方法_1',
                                       null=True, blank=True,
-                                      on_delete=models.CASCADE,
+                                      on_delete=models.SET_NULL,
                                       related_name='joint_detail_method_1')
     weld_method_2 = models.ForeignKey(WeldMethod, verbose_name=u'焊接方法_2',
                                       null=True, blank=True,
-                                      on_delete=models.CASCADE,
+                                      on_delete=models.SET_NULL,
                                       related_name='joint_detail_method_2')
     # TODO: ForeignKey?
     proc_qual_index = models.CharField(
@@ -426,25 +426,25 @@ class WeldingWorkInstruction(models.Model):
                                   on_delete=models.CASCADE)
     lister = models.ForeignKey(User, verbose_name='编制人',
                                blank=True, null=True,
-                               on_delete=models.CASCADE,
+                               on_delete=models.SET_NULL,
                                related_name='weld_work_inst_lister')
     list_date = models.DateField(verbose_name='编制日期',
                                  blank=True, null=True)
     auditor = models.ForeignKey(User, verbose_name='审核人',
                                 blank=True, null=True,
-                                on_delete=models.CASCADE,
+                                on_delete=models.SET_NULL,
                                 related_name='weld_work_inst_auditor')
     audit_date = models.DateField(verbose_name='审核日期',
                                   blank=True, null=True)
     proofreader = models.ForeignKey(User, verbose_name='校对人',
                                     blank=True, null=True,
-                                    on_delete=models.CASCADE,
+                                    on_delete=models.SET_NULL,
                                     related_name='weld_work_inst_proofreader')
     proofread_date = models.DateField(verbose_name='校对日期',
                                       blank=True, null=True)
     approver = models.ForeignKey(User, verbose_name='批准人',
                                  blank=True, null=True,
-                                 on_delete=models.CASCADE,
+                                 on_delete=models.SET_NULL,
                                  related_name='weld_work_inst_approver')
     approve_date = models.DateField(verbose_name='批准日期',
                                     blank=True, null=True)
@@ -476,11 +476,11 @@ class WeldSeam(models.Model):
                                       on_delete=models.CASCADE)
     weld_method_1 = models.ForeignKey(WeldMethod, verbose_name='焊接方法_1',
                                       null=True, blank=True,
-                                      on_delete=models.CASCADE,
+                                      on_delete=models.SET_NULL,
                                       related_name='weld_seam_method_1')
     weld_method_2 = models.ForeignKey(WeldMethod, verbose_name='焊接方法_2',
                                       null=True, blank=True,
-                                      on_delete=models.CASCADE,
+                                      on_delete=models.SET_NULL,
                                       related_name='weld_method_2')
     base_metal_1 = models.CharField(verbose_name='母材材质_1', max_length=100,
                                     null=True, blank=True)
@@ -496,11 +496,11 @@ class WeldSeam(models.Model):
     # TODO: weld_material as Model?
     weld_material_1 = models.ForeignKey(Material, verbose_name='焊丝/焊条_1',
                                         blank=True, null=True,
-                                        on_delete=models.CASCADE,
+                                        on_delete=models.SET_NULL,
                                         related_name='weld_seam_material_1')
     weld_flux_1 = models.ForeignKey(Material, verbose_name='焊剂_1',
                                     blank=True, null=True,
-                                    on_delete=models.CASCADE,
+                                    on_delete=models.SET_NULL,
                                     related_name='weld_seam_flux_1')
     thick_1 = models.CharField(verbose_name='焊材厚度_1', max_length=100,
                                blank=True, null=True)
@@ -512,7 +512,7 @@ class WeldSeam(models.Model):
 
     weld_material_2 = models.ForeignKey(Material, verbose_name='焊丝/焊条_2',
                                         blank=True, null=True,
-                                        on_delete=models.CASCADE,
+                                        on_delete=models.SET_NULL,
                                         related_name='weld_seam_material_2')
     weld_flux_2 = models.ForeignKey(Material, verbose_name='焊剂_2',
                                     blank=True, null=True,
@@ -651,7 +651,7 @@ class TransferCardSignature(models.Model):
     writer = models.ForeignKey(User, verbose_name='编制人',
                                blank=True, null=True,
                                related_name='transfer_card_signature_writer',
-                               on_delete=models.CASCADE)
+                               on_delete=models.SET_NULL)
     # TODO: auto_now_add?
     write_date = models.DateField(verbose_name='编制日期',
                                   blank=True, null=True)
@@ -659,21 +659,21 @@ class TransferCardSignature(models.Model):
                                  blank=True, null=True,
                                  related_name=('transfer_card_signature'
                                                '_reviewer'),
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.SET_NULL)
     review_date = models.DateField(verbose_name='审核日期', blank=True,
                                    null=True)
     proofreader = models.ForeignKey(User, verbose_name='校对人',
                                     blank=True, null=True,
                                     related_name=('transfer_card_signature'
                                                   '_proofreader'),
-                                    on_delete=models.CASCADE)
+                                    on_delete=models.SET_NULL)
     proofread_date = models.DateField(verbose_name='校对日期',
                                       blank=True, null=True)
     approver = models.ForeignKey(User, verbose_name='批准人',
                                  blank=True, null=True,
                                  related_name=('transfer_card_signature'
                                                '_approver'),
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.SET_NULL)
     approve_date = models.DateField(verbose_name='批准日期',
                                     blank=True, null=True)
 
@@ -702,26 +702,26 @@ class ProcessLibrarySignature(models.Model):
     writer = models.ForeignKey(User, verbose_name='工艺员',
                                blank=True, null=True,
                                related_name='process_lib_signature_writer',
-                               on_delete=models.CASCADE)
+                               on_delete=models.SET_NULL)
     # TODO: auto_now_add?
     write_date = models.DateField(verbose_name='编制日期',
                                   blank=True, null=True)
     quota_clerk = models.ForeignKey(User, verbose_name='定额员',
                                     blank=True, null=True,
-                                    on_delete=models.CASCADE,
+                                    on_delete=models.SET_NULL,
                                     related_name='process_lib_quota_clerk')
     quota_date = models.DateField(verbose_name='定额日期',
                                   blank=True, null=True)
     proofreader = models.ForeignKey(User, verbose_name='校对人',
                                     blank=True, null=True,
                                     related_name='process_lib_proofreader',
-                                    on_delete=models.CASCADE)
+                                    on_delete=models.SET_NULL)
     proofread_date = models.DateField(verbose_name='校对日期',
                                       blank=True, null=True)
     statistician = models.ForeignKey(User, verbose_name='统计员',
                                      blank=True, null=True,
                                      related_name='process_lib_statistician',
-                                     on_delete=models.CASCADE)
+                                     on_delete=models.SET_NULL)
     statistic_date = models.DateField(verbose_name='统计日期',
                                       blank=True, null=True)
 
@@ -800,13 +800,13 @@ class HeatTreatmentPart(models.Model):
                                  null=True, blank=True)
     operator = models.ForeignKey(User, verbose_name='操作者',
                                  blank=True, null=True,
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.SET_NULL)
     test_result = models.CharField(verbose_name='检验结果', max_length=100,
                                    null=True, blank=True)
     card_belong = models.ForeignKey(HeatTreatmentTechCard,
                                     verbose_name='所属工艺卡',
                                     null=True, blank=True,
-                                    on_delete=models.CASCADE)
+                                    on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = '热处理件'
@@ -826,13 +826,13 @@ class HeatTreatmentTempMeasuringPointLayout(models.Model):
     writer = models.ForeignKey(User, verbose_name='编制人',
                                blank=True, null=True,
                                related_name='HTTMPL_writer',
-                               on_delete=models.CASCADE)
+                               on_delete=models.SET_NULL)
     write_date = models.DateField(verbose_name='编制日期',
                                   blank=True, null=True)
     reviewer = models.ForeignKey(User, verbose_name='审核人',
                                  blank=True, null=True,
                                  related_name='HTTMPL_reviewer',
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.SET_NULL)
     review_date = models.DateField(verbose_name='审核日期',
                                    blank=True, null=True)
     path = models.FileField(verbose_name='文件路径', upload_to='%Y/%m/%d')
@@ -849,7 +849,7 @@ class TechPlan(models.Model):
     # TODO: blank=False, null=False
     work_order = models.ForeignKey(WorkOrder, verbose_name='所属工作令',
                                    blank=True, null=True,
-                                   on_delete=models.CASCADE)
+                                   on_delete=models.SET_NULL)
     detail = models.CharField(verbose_name='详细内容', max_length=100,
                               blank=True, null=True)
     department = models.ForeignKey(Department, verbose_name='下发部门',
@@ -893,7 +893,7 @@ class WeldingStep(models.Model):
                              blank=True, null=True)
     weld_method = models.ForeignKey(WeldMethod, verbose_name='所属焊接方法',
                                     blank=True, null=True,
-                                    on_delete=models.CASCADE)
+                                    on_delete=models.SET_NULL)
     instruction = models.ForeignKey(WeldingWorkInstruction,
                                     verbose_name='焊接作业指导书')
     # TODO: Field type?

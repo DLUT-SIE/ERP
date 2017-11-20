@@ -32,7 +32,7 @@ purchasing模块
         next_part_status                    next_status
         ================================== =======================
 
-- **FakerMateriel**
+- **FakeMateriel**
     - 字段重命名
 
         ================================== =======================
@@ -52,6 +52,7 @@ purchasing模块
         ================================== =======================
 
     - *inventory_type* 类型更改为 *IntegerField*
+    - 删除 *work_order* 字段(与父类冲突, 查找影响)
 
 - **MaterielExecution**
     - 字段重命名
