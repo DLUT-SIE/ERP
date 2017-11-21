@@ -103,7 +103,6 @@ ENV/
 # ERP
 documents/build/
 old_stuff/
-migrations/
 static/
 media/
 htmlcov/
