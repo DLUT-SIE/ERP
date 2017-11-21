@@ -19,7 +19,7 @@ script:
   - flake8
   - python manage.py makemigrations
   - python manage.py migrate
-  - coverage run manage.py test -v 3
+  - coverage run manage.py test -v 2
 
 notifications:
     email: false
