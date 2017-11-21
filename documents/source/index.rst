@@ -3,13 +3,24 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+
 ERP开发文档
 ===============================
-.. note::
-    这里是ERP的开发文档。
+.. image:: https://readthedocs.org/projects/erp/badge/?version=latest
+    :target: http://erp.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+.. image:: https://travis-ci.org/DLUT-SIE/ERP.svg?branch=master
+    :target: https://travis-ci.org/DLUT-SIE/ERP
+.. image:: https://coveralls.io/repos/github/DLUT-SIE/ERP/badge.svg?branch=master
+    :target: https://coveralls.io/github/DLUT-SIE/ERP?branch=master
+
+* :ref:`README<README>`
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: 目录
 
    self
@@ -23,6 +34,4 @@ ERP开发文档
    Production/index
    Updates/index
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+
