@@ -1,8 +1,7 @@
 ERP
 =====
-
 .. image:: https://readthedocs.org/projects/erp/badge/?version=latest
-    :target: http://erp.readthedocs.io/en/latest/?badge=latest
+    :target: http://erp.readthedocs.io/?badge=latest
     :alt: Documentation Status
 .. image:: https://travis-ci.org/DLUT-SIE/ERP.svg?branch=master
     :target: https://travis-ci.org/DLUT-SIE/ERP
