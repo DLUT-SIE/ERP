@@ -24,7 +24,7 @@ class AnnouncementManager(models.Manager):
 class PersonalMessageManger(models.Manager):
     def get_queryset(self):
         return super(PersonalMessageManger, self).get_queryset().filter(
-            category=PersonalMessageManger)
+            category=MESSAGE_CATEGORY_PERSONAL)
 
 
 class Message(models.Model):
@@ -70,12 +70,13 @@ class Message(models.Model):
     read = models.BooleanField(verbose_name='是否阅读', default=False)
 
     # Custom managers
+    objects = models.Manager()
     news = NewsManager()
     announcements = AnnouncementManager()
     personal_messages = PersonalMessageManger()
 
     def __str__(self):
-        return str(self.title)
+        return self.title
 
     class Meta:
         verbose_name = '消息'
@@ -109,6 +110,7 @@ class DocumentFile(models.Model):
     message = models.ForeignKey(Message, verbose_name='消息')
 
     # Custom managers
+    objects = models.Manager()
     public_files = PublicFileManager()
 
     class Meta:
@@ -133,4 +135,4 @@ class DocumentFile(models.Model):
         return os.path.basename(self.path.name)
 
     def __str__(self):
-        return str(self.name)
+        return self.name
