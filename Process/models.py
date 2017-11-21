@@ -6,13 +6,13 @@ from django.contrib.auth.models import User
 from Core.models import WorkOrder, Materiel, Material, Department
 from Procurement.models import MaterielExecutionDetail
 from Process import (SIGNATURE_CATEGORY_CHOICES, PROCESS_CHOICES,
-                  CIRCULATION_CHOICES, WELD_METHODS,
-                  NONDESTRUCTIVE_INSPECTION_TYPES,
-                  PROCEDURE_QUALIFICATION_INDEXS,
-                  WELD_POSITION_CHOICES,
-                  TRANSFER_CARD_CATEGORY_CHOICES,
-                  TRANSFER_HEADER_MAP,
-                  WWI_TEST_METHOD_CHOICES)
+                     CIRCULATION_CHOICES, WELD_METHODS,
+                     NONDESTRUCTIVE_INSPECTION_TYPES,
+                     PROCEDURE_QUALIFICATION_INDEXS,
+                     WELD_POSITION_CHOICES,
+                     TRANSFER_CARD_CATEGORY_CHOICES,
+                     TRANSFER_HEADER_MAP,
+                     WWI_TEST_METHOD_CHOICES)
 
 
 class Signature(models.Model):

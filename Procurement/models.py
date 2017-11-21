@@ -5,7 +5,8 @@ from Core.models import Materiel, SubWorkOrder
 from Core.utils import gen_uuid
 from Procurement import (BIDDING_SHEET_STATUS_CHOICES,
                          BIDDING_SHEET_PART_STATUS_CHOICES,
-                         PURCHASE_ORDER_STATUS_CHOICES, IMPLEMENT_CLASS_CHOICES,
+                         PURCHASE_ORDER_STATUS_CHOICES,
+                         IMPLEMENT_CLASS_CHOICES,
                          INVENTORY_TYPE, INVENTORY_TYPE_NOTSET,
                          BID_APPLY_TYPE_CHOICES, COMMENT_STATUS_CHOICES,
                          MATERIEL_TYPE_CHOICES,

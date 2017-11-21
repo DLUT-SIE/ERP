@@ -1,0 +1,9 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    documents,
+    old_stuff,
+    migrations,
+    settings*.py,
+    manage.py

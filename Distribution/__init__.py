@@ -4,4 +4,3 @@ REVIEW_COMMENTS_CHOICES = (
     (0, '通过'),
     (1, '不通过'),
 )
-

@@ -70,7 +70,7 @@ class DocumentFileTest(TestCase):
             name='UploadFile.txt',
             message=news)
         for _ in range(2):
-             DocumentFile.objects.create(
+            DocumentFile.objects.create(
                 path=upload_file,
                 name='UploadFile.txt',
                 message=pm)
