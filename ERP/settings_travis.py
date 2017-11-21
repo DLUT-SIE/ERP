@@ -8,7 +8,7 @@ ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ERP_travis',
+        'NAME': 'travisci',
         'USER': 'postgres',
         'PASSWORD': '',
         'HOST': 'localhost',
