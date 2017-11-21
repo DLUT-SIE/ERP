@@ -1,6 +1,10 @@
-.. distribution_management:
+.. Distribution:
 
 经销管理
 ============
+.. toctree::
+   :maxdepth: 2
+   :caption: 目录
 
-内容为空
+   models
+   views

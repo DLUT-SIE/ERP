@@ -3,9 +3,18 @@ from Messaging.models import Message, DocumentFile
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
+    """
+    用于渲染用户登录后的主页视图。
+
+    :作者:
+        杜佑宸 <youchen.du@gmail.com>
+    """
     template_name = 'home/homepage.html'
 
     def get_context_data(self, **kwargs):
+        """
+        获取用于渲染主页视图的上下文信息
+        """
         context = super(HomeView, self).get_context_data(**kwargs)
         news = Message.news.all().order_by('-create_date')
         announcements = Message.announcements.all().order_by('-create_date')

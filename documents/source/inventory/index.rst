@@ -1,6 +1,10 @@
-.. inventory_management:
+.. Inventory:
 
 库存管理
 ============
+.. toctree::
+   :maxdepth: 2
+   :caption: 目录
 
-内容为空
+   models
+   views
