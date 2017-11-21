@@ -21,7 +21,7 @@ ERP开发文档
    Process/index
    Procurement/index
    Production/index
-   updates/index
+   Updates/index
 
 * :ref:`genindex`
 * :ref:`modindex`
