@@ -1,2 +1,7 @@
 [run]
 source = .
+omit = 
+    ERP/settings*.py,
+    manage.py,
+    */apps.py,
+    ERP/wsgi.py,
