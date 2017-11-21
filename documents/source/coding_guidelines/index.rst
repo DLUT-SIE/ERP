@@ -1,4 +1,4 @@
-.. coding_guidelines:
+.. Coding_guidelines:
 
 代码规范
 ============
