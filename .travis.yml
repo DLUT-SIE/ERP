@@ -18,8 +18,12 @@ before_script:
 script:
   - flake8
   - python manage.py makemigrations
+  - python manage.py migrate auth
   - python manage.py migrate
-  - python manage.py test
+  - coverage run manage.py test
 
 notifications:
     email: false
+
+after_success:
+    coveralls
