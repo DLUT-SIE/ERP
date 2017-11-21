@@ -12,9 +12,6 @@ before_install:
 install:
   - pip install -r requirements.txt
 
-before_script:
-  - psql -c "CREATE DATABASE ERP_travis;" -U postgres
-
 script:
   - flake8
   - python manage.py makemigrations
