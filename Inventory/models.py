@@ -14,8 +14,8 @@ from Inventory import (ENTRYSTATUS_CHOICES, ENTRYSTATUS_CHOICES_PUCAHSER,
                        AUXILIARY_TOOL_APPLY_STATUS_CHOICES,
                        AUXILIARY_TOOL_APPLY_STATUS_APPLICANT,
                        MATERIAL_CATEGORY_CHOICES,
-                       OUTSIDE_TYPE_CHOICES,
-                       OUTSIDE_TYPE_COOPERATION)
+                       BOUGHTIN_COMPONENT_CHOICES,
+                       BOUGHTIN_COMPONENT_COOPERATION)
 
 
 class WeldMaterialEntry(models.Model):
@@ -724,8 +724,8 @@ class OutsideStandardEntry(models.Model):
     remark = models.CharField(verbose_name='备注', max_length=100,
                               blank=True, null=True)
     outside_type = models.IntegerField(verbose_name='外购件类型',
-                                       choices=OUTSIDE_TYPE_CHOICES,
-                                       default=OUTSIDE_TYPE_COOPERATION)
+                                       choices=BOUGHTIN_COMPONENT_CHOICES,
+                                       default=BOUGHTIN_COMPONENT_COOPERATION)
 
     class Meta:
         verbose_name = '外购件入库单'
@@ -781,8 +781,8 @@ class OutsideStorageList(models.Model):
                                       on_delete=models.CASCADE)
     count = models.IntegerField(verbose_name='数量', default=0)
     category = models.IntegerField(verbose_name='外购件类型',
-                                   choices=OUTSIDE_TYPE_CHOICES,
-                                   default=OUTSIDE_TYPE_COOPERATION)
+                                   choices=BOUGHTIN_COMPONENT_CHOICES,
+                                   default=BOUGHTIN_COMPONENT_COOPERATION)
 
     class Meta:
         verbose_name = '外购件库存材料'

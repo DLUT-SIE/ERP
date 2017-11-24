@@ -1,7 +1,7 @@
 from rest_framework import viewsets, mixins
 from rest_framework.exceptions import PermissionDenied
 
-from Distribution.models import Product
+from Distribution.models import Product, BiddingDocument
 from Distribution.serializers import (ProductSerializer,
                                       BiddingDocumentSerializer)
 
@@ -70,3 +70,14 @@ class ProductViewSet(mixins.CreateModelMixin,
         =================== =========== ============================
         """
         return super().retrieve(request, pk)
+
+
+class BiddingDocumentViewSet(mixins.CreateModelMixin,
+                             mixins.ListModelMixin,
+                             mixins.RetrieveModelMixin,
+                             viewsets.GenericViewSet):
+    """
+    招标文件API
+    """
+    serializer_class = BiddingDocumentSerializer
+    queryset = BiddingDocument.objects.all()
