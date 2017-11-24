@@ -1,6 +1,6 @@
-.. Inventory_models:
+.. _Inventory_models:
 
-Models
-============
+库存模块-模型定义
+==================
 .. automodule:: Inventory.models
     :members:

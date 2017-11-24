@@ -1,6 +1,6 @@
-.. Distribution:
+.. _Distribution:
 
-经销管理
+经销模块
 ============
 .. toctree::
    :maxdepth: 2

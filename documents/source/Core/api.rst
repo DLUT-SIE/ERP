@@ -1,6 +1,6 @@
-.. Core_API:
+.. _Core_API:
 
-APIs
-============
+核心模块-API
+==============
 .. automodule:: Core.api
     :members:

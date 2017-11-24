@@ -1,6 +1,6 @@
-.. Messaging_models:
+.. _Messaging_models:
 
-Models
-============
+消息模块-模型定义
+==================
 .. automodule:: Messaging.models
     :members:

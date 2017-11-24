@@ -1,6 +1,6 @@
-.. Core:
+.. _Core:
 
-核心
+核心模块
 ============
 .. toctree::
    :maxdepth: 2

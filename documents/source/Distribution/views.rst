@@ -1,6 +1,6 @@
-.. Distribution_views:
+.. _Distribution_views:
 
-Views
-============
+经销模块-视图
+================
 .. automodule:: Distribution.views
     :members:

@@ -1,6 +1,6 @@
-.. Messaging:
+.. _Messaging:
 
-消息管理
+消息模块
 ============
 .. toctree::
    :maxdepth: 2

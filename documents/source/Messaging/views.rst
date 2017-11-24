@@ -1,6 +1,6 @@
-.. Messaging_views:
+.. _Messaging_views:
 
-Views
-============
+消息模块-视图
+===============
 .. automodule:: Messaging.views
     :members:

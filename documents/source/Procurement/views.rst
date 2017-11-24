@@ -1,6 +1,6 @@
-.. Procurement_views:
+.. _Procurement_views:
 
-Views
-============
+采购模块-视图
+================
 .. automodule:: Procurement.views
     :members:

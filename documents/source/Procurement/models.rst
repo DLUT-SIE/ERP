@@ -1,6 +1,6 @@
-.. Procurement_models:
+.. _Procurement_models:
 
-Models
-============
+采购模块-模型定义
+=================
 .. automodule:: Procurement.models
     :members:

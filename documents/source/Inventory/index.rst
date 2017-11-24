@@ -1,6 +1,6 @@
-.. Inventory:
+.. _Inventory:
 
-库存管理
+库存模块
 ============
 .. toctree::
    :maxdepth: 2

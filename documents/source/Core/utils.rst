@@ -1,6 +1,6 @@
-.. Core_utils:
+.. _Core_utils:
 
-Utils
-============
+核心模块-工具
+===============
 .. automodule:: Core.utils
     :members:

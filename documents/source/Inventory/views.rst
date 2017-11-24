@@ -1,6 +1,6 @@
-.. Inventory_views:
+.. _Inventory_views:
 
-Views
-============
+库存模块-视图
+===============
 .. automodule:: Inventory.views
     :members:

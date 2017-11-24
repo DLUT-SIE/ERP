@@ -1,6 +1,6 @@
-.. Core_views:
+.. _Core_views:
 
-Views
-============
+核心模块-视图
+===============
 .. automodule:: Core.views.home
     :members:

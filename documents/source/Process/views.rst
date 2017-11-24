@@ -1,6 +1,6 @@
-.. Process_views:
+.. _Process_views:
 
-Views
-============
+工艺模块-视图
+===============
 .. automodule:: Process.views
     :members:

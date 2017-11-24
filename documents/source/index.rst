@@ -24,6 +24,7 @@ ERP开发文档
    :caption: 目录
 
    self
+   APIs
    Coding_Guidelines/index
    Core/index
    Inventory/index
@@ -33,5 +34,3 @@ ERP开发文档
    Procurement/index
    Production/index
    Updates/index
-
-

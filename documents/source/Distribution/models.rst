@@ -1,6 +1,6 @@
-.. Distribution_models:
+.. _Distribution_models:
 
-Models
-============
+经销模块-模型定义
+==================
 .. automodule:: Distribution.models
     :members:

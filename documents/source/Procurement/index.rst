@@ -1,6 +1,6 @@
-.. Procurement:
+.. _Procurement:
 
-采购管理
+采购模块
 ============
 .. toctree::
    :maxdepth: 2

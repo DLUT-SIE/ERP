@@ -1,6 +1,6 @@
-.. Distribution_API:
+.. _Distribution_API:
 
-APIs
-============
+经销模块-API
+===============
 .. automodule:: Distribution.api
     :members:
