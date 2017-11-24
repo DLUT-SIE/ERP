@@ -40,7 +40,6 @@ class Signature(models.Model):
     class Meta:
         verbose_name = '签章'
         verbose_name_plural = '签章'
-        abstract = True
 
     def __str__(self):
         return str(self.work_order)

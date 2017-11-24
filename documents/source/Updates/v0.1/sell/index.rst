@@ -4,7 +4,8 @@ sell模块
    :maxdepth: 2
 
 - 模块重命名为 **Distribution**
-- **BidFile**
+- 模型 **BidFile** 重命名为 **BiddingDocument**
+- **BiddingDocument**
     - 字段重命名
 
         =============== ==========

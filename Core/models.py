@@ -46,8 +46,8 @@ class WorkOrder(models.Model):
         if not self.pk:
             created = True
         super(WorkOrder, self).save(*args, **kwargs)
-        with transaction.atomic():
-            if created:
+        if created:
+            with transaction.atomic():
                 for index in range(1, 1 + self.count):
                     name = '{}-{}'.format(self.uid, index)
                     SubWorkOrder.objects.create(

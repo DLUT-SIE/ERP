@@ -25,14 +25,14 @@ class Product(models.Model):
         return self.get_approved_display()
 
 
-class BidFile(models.Model):
-    product = models.ForeignKey(Product, verbose_name='产品',
+class BiddingDocument(models.Model):
+    product = models.ForeignKey(Product, verbose_name='对应产品',
                                 on_delete=models.CASCADE)
     src = models.ForeignKey(Department, verbose_name='来源部门',
-                            related_name='bidfile_src',
+                            related_name='bidding_doc_src',
                             on_delete=models.CASCADE)
     dst = models.ForeignKey(Department, verbose_name='接收部门',
-                            related_name='bidfile_dst',
+                            related_name='bidding_doc_dst',
                             on_delete=models.CASCADE)
     name = models.CharField(verbose_name='名称', max_length=100)
     path = models.FileField(verbose_name='路径', upload_to='%Y/%m/%d')

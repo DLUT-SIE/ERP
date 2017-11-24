@@ -1,5 +1,5 @@
 TZ-ERP
-=====
+==========
 .. image:: https://readthedocs.org/projects/erp/badge/?version=latest
     :target: http://erp.readthedocs.io/?badge=latest
     :alt: Documentation Status

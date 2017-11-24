@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework.documentation import include_docs_urls
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^api/', include_docs_urls(title='ERP APIs')),
     url(r'^', include('Core.urls')),
+    url(r'^', include('Distribution.urls')),
 ]
