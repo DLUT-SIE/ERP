@@ -3,7 +3,7 @@ language: python
 python:
   - 3.6
 
-services: postgresql
+services: mysql
 
 before_install:
   - export DJANGO_SETTINGS_MODULE=ERP.settings_travis
@@ -13,7 +13,7 @@ install:
   - pip install -r requirements.txt
 
 before_script:
-  - psql -c 'create database travisci;' -U postgres
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS ERP_travisci;'
 
 script:
   - flake8
