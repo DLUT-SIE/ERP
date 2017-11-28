@@ -1,16 +1,21 @@
 from django.db import models
-from django.core.checks import Warning
 
 from Core.models import Department
-from Distribution import REVIEW_COMMENTS_CHOICES, REVIEW_COMMENTS_DEFAULT
+from Core.utils import DynamicHashPath
+from Distribution import REVIEW_STATUS_CHOICES, REVIEW_STATUS_DEFAULT
 
 
 class Product(models.Model):
-    name = models.CharField(verbose_name='产品名称', max_length=50)
-    approved = models.IntegerField(verbose_name='产品审核结果',
-                                   choices=REVIEW_COMMENTS_CHOICES,
-                                   default=REVIEW_COMMENTS_DEFAULT)
+    """
+    产品
+
+    用以表示一个产品的基本信息
+    """
+    name = models.CharField(verbose_name='名称', max_length=50)
     terminated = models.BooleanField(verbose_name='终止状态', default=False)
+    status = models.IntegerField(verbose_name='状态',
+                                 choices=REVIEW_STATUS_CHOICES,
+                                 default=REVIEW_STATUS_DEFAULT)
 
     class Meta:
         verbose_name = '产品'
@@ -19,13 +24,13 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-    def getStatus(self):
-        raise Warning('Deprecated: This will be removed soon, '
-                      'use get_approved_display() instead')
-        return self.get_approved_display()
-
 
 class BiddingDocument(models.Model):
+    """
+    产品招标文件
+
+    经销管理部门与生产科、工艺科、采购科之间交流的招标文件
+    """
     product = models.ForeignKey(Product, verbose_name='对应产品',
                                 on_delete=models.CASCADE)
     src = models.ForeignKey(Department, verbose_name='来源部门',
@@ -34,24 +39,17 @@ class BiddingDocument(models.Model):
     dst = models.ForeignKey(Department, verbose_name='接收部门',
                             related_name='bidding_doc_dst',
                             on_delete=models.CASCADE)
-    name = models.CharField(verbose_name='名称', max_length=100)
-    path = models.FileField(verbose_name='路径', upload_to='%Y/%m/%d')
-    size = models.CharField(verbose_name='大小', max_length=50,
-                            blank=True, null=True, default=None)
+    path = models.FileField(verbose_name='路径',
+                            upload_to=DynamicHashPath('BiddingDocument'))
     upload_dt = models.DateTimeField(verbose_name='上传时间',
                                      null=True, blank=True, auto_now_add=True)
-    approved = models.IntegerField(verbose_name='审核结果',
-                                   choices=REVIEW_COMMENTS_CHOICES,
-                                   default=REVIEW_COMMENTS_DEFAULT)
+    status = models.IntegerField(verbose_name='状态',
+                                 choices=REVIEW_STATUS_CHOICES,
+                                 default=REVIEW_STATUS_DEFAULT)
 
     class Meta:
-        verbose_name = '招标文件'
-        verbose_name_plural = '招标文件'
+        verbose_name = '产品招标文件'
+        verbose_name_plural = '产品招标文件'
 
     def __str__(self):
-        return self.name
-
-    def getStatus(self):
-        raise Warning('Deprecated: This will be removed soon, '
-                      'use get_approved_display() instead')
-        return self.get_approved_display()
+        return self.path.name
