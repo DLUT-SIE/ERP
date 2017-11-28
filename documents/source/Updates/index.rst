@@ -11,3 +11,4 @@
    :caption: 版本更新
 
    v0.1/index
+   v0.2/index
