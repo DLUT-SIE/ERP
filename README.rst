@@ -11,5 +11,4 @@ TZ-ERP
 安装
 ----
 1. 安装 Python 3.6+
-2. 安装 Postgresql
 3. pip install -r requirements.txt
