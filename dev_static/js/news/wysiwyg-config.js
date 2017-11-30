@@ -1,4 +1,0 @@
-$(function ()
-  {
-    $("#editor").wysiwyg();
-  });
