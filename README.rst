@@ -23,10 +23,10 @@ TZ-ERP
 3. 个人开发单独创建分支, 请保证从最新的 **dev** 分支创建 `git checkout -b branch-name`
 4. 开发完成后, 运行 `coverage run manange.py test -v 2` 进行单元测试, 如无测试错误运行 `coverage report` 查看代码覆盖度
 5. 通过单元测试以及覆盖度检测的代码请在Github上发出 **Pull Request**, 向 **dev** 分支进行合并
-6. 发起 **PR** 以后集成的 **Travis CI** 和 **Coveralls** 会自动执行单元测试以及覆盖度检测
+6. 发起 **PR** 以后,集成的 **Travis CI** 和 **Coveralls** 会自动执行单元测试以及覆盖度检测
 7. 请在通过自动检测以后选择 **Reviewer** 进行 **Code Review**, 选择检测人为同组人员及管理员
 8. 通过所有检测以后联系管理员进行代码合并
-9. 代码合并仓库将在远端删除该分支, 请及时删除本地对应分支
+9. 代码合并后，仓库将在远端删除该分支, 请及时删除本地对应分支
 10. 分支命名请尽量采用 **feature-xxx**, **fix-xx** 等命名方式
 
 
