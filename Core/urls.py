@@ -3,10 +3,14 @@ from django.conf.urls import url, include
 from rest_framework import routers
 
 from Core.views import LoginView, LogoutView, home
-from Core.api import UserViewSet
+from Core.api import (UserInfoViewSet, DepartmentViewSet,
+                      WorkOrderViewSet, SubWorkOrderViewSet)
 
 router = routers.SimpleRouter()
-router.register(r'users', UserViewSet)
+router.register(r'userinfo', UserInfoViewSet)
+router.register(r'department', DepartmentViewSet)
+router.register(r'workorder', WorkOrderViewSet)
+router.register(r'subworkorder', SubWorkOrderViewSet)
 
 urlpatterns = [
     url(r'^$', home.HomeView.as_view(), name='home'),

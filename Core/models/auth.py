@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 
-from Core import GENDER_CHOICES
+from Core import GENDER_CHOICES, GENDER_MALE
 
 
 class UserInfo(models.Model):
@@ -11,13 +11,14 @@ class UserInfo(models.Model):
     扩展Django的User对象的详细信息
     """
     user = models.OneToOneField(User, verbose_name='用户',
+                                editable=False,
                                 on_delete=models.CASCADE)
-    phone = models.CharField(blank=True, null=True,
-                             max_length=20, verbose_name='电话')
-    mobile = models.CharField(blank=True, null=True,
-                              max_length=20, verbose_name='移动电话')
-    gender = models.IntegerField(blank=True, null=True,
-                                 choices=GENDER_CHOICES, verbose_name='性别')
+    phone = models.CharField(verbose_name='电话', max_length=20,
+                             blank=True, default='')
+    mobile = models.CharField(verbose_name='移动电话', max_length=20,
+                              blank=True, default='')
+    gender = models.IntegerField(verbose_name='性别', choices=GENDER_CHOICES,
+                                 default=GENDER_MALE)
 
     class Meta:
         verbose_name = '个人信息'
@@ -34,11 +35,12 @@ class Department(models.Model):
     扩展Django的Group对象的功能
     """
     group = models.OneToOneField(Group, verbose_name='组',
+                                 editable=False,
                                  on_delete=models.CASCADE)
     superior = models.ForeignKey('self', verbose_name='上级部门',
                                  blank=True, null=True,
                                  on_delete=models.CASCADE)
-    admin = models.ForeignKey(User, verbose_name='管理员',
+    admin = models.ForeignKey(User, verbose_name='部门管理员',
                               blank=True, null=True,
                               on_delete=models.SET_NULL)
     short_name = models.CharField(verbose_name='简写', max_length=50)

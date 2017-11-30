@@ -6,4 +6,5 @@ exclude =
     old_stuff,
     migrations,
     settings*.py,
-    manage.py
+    manage.py,
+    tmp,
