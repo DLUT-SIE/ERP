@@ -2,6 +2,7 @@ import os.path as osp
 import hashlib
 
 from django.utils.deconstruct import deconstructible
+from django.utils import timezone
 
 
 @deconstructible
@@ -42,5 +43,9 @@ class DynamicHashPath(object):
         hasher.update(instance.path.read())
         fingerprint = hasher.hexdigest()
         fname, ext = osp.splitext(filename)
-        prefix = self.base + '/%Y/%m/%d' if self.use_date else self.base
-        return '{0}/{1}_{2}{3}'.format(prefix, fname, fingerprint, ext)
+        if self.use_date:
+            prefix = self.base + timezone.now().strftime('/%Y/%m/%d')
+        else:
+            prefix = self.base
+        path = '{0}/{1}_{2}{3}'.format(prefix, fname, fingerprint, ext)
+        return path

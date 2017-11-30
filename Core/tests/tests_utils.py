@@ -4,6 +4,7 @@ import hashlib
 
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.utils import timezone
 
 from Core.utils import gen_uuid, DynamicHashPath
 
@@ -34,6 +35,6 @@ class DynamicHashPathTest(TestCase):
         hasher.update(b'file content')
         fingerprint = hasher.hexdigest()
         fname, ext = osp.splitext('UploadFile.txt')
-        prefix = hash_pather.base + '/%Y/%m/%d'
+        prefix = hash_pather.base + timezone.now().strftime('/%Y/%m/%d')
         target_path = '{0}/{1}_{2}{3}'.format(prefix, fname, fingerprint, ext)
         self.assertEqual(path, target_path)
