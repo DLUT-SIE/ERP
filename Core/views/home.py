@@ -1,5 +1,5 @@
 from Core.views import TemplateView, LoginRequiredMixin
-from Messaging.models import Message, DocumentFile
+from Messaging.models import News, Announcement, MessageFile
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
@@ -16,9 +16,9 @@ class HomeView(LoginRequiredMixin, TemplateView):
         获取用于渲染主页视图的上下文信息
         """
         context = super(HomeView, self).get_context_data(**kwargs)
-        news = Message.news.all().order_by('-create_date')
-        announcements = Message.announcements.all().order_by('-create_date')
-        documents = DocumentFile.public_files.all().order_by(
+        news = News.objects.all().order_by('-create_date')
+        announcements = Announcement.objects.all().order_by('-create_date')
+        documents = MessageFile.public_files.all().order_by(
             '-message__create_date')
         context['news'] = news
         context['announcements'] = announcements

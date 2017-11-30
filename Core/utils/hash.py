@@ -39,7 +39,8 @@ class DynamicHashPath(object):
         assert hasattr(instance, 'path')
         instance.path.open()
         hasher = self.hasher_cls()
-        fingerprint = hasher.update(instance.path.read()).hexdigest()
+        hasher.update(instance.path.read())
+        fingerprint = hasher.hexdigest()
         fname, ext = osp.splitext(filename)
         prefix = self.base + '/%Y/%m/%d' if self.use_date else self.base
         return '{0}/{1}_{2}{3}'.format(prefix, fname, fingerprint, ext)

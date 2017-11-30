@@ -4,7 +4,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from Messaging import (MESSAGE_CATEGORY_NEWS, MESSAGE_CATEGORY_ANNOUNCEMENT,
                        MESSAGE_CATEGORY_PERSONAL)
-from Messaging.models import Message, DocumentFile
+from Messaging.models import (Message, News, Announcement, PersonalMessage,
+                              MessageFile)
 
 
 class MessageTest(TestCase):
@@ -33,22 +34,23 @@ class MessageTest(TestCase):
 
     def test_str(self):
         msg = Message.objects.all()[0]
-        self.assertEqual(str(msg), msg.title)
+        expected_str = '{}:{}'.format(msg.get_category_display(), msg.title)
+        self.assertEqual(str(msg), expected_str)
 
     def test_news_manager_count(self):
-        news_count = Message.news.all().count()
+        news_count = News.objects.all().count()
         self.assertEqual(news_count, 1)
 
     def test_announcements_manager_count(self):
-        announcements_count = Message.announcements.all().count()
+        announcements_count = Announcement.objects.all().count()
         self.assertEqual(announcements_count, 2)
 
     def test_personal_message_manager_count(self):
-        personal_message_count = Message.personal_messages.all().count()
+        personal_message_count = PersonalMessage.objects.all().count()
         self.assertEqual(personal_message_count, 4)
 
 
-class DocumentFileTest(TestCase):
+class MessageFileTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         user1 = User.objects.create_user(username='user1', password='user1')
@@ -65,20 +67,18 @@ class DocumentFileTest(TestCase):
             recipient=user2,
             category=MESSAGE_CATEGORY_PERSONAL)
         upload_file = SimpleUploadedFile('UploadFile.txt', b'file content')
-        DocumentFile.objects.create(
+        MessageFile.objects.create(
             path=upload_file,
-            name='UploadFile.txt',
             message=news)
         for _ in range(2):
-            DocumentFile.objects.create(
+            MessageFile.objects.create(
                 path=upload_file,
-                name='UploadFile.txt',
                 message=pm)
 
     def test_str(self):
-        document = DocumentFile.objects.all()[0]
-        self.assertEqual(str(document), document.name)
+        message_file = MessageFile.objects.all()[0]
+        self.assertIn('UploadFile', str(message_file))
 
     def test_public_files(self):
-        documents_count = DocumentFile.public_files.all().count()
-        self.assertEqual(documents_count, 1)
+        files_count = MessageFile.public_files.all().count()
+        self.assertEqual(files_count, 1)

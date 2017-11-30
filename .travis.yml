@@ -13,12 +13,11 @@ install:
   - pip install -r requirements.txt
 
 before_script:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS ERP_travisci;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS ERP_travisci character set UTF8;'
 
 script:
   - flake8
   - python manage.py makemigrations
-  - python manage.py migrate
   - coverage run manage.py test -v 2
 
 notifications:

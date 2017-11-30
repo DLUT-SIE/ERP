@@ -3,7 +3,7 @@ from .circulation import (ProcessRoute, CirculationRoute, TransferCard,
                           TransferCardProcess)
 from .others import ProcessReview, ProgrammingBlankingChart
 from .quota import (QuotaList, AuxiliaryQuotaItem, CooperantItem,
-                    FirstFeedingItem, OutPurchasedItem, PrincipalQuotaItem,
+                    FirstFeedingItem, BoughtInItem, PrincipalQuotaItem,
                     WeldingQuotaItem)
 from .welding import (WeldingProcessSpecification, WeldingCertification,
                       WeldingJointProcessAnalysis, WeldingSeam,
@@ -16,7 +16,7 @@ __all__ = [
     'ProcessReview', 'ProgrammingBlankingChart',
     'Material', 'ProcessLibrary', 'ProcessMaterial',
     'QuotaList', 'AuxiliaryQuotaItem', 'CooperantItem', 'FirstFeedingItem',
-    'OutPurchasedItem', 'PrincipalQuotaItem', 'WeldingQuotaItem',
+    'BoughtInItem', 'PrincipalQuotaItem', 'WeldingQuotaItem',
     'WeldingProcessSpecification', 'WeldingCertification',
     'WeldingJointProcessAnalysis', 'WeldingSeam', 'WeldingWorkInstruction',
     'WeldingWorkInstructionProcess', 'WeldingWorkInstructionExamination',

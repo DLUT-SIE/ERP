@@ -27,10 +27,10 @@ ERP开发文档
    APIs
    Coding_Guidelines/index
    Core/index
-   Inventory/index
    Distribution/index
-   Messaging/index
    Process/index
    Procurement/index
+   Inventory/index
    Production/index
+   Messaging/index
    Updates/index

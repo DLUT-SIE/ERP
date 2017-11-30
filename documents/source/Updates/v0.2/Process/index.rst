@@ -13,6 +13,7 @@
 - 模型 **WeldingWorkInstructionTest** 重命名为 **WeldingWorkInstructionExamination**
 - 模型 **ProgramingNestingChart** 重命名为 **ProgrammingBlankingChart**
 - 模型 **WeldingStep** 重命名为 **WeldingLayerCard**
+- 模型 **OutPurchasedItem** 重命名为 **BoughtInItem**
 - 删除 **Signature** 模型
 - 删除 **ProcessStep** 模型
 - 删除 **Circulation** 模型

@@ -106,3 +106,4 @@ old_stuff/
 static/
 media/
 htmlcov/
+*.swp

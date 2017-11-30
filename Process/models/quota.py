@@ -89,7 +89,7 @@ class FirstFeedingItem(AbstractQuotaItem):
         verbose_name_plural = '先投件'
 
 
-class OutPurchasedItem(AbstractQuotaItem):
+class BoughtInItem(AbstractQuotaItem):
     """
     外购件
     """
