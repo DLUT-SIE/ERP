@@ -32,6 +32,7 @@ class BiddingDocument(models.Model):
     经销管理部门与生产科、工艺科、采购科之间交流的招标文件
     """
     product = models.ForeignKey(Product, verbose_name='对应产品',
+                                related_name='documents',
                                 on_delete=models.CASCADE)
     src = models.ForeignKey(Department, verbose_name='来源部门',
                             related_name='bidding_doc_src',
