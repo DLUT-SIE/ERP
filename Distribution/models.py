@@ -43,7 +43,7 @@ class BiddingDocument(models.Model):
     path = models.FileField(verbose_name='路径',
                             upload_to=DynamicHashPath('BiddingDocument'))
     upload_dt = models.DateTimeField(verbose_name='上传时间',
-                                     null=True, blank=True, auto_now_add=True)
+                                     auto_now_add=True)
     status = models.IntegerField(verbose_name='状态',
                                  choices=REVIEW_STATUS_CHOICES,
                                  default=REVIEW_STATUS_DEFAULT)

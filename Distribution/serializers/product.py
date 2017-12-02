@@ -19,8 +19,7 @@ class ProductListSerializer(ProductSerializer):
 
 class ProductCreateSerializer(ProductSerializer):
     class Meta(ProductSerializer.Meta):
-        fields = ('name',)
-        read_only_fields = None
+        read_only_fields = ('status', 'terminated')
 
 
 class BiddingDocumentSerializer(serializers.ModelSerializer):
