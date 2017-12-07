@@ -11,7 +11,7 @@ DATABASES = {
         'NAME': 'ERP_development',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '192.168.13.91',
+        'HOST': '192.168.3.2',
         'PORT': '3312',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
