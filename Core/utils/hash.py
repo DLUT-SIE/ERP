@@ -14,7 +14,7 @@ class DynamicHashPath(object):
     :作者:
         杜佑宸 <youchen.du@gmail.com>
 
-    Attributes
+    Parameters
     ----------
     base : str
         上传路径的公共前缀
