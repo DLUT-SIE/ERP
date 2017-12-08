@@ -54,10 +54,9 @@ class ProductAPITest(APITestCase):
         item_url = reverse('product-detail', kwargs={'pk': product.pk})
         response = self.client.get(item_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        response_dict = response.data
-        self.assertEqual(response_dict,
-                         {'id': product.pk, 'name': 'Product',
-                          'documents': [], 'terminated': False, 'status': -1})
+        response_keys = set(response.data.keys())
+        self.assertEqual(response_keys, {'id', 'name', 'actions', 'documents',
+                                         'terminated', 'status'})
 
     def test_update_product(self):
         """

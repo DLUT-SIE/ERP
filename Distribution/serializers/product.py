@@ -1,9 +1,11 @@
 from rest_framework import serializers
 
+from Core.utils.fsm import TransitionSerializerMixin
 from Distribution.models import Product, BiddingDocument
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(TransitionSerializerMixin,
+                        serializers.ModelSerializer):
     documents = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:

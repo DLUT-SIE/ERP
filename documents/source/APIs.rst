@@ -17,5 +17,26 @@ API总览
     results             list        指定页面所有条目列表, 每个元素为一个字典对象
     =================== =========== ==============================
 * 所有提供 **partial_update** 方法的API都提供 **update** 方法, HTTP方法为 **PUT**, 要求包含 **partial_update** 方法中所有参数的值
+* 所有请求详细信息的API, 如果涉及到了工作流状态转移, 返回结果都应提供 **actions** 字段, 如以下代码中, **actions** 字段指示了某个字段当前状态下可进行的操作, 使用标准的更新请求即可进行更新
+
+    .. code:: json
+
+        {
+            "id": 1,
+            "actions": {
+                "status": {
+                    "pass": 0,
+                    "fail": 1
+                },
+                "terminated": {
+                    "terminate": true
+                }
+            },
+            "documents": [],
+            "name": "a",
+            "terminated": false,
+            "status": -1
+        }
+
 * :ref:`Core_API`
 * :ref:`Distribution_API`

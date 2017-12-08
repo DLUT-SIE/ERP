@@ -1,11 +1,13 @@
 from django.db import models
 
 from Core.models import Department
-from Core.utils import DynamicHashPath
-from Distribution import REVIEW_STATUS_CHOICES, REVIEW_STATUS_DEFAULT
+from Core.utils import DynamicHashPath, transition
+from Core.utils.fsm import TransitionMeta
+from Distribution import (REVIEW_STATUS_CHOICES, REVIEW_STATUS_DEFAULT,
+                          REVIEW_STATUS_PASS, REVIEW_STATUS_FAIL)
 
 
-class Product(models.Model):
+class Product(models.Model, metaclass=TransitionMeta):
     """
     产品
 
@@ -17,6 +19,30 @@ class Product(models.Model):
                                  choices=REVIEW_STATUS_CHOICES,
                                  default=REVIEW_STATUS_DEFAULT)
 
+    @transition(field='status',
+                source=(REVIEW_STATUS_DEFAULT, REVIEW_STATUS_FAIL),
+                target=REVIEW_STATUS_PASS, name='pass')
+    def review_pass(self, request):
+        """
+        产品审核通过
+        """
+        pass
+
+    @transition(field='status', source=REVIEW_STATUS_DEFAULT,
+                target=REVIEW_STATUS_FAIL, name='fail')
+    def review_fail(self, request):
+        """
+        产品审核不通过
+        """
+        pass
+
+    @transition(field='terminated', source=False, target=True)
+    def terminate(self, request):
+        """
+        产品终止
+        """
+        pass
+
     class Meta:
         verbose_name = '产品'
         verbose_name_plural = '产品"'
@@ -25,7 +51,7 @@ class Product(models.Model):
         return self.name
 
 
-class BiddingDocument(models.Model):
+class BiddingDocument(models.Model, metaclass=TransitionMeta):
     """
     产品招标文件
 
@@ -47,6 +73,31 @@ class BiddingDocument(models.Model):
     status = models.IntegerField(verbose_name='状态',
                                  choices=REVIEW_STATUS_CHOICES,
                                  default=REVIEW_STATUS_DEFAULT)
+
+    @transition(field='status',
+                source=(REVIEW_STATUS_DEFAULT, REVIEW_STATUS_FAIL),
+                target=REVIEW_STATUS_PASS, name='pass')
+    def review_pass(self, request):
+        """
+        招标文件审核通过
+        """
+        pass
+
+    @transition(field='status', source=REVIEW_STATUS_DEFAULT,
+                target=REVIEW_STATUS_FAIL, name='fail')
+    def review_fail(self, request):
+        """
+        招标文件审核不通过
+        """
+        pass
+
+    @transition(field='status', source=REVIEW_STATUS_FAIL,
+                target=REVIEW_STATUS_DEFAULT, name='reset')
+    def review_reset(self, request):
+        """
+        招标文件审核状态重置
+        """
+        pass
 
     class Meta:
         verbose_name = '产品招标文件'
