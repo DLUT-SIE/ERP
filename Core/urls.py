@@ -3,14 +3,14 @@ from django.conf.urls import url, include
 from rest_framework import routers
 
 from Core.views import LoginView, LogoutView
-from Core.api import (UserInfoViewSet, DepartmentViewSet,
+from Core.api import (UserViewSet, DepartmentViewSet,
                       WorkOrderViewSet, SubWorkOrderViewSet)
 
 router = routers.SimpleRouter()
-router.register(r'userinfo', UserInfoViewSet)
-router.register(r'department', DepartmentViewSet)
-router.register(r'workorder', WorkOrderViewSet)
-router.register(r'subworkorder', SubWorkOrderViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'departments', DepartmentViewSet)
+router.register(r'work_orders', WorkOrderViewSet)
+router.register(r'sub_work_orders', SubWorkOrderViewSet)
 
 urlpatterns = [
     url(r'^login/', LoginView.as_view(template_name='login.html')),

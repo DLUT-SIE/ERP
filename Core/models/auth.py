@@ -11,6 +11,7 @@ class UserInfo(models.Model):
     扩展Django的User对象的详细信息
     """
     user = models.OneToOneField(User, verbose_name='用户',
+                                related_name='info',
                                 editable=False,
                                 on_delete=models.CASCADE)
     phone = models.CharField(verbose_name='电话', max_length=20,
@@ -35,7 +36,6 @@ class Department(models.Model):
     扩展Django的Group对象的功能
     """
     group = models.OneToOneField(Group, verbose_name='组',
-                                 editable=False,
                                  on_delete=models.CASCADE)
     superior = models.ForeignKey('self', verbose_name='上级部门',
                                  blank=True, null=True,

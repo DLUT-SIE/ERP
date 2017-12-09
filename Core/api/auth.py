@@ -1,30 +1,44 @@
-from rest_framework import viewsets, mixins
+from django.contrib.auth.models import User
 
-from Core.models import UserInfo, Department
-from Core.serializers import UserInfoSerializer, DepartmentSerializer
+from rest_framework import viewsets
+from rest_framework.exceptions import MethodNotAllowed
+
+from Core import serializers
+from Core.models import Department
 from Core.utils.pagination import SmallResultsSetPagination
 
 
-class UserInfoViewSet(mixins.UpdateModelMixin,
-                      mixins.ListModelMixin,
-                      mixins.RetrieveModelMixin,
-                      viewsets.GenericViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     """
-    个人信息API
+    用户信息API
     """
-    serializer_class = UserInfoSerializer
     pagination_class = SmallResultsSetPagination
-    queryset = UserInfo.objects.all().order_by('pk')
+    queryset = User.objects.exclude(is_staff=True).order_by('pk')
+
+    def destroy(self, request, pk=None):
+        raise MethodNotAllowed(request.method)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return serializers.UserCreateSerializer
+        elif self.action == 'list':
+            return serializers.UserListSerializer
+        else:
+            return serializers.UserSerializer
 
 
-class DepartmentViewSet(mixins.CreateModelMixin,
-                        mixins.UpdateModelMixin,
-                        mixins.ListModelMixin,
-                        mixins.RetrieveModelMixin,
-                        viewsets.GenericViewSet):
+class DepartmentViewSet(viewsets.ModelViewSet):
     """
     部门API
     """
-    serializer_class = DepartmentSerializer
     pagination_class = SmallResultsSetPagination
     queryset = Department.objects.all().order_by('pk')
+
+    def destroy(self, request, pk=None):
+        raise MethodNotAllowed(request.method)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return serializers.DepartmentListSerializer
+        else:
+            return serializers.DepartmentSerializer

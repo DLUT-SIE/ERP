@@ -1,8 +1,10 @@
-from .auth import UserInfoSerializer, DepartmentSerializer
+from .auth import (UserSerializer, UserListSerializer, UserCreateSerializer,
+                   DepartmentSerializer, DepartmentListSerializer)
 from .work_order import WorkOrderSerializer, SubWorkOrderSerializer
 
 
 __all__ = [
-    'UserInfoSerializer', 'DepartmentSerializer',
+    'UserSerializer', 'UserListSerializer', 'UserCreateSerializer',
+    'DepartmentSerializer', 'DepartmentListSerializer',
     'WorkOrderSerializer', 'SubWorkOrderSerializer',
 ]
