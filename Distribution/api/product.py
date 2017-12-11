@@ -2,19 +2,27 @@ from rest_framework import viewsets
 from rest_framework.exceptions import MethodNotAllowed
 
 from Core.utils.pagination import SmallResultsSetPagination
-from Distribution.models import Product, BiddingDocument
 from Distribution import serializers
+from Distribution.filters import ProductFilter
+from Distribution.models import Product, BiddingDocument
 
 
 class ProductViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = Product.objects.all().order_by('-pk')
+    filter_class = ProductFilter
 
     def get_serializer_class(self):
+        args = set(self.request.GET.keys())
+        pagination_args = {'page', 'limit'}
+        extra_args = args - pagination_args
         if self.action == 'create':
             return serializers.ProductCreateSerializer
         elif self.action == 'list':
-            return serializers.ProductListSerializer
+            if not extra_args:
+                return serializers.ProductListSerializer
+            else:
+                return serializers.ProductSimpleSerializer
         else:
             return serializers.ProductSerializer
 

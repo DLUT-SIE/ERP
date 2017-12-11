@@ -1,5 +1,4 @@
 from rest_framework import viewsets, mixins
-from django_filters import rest_framework as filters
 
 from Core.models import WorkOrder, SubWorkOrder
 from Core.filters import SubWorkOrderFilter
@@ -30,5 +29,4 @@ class SubWorkOrderViewSet(mixins.UpdateModelMixin,
     serializer_class = SubWorkOrderSerializer
     pagination_class = SmallResultsSetPagination
     queryset = SubWorkOrder.objects.all().order_by('-pk')
-    filter_backends = (filters.DjangoFilterBackend,)
     filter_class = SubWorkOrderFilter

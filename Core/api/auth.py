@@ -48,6 +48,9 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     @list_route()
     def distribution(self, request):
         # TODO: Update to real departments
+        # I strongly doubt this
         departments = Department.objects.all()[:4]
-        serializer = self.get_serializer(departments, many=True)
-        return Response(serializer.data)
+        mappings = {}
+        for dep in departments:
+            mappings[dep.group.name] = dep.id
+        return Response(mappings)

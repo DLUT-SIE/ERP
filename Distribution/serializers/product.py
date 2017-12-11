@@ -1,15 +1,23 @@
 from rest_framework import serializers
 
 from django.db import transaction
+from django.db.models import Q
 from django.conf import settings
 
 from Core.utils.fsm import TransitionSerializerMixin
 from Distribution.models import Product, BiddingDocument
 
 
+class BiddingDocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BiddingDocument
+        fields = '__all__'
+        read_only_fields = ('product', 'path', 'src', 'dst', 'upload_dt')
+
+
 class ProductSerializer(TransitionSerializerMixin,
                         serializers.ModelSerializer):
-    documents = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    documents = BiddingDocumentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
@@ -27,11 +35,18 @@ class ProductCreateSerializer(ProductSerializer):
         read_only_fields = ('status', 'terminated')
 
 
-class BiddingDocumentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BiddingDocument
-        fields = '__all__'
-        read_only_fields = ('product', 'path', 'src', 'dst', 'upload_dt')
+class ProductSimpleSerializer(ProductSerializer):
+    documents = serializers.SerializerMethodField('get_related_documents')
+
+    class Meta(ProductSerializer.Meta):
+        fields = ('name', 'documents')
+        read_only_fields = ('name', 'documents')
+
+    def get_related_documents(self, product):
+        related_id = self.context['request'].GET['related']
+        documents = product.documents.filter(
+            Q(src=related_id) | Q(dst=related_id))
+        return BiddingDocumentSerializer(documents, many=True).data
 
 
 class BiddingDocumentListSerializer(BiddingDocumentSerializer):

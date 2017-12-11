@@ -12,15 +12,35 @@ See Also
     https://docs.djangoproject.com/en/1.11/topics/class-based-views/
 """
 from django.views import generic
-from django.contrib.auth import views, mixins
+from django.contrib.auth import views, mixins, authenticate, login
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 # AUTH VIEWS
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(views.LoginView):
     """
     用于处理用户登录的视图
     """
-    pass
+    def dispatch(self, request, *args, **kwargs):
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(),
+                              self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
+
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return JsonResponse({'status': True})
+        return JsonResponse({'status': False})
 
 
 class LogoutView(views.LogoutView):
