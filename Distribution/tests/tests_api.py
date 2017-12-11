@@ -127,35 +127,6 @@ class BiddingDocumentAPITest(APITestCase):
         self.assertEqual(BiddingDocument.objects.count(), 1)
         self.assertEqual(BiddingDocument.objects.get().product.pk, product.pk)
 
-    def test_get_documents_list(self):
-        """
-        测试招标文件列表自定义分页
-        """
-        product = self.product
-        dep_1, dep_2 = self.deps
-
-        url = reverse('biddingdocument-list')
-        for i in range(10):
-            upload_file = SimpleUploadedFile('UploadFile.txt', b'file content')
-            data = {
-                'product': product.pk,
-                'src': dep_1.pk,
-                'dst': dep_2.pk,
-                'path': upload_file
-            }
-            response = self.client.post(url, data, format='multipart')
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(BiddingDocument.objects.count(), 10)
-        list_url = '{}?limit=5'.format(url)
-        response = self.client.get(list_url)
-        response_dict = response.data
-        self.assertIn('count', response_dict)
-        self.assertIn('next', response_dict)
-        self.assertIn('previous', response_dict)
-        self.assertIn('results', response_dict)
-        self.assertEqual(response_dict['count'], 10)
-        self.assertEqual(len(response_dict['results']), 5)
-
     def test_get_document(self):
         """
         测试返回招标文件字段
