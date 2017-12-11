@@ -2,7 +2,10 @@
 
 核心模块-API
 ==============
-.. role:: badge
+.. role:: get
+.. role:: post 
+.. role:: patch
+.. role:: delete
 .. role:: code
 
 用户信息
@@ -12,7 +15,7 @@ list
 ^^^^^^
     返回用户信息列表
 
-    :badge:`POST` :code:`/api/users/`
+    :post:`POST` :code:`/api/users/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -37,7 +40,7 @@ read
 ^^^^^^
     返回指定id的用户信息
 
-    :badge:`GET` :code:`/api/users/{id}/`
+    :get:`GET` :code:`/api/users/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -77,7 +80,7 @@ partial_update
 ^^^^^^^^^^^^^^^^
     更新指定id的用户信息, 返回更新后的用户信息
 
-    :badge:`PATCH` :code:`/api/users/{id}/`
+    :patch:`PATCH` :code:`/api/users/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -120,7 +123,7 @@ list
 ^^^^^^^^
     返回部门列表
 
-    :badge:`GET` :code:`/api/departments/`
+    :get:`GET` :code:`/api/departments/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -146,7 +149,7 @@ read
 ^^^^^^
     返回指定id的部门信息
 
-    :badge:`GET` :code:`/api/departments/{id}/`
+    :get:`GET` :code:`/api/departments/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -182,7 +185,7 @@ partial_update
 ^^^^^^^^^^^^^^^^^
     更新指定id的部门信息, 返回更新后的部门信息
 
-    :badge:`PATCH` :code:`/api/departments/{id}/`
+    :patch:`PATCH` :code:`/api/departments/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -217,7 +220,7 @@ create
 ^^^^^^^^
     创建新的部门信息
 
-    :badge:`POST` :code:`/api/departments/`
+    :post:`POST` :code:`/api/departments/`
 
     ====================== =========== ============================
     参数                    参数类型    描述
@@ -261,7 +264,7 @@ list
 ^^^^^^^
     返回工作令列表
 
-    :badge:`GET` :code:`/api/work_orders/`
+    :get:`GET` :code:`/api/work_orders/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -296,7 +299,7 @@ read
 ^^^^^^
     返回指定id的工作令信息
 
-    :badge:`GET` :code:`/api/work_orders/{id}/`
+    :get:`GET` :code:`/api/work_orders/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -329,7 +332,7 @@ partial_update
 ^^^^^^^^^^^^^^^
     更新指定id的工作令信息, 返回更新后的工作令信息
 
-    :badge:`PATCH` :code:`/api/work_orders/{id}/`
+    :patch:`PATCH` :code:`/api/work_orders/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -362,7 +365,7 @@ create
 ^^^^^^^
     创建新的工作令信息
 
-    :badge:`POST` :code:`/api/work_orders/`
+    :post:`POST` :code:`/api/work_orders/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -408,7 +411,7 @@ list
 ^^^^^^^
     返回子工作令列表
 
-    :badge:`GET` :code:`/api/sub_work_orders/`
+    :get:`GET` :code:`/api/sub_work_orders/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -432,7 +435,7 @@ read
 ^^^^^^^^^
     返回指定id的子工作令信息
 
-    :badge:`GET` :code:`/api/sub_work_orders/{id}/`
+    :get:`GET` :code:`/api/sub_work_orders/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -455,7 +458,7 @@ partial_update
 ^^^^^^^^^^^^^^^
     更新指定id的子工作令信息, 返回更新后的子工作令信息
 
-    :badge:`PATCH` :code:`/api/sub_work_orders/{id}/`
+    :patch:`PATCH` :code:`/api/sub_work_orders/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述

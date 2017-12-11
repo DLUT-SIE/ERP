@@ -2,7 +2,10 @@
 
 经销模块-API
 ===============
-.. role: badge
+.. role: get
+.. role: post
+.. role: patch
+.. role: delete
 .. role: code
 
 产品
@@ -12,7 +15,7 @@ list
 ^^^^^^^
     返回产品信息列表
 
-    :badge:`GET` :code:`/api/products/`
+    :get:`GET` :code:`/api/products/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -35,7 +38,7 @@ read
 ^^^^^^^^^
     返回指定id的产品信息
 
-    :badge:`GET` :code:`/api/products/{id}/`
+    :get:`GET` :code:`/api/products/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -62,7 +65,7 @@ partial_update
 ^^^^^^^^^^^^^^^^
     更新指定id的产品, 返回更新后的产品
 
-    :badge:`PATCH` :code:`/api/products/{id}/`
+    :patch:`PATCH` :code:`/api/products/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -89,7 +92,7 @@ create
 ^^^^^^^^
     创建新的产品
 
-    :badge:`POST` :code:`/api/products/`
+    :post:`POST` :code:`/api/products/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -119,7 +122,7 @@ list
 ^^^^^^^
     返回产品信息列表
 
-    :badge:`GET` :code:`/api/bidding_documents/`
+    :get:`GET` :code:`/api/bidding_documents/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -144,7 +147,7 @@ read
 ^^^^^^^
     返回指定id的招标文件信息
 
-    :badge:`GET` :code:`/api/bidding_documents/{id}/`
+    :get:`GET` :code:`/api/bidding_documents/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -175,7 +178,7 @@ partial_update
 ^^^^^^^^^^^^^^^^^
     更新指定id的招标文件信息, 返回更新后的信息
 
-    :badge:`PATCH` :code:`/api/bidding_documents/{id}/`
+    :patch:`PATCH` :code:`/api/bidding_documents/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -207,7 +210,7 @@ create
 ^^^^^^^^
     创建新的产品
 
-    :badge:`POST` :code:`/api/products/`
+    :post:`POST` :code:`/api/products/`
 
     =================== =========== ============================
     参数                参数类型    描述

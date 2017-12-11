@@ -1,6 +1,27 @@
-.badge {
+.get {
   color: #ffffff;
   background-color: #325d88;
+  padding: .2em .6em .3em;
+  border-radius: .25em;
+}
+
+.post {
+  color: #ffffff;
+  background-color: #00A652;
+  padding: .2em .6em .3em;
+  border-radius: .25em;
+}
+
+.patch {
+  color: #ffffff;
+  background-color: #CB9038;
+  padding: .2em .6em .3em;
+  border-radius: .25em;
+}
+
+.delete {
+  color: #ffffff;
+  background-color: #AC2027;
   padding: .2em .6em .3em;
   border-radius: .25em;
 }
