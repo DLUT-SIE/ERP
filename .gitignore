@@ -108,4 +108,3 @@ media/
 htmlcov/
 *.swp
 tmp/
-migrations/
