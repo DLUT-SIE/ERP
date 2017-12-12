@@ -179,7 +179,7 @@ class BiddingDocumentAPITest(APITestCase):
         response = self.client.patch(item_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('status', response.data)
-        self.assertEqual(response.data['status'], REVIEW_STATUS_PASS)
+        self.assertEqual(response.data['status'], doc.get_status_display())
 
     def test_delete_product(self):
         """

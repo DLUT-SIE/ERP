@@ -5,10 +5,13 @@ from django.db.models import Q
 from django.conf import settings
 
 from Core.utils.fsm import TransitionSerializerMixin
+from Distribution import REVIEW_STATUS_CHOICES
 from Distribution.models import Product, BiddingDocument
 
 
 class BiddingDocumentSerializer(serializers.ModelSerializer):
+    status = serializers.CharField(source='get_status_display', read_only=True)
+
     class Meta:
         model = BiddingDocument
         fields = '__all__'
@@ -18,16 +21,25 @@ class BiddingDocumentSerializer(serializers.ModelSerializer):
 class ProductSerializer(TransitionSerializerMixin,
                         serializers.ModelSerializer):
     documents = BiddingDocumentSerializer(many=True, read_only=True)
+    status = serializers.CharField(source='get_status_display', read_only=True)
 
     class Meta:
         model = Product
         fields = '__all__'
-        read_only_fields = ('name',)
+        read_only_fields = ('name', 'terminated')
 
 
 class ProductListSerializer(ProductSerializer):
     class Meta(ProductSerializer.Meta):
         fields = ('id', 'name')
+
+
+class ProductUpdateSerializer(ProductSerializer):
+    status = serializers.ChoiceField(choices=REVIEW_STATUS_CHOICES)
+
+    class Meta(ProductSerializer.Meta):
+        fields = ('id', 'status', 'terminated')
+        read_only_fields = None
 
 
 class ProductCreateSerializer(ProductSerializer):
@@ -39,7 +51,7 @@ class ProductSimpleSerializer(ProductSerializer):
     documents = serializers.SerializerMethodField('get_related_documents')
 
     class Meta(ProductSerializer.Meta):
-        fields = ('name', 'documents')
+        fields = ('id', 'name', 'documents')
         read_only_fields = ('name', 'documents')
 
     def get_related_documents(self, product):

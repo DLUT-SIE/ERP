@@ -23,6 +23,8 @@ class ProductViewSet(viewsets.ModelViewSet):
                 return serializers.ProductListSerializer
             else:
                 return serializers.ProductSimpleSerializer
+        elif self.action == 'partial_update' or self.action == 'update':
+            return serializers.ProductUpdateSerializer
         else:
             return serializers.ProductSerializer
 

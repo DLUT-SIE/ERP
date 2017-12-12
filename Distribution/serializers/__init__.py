@@ -1,5 +1,6 @@
 from .product import (ProductSerializer, ProductListSerializer,
                       ProductCreateSerializer,
+                      ProductUpdateSerializer,
                       ProductSimpleSerializer,
                       BiddingDocumentSerializer,
                       BiddingDocumentListSerializer,
@@ -9,6 +10,7 @@ from .product import (ProductSerializer, ProductListSerializer,
 __all__ = [
     'ProductSerializer', 'ProductListSerializer',
     'ProductCreateSerializer', 'ProductSimpleSerializer',
+    'ProductUpdateSerializer',
     'BiddingDocumentSerializer', 'BiddingDocumentCreateSerializer',
     'BiddingDocumentListSerializer',
 ]
