@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from django.db import transaction
-from django.conf import settings
 
 from Core.models import Department
 from Core.utils.fsm import TransitionSerializerMixin
@@ -17,41 +16,7 @@ class BiddingDocumentSerializer(TransitionSerializerMixin,
     class Meta:
         model = BiddingDocument
         fields = '__all__'
-        read_only_fields = ('product', 'path', 'name',
-                            'src', 'dst', 'upload_dt')
-
-
-class BiddingDocumentSimpleSerializer(BiddingDocumentSerializer):
-    class Meta(BiddingDocumentSerializer.Meta):
-        fields = ('id', 'path', 'name', 'pretty_status')
-
-
-class BiddingDocumentListSerializer(BiddingDocumentSerializer):
-    class Meta(BiddingDocumentSerializer.Meta):
-        fields = ('id', 'path', 'name', 'pretty_status')
-
-
-class BiddingDocumentCreateSerializer(BiddingDocumentSerializer):
-    class Meta(BiddingDocumentSerializer.Meta):
         read_only_fields = ('status',)
-
-    def validate_src(self, department):
-        if settings.DEBUG is True:
-            return department
-        user = self.context['request'].user
-        groups = user.groups.all().select_related('department')
-        related_departments = [g.department for g in groups]
-        if department not in related_departments:
-            raise serializers.ValidationError('来源部门错误')
-        return department
-
-    def validate(self, data):
-        src = data['src']
-        dst = data['dst']
-        if src.id == dst.id:
-            raise serializers.ValidationError('来源部门与接收部门不能相同')
-        data['src'] = src
-        return data
 
     def create(self, validated_data):
         with transaction.atomic():
@@ -68,6 +33,16 @@ class BiddingDocumentCreateSerializer(BiddingDocumentSerializer):
             doc.path = path
             doc.save()
         return doc
+
+
+class BiddingDocumentSimpleSerializer(BiddingDocumentSerializer):
+    class Meta(BiddingDocumentSerializer.Meta):
+        fields = ('id', 'path', 'name', 'pretty_status')
+
+
+class BiddingDocumentUpdateSerializer(BiddingDocumentSerializer):
+    class Meta(BiddingDocumentSerializer.Meta):
+        read_only_fields = ('src', 'dst', 'product', 'path')
 
 
 class ProductSerializer(TransitionSerializerMixin,
@@ -107,7 +82,9 @@ class ProductSerializer(TransitionSerializerMixin,
                 src = dep
             doc = candidates.filter(src=src, dst=dst)
             if doc:
-                doc = BiddingDocumentSimpleSerializer(doc.get()).data
+                doc = BiddingDocumentSimpleSerializer(
+                    doc.get(),
+                    context={'request': self.context['request']}).data
             else:
                 doc = None
             documents[dep.group.name] = doc
@@ -122,25 +99,11 @@ class ProductSerializer(TransitionSerializerMixin,
 
 class ProductListSerializer(ProductSerializer):
     class Meta(ProductSerializer.Meta):
-        fields = ('id', 'name', 'pretty_status', 'terminated')
-
-
-class ProductUpdateSerializer(ProductSerializer):
-    class Meta(ProductSerializer.Meta):
-        read_only_fields = ('name',)
-
-
-class ProductCreateSerializer(ProductSerializer):
-    class Meta(ProductSerializer.Meta):
-        read_only_fields = ('status', 'terminated')
-
-
-class ProductSimpleSerializer(ProductSerializer):
-    class Meta(ProductSerializer.Meta):
         fields = ('id', 'name', 'documents_from_distribution',
                   'documents_to_distribution')
-        read_only_fields = ('name', 'documents')
 
+
+class ProductSimpleSerializer(ProductListSerializer):
     def get_documents_from_distribution(self, product):
         related_id = self.context['request'].GET['related']
         dep = Department.objects.get(id=related_id)
@@ -152,3 +115,13 @@ class ProductSimpleSerializer(ProductSerializer):
         dep = Department.objects.get(id=related_id)
         return self._get_documents(product, deps=[dep],
                                    from_distribution=False)
+
+
+class ProductUpdateSerializer(ProductSerializer):
+    class Meta(ProductSerializer.Meta):
+        read_only_fields = ('name',)
+
+
+class ProductCreateSerializer(ProductSerializer):
+    class Meta(ProductSerializer.Meta):
+        read_only_fields = ('status', 'terminated')

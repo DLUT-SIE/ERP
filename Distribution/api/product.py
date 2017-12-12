@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.exceptions import MethodNotAllowed
 
 from Core.utils.pagination import SmallResultsSetPagination
@@ -13,7 +13,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_class = ProductFilter
 
     def get_serializer_class(self):
-        args = set(self.request.GET.keys())
+        # TODO: Why crash on /api?
+        args = set(self.request.GET.keys()) if self.request else set()
         pagination_args = {'page', 'limit'}
         extra_args = args - pagination_args
         if self.action == 'create':
@@ -32,21 +33,17 @@ class ProductViewSet(viewsets.ModelViewSet):
         raise MethodNotAllowed(request.method)
 
 
-class BiddingDocumentViewSet(viewsets.ModelViewSet):
+class BiddingDocumentViewSet(mixins.CreateModelMixin,
+                             mixins.RetrieveModelMixin,
+                             mixins.UpdateModelMixin,
+                             viewsets.GenericViewSet):
     """
     招标文件API
     """
-    pagination_class = SmallResultsSetPagination
-    serializer_class = serializers.BiddingDocumentSerializer
     queryset = BiddingDocument.objects.all().order_by('-pk')
 
     def get_serializer_class(self):
-        if self.action == 'create':
-            return serializers.BiddingDocumentCreateSerializer
-        elif self.action == 'list':
-            return serializers.BiddingDocumentListSerializer
+        if self.action in ('partial_update', 'update'):
+            return serializers.BiddingDocumentUpdateSerializer
         else:
             return serializers.BiddingDocumentSerializer
-
-    def destroy(self, request, pk=None):
-        raise MethodNotAllowed(request.method)

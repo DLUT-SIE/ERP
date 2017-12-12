@@ -3,14 +3,12 @@ from .product import (ProductSerializer, ProductListSerializer,
                       ProductUpdateSerializer,
                       ProductSimpleSerializer,
                       BiddingDocumentSerializer,
-                      BiddingDocumentListSerializer,
-                      BiddingDocumentCreateSerializer)
+                      BiddingDocumentUpdateSerializer)
 
 
 __all__ = [
     'ProductSerializer', 'ProductListSerializer',
     'ProductCreateSerializer', 'ProductSimpleSerializer',
     'ProductUpdateSerializer',
-    'BiddingDocumentSerializer', 'BiddingDocumentCreateSerializer',
-    'BiddingDocumentListSerializer',
+    'BiddingDocumentSerializer', 'BiddingDocumentUpdateSerializer',
 ]
