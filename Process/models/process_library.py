@@ -87,7 +87,7 @@ class ProcessMaterial(models.Model):
                                  blank=True, null=True,
                                  on_delete=models.PROTECT)
     name = models.CharField(verbose_name='名称', blank=True, max_length=50)
-    piece_weight = models.FloatField(verbose_name='净重', blank=True)
+    piece_weight = models.FloatField(verbose_name='净重', blank=True, null=True)
     remark = models.CharField(verbose_name='备注', blank=True,
                               default='', max_length=50)
 
