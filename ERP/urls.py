@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^api/', include_docs_urls(title='ERP APIs')),
     url(r'^', include('Core.urls')),
     url(r'^', include('Distribution.urls')),
+    url(r'^', include('Procurement.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
