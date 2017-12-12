@@ -47,5 +47,5 @@ class DynamicHashPath(object):
             prefix = self.base + timezone.now().strftime('/%Y/%m/%d')
         else:
             prefix = self.base
-        path = '{0}/{1}_{2}{3}'.format(prefix, fname, fingerprint, ext)
+        path = '{0}/{1}/{2}{3}'.format(prefix, fingerprint, fname, ext)
         return path

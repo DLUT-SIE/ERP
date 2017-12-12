@@ -224,7 +224,6 @@ class TransitionSerializerMixin(serializers.Serializer):
                 fields = '__all__'
                 read_only_fields = ('name',)
     """
-
     actions = serializers.SerializerMethodField()
 
     def get_actions(self, obj):

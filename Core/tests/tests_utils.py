@@ -39,7 +39,7 @@ class DynamicHashPathTest(TestCase):
         fingerprint = hasher.hexdigest()
         fname, ext = osp.splitext('UploadFile.txt')
         prefix = hash_pather.base + timezone.now().strftime('/%Y/%m/%d')
-        target_path = '{0}/{1}_{2}{3}'.format(prefix, fname, fingerprint, ext)
+        target_path = '{0}/{1}/{2}{3}'.format(prefix, fingerprint, fname, ext)
         self.assertEqual(path, target_path)
 
     def test_call_without_date(self):
@@ -57,7 +57,7 @@ class DynamicHashPathTest(TestCase):
         fingerprint = hasher.hexdigest()
         fname, ext = osp.splitext('UploadFile.txt')
         prefix = hash_pather.base
-        target_path = '{0}/{1}_{2}{3}'.format(prefix, fname, fingerprint, ext)
+        target_path = '{0}/{1}/{2}{3}'.format(prefix, fingerprint, fname, ext)
         self.assertEqual(path, target_path)
 
 

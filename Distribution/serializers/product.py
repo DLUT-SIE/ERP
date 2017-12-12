@@ -11,11 +11,13 @@ from Distribution.models import Product, BiddingDocument
 
 class BiddingDocumentSerializer(serializers.ModelSerializer):
     status = serializers.CharField(source='get_status_display', read_only=True)
+    name = serializers.CharField(source='path_name', read_only=True)
 
     class Meta:
         model = BiddingDocument
         fields = '__all__'
-        read_only_fields = ('product', 'path', 'src', 'dst', 'upload_dt')
+        read_only_fields = ('product', 'path', 'name',
+                            'src', 'dst', 'upload_dt')
 
 
 class ProductSerializer(TransitionSerializerMixin,
@@ -63,12 +65,13 @@ class ProductSimpleSerializer(ProductSerializer):
 
 class BiddingDocumentListSerializer(BiddingDocumentSerializer):
     class Meta(BiddingDocumentSerializer.Meta):
-        fields = ('id', 'path', 'status')
+        fields = ('id', 'path', 'name', 'status')
 
 
 class BiddingDocumentCreateSerializer(BiddingDocumentSerializer):
     class Meta(BiddingDocumentSerializer.Meta):
-        fields = ('id', 'product', 'path', 'src', 'dst', 'upload_dt', 'status')
+        fields = ('id', 'product', 'path', 'name',
+                  'src', 'dst', 'upload_dt', 'status')
         read_only_fields = ('status', 'upload_dt')
 
     def validate_src(self, department):

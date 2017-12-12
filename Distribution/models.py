@@ -1,3 +1,4 @@
+import os
 from django.db import models
 
 from Core.models import Department
@@ -73,6 +74,10 @@ class BiddingDocument(models.Model, metaclass=TransitionMeta):
     status = models.IntegerField(verbose_name='状态',
                                  choices=REVIEW_STATUS_CHOICES,
                                  default=REVIEW_STATUS_DEFAULT)
+
+    @property
+    def path_name(self):
+        return os.path.basename(self.path.name)
 
     @transition(field='status',
                 source=(REVIEW_STATUS_DEFAULT, REVIEW_STATUS_FAIL),
