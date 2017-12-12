@@ -12,6 +12,7 @@ class Material(models.Model):
     name = models.CharField(verbose_name='材质名称', max_length=50)
     uid = models.CharField(verbose_name='材质编号', unique=True, max_length=20)
     category = models.IntegerField(verbose_name='材质类别',
+                                   blank=True, null=True,
                                    choices=MATERIAL_CATEGORY_CHOICES)
 
     class Meta:
@@ -86,7 +87,7 @@ class ProcessMaterial(models.Model):
                                  blank=True, null=True,
                                  on_delete=models.PROTECT)
     name = models.CharField(verbose_name='名称', blank=True, max_length=50)
-    net_weight = models.FloatField(verbose_name='净重')
+    piece_weight = models.FloatField(verbose_name='净重')
     remark = models.CharField(verbose_name='备注', blank=True,
                               default='', max_length=50)
 

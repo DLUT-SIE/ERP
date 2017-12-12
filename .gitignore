@@ -108,3 +108,4 @@ media/
 htmlcov/
 *.swp
 tmp/
+.idea/
