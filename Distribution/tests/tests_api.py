@@ -11,6 +11,15 @@ from Distribution.models import Product, BiddingDocument
 
 
 class ProductAPITest(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        for i in range(4):
+            group, status = Group.objects.get_or_create(
+                name='Group_{}'.format(i))
+            Department.objects.get_or_create(id=i+1,
+                                             group=group,
+                                             short_name='Dep_{}'.format(i))
+
     def test_create_product(self):
         """
         测试创建产品
@@ -55,8 +64,11 @@ class ProductAPITest(APITestCase):
         response = self.client.get(item_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response_keys = set(response.data.keys())
-        self.assertEqual(response_keys, {'id', 'name', 'actions', 'documents',
-                                         'terminated', 'status'})
+        self.assertEqual(
+            response_keys,
+            {'id', 'name', 'actions', 'documents_to_distribution',
+             'documents_from_distribution', 'terminated', 'status',
+             'pretty_status'})
 
     def test_update_product(self):
         """
@@ -179,7 +191,8 @@ class BiddingDocumentAPITest(APITestCase):
         response = self.client.patch(item_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('status', response.data)
-        self.assertEqual(response.data['status'], doc.get_status_display())
+        doc = BiddingDocument.objects.get()
+        self.assertEqual(response.data['status'], doc.status)
 
     def test_delete_product(self):
         """
