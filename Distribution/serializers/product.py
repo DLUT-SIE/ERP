@@ -37,7 +37,7 @@ class BiddingDocumentSerializer(TransitionSerializerMixin,
 
 class BiddingDocumentSimpleSerializer(BiddingDocumentSerializer):
     class Meta(BiddingDocumentSerializer.Meta):
-        fields = ('id', 'path', 'name', 'pretty_status')
+        fields = ('id', 'path', 'name', 'pretty_status', 'actions')
 
 
 class BiddingDocumentUpdateSerializer(BiddingDocumentSerializer):

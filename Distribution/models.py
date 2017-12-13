@@ -22,7 +22,7 @@ class Product(models.Model, metaclass=TransitionMeta):
 
     @transition(field='status',
                 source=(REVIEW_STATUS_DEFAULT, REVIEW_STATUS_FAIL),
-                target=REVIEW_STATUS_PASS, name='pass')
+                target=REVIEW_STATUS_PASS, name='通过')
     def review_pass(self, request):
         """
         产品审核通过
@@ -30,7 +30,7 @@ class Product(models.Model, metaclass=TransitionMeta):
         pass
 
     @transition(field='status', source=REVIEW_STATUS_DEFAULT,
-                target=REVIEW_STATUS_FAIL, name='fail')
+                target=REVIEW_STATUS_FAIL, name='不通过')
     def review_fail(self, request):
         """
         产品审核不通过
@@ -81,7 +81,7 @@ class BiddingDocument(models.Model, metaclass=TransitionMeta):
 
     @transition(field='status',
                 source=(REVIEW_STATUS_DEFAULT, REVIEW_STATUS_FAIL),
-                target=REVIEW_STATUS_PASS, name='pass')
+                target=REVIEW_STATUS_PASS, name='通过')
     def review_pass(self, request):
         """
         招标文件审核通过
@@ -89,7 +89,7 @@ class BiddingDocument(models.Model, metaclass=TransitionMeta):
         pass
 
     @transition(field='status', source=REVIEW_STATUS_DEFAULT,
-                target=REVIEW_STATUS_FAIL, name='fail')
+                target=REVIEW_STATUS_FAIL, name='不通过')
     def review_fail(self, request):
         """
         招标文件审核不通过
@@ -97,7 +97,7 @@ class BiddingDocument(models.Model, metaclass=TransitionMeta):
         pass
 
     @transition(field='status', source=REVIEW_STATUS_FAIL,
-                target=REVIEW_STATUS_DEFAULT, name='reset')
+                target=REVIEW_STATUS_DEFAULT, name='未审核')
     def review_reset(self, request):
         """
         招标文件审核状态重置
