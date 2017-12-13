@@ -17,7 +17,6 @@ class WorkOrder(models.Model):
     client = models.CharField(verbose_name='客户名称', max_length=100)
     project = models.CharField(verbose_name='项目名称', max_length=100)
     product = models.OneToOneField(Product, verbose_name='产品',
-                                   editable=False,
                                    on_delete=models.CASCADE)
     count = models.IntegerField(verbose_name='数量')
     finished = models.BooleanField(verbose_name='已结束', default=False)
