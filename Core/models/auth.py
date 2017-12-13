@@ -26,7 +26,8 @@ class UserInfo(models.Model):
         verbose_name_plural = '个人信息'
 
     def __str__(self):
-        return self.user.first_name
+        return '{1}(用户名:{0})'.format(
+            self.user.username, self.user.first_name)
 
 
 class DistributionDepartmentManager(models.Manager):

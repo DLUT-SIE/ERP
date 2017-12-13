@@ -1,3 +1,7 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# Register your models here.
+from Distribution.models import Product, BiddingDocument
+
+
+admin.site.register(Product)
+admin.site.register(BiddingDocument)

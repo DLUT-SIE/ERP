@@ -52,6 +52,7 @@ class ProcessFollowingInfo(models.Model):
         return self.bidding_sheet.uid
 
 
+# TODO: Rename this model
 class StatusChange(models.Model):
     """
     状态更改记录

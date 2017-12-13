@@ -76,7 +76,9 @@ class UserInfoTest(TestCase):
 
     def test_str(self):
         user_info = UserInfo.objects.all()[0]
-        self.assertEqual(str(user_info), user_info.user.first_name)
+        expected_str = '{}(用户名:{})'.format(
+            user_info.user.first_name, user_info.user.username)
+        self.assertEqual(str(user_info), expected_str)
 
 
 class DepartmentTest(TestCase):

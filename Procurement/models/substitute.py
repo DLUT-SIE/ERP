@@ -31,6 +31,7 @@ class MaterialSubApply(models.Model):
 
 
 # TODO: Review this model
+# TODO: Rename this model
 class MaterialSubApplyItems(models.Model):
     """
     材料代用申请单明细

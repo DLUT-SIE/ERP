@@ -46,7 +46,7 @@ class Product(models.Model, metaclass=TransitionMeta):
 
     class Meta:
         verbose_name = '产品'
-        verbose_name_plural = '产品"'
+        verbose_name_plural = '产品'
 
     def __str__(self):
         return self.name
