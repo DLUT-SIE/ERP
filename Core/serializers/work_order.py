@@ -4,6 +4,9 @@ from Core.models import WorkOrder, SubWorkOrder
 
 
 class WorkOrderSerializer(serializers.ModelSerializer):
+    pretty_sell_type = serializers.CharField(source='get_sell_type_display',
+                                             read_only=True)
+
     class Meta:
         model = WorkOrder
         fields = '__all__'
