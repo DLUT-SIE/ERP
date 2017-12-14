@@ -13,9 +13,9 @@
 
 list
 ^^^^^^^
-    返回焊材入库单列表
+    返回列表
 
-    :get:`GET` :code:`/api/welding_material_entry/`
+    :get:`GET` :code:`/api/welding_material_entries/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -48,9 +48,9 @@ list
 
 read
 ^^^^^^^^^
-    返回指定id的焊材入库单信息
+    返回指定id的详细信息
 
-    :get:`GET` :code:`/api/welding_material_entry/{id}/`
+    :get:`GET` :code:`/api/welding_material_entries/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -81,9 +81,9 @@ read
 
 partial_update
 ^^^^^^^^^^^^^^^^
-    更新指定id的入库单, 返回更新后的入库单信息
+    更新指定id, 返回更新后的信息
 
-    :patch:`PATCH` :code:`/api/welding_material_entry/{id}/`
+    :patch:`PATCH` :code:`/api/welding_material_entries/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -114,9 +114,9 @@ partial_update
 
 create
 ^^^^^^^^
-    创建新的入库单
+    创建新的对象
 
-    :post:`POST` :code:`/api/welding_material_entry/`
+    :post:`POST` :code:`/api/welding_material_entries/`
 
 
     未完成
@@ -126,9 +126,9 @@ create
 
 read
 ^^^^^^^^^
-    返回指定id的焊材入库单明细
+    返回指定id的详细信息
 
-    :get:`GET` :code:`/api/welding_material_entry_detail/{id}/`
+    :get:`GET` :code:`/api/welding_material_entry_details/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -163,7 +163,7 @@ partial_update
 ^^^^^^^^^^^^^^^^
     更新指定id, 返回更新后的信息
 
-    :patch:`PATCH` :code:`/api/welding_material_entry_detail/{id}/`
+    :patch:`PATCH` :code:`/api/welding_material_entry_details/{id}/`
 
     =================== =========== ============================
     参数                参数类型    描述
@@ -196,9 +196,9 @@ partial_update
 
 create
 ^^^^^^^^
-    创建新的入库单
+    创建新的对象
 
-    :post:`POST` :code:`/api/welding_material_entry/`
+    :post:`POST` :code:`/api/welding_material_entry_details/`
 
 
     未完成
