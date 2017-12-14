@@ -30,7 +30,8 @@ class ProcessLibrary(models.Model):
     保存工作令相关工艺公共信息
     """
     work_order = models.OneToOneField(WorkOrder, verbose_name='工作令',
-                                      on_delete=models.CASCADE)
+                                      on_delete=models.CASCADE,
+                                      related_name='process_library')
 
     writer = models.ForeignKey(User, verbose_name='工艺员',
                                blank=True, null=True,
@@ -70,6 +71,7 @@ class ProcessMaterial(models.Model):
     工艺物料
     """
     lib = models.ForeignKey(ProcessLibrary, verbose_name='工艺库',
+                            related_name='process_materials',
                             on_delete=models.CASCADE)
     ticket_number = models.IntegerField(verbose_name='票号')
     part_number = models.IntegerField(verbose_name='件号')
