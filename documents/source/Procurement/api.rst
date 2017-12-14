@@ -8,12 +8,12 @@
 .. role:: delete
 .. role:: code
 
-材料待用申请单
----------------
+材料代用申请单
+-------------------
 
 list
 ^^^^^^^
-    返回材料待用申请单列表
+    返回材料代用申请单列表
 
     :get:`GET` :code:`/api/materialsub/`
 
@@ -35,7 +35,7 @@ list
 
 read
 ^^^^^^^^^
-    返回指定id的材料待用申请单
+    返回指定id的材料代用申请单
 
     :get:`GET` :code:`/api/materialsub/{id}/`
 
@@ -64,7 +64,7 @@ read
 
 partial_update
 ^^^^^^^^^^^^^^^^
-    更新指定id的材料待用申请单
+    更新指定id的材料代用申请单
 
     :patch:`PATCH` :code:`/api/materialsub/{id}/`
 
@@ -89,7 +89,7 @@ partial_update
 
 create
 ^^^^^^^^^
-    创建新的材料待用申请单
+    创建新的材料代用申请单
 
     :post:`POST` :code:`/api/materialsub/`
 
@@ -127,7 +127,7 @@ create
     =================== =========== ============================
 
 材料代用申请单明细
------------------
+----------------------
 
 partial_update
 ^^^^^^^^^^^^^^^^^
