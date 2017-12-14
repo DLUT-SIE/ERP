@@ -1,6 +1,6 @@
 from .process_library import Material, ProcessLibrary, ProcessMaterial
 from .circulation import (ProcessRoute, CirculationRoute, TransferCard,
-                          TransferCardProcess)
+                          TransferCardProcess, ProcessStep)
 from .others import ProcessReview, ProgrammingBlankingChart
 from .quota import (QuotaList, AuxiliaryQuotaItem, CooperantItem,
                     FirstFeedingItem, BoughtInItem, PrincipalQuotaItem,
@@ -13,7 +13,7 @@ from .welding import (WeldingProcessSpecification, WeldingCertification,
 
 __all__ = [
     'ProcessRoute', 'CirculationRoute', 'TransferCard', 'TransferCardProcess',
-    'ProcessReview', 'ProgrammingBlankingChart',
+    'ProcessReview', 'ProgrammingBlankingChart', 'ProcessStep',
     'Material', 'ProcessLibrary', 'ProcessMaterial',
     'QuotaList', 'AuxiliaryQuotaItem', 'CooperantItem', 'FirstFeedingItem',
     'BoughtInItem', 'PrincipalQuotaItem', 'WeldingQuotaItem',

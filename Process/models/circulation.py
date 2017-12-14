@@ -13,42 +13,6 @@ class ProcessRoute(models.Model):
     """
     materiel = models.OneToOneField(ProcessMaterial, verbose_name='物料',
                                     on_delete=models.CASCADE)
-    S1 = models.IntegerField(verbose_name='工序1', blank=True, null=True,
-                             choices=PROCESS_CHOICES)
-    H1 = models.FloatField(verbose_name='工时1', blank=True, null=True)
-    S2 = models.IntegerField(verbose_name='工序2', blank=True, null=True,
-                             choices=PROCESS_CHOICES)
-    H2 = models.FloatField(verbose_name='工时2', blank=True, null=True)
-    S3 = models.IntegerField(verbose_name='工序3', blank=True, null=True,
-                             choices=PROCESS_CHOICES)
-    H3 = models.FloatField(verbose_name='工时3', blank=True, null=True)
-    S4 = models.IntegerField(verbose_name='工序4', blank=True, null=True,
-                             choices=PROCESS_CHOICES)
-    H4 = models.FloatField(verbose_name='工时4', blank=True, null=True)
-    S5 = models.IntegerField(verbose_name='工序5', blank=True, null=True,
-                             choices=PROCESS_CHOICES)
-    H5 = models.FloatField(verbose_name='工时5', blank=True, null=True)
-    S6 = models.IntegerField(verbose_name='工序6', blank=True, null=True,
-                             choices=PROCESS_CHOICES)
-    H6 = models.FloatField(verbose_name='工时6', blank=True, null=True)
-    S7 = models.IntegerField(verbose_name='工序7', blank=True, null=True,
-                             choices=PROCESS_CHOICES)
-    H7 = models.FloatField(verbose_name='工时7', blank=True, null=True)
-    S8 = models.IntegerField(verbose_name='工序8', blank=True, null=True,
-                             choices=PROCESS_CHOICES)
-    H8 = models.FloatField(verbose_name='工时8', blank=True, null=True)
-    S9 = models.IntegerField(verbose_name='工序9', blank=True, null=True,
-                             choices=PROCESS_CHOICES)
-    H9 = models.FloatField(verbose_name='工时9', blank=True, null=True)
-    S10 = models.IntegerField(verbose_name='工序10', blank=True, null=True,
-                              choices=PROCESS_CHOICES)
-    H10 = models.FloatField(verbose_name='工时10', blank=True, null=True)
-    S11 = models.IntegerField(verbose_name='工序11', blank=True, null=True,
-                              choices=PROCESS_CHOICES)
-    H11 = models.FloatField(verbose_name='工时11', blank=True, null=True)
-    S12 = models.IntegerField(verbose_name='工序12', blank=True, null=True,
-                              choices=PROCESS_CHOICES)
-    H12 = models.FloatField(verbose_name='工时12', blank=True, null=True)
 
     class Meta:
         verbose_name = '工序路线'
@@ -56,6 +20,19 @@ class ProcessRoute(models.Model):
 
     def __str__(self):
         return self.materiel.name
+
+
+class ProcessStep(models.Model):
+    route = models.ForeignKey(ProcessRoute, verbose_name='工序路线',
+                              related_name='steps',
+                              on_delete=models.CASCADE)
+    step = models.IntegerField(verbose_name='工序', blank=True, null=True,
+                               choices=PROCESS_CHOICES)
+    man_hours = models.FloatField(verbose_name='工时', blank=True, null=True)
+
+    class Meta:
+        verbose_name = '工序步骤'
+        verbose_name_plural = '工序步骤'
 
 
 class CirculationRoute(models.Model):

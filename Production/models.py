@@ -3,16 +3,17 @@ from django.contrib.auth.models import User
 
 from Core.models import WorkOrder, SubWorkOrder, UserInfo
 from Process import PROCESS_CHOICES
-from Process.models import ProcessMaterial
+from Process.models import ProcessMaterial, ProcessStep
 from Production import (PRODUCTION_PLAN_STATUS_CHOICES,
                         PRODUCTION_PLAN_RELAX)
 
 
+# TODO: Review model name
 class SubMaterial(models.Model):
     """
     子工作票
     """
-    material = models.ForeignKey(ProcessMaterial, verbose_name='工作票',
+    material = models.ForeignKey(ProcessMaterial, verbose_name='工艺物料',
                                  on_delete=models.CASCADE)
     sub_order = models.ForeignKey(SubWorkOrder, verbose_name='子工作令',
                                   on_delete=models.CASCADE)
@@ -70,12 +71,8 @@ class ProcessDetail(models.Model):
     """
     sub_material = models.ForeignKey(SubMaterial, verbose_name='子工作票',
                                      on_delete=models.CASCADE)
-    process = models.IntegerField(verbose_name='工序',
-                                  choices=PROCESS_CHOICES)
-    process_order = models.IntegerField(verbose_name='工序序号')
-    # TODO: IntegerField?
-    man_hours = models.CharField(verbose_name='工时', max_length=20,
-                                 blank=True, default='')
+    process_step = models.OneToOneField(ProcessStep, verbose_name='工序步骤',
+                                        on_delete=models.CASCADE)
     work_group = models.ForeignKey(ProductionWorkGroup, verbose_name='工作组',
                                    blank=True, null=True,
                                    on_delete=models.SET_NULL)
@@ -106,12 +103,10 @@ class ProcessDetail(models.Model):
         verbose_name = '工序详细信息'
         verbose_name_plural = '工序详细信息'
         # TODO: Review this unique setting
-        unique_together = ('sub_material', 'process_order')
+        unique_together = ('sub_material', 'process_step')
 
     def __str__(self):
-        return '{}-{}-{}'.format(self.sub_material,
-                                 self.process_order,
-                                 self.process)
+        return '{}({})'.format(self.sub_material, self.process_step)
 
 
 class ComprehensiveDepartmentFileList(models.Model):
