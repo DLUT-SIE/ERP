@@ -6,11 +6,11 @@ from rest_framework import status
 
 import xlrd
 
-from Core.models import WorkOrder
 from Process import CIRCULATION_CHOICES, PROCESS_CHOICES
 from Process.utils.generate import gen_material
 from Process.models import (
-    ProcessMaterial, CirculationRoute, ProcessRoute, ProcessStep)
+    ProcessMaterial, CirculationRoute, ProcessRoute, ProcessStep,
+    ProcessLibrary)
 
 
 class FileUploadView(APIView):
@@ -18,22 +18,20 @@ class FileUploadView(APIView):
 
     def post(self, request, format=None):
         data_file = request.data['file']
-        work_order = request.data['work_order']
+        process_library_id = request.data['id']
+        process_library = ProcessLibrary.objects.get(id=process_library_id)
         try:
             with transaction.atomic():
-                self.file_deal(work_order, data_file)
+                self.file_deal(process_library, data_file)
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_204_NO_CONTENT)
 
     @staticmethod
-    def file_deal(work_order, file):
+    def file_deal(process_lib, file):
         circulation_dict = {v: k for (k, v) in CIRCULATION_CHOICES}
         process_dict = {v: k for (k, v) in PROCESS_CHOICES}
-        process_lib = WorkOrder.objects.select_related('process_library') \
-            .get(id=work_order).process_library
-
         delete_set = process_lib.process_materials.all()
         for process_material in delete_set:
             process_material.delete()

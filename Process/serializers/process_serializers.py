@@ -15,10 +15,11 @@ class ProcessLibrarySerializer(serializers.ModelSerializer):
 class ProcessLibraryListSerializer(ProcessLibrarySerializer):
     name = serializers.CharField(source='work_order.product')
     status = serializers.SerializerMethodField()
+    work_order_uid = serializers.CharField(source='work_order.uid')
 
     class Meta(ProcessLibrarySerializer.Meta):
         fields = ('id', 'name', 'status',
-                  'proofreader', 'writer')
+                  'proofreader', 'writer', 'work_order_uid')
 
     def get_status(self, obj):
         if obj.process_materials.count() == 0:
