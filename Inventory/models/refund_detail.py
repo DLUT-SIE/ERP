@@ -3,28 +3,6 @@ from django.db import models
 from Core.utils import DynamicHashPath
 
 
-class WeldingMaterialRefundDetail(models.Model):
-    """
-    焊材退库单明细
-    """
-    refund_card = models.ForeignKey('WeldingMaterialRefundCard',
-                                    verbose_name='退库单',
-                                    on_delete=models.CASCADE)
-    apply_detail = models.ForeignKey('WeldingMaterialApplyDetail',
-                                     verbose_name='领用明细',
-                                     on_delete=models.CASCADE)
-    weight = models.FloatField(verbose_name='退库量（重量）')
-    count = models.FloatField(verbose_name='退库量（数量）',
-                              null=True, blank=True)
-
-    class Meta:
-        verbose_name = '焊材退库单明细'
-        verbose_name_plural = '焊材退库单明细'
-
-    def __str__(self):
-        return '{}({})'.format(self.apply_detail, self.refund_card)
-
-
 class AbstractSteelMaterialRefundDetail(models.Model):
     refund_card = models.ForeignKey('SteelMaterialRefundCard',
                                     verbose_name='退库单',

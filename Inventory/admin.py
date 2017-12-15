@@ -8,11 +8,11 @@ from Inventory.models import (
     SteelMaterialInventoryDetail, AuxiliaryMaterialInventoryDetail,
     BoughtInComponentInventoryDetail, WeldingMaterialApplyCard,
     SteelMaterialApplyCard, AuxiliaryMaterialApplyCard,
-    BoughtInComponentApplyCard, WeldingMaterialApplyDetail,
+    BoughtInComponentApplyCard,
     SteelMaterialApplyDetail, AuxiliaryMaterialApplyDetail,
     BoughtInComponentApplyDetail, SteelMaterialRefundCard,
     WeldingMaterialRefundCard, BoughtInComponentRefundCard,
-    WeldingMaterialRefundDetail, BarSteelMaterialRefundDetail,
+    BarSteelMaterialRefundDetail,
     BoardSteelMaterialRefundDetail, BoughtInComponentRefundDetail,
     Warehouse, WeldingMaterialHumitureRecord, WeldingMaterialBakeRecord,
     WeldingWarehouseThreshold, InventoryTerminationRecord)
@@ -34,14 +34,12 @@ admin.site.register(WeldingMaterialApplyCard)
 admin.site.register(SteelMaterialApplyCard)
 admin.site.register(AuxiliaryMaterialApplyCard)
 admin.site.register(BoughtInComponentApplyCard)
-admin.site.register(WeldingMaterialApplyDetail)
 admin.site.register(SteelMaterialApplyDetail)
 admin.site.register(AuxiliaryMaterialApplyDetail)
 admin.site.register(BoughtInComponentApplyDetail)
 admin.site.register(SteelMaterialRefundCard)
 admin.site.register(WeldingMaterialRefundCard)
 admin.site.register(BoughtInComponentRefundCard)
-admin.site.register(WeldingMaterialRefundDetail)
 admin.site.register(BarSteelMaterialRefundDetail)
 admin.site.register(BoardSteelMaterialRefundDetail)
 admin.site.register(BoughtInComponentRefundDetail)

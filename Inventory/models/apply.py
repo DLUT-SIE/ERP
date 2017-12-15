@@ -13,7 +13,8 @@ class AbstractApplyCard(models.Model):
     # TODO: ForeignKey?
     department = models.CharField(verbose_name='领用单位', max_length=20,
                                   null=True, blank=True)
-    create_date = models.DateField(verbose_name='填写时间', auto_now_add=True)
+    create_dt = models.DateTimeField(verbose_name='填写时间',
+                                     auto_now_add=True)
     applicant = models.ForeignKey(User, verbose_name='领用人',
                                   blank=True, null=True,
                                   related_name='%(class)s_applicant',
@@ -47,9 +48,26 @@ class WeldingMaterialApplyCard(AbstractApplyCard):
     """
     焊材领用单
     """
+    material = models.ForeignKey(ProcurementMaterial, verbose_name='采购物料',
+                                 blank=True, null=True,
+                                 on_delete=models.SET_NULL)
+    inventory = models.ForeignKey('WeldingMaterialInventoryDetail',
+                                  verbose_name='库存明细',
+                                  blank=True, null=True,
+                                  on_delete=models.SET_NULL)
+    apply_weight = models.FloatField(verbose_name='领用重量')
+    apply_count = models.FloatField(verbose_name='领用数量')
+    actual_weight = models.FloatField(verbose_name='实发重量',
+                                      blank=True, null=True)
+    actual_count = models.FloatField(verbose_name='实发数量',
+                                     blank=True, null=True)
+
     class Meta:
         verbose_name = '焊材领用单'
         verbose_name_plural = '焊材领用单'
+
+    def __str__(self):
+        return '{}({})'.format(self.material_mark, self.specification)
 
 
 class SteelMaterialApplyCard(AbstractApplyCard):
@@ -79,9 +97,6 @@ class BoughtInComponentApplyCard(AbstractApplyCard):
     # TODO: Review these fields
     sample_report = models.CharField(verbose_name='样表', max_length=50,
                                      blank=True, default='')
-    material = models.ForeignKey(ProcurementMaterial, verbose_name='采购物料',
-                                 blank=True, null=True,
-                                 on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = '外购件领用单'

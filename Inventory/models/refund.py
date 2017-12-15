@@ -53,10 +53,16 @@ class WeldingMaterialRefundCard(AbstractRefundCard):
     apply_card = models.OneToOneField('WeldingMaterialApplyCard',
                                       verbose_name='领用单',
                                       on_delete=models.CASCADE)
+    weight = models.FloatField(verbose_name='退库量（重量）')
+    count = models.FloatField(verbose_name='退库量（数量）',
+                              null=True, blank=True)
 
     class Meta:
         verbose_name = '焊材退库单'
         verbose_name_plural = '焊材退库单'
+
+    def __str__(self):
+        return str(self.apply_card)
 
 
 class BoughtInComponentRefundCard(AbstractRefundCard):

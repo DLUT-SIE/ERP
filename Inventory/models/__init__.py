@@ -9,12 +9,12 @@ from .inventory_detail import (
 from .apply import (WeldingMaterialApplyCard, SteelMaterialApplyCard,
                     AuxiliaryMaterialApplyCard, BoughtInComponentApplyCard)
 from .apply_detail import (
-    WeldingMaterialApplyDetail, SteelMaterialApplyDetail,
+    SteelMaterialApplyDetail,
     AuxiliaryMaterialApplyDetail, BoughtInComponentApplyDetail)
 from .refund import (SteelMaterialRefundCard, WeldingMaterialRefundCard,
                      BoughtInComponentRefundCard)
 from .refund_detail import (
-    WeldingMaterialRefundDetail, BoardSteelMaterialRefundDetail,
+    BoardSteelMaterialRefundDetail,
     BarSteelMaterialRefundDetail, BoughtInComponentRefundDetail)
 from .other import (Warehouse, WeldingMaterialHumitureRecord,
                     WeldingMaterialBakeRecord, WeldingWarehouseThreshold,
@@ -30,11 +30,11 @@ __all__ = [
     'AuxiliaryMaterialInventoryDetail', 'BoughtInComponentInventoryDetail',
     'WeldingMaterialApplyCard', 'SteelMaterialApplyCard',
     'AuxiliaryMaterialApplyCard', 'BoughtInComponentApplyCard',
-    'WeldingMaterialApplyDetail', 'SteelMaterialApplyDetail',
+    'SteelMaterialApplyDetail',
     'AuxiliaryMaterialApplyDetail', 'BoughtInComponentApplyDetail',
     'SteelMaterialRefundCard', 'WeldingMaterialRefundCard',
     'BoughtInComponentRefundCard',
-    'WeldingMaterialRefundDetail', 'BoardSteelMaterialRefundDetail',
+    'BoardSteelMaterialRefundDetail',
     'BarSteelMaterialRefundDetail', 'BoughtInComponentRefundDetail',
     'Warehouse', 'WeldingMaterialHumitureRecord', 'WeldingMaterialBakeRecord',
     'WeldingWarehouseThreshold', 'InventoryTerminationRecord']

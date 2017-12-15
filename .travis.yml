@@ -17,7 +17,6 @@ before_script:
 
 script:
   - flake8
-  - python manage.py makemigrations
   - coverage run manage.py test -v 2 --debug-mode
 
 notifications:
