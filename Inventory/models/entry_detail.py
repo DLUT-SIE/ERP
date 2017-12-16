@@ -29,8 +29,7 @@ class WeldingMaterialEntryDetail(AbstractEntryDetail):
     """
     entry = models.ForeignKey('WeldingMaterialEntry', verbose_name='入库单',
                               on_delete=models.CASCADE)
-    production_date = models.DateField(verbose_name='出厂日期',
-                                       blank=True, default='')
+    production_dt = models.DateTimeField(verbose_name='出厂日期')
 
     class Meta:
         verbose_name = '焊材入库单明细'

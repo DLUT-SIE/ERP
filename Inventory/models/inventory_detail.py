@@ -45,7 +45,7 @@ class WeldingMaterialInventoryDetail(AbstractInventoryDetail):
     entry_detail = models.ForeignKey('WeldingMaterialEntryDetail',
                                      verbose_name='焊材入库明细',
                                      on_delete=models.CASCADE)
-    deadline = models.DateField(verbose_name='有效期')
+    deadline = models.DateTimeField(verbose_name='有效期')
     objects = WeldingInventoryManager()
 
     class Meta:
