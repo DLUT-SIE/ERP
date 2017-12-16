@@ -4,9 +4,9 @@ from Procurement.models import ProcurementMaterial
 
 
 class AbstractEntryDetail(models.Model):
-    material = models.ForeignKey(ProcurementMaterial, verbose_name='采购物料',
-                                 blank=True, null=True,
-                                 on_delete=models.CASCADE)
+    procurement_material = models.ForeignKey(
+        ProcurementMaterial, verbose_name='采购物料',
+        blank=True, null=True, on_delete=models.CASCADE)
     weight = models.FloatField(verbose_name='单重')
     count = models.FloatField(verbose_name='数量')
     unit = models.CharField(verbose_name='单位', max_length=20,
@@ -20,7 +20,7 @@ class AbstractEntryDetail(models.Model):
         abstract = True
 
     def __str__(self):
-        return '{}-{}'.format(self.entry, self.material)
+        return '{}-{}'.format(self.entry, self.procurement_material)
 
 
 class WeldingMaterialEntryDetail(AbstractEntryDetail):
@@ -30,14 +30,11 @@ class WeldingMaterialEntryDetail(AbstractEntryDetail):
     entry = models.ForeignKey('WeldingMaterialEntry', verbose_name='入库单',
                               on_delete=models.CASCADE)
     production_date = models.DateField(verbose_name='出厂日期',
-                                       blank=True, null=True)
+                                       blank=True, default='')
 
     class Meta:
         verbose_name = '焊材入库单明细'
         verbose_name_plural = '焊材入库单明细'
-
-    def __str__(self):
-        return '{}-{}'.format(self.entry, self.material)
 
 
 class SteelMaterialEntryDetail(AbstractEntryDetail):

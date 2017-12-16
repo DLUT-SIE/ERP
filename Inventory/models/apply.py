@@ -12,7 +12,7 @@ class AbstractApplyCard(models.Model):
                                   on_delete=models.CASCADE)
     # TODO: ForeignKey?
     department = models.CharField(verbose_name='领用单位', max_length=20,
-                                  null=True, blank=True)
+                                  null=True, default='')
     create_dt = models.DateTimeField(verbose_name='填写时间',
                                      auto_now_add=True)
     applicant = models.ForeignKey(User, verbose_name='领用人',
@@ -48,9 +48,9 @@ class WeldingMaterialApplyCard(AbstractApplyCard):
     """
     焊材领用单
     """
-    material = models.ForeignKey(ProcurementMaterial, verbose_name='采购物料',
-                                 blank=True, null=True,
-                                 on_delete=models.SET_NULL)
+    procurement_material = models.ForeignKey(
+        ProcurementMaterial, verbose_name='采购物料',
+        blank=True, null=True, on_delete=models.SET_NULL)
     inventory = models.ForeignKey('WeldingMaterialInventoryDetail',
                                   verbose_name='库存明细',
                                   blank=True, null=True,
@@ -83,6 +83,19 @@ class AuxiliaryMaterialApplyCard(AbstractApplyCard):
     """
     辅材领用单
     """
+    apply_inventory = models.ForeignKey('AuxiliaryMaterialInventoryDetail',
+                                        verbose_name='库存明细',
+                                        related_name='apply_inventory',
+                                        on_delete=models.CASCADE)
+    apply_count = models.IntegerField(verbose_name='申请数量')
+    actual_inventory = models.ForeignKey('AuxiliaryMaterialInventoryDetail',
+                                         verbose_name='实发材料',
+                                         null=True, blank=True,
+                                         related_name='actual_inventory',
+                                         on_delete=models.SET_NULL)
+    actual_count = models.IntegerField(verbose_name='实发数量',
+                                       null=True, blank=True)
+
     class Meta:
         verbose_name = '辅材领用单'
         verbose_name_plural = '辅材领用单'

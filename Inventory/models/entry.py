@@ -13,7 +13,7 @@ class AbstractEntry(models.Model):
     # TODO: Auto relate source
     source = models.CharField(verbose_name='货物来源', max_length=20)
     create_dt = models.DateTimeField(verbose_name='入库时间',
-                                     blank=True, null=True)
+                                     auto_now_add=True)
     purchaser = models.ForeignKey(User, verbose_name='采购员',
                                   related_name='%(class)s_purchaser',
                                   blank=True, null=True,

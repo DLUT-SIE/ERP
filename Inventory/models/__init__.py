@@ -9,8 +9,7 @@ from .inventory_detail import (
 from .apply import (WeldingMaterialApplyCard, SteelMaterialApplyCard,
                     AuxiliaryMaterialApplyCard, BoughtInComponentApplyCard)
 from .apply_detail import (
-    SteelMaterialApplyDetail,
-    AuxiliaryMaterialApplyDetail, BoughtInComponentApplyDetail)
+    SteelMaterialApplyDetail, BoughtInComponentApplyDetail)
 from .refund import (SteelMaterialRefundCard, WeldingMaterialRefundCard,
                      BoughtInComponentRefundCard)
 from .refund_detail import (
@@ -30,8 +29,7 @@ __all__ = [
     'AuxiliaryMaterialInventoryDetail', 'BoughtInComponentInventoryDetail',
     'WeldingMaterialApplyCard', 'SteelMaterialApplyCard',
     'AuxiliaryMaterialApplyCard', 'BoughtInComponentApplyCard',
-    'SteelMaterialApplyDetail',
-    'AuxiliaryMaterialApplyDetail', 'BoughtInComponentApplyDetail',
+    'SteelMaterialApplyDetail', 'BoughtInComponentApplyDetail',
     'SteelMaterialRefundCard', 'WeldingMaterialRefundCard',
     'BoughtInComponentRefundCard',
     'BoardSteelMaterialRefundDetail',

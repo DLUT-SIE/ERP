@@ -8,8 +8,7 @@ from Inventory.models import (
     SteelMaterialInventoryDetail, AuxiliaryMaterialInventoryDetail,
     BoughtInComponentInventoryDetail, WeldingMaterialApplyCard,
     SteelMaterialApplyCard, AuxiliaryMaterialApplyCard,
-    BoughtInComponentApplyCard,
-    SteelMaterialApplyDetail, AuxiliaryMaterialApplyDetail,
+    BoughtInComponentApplyCard, SteelMaterialApplyDetail,
     BoughtInComponentApplyDetail, SteelMaterialRefundCard,
     WeldingMaterialRefundCard, BoughtInComponentRefundCard,
     BarSteelMaterialRefundDetail,
@@ -35,7 +34,6 @@ admin.site.register(SteelMaterialApplyCard)
 admin.site.register(AuxiliaryMaterialApplyCard)
 admin.site.register(BoughtInComponentApplyCard)
 admin.site.register(SteelMaterialApplyDetail)
-admin.site.register(AuxiliaryMaterialApplyDetail)
 admin.site.register(BoughtInComponentApplyDetail)
 admin.site.register(SteelMaterialRefundCard)
 admin.site.register(WeldingMaterialRefundCard)

@@ -13,7 +13,7 @@ class AbstractSteelMaterialRefundDetail(models.Model):
     status = models.CharField(verbose_name='状态', max_length=20)
     # TODO: Duplicate? Where are these fields?
     specification = models.CharField(verbose_name='规格', max_length=50,
-                                     blank=True, null=True)
+                                     blank=True, default='')
     count = models.IntegerField(verbose_name='数量')
     weight = models.FloatField(verbose_name='重量', blank=True, null=True)
     remark = models.CharField(verbose_name='备注', max_length=100,
@@ -57,7 +57,7 @@ class BoughtInComponentRefundDetail(models.Model):
     apply_detail = models.ForeignKey('BoughtInComponentApplyDetail',
                                      verbose_name='领用明细',
                                      on_delete=models.CASCADE)
-    count = models.IntegerField(verbose_name='数量', default=0)
+    count = models.IntegerField(verbose_name='数量')
     remark = models.CharField(verbose_name='备注', max_length=100,
                               blank=True, default='')
 

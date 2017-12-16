@@ -9,8 +9,8 @@ class Warehouse(models.Model):
     """
     库房
     """
-    name = models.CharField(verbose_name='库房名称', max_length=20)
-    position = models.CharField(verbose_name='位置', max_length=50,
+    name = models.CharField(verbose_name='名称', max_length=20)
+    location = models.CharField(verbose_name='位置', max_length=50,
                                 blank=True, default='')
     category = models.IntegerField(verbose_name='库存类型',
                                    choices=WAREHOUSE_TYPE_CHOICES)
@@ -29,13 +29,14 @@ class WeldingMaterialHumitureRecord(models.Model):
     """
     keeper = models.ForeignKey(User, verbose_name='记录人',
                                on_delete=models.CASCADE)
-    created = models.DateTimeField(verbose_name='记录时间', auto_now_add=True)
+    create_dt = models.DateTimeField(verbose_name='记录时间',
+                                     auto_now_add=True)
     actual_temp_1 = models.FloatField(verbose_name='实际温度(10:00)')
     actual_humid_1 = models.FloatField(verbose_name='实际湿度(10:00)')
     actual_temp_2 = models.FloatField(verbose_name='实际温度(16:00)')
     actual_humid_2 = models.FloatField(verbose_name='实际湿度(16:00)')
     remark = models.CharField(verbose_name='备注', max_length=1000,
-                              blank=True, null=True)
+                              blank=True, default='')
 
     def __str__(self):
         return '{}({})'.format(self.date, self.keeper)
@@ -49,7 +50,8 @@ class WeldingMaterialBakeRecord(models.Model):
     """
     焊材烘焙记录卡
     """
-    created = models.DateTimeField(verbose_name='记录时间', auto_now_add=True)
+    create_dt = models.DateTimeField(verbose_name='记录时间',
+                                     auto_now_add=True)
     standard_num = models.CharField(verbose_name='标准号', max_length=50,
                                     blank=True, default='')
     size = models.CharField(verbose_name='规格', max_length=50,
@@ -60,18 +62,18 @@ class WeldingMaterialBakeRecord(models.Model):
                                  blank=True, default='')
     quantity = models.FloatField(verbose_name='数量', default=0)
     furnace_time = models.DateTimeField(verbose_name='进炉时间',
-                                        blank=True, default='')
+                                        blank=True, null=True)
     baking_temp = models.FloatField(verbose_name='烘焙温度', default=0)
     heating_time = models.DateTimeField(verbose_name='到达温度时间',
-                                        blank=True, default='')
+                                        blank=True, null=True)
     cooling_time = models.DateTimeField(verbose_name='降温时间',
-                                        blank=True, default='')
+                                        blank=True, null=True)
     # TODO: verbose_name?
-    holding_time = models.DateTimeField(verbose_name='进保湿炉时间',
-                                        blank=True, default='')
+    holding_time = models.DateTimeField(verbose_name='进保温炉时间',
+                                        blank=True, null=True)
     holding_temp = models.FloatField(verbose_name='保温温度', default=0)
     apply_time = models.DateTimeField(verbose_name='领用时间',
-                                      blank=True, default='')
+                                      blank=True, null=True)
     keeper = models.ForeignKey(User, verbose_name='库管员',
                                related_name='welding_bake_keeper',
                                null=True, blank=True,

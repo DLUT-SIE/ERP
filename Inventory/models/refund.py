@@ -6,7 +6,8 @@ from Inventory import REFUNDSTATUS_CHOICES, REFUNDSTATUS_REFUNDER
 
 class AbstractRefundCard(models.Model):
     uid = models.CharField(verbose_name='编号', max_length=20, unique=True)
-    created = models.DateTimeField(verbose_name='创建日期', auto_now_add=True)
+    create_dt = models.DateTimeField(verbose_name='创建日期',
+                                     auto_now_add=True)
     refunder = models.ForeignKey(User, verbose_name='退料人',
                                  blank=True, null=True,
                                  related_name='%(class)s_refunder',
@@ -34,7 +35,6 @@ class SteelMaterialRefundCard(AbstractRefundCard):
     """
     钢材退库单
     """
-    # TODO: OneToOne?
     apply_card = models.ForeignKey('SteelMaterialApplyCard',
                                    verbose_name='领用单',
                                    blank=True, null=True,
@@ -49,7 +49,6 @@ class WeldingMaterialRefundCard(AbstractRefundCard):
     """
     焊材退库单
     """
-    # TODO: ForeignKey?
     apply_card = models.OneToOneField('WeldingMaterialApplyCard',
                                       verbose_name='领用单',
                                       on_delete=models.CASCADE)
