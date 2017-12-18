@@ -28,6 +28,7 @@ class WeldingMaterialEntryDetail(AbstractEntryDetail):
     焊材入库单明细
     """
     entry = models.ForeignKey('WeldingMaterialEntry', verbose_name='入库单',
+                              related_name='details',
                               on_delete=models.CASCADE)
     production_dt = models.DateTimeField(verbose_name='出厂日期')
 
@@ -41,6 +42,7 @@ class SteelMaterialEntryDetail(AbstractEntryDetail):
     钢材入库单明细
     """
     entry = models.ForeignKey('SteelMaterialEntry', verbose_name='入库单',
+                              related_name='details',
                               on_delete=models.CASCADE)
     length = models.FloatField(verbose_name='长度')
 
@@ -54,6 +56,7 @@ class AuxiliaryMaterialEntryDetail(AbstractEntryDetail):
     辅材入库单明细
     """
     entry = models.ForeignKey('AuxiliaryMaterialEntry', verbose_name='入库单',
+                              related_name='details',
                               on_delete=models.CASCADE)
 
     class Meta:
@@ -66,6 +69,7 @@ class BoughtInComponentEntryDetail(AbstractEntryDetail):
     外购件入库单明细
     """
     entry = models.ForeignKey('BoughtInComponentEntry', verbose_name='入库单',
+                              related_name='details',
                               on_delete=models.CASCADE)
 
     class Meta:

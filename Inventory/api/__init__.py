@@ -1,7 +1,22 @@
-from .entry import WeldingMaterialEntryViewSet
-from .entry_detail import WeldingMaterialEntryDetailViewSet
+from .entry_detail import (
+    WeldingMaterialEntryDetailViewSet,
+    SteelMaterialEntryDetailViewSet,
+    AuxiliaryMaterialEntryDetailViewSet,
+    BoughtInComponentEntryDetailViewSet,
+)
+from .entry import (
+    WeldingMaterialEntryViewSet, SteelMaterialEntryViewSet,
+    AuxiliaryMaterialEntryViewSet, BoughtInComponentEntryViewSet,
+)
 
 
 __all__ = [
-    'WeldingMaterialEntryViewSet', 'WeldingMaterialEntryDetailViewSet'
+    'WeldingMaterialEntryDetailViewSet',
+    'SteelMaterialEntryDetailViewSet',
+    'AuxiliaryMaterialEntryDetailViewSet',
+    'BoughtInComponentEntryDetailViewSet',
+    'WeldingMaterialEntryViewSet',
+    'SteelMaterialEntryViewSet',
+    'AuxiliaryMaterialEntryViewSet',
+    'BoughtInComponentEntryViewSet',
 ]

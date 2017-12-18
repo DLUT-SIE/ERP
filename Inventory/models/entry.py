@@ -66,8 +66,8 @@ class AuxiliaryMaterialEntry(AbstractEntry):
     辅材入库单
     """
     class Meta:
-        verbose_name = '辅助材料入库单'
-        verbose_name_plural = '辅助材料入库单'
+        verbose_name = '辅材入库单'
+        verbose_name_plural = '辅材入库单'
 
 
 class BoughtInComponentEntry(AbstractEntry):

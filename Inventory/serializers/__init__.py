@@ -1,10 +1,29 @@
-from .entry import (
-    WeldingMaterialEntrySerializer, WeldingMaterialEntryListSerializer)
 from .entry_detail import (
-    WeldingMaterialEntryDetailSerializer)
+    WeldingMaterialEntryDetailSerializer, SteelMaterialEntryDetailSerializer,
+    AuxiliaryMaterialEntryDetailSerializer,
+    BoughtInComponentEntryDetailSerializer)
+from .entry import (
+    WeldingMaterialEntrySerializer,
+    WeldingMaterialEntryListSerializer,
+    SteelMaterialEntrySerializer,
+    SteelMaterialEntryListSerializer,
+    AuxiliaryMaterialEntrySerializer,
+    AuxiliaryMaterialEntryListSerializer,
+    BoughtInComponentEntrySerializer,
+    BoughtInComponentEntryListSerializer)
 
 
 __all__ = [
-    'WeldingMaterialEntrySerializer', 'WeldingMaterialEntryListSerializer',
     'WeldingMaterialEntryDetailSerializer',
+    'SteelMaterialEntryDetailSerializer',
+    'AuxiliaryMaterialEntryDetailSerializer',
+    'BoughtInComponentEntryDetailSerializer',
+    'WeldingMaterialEntrySerializer',
+    'WeldingMaterialEntryListSerializer',
+    'SteelMaterialEntrySerializer',
+    'SteelMaterialEntryListSerializer',
+    'AuxiliaryMaterialEntrySerializer',
+    'AuxiliaryMaterialEntryListSerializer',
+    'BoughtInComponentEntrySerializer',
+    'BoughtInComponentEntryListSerializer',
 ]
