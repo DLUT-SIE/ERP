@@ -8,6 +8,12 @@ from .entry import (
     WeldingMaterialEntryViewSet, SteelMaterialEntryViewSet,
     AuxiliaryMaterialEntryViewSet, BoughtInComponentEntryViewSet,
 )
+from .inventory_detail import (
+    WeldingMaterialInventoryDetailViewSet,
+    SteelMaterialInventoryDetailViewSet,
+    AuxiliaryMaterialInventoryDetailViewSet,
+    BoughtInComponentInventoryDetailViewSet,
+)
 
 
 __all__ = [
@@ -19,4 +25,8 @@ __all__ = [
     'SteelMaterialEntryViewSet',
     'AuxiliaryMaterialEntryViewSet',
     'BoughtInComponentEntryViewSet',
+    'WeldingMaterialInventoryDetailViewSet',
+    'SteelMaterialInventoryDetailViewSet',
+    'AuxiliaryMaterialInventoryDetailViewSet',
+    'BoughtInComponentInventoryDetailViewSet',
 ]
