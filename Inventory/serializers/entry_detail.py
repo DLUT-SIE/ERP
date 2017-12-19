@@ -8,22 +8,26 @@ from Inventory.models import (
 class WeldingMaterialEntryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeldingMaterialEntryDetail
-        fields = '__all__'
+        fields = ('id', 'entry', 'procurement_material', 'weight', 'count',
+                  'unit', 'factory', 'remark', 'production_dt')
 
 
 class SteelMaterialEntryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SteelMaterialEntryDetail
-        fields = '__all__'
+        fields = ('id', 'entry', 'procurement_material', 'weight', 'count',
+                  'unit', 'factory', 'remark', 'length')
 
 
 class AuxiliaryMaterialEntryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuxiliaryMaterialEntryDetail
-        fields = '__all__'
+        fields = ('id', 'entry', 'procurement_material', 'weight', 'count',
+                  'unit', 'factory', 'remark')
 
 
 class BoughtInComponentEntryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = BoughtInComponentEntryDetail
-        fields = '__all__'
+        fields = ('id', 'entry', 'procurement_material', 'weight', 'count',
+                  'unit', 'factory', 'remark')

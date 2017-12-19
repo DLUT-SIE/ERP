@@ -15,15 +15,19 @@ from .entry_detail import (
 class WeldingMaterialEntrySerializer(serializers.ModelSerializer):
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)
-    purchaser = serializers.CharField(source='purchaser.username')
-    inspector = serializers.CharField(source='inspector.username')
+    purchaser = serializers.CharField(source='purchaser.username',
+                                      allow_null=True, default=None)
+    inspector = serializers.CharField(source='inspector.username',
+                                      allow_null=True, default=None)
     keeper = serializers.CharField(source='keeper.username',
                                    allow_null=True, default=None)
     details = WeldingMaterialEntryDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = WeldingMaterialEntry
-        fields = '__all__'
+        fields = ('id', 'uid', 'bidding_sheet', 'source', 'create_dt',
+                  'purchaser', 'inspector', 'keeper', 'status',
+                  'pretty_status', 'details')
 
 
 class WeldingMaterialEntryListSerializer(WeldingMaterialEntrySerializer):
@@ -33,18 +37,27 @@ class WeldingMaterialEntryListSerializer(WeldingMaterialEntrySerializer):
 
 
 class SteelMaterialEntrySerializer(serializers.ModelSerializer):
-    pretty_steel_type = serializers.CharField(source='get_steel_type_display',
-                                              read_only=True)
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)
+    purchaser = serializers.CharField(source='purchaser.username',
+                                      allow_null=True, default=None)
+    inspector = serializers.CharField(source='inspector.username',
+                                      allow_null=True, default=None)
+    keeper = serializers.CharField(source='keeper.username',
+                                   allow_null=True, default=None)
     details = SteelMaterialEntryDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = SteelMaterialEntry
-        fields = '__all__'
+        fields = ('id', 'uid', 'bidding_sheet', 'source', 'create_dt',
+                  'purchaser', 'inspector', 'keeper', 'status',
+                  'pretty_status', 'details')
 
 
 class SteelMaterialEntryListSerializer(SteelMaterialEntrySerializer):
+    pretty_steel_type = serializers.CharField(source='get_steel_type_display',
+                                              read_only=True)
+
     class Meta(SteelMaterialEntrySerializer.Meta):
         fields = ('id', 'uid', 'create_dt', 'purchaser', 'inspector',
                   'steel_type', 'pretty_steel_type', 'status',
@@ -54,11 +67,19 @@ class SteelMaterialEntryListSerializer(SteelMaterialEntrySerializer):
 class AuxiliaryMaterialEntrySerializer(serializers.ModelSerializer):
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)
+    purchaser = serializers.CharField(source='purchaser.username',
+                                      allow_null=True, default=None)
+    inspector = serializers.CharField(source='inspector.username',
+                                      allow_null=True, default=None)
+    keeper = serializers.CharField(source='keeper.username',
+                                   allow_null=True, default=None)
     details = AuxiliaryMaterialEntryDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = AuxiliaryMaterialEntry
-        fields = '__all__'
+        fields = ('id', 'uid', 'bidding_sheet', 'source', 'create_dt',
+                  'purchaser', 'inspector', 'keeper', 'status',
+                  'pretty_status', 'details')
 
 
 class AuxiliaryMaterialEntryListSerializer(AuxiliaryMaterialEntrySerializer):
@@ -70,11 +91,17 @@ class AuxiliaryMaterialEntryListSerializer(AuxiliaryMaterialEntrySerializer):
 class BoughtInComponentEntrySerializer(serializers.ModelSerializer):
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)
+    purchaser = serializers.CharField(source='purchaser.username',
+                                      allow_null=True, default=None)
+    inspector = serializers.CharField(source='inspector.username',
+                                      allow_null=True, default=None)
     details = BoughtInComponentEntryDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = BoughtInComponentEntry
-        fields = '__all__'
+        fields = ('id', 'uid', 'bidding_sheet', 'source', 'create_dt',
+                  'purchaser', 'inspector', 'keeper', 'status',
+                  'pretty_status', 'details')
 
 
 class BoughtInComponentEntryListSerializer(BoughtInComponentEntrySerializer):

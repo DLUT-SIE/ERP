@@ -4,9 +4,6 @@ from Core.utils import DynamicHashPath
 
 
 class AbstractSteelMaterialRefundDetail(models.Model):
-    refund_card = models.ForeignKey('SteelMaterialRefundCard',
-                                    verbose_name='退库单',
-                                    on_delete=models.CASCADE)
     apply_detail = models.ForeignKey('SteelMaterialApplyDetail',
                                      verbose_name='领用明细',
                                      on_delete=models.CASCADE)
@@ -20,13 +17,17 @@ class AbstractSteelMaterialRefundDetail(models.Model):
                               blank=True, default='')
 
     def __str__(self):
-        return '{}({})'.format(self.apply_detail, self.refund_card)
+        return str(self.apply_detail)
 
 
 class BoardSteelMaterialRefundDetail(AbstractSteelMaterialRefundDetail):
     """
     板材退库单明细
     """
+    refund_card = models.ForeignKey('SteelMaterialRefundCard',
+                                    verbose_name='退库单',
+                                    related_name='board_details',
+                                    on_delete=models.CASCADE)
     graph_path = models.FileField(
         verbose_name='套料图', blank=True, null=True,
         upload_to=DynamicHashPath('BoardSteelMaterialRefundDetail'))
@@ -40,6 +41,10 @@ class BarSteelMaterialRefundDetail(AbstractSteelMaterialRefundDetail):
     """
     型材退库单明细
     """
+    refund_card = models.ForeignKey('SteelMaterialRefundCard',
+                                    verbose_name='退库单',
+                                    related_name='bar_details',
+                                    on_delete=models.CASCADE)
     length = models.FloatField(verbose_name='退库长度', blank=True, null=True)
 
     class Meta:
@@ -53,6 +58,7 @@ class BoughtInComponentRefundDetail(models.Model):
     """
     refund_card = models.ForeignKey('BoughtInComponentRefundCard',
                                     verbose_name='退库单',
+                                    related_name='details',
                                     on_delete=models.CASCADE)
     apply_detail = models.ForeignKey('BoughtInComponentApplyDetail',
                                      verbose_name='领用明细',

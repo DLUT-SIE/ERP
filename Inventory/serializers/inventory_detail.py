@@ -14,7 +14,8 @@ class WeldingMaterialInventoryDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeldingMaterialInventoryDetail
-        fields = '__all__'
+        fields = ('id', 'entry_detail', 'deadline', 'weight', 'count',
+                  'unit', 'status', 'pretty_status')
 
 
 class SteelMaterialInventoryDetailSerializer(serializers.ModelSerializer):
@@ -24,7 +25,8 @@ class SteelMaterialInventoryDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SteelMaterialInventoryDetail
-        fields = '__all__'
+        fields = ('id', 'entry_detail', 'length', 'refund_times', 'weight',
+                  'count', 'unit', 'status', 'pretty_status')
 
 
 class AuxiliaryMaterialInventoryDetailSerializer(serializers.ModelSerializer):
@@ -34,7 +36,8 @@ class AuxiliaryMaterialInventoryDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AuxiliaryMaterialInventoryDetail
-        fields = '__all__'
+        fields = ('id', 'entry_detail', 'weight',
+                  'count', 'unit', 'status', 'pretty_status')
 
 
 class BoughtInComponentInventoryDetailSerializer(serializers.ModelSerializer):
@@ -44,4 +47,5 @@ class BoughtInComponentInventoryDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BoughtInComponentInventoryDetail
-        fields = '__all__'
+        fields = ('id', 'entry_detail', 'weight',
+                  'count', 'unit', 'status', 'pretty_status')

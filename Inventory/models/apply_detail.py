@@ -22,6 +22,7 @@ class SteelMaterialApplyDetail(AbstractApplyDetail):
     """
     apply_card = models.ForeignKey('SteelMaterialApplyCard',
                                    verbose_name='领用单',
+                                   related_name='details',
                                    on_delete=models.CASCADE)
     inventory_detail = models.ForeignKey('SteelMaterialInventoryDetail',
                                          verbose_name='库存明细',
@@ -37,9 +38,6 @@ class SteelMaterialApplyDetail(AbstractApplyDetail):
         verbose_name = '钢材领用单明细'
         verbose_name_plural = '钢材领用单明细'
 
-    def __str__(self):
-        return '{}({})'.format(self.material_mark, self.specification)
-
 
 class BoughtInComponentApplyDetail(AbstractApplyDetail):
     """
@@ -47,6 +45,7 @@ class BoughtInComponentApplyDetail(AbstractApplyDetail):
     """
     apply_card = models.ForeignKey('BoughtInComponentApplyCard',
                                    verbose_name='领用单',
+                                   related_name='details',
                                    on_delete=models.CASCADE)
     inventory_detail = models.ForeignKey('BoughtInComponentInventoryDetail',
                                          verbose_name='库存明细',
@@ -59,6 +58,3 @@ class BoughtInComponentApplyDetail(AbstractApplyDetail):
     class Meta:
         verbose_name = '外购件领用单明细'
         verbose_name_plural = '外购件领用单明细'
-
-    def __str__(self):
-        return '{}({})'.format(self.inventory, self.apply_card)

@@ -66,9 +66,6 @@ class WeldingMaterialApplyCard(AbstractApplyCard):
         verbose_name = '焊材领用单'
         verbose_name_plural = '焊材领用单'
 
-    def __str__(self):
-        return '{}({})'.format(self.material_mark, self.specification)
-
 
 class SteelMaterialApplyCard(AbstractApplyCard):
     """
