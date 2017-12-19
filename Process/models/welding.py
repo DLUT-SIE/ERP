@@ -94,8 +94,9 @@ class WeldingSeam(models.Model):
     """
     焊缝
     """
-    materiel = models.ForeignKey(ProcessMaterial, verbose_name='物料',
-                                 on_delete=models.CASCADE)
+    process_material = models.ForeignKey(ProcessMaterial,
+                                         verbose_name='物料',
+                                         on_delete=models.CASCADE)
     # TODO: unique?
     uid = models.CharField(verbose_name='焊缝编号', max_length=50,
                            blank=True, default='')
@@ -159,7 +160,7 @@ class WeldingSeam(models.Model):
         verbose_name_plural = '焊缝'
 
     def __str__(self):
-        return str(self.materiel)
+        return str(self.process_material)
 
 
 class WeldingWorkInstruction(models.Model):

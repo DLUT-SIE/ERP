@@ -11,15 +11,16 @@ class ProcessRoute(models.Model):
     """
     工序路线
     """
-    materiel = models.OneToOneField(ProcessMaterial, verbose_name='物料',
-                                    on_delete=models.CASCADE)
+    process_material = models.OneToOneField(ProcessMaterial,
+                                            verbose_name='物料',
+                                            on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = '工序路线'
         verbose_name_plural = '工序路线'
 
     def __str__(self):
-        return self.materiel.name
+        return self.process_material.name
 
 
 class ProcessStep(models.Model):
@@ -39,8 +40,9 @@ class CirculationRoute(models.Model):
     """
     流转路线
     """
-    materiel = models.OneToOneField(ProcessMaterial, verbose_name='物料',
-                                    on_delete=models.CASCADE)
+    process_material = models.OneToOneField(ProcessMaterial,
+                                            verbose_name='物料',
+                                            on_delete=models.CASCADE)
     C1 = models.IntegerField(verbose_name='路线1', blank=True, null=True,
                              choices=CIRCULATION_CHOICES)
     C2 = models.IntegerField(verbose_name='路线2', blank=True, null=True,
@@ -67,15 +69,16 @@ class CirculationRoute(models.Model):
         verbose_name_plural = '流转路线'
 
     def __str__(self):
-        return str(self.materiel)
+        return str(self.process_material)
 
 
 class TransferCard(models.Model):
     """
     流转卡
     """
-    materiel = models.ForeignKey(ProcessMaterial, verbose_name='工艺物料',
-                                 on_delete=models.CASCADE)
+    process_material = models.ForeignKey(ProcessMaterial,
+                                         verbose_name='工艺物料',
+                                         on_delete=models.CASCADE)
     category = models.IntegerField(verbose_name='流转卡类型',
                                    choices=TRANSFER_CARD_CATEGORY_CHOICES)
     container_category = models.CharField(verbose_name='容器类别',
@@ -131,7 +134,7 @@ class TransferCard(models.Model):
     def __str__(self):
         header = TRANSFER_HEADER_MAP.get(self.category, 'RH05')
         return '{}-{}-{}'.format(header,
-                                 self.materiel.work_order.uid,
+                                 self.process_material.work_order.uid,
                                  self.uid)
 
     @property

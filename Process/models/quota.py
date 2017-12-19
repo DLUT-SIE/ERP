@@ -41,9 +41,10 @@ class AbstractQuotaItem(models.Model):
     """
     quota_list = models.ForeignKey(QuotaList, verbose_name='定额明细表',
                                    on_delete=models.CASCADE)
-    materiel = models.OneToOneField(ProcessMaterial, verbose_name='工艺物料',
-                                    related_name='%(class)s',
-                                    on_delete=models.CASCADE)
+    process_material = models.OneToOneField(ProcessMaterial,
+                                            verbose_name='工艺物料',
+                                            related_name='%(class)s',
+                                            on_delete=models.CASCADE)
     remark = models.CharField(verbose_name='备注', max_length=50,
                               blank=True, default='')
 
@@ -51,7 +52,7 @@ class AbstractQuotaItem(models.Model):
         abstract = True
 
     def __str__(self):
-        return str(self.materiel)
+        return str(self.process_material)
 
 
 class AuxiliaryQuotaItem(AbstractQuotaItem):

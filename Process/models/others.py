@@ -9,8 +9,9 @@ class ProcessReview(models.Model):
     """
     工艺性审查表
     """
-    materiel = models.ForeignKey(ProcessMaterial, verbose_name='零件',
-                                 on_delete=models.CASCADE)
+    process_material = models.ForeignKey(ProcessMaterial,
+                                         verbose_name='零件',
+                                         on_delete=models.CASCADE)
     problem = models.CharField(verbose_name='存在问题', max_length=200,
                                blank=True, default='')
     advice = models.CharField(verbose_name='改进建议', max_length=200,
@@ -21,7 +22,7 @@ class ProcessReview(models.Model):
         verbose_name_plural = '工艺性审查表'
 
     def __str__(self):
-        return str(self.materiel)
+        return str(self.process_material)
 
 
 class ProgrammingBlankingChart(models.Model):
