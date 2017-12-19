@@ -45,6 +45,13 @@ from .refund import (
     BoughtInComponentRefundCardSerializer,
     BoughtInComponentRefundCardListSerializer,
 )
+from .other import (
+    WarehouseSerializer,
+    WeldingMaterialHumitureRecordSerializer,
+    WeldingMaterialHumitureRecordListSerializer,
+    WeldingMaterialBakeRecordSerializer,
+    WeldingMaterialBakeRecordListSerializer,
+)
 
 
 __all__ = [
@@ -88,4 +95,11 @@ __all__ = [
     'SteelMaterialRefundCardListSerializer',
     'BoughtInComponentRefundCardSerializer',
     'BoughtInComponentRefundCardListSerializer',
+
+    'WarehouseSerializer',
+    'WeldingMaterialHumitureRecordSerializer',
+    'WeldingMaterialHumitureRecordListSerializer',
+    'WeldingMaterialBakeRecordSerializer',
+    'WeldingMaterialBakeRecordListSerializer',
+
 ]

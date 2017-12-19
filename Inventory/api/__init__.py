@@ -33,6 +33,11 @@ from .refund import (
     SteelMaterialRefundCardViewSet,
     BoughtInComponentRefundCardViewSet,
 )
+from .other import (
+    WarehouseViewSet,
+    WeldingMaterialHumitureRecordViewSet,
+    WeldingMaterialBakeRecordViewSet,
+)
 
 
 __all__ = [
@@ -65,4 +70,8 @@ __all__ = [
     'WeldingMaterialRefundCardViewSet',
     'SteelMaterialRefundCardViewSet',
     'BoughtInComponentRefundCardViewSet',
+
+    'WarehouseViewSet',
+    'WeldingMaterialHumitureRecordViewSet',
+    'WeldingMaterialBakeRecordViewSet',
 ]

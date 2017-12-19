@@ -59,6 +59,13 @@ router.register(r'steel_material_refund_cards',
 router.register(r'bought_in_component_refund_cards',
                 api.BoughtInComponentRefundCardViewSet)
 
+router.register(r'warehouses',
+                api.WarehouseViewSet)
+router.register(r'welding_material_humiture_records',
+                api.WeldingMaterialHumitureRecordViewSet)
+router.register(r'welding_material_bake_records',
+                api.WeldingMaterialBakeRecordViewSet)
+
 urlpatterns = [
     url(r'^api/', include(router.urls)),
 ]
