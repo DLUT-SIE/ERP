@@ -64,12 +64,12 @@ class FileUploadView(APIView):
             route_arr = route.split()
             route_kwargs = {'C{}'.format(i + 1): circulation_dict[r]
                             for i, r in enumerate(route_arr)}
-            CirculationRoute.objects.create(materiel=process_material,
+            CirculationRoute.objects.create(process_material=process_material,
                                             **route_kwargs)
 
             process_step_list = []
             process_route = ProcessRoute.objects.create(
-                materiel=process_material)
+                process_material=process_material)
             col = 12
             while col <= 34:
                 item = table.cell(rownum, col).value
