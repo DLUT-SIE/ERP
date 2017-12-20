@@ -1,7 +1,7 @@
 from .process import (
     ProcessLibraryViewSet, ProcessMaterialViewSet,
-    CirculationRouteViewSet)
+    CirculationRouteViewSet, ProcessRouteViewSet)
 
 
 __all__ = ['ProcessLibraryViewSet', 'ProcessMaterialViewSet',
-           'CirculationRouteViewSet']
+           'CirculationRouteViewSet', 'ProcessRouteViewSet']

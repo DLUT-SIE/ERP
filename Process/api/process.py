@@ -1,12 +1,14 @@
 from rest_framework import viewsets
 
 from Core.utils.pagination import SmallResultsSetPagination
-from Process.models import ProcessLibrary, ProcessMaterial, CirculationRoute
+from Process.models import (ProcessLibrary, ProcessMaterial, CirculationRoute,
+                            ProcessRoute)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
-    CirculationRouteSerializer)
+    CirculationRouteSerializer, ProcessRouteSerializer)
 from Process.filters import (
-    ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter)
+    ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
+    ProcessRouteFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -28,3 +30,10 @@ class CirculationRouteViewSet(viewsets.ModelViewSet):
     queryset = CirculationRoute.objects.all().order_by('-pk')
     filter_class = CirculationRouteFilter
     serializer_class = CirculationRouteSerializer
+
+
+class ProcessRouteViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = ProcessRoute.objects.all().order_by('-pk')
+    filter_class = ProcessRouteFilter
+    serializer_class = ProcessRouteSerializer
