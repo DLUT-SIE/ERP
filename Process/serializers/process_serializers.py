@@ -1,6 +1,8 @@
+import ast
+
 from rest_framework import serializers
 
-from Process.models import ProcessLibrary, ProcessMaterial
+from Process.models import ProcessLibrary, ProcessMaterial, CirculationRoute
 
 
 class ProcessLibrarySerializer(serializers.ModelSerializer):
@@ -26,3 +28,35 @@ class ProcessMaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcessMaterial
         fields = '__all__'
+
+
+class CirculationRouteSerializer(serializers.ModelSerializer):
+    circulation_routes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CirculationRoute
+        fields = ('id', 'process_material', 'circulation_routes')
+
+    def get_circulation_routes(self, obj):
+        circulation_routes = []
+        for i in range(10):
+            cur = getattr(obj, 'C{}'.format(i + 1))
+            if not cur:
+                break
+            circulation_routes.append(cur)
+        return circulation_routes
+
+    def update(self, instance, validated_data):
+        circulation_routes = validated_data['circulation_routes']
+        for index, item in enumerate(circulation_routes):
+            setattr(instance, 'C{}'.format(index + 1), item)
+        instance.save()
+        return instance
+
+    def validate(self, attrs):
+        data = self.context['request'].data
+        if 'circulation_routes' not in data:
+            raise serializers.ValidationError("流转路线为空")
+        attrs['circulation_routes'] = ast.literal_eval(
+            data['circulation_routes'])
+        return attrs

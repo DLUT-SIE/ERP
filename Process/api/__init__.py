@@ -1,5 +1,7 @@
 from .process import (
-    ProcessLibraryViewSet, ProcessMaterialViewSet)
+    ProcessLibraryViewSet, ProcessMaterialViewSet,
+    CirculationRouteViewSet)
 
 
-__all__ = ['ProcessLibraryViewSet', 'ProcessMaterialViewSet']
+__all__ = ['ProcessLibraryViewSet', 'ProcessMaterialViewSet',
+           'CirculationRouteViewSet']

@@ -1,3 +1,6 @@
-from .process import ProcessLibraryFilter, ProcessMaterialFilter
+from .process import (
+    ProcessLibraryFilter, ProcessMaterialFilter,
+    CirculationRouteFilter)
 
-__all__ = ['ProcessLibraryFilter', 'ProcessMaterialFilter']
+__all__ = ['ProcessLibraryFilter', 'ProcessMaterialFilter',
+           'CirculationRouteFilter']

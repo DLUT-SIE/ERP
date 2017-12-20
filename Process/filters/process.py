@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from Process.models import ProcessLibrary, ProcessMaterial
+from Process.models import ProcessLibrary, ProcessMaterial, CirculationRoute
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -19,3 +19,12 @@ class ProcessMaterialFilter(filters.FilterSet):
     class Meta:
         model = ProcessMaterial
         fields = ('work_order_uid', )
+
+
+class CirculationRouteFilter(filters.FilterSet):
+    process_material = filters.CharFilter(name='process_material__id',
+                                          lookup_expr='exact')
+
+    class Meta:
+        model = CirculationRoute
+        fields = ('process_material', )

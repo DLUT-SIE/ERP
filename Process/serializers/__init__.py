@@ -1,5 +1,7 @@
 from .process_serializers import (
-    ProcessLibrarySerializer, ProcessMaterialSerializer)
+    ProcessLibrarySerializer, ProcessMaterialSerializer,
+    CirculationRouteSerializer)
 
 
-__all__ = ['ProcessLibrarySerializer', 'ProcessMaterialSerializer']
+__all__ = ['ProcessLibrarySerializer', 'ProcessMaterialSerializer',
+           'CirculationRouteSerializer']
