@@ -17,10 +17,10 @@ class FileUploadView(APIView):
     parser_classes = (MultiPartParser,)
 
     def post(self, request, format=None):
-        data_file = request.data['file']
-        process_library_id = request.data['id']
-        process_library = ProcessLibrary.objects.get(id=process_library_id)
         try:
+            data_file = request.data['file']
+            process_library_id = request.data['id']
+            process_library = ProcessLibrary.objects.get(id=process_library_id)
             with transaction.atomic():
                 self.file_deal(process_library, data_file)
         except Exception as e:

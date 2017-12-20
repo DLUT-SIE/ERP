@@ -14,5 +14,5 @@ router.register(r'circulation_routes', CirculationRouteViewSet)
 router.register(r'process_routes', ProcessRouteViewSet)
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-    url(r'^api/process_libraries/upload', FileUploadView.as_view())
+    url(r'^process_libraries/upload', FileUploadView.as_view())
 ]
