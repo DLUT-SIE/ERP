@@ -39,7 +39,7 @@ class WeldingMaterialHumitureRecord(models.Model):
                               blank=True, default='')
 
     def __str__(self):
-        return '{}({})'.format(self.date, self.keeper)
+        return '{}({})'.format(self.create_dt, self.keeper)
 
     class Meta:
         verbose_name = '焊材库温湿度记录卡'
