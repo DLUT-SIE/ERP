@@ -134,7 +134,7 @@ class TransferCard(models.Model):
     def __str__(self):
         header = TRANSFER_HEADER_MAP.get(self.category, 'RH05')
         return '{}-{}-{}'.format(header,
-                                 self.process_material.work_order.uid,
+                                 self.process_material.lib.work_order.uid,
                                  self.uid)
 
     @property
