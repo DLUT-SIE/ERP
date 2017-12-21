@@ -16,14 +16,14 @@ class QuotaList(models.Model):
                                related_name='quota_list_writer',
                                on_delete=models.SET_NULL)
     # TODO: auto_now_add?
-    write_date = models.DateField(verbose_name='编制日期',
-                                  blank=True, null=True)
+    write_dt = models.DateTimeField(verbose_name='编制日期',
+                                    blank=True, null=True)
     reviewer = models.ForeignKey(User, verbose_name='审核人',
                                  blank=True, null=True,
                                  related_name='quota_list_reviewer',
                                  on_delete=models.SET_NULL)
-    review_date = models.DateField(verbose_name='审核日期', blank=True,
-                                   null=True)
+    review_dt = models.DateTimeField(verbose_name='审核日期', blank=True,
+                                     null=True)
     category = models.IntegerField(verbose_name='明细表类别',
                                    choices=QUOTA_LIST_CATEGORY_CHOICES)
 

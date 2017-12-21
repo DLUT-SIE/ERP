@@ -19,20 +19,20 @@ class WeldingProcessSpecification(models.Model):
                                blank=True, null=True,
                                on_delete=models.SET_NULL,
                                related_name='weld_proc_spec_lister')
-    list_date = models.DateField(verbose_name='编制日期',
-                                 blank=True, null=True)
+    list_dt = models.DateTimeField(verbose_name='编制日期',
+                                   blank=True, null=True)
     auditor = models.ForeignKey(User, verbose_name='审核人',
                                 blank=True, null=True,
                                 on_delete=models.SET_NULL,
                                 related_name='weld_proc_spec_auditor')
-    audit_date = models.DateField(verbose_name='审核日期',
-                                  blank=True, null=True)
+    audit_dt = models.DateTimeField(verbose_name='审核日期',
+                                    blank=True, null=True)
     approver = models.ForeignKey(User, verbose_name='批准人',
                                  blank=True, null=True,
                                  on_delete=models.SET_NULL,
                                  related_name='weld_proc_sped_approver')
-    approve_date = models.DateField(verbose_name='批准日期',
-                                    blank=True, null=True)
+    approve_dt = models.DateTimeField(verbose_name='批准日期',
+                                      blank=True, null=True)
     path = models.FileField(verbose_name='文件路径',
                             upload_to=DynamicHashPath('WeldingProcSpec'),
                             blank=True, null=True)
@@ -174,26 +174,26 @@ class WeldingWorkInstruction(models.Model):
                                blank=True, null=True,
                                on_delete=models.SET_NULL,
                                related_name='weld_work_inst_lister')
-    list_date = models.DateField(verbose_name='编制日期',
-                                 blank=True, null=True)
+    list_dt = models.DateTimeField(verbose_name='编制日期',
+                                   blank=True, null=True)
     auditor = models.ForeignKey(User, verbose_name='审核人',
                                 blank=True, null=True,
                                 on_delete=models.SET_NULL,
                                 related_name='weld_work_inst_auditor')
-    audit_date = models.DateField(verbose_name='审核日期',
-                                  blank=True, null=True)
+    audit_dt = models.DateTimeField(verbose_name='审核日期',
+                                    blank=True, null=True)
     proofreader = models.ForeignKey(User, verbose_name='校对人',
                                     blank=True, null=True,
                                     on_delete=models.SET_NULL,
                                     related_name='weld_work_inst_proofreader')
-    proofread_date = models.DateField(verbose_name='校对日期',
-                                      blank=True, null=True)
+    proofread_dt = models.DateTimeField(verbose_name='校对日期',
+                                        blank=True, null=True)
     approver = models.ForeignKey(User, verbose_name='批准人',
                                  blank=True, null=True,
                                  on_delete=models.SET_NULL,
                                  related_name='weld_work_inst_approver')
-    approve_date = models.DateField(verbose_name='批准日期',
-                                    blank=True, null=True)
+    approve_dt = models.DateTimeField(verbose_name='批准日期',
+                                      blank=True, null=True)
     path = models.FileField(
         verbose_name='路径',
         upload_to=DynamicHashPath('WeldingWorkInstruction'),

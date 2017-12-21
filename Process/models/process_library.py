@@ -37,26 +37,26 @@ class ProcessLibrary(models.Model):
                                blank=True, null=True,
                                related_name='process_lib_writer',
                                on_delete=models.SET_NULL)
-    write_date = models.DateField(verbose_name='编制日期',
-                                  blank=True, null=True)
+    write_dt = models.DateTimeField(verbose_name='编制日期',
+                                    blank=True, null=True)
     quota_clerk = models.ForeignKey(User, verbose_name='定额员',
                                     blank=True, null=True,
                                     on_delete=models.SET_NULL,
                                     related_name='process_lib_quota_clerk')
-    quota_date = models.DateField(verbose_name='定额日期',
-                                  blank=True, null=True)
+    quota_dt = models.DateTimeField(verbose_name='定额日期',
+                                    blank=True, null=True)
     proofreader = models.ForeignKey(User, verbose_name='校对人',
                                     blank=True, null=True,
                                     related_name='process_lib_proofreader',
                                     on_delete=models.SET_NULL)
-    proofread_date = models.DateField(verbose_name='校对日期',
-                                      blank=True, null=True)
+    proofread_dt = models.DateTimeField(verbose_name='校对日期',
+                                        blank=True, null=True)
     statistician = models.ForeignKey(User, verbose_name='统计员',
                                      blank=True, null=True,
                                      related_name='process_lib_statistician',
                                      on_delete=models.SET_NULL)
-    statistic_date = models.DateField(verbose_name='统计日期',
-                                      blank=True, null=True)
+    statistic_dt = models.DateTimeField(verbose_name='统计日期',
+                                        blank=True, null=True)
 
     class Meta:
         verbose_name = '工艺库'
