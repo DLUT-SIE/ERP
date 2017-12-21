@@ -27,9 +27,16 @@ class ProcessLibrarySerializer(serializers.ModelSerializer):
 
 
 class ProcessMaterialSerializer(serializers.ModelSerializer):
+    total_weight = serializers.SerializerMethodField()
+
     class Meta:
         model = ProcessMaterial
         fields = '__all__'
+
+    def get_total_weight(self, obj):
+        if obj.piece_weight:
+            return obj.piece_weight * obj.count
+        return 0
 
 
 class CirculationRouteSerializer(serializers.ModelSerializer):
