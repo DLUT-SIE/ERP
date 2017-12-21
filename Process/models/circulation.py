@@ -76,6 +76,7 @@ class TransferCard(models.Model):
     """
     流转卡
     """
+    file_index = models.IntegerField(verbose_name='文件编号')
     process_material = models.ForeignKey(ProcessMaterial,
                                          verbose_name='工艺物料',
                                          on_delete=models.CASCADE)
@@ -133,8 +134,9 @@ class TransferCard(models.Model):
 
     def __str__(self):
         header = TRANSFER_HEADER_MAP.get(self.category, 'RH05')
-        return '{}-{}'.format(header,
-                              self.process_material.lib.work_order.uid)
+        return '{}-{}-{:0>2d}'.format(header,
+                                      self.process_material.lib.work_order.uid,
+                                      self.file_index)
 
     @property
     def status(self):
