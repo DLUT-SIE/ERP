@@ -75,6 +75,15 @@ router.register(r'auxiliary_material_entry_ledgers',
 router.register(r'bought_in_component_entry_ledgers',
                 api.BoughtInComponentEntryLedgerViewSet)
 
+router.register(r'welding_material_inventory_ledgers',
+                api.WeldingMaterialInventoryLedgerViewSet)
+router.register(r'steel_material_inventory_ledgers',
+                api.SteelMaterialInventoryLedgerViewSet)
+router.register(r'auxiliary_material_inventory_ledgers',
+                api.AuxiliaryMaterialInventoryLedgerViewSet)
+router.register(r'bought_in_component_inventory_ledgers',
+                api.BoughtInComponentInventoryLedgerViewSet)
+
 urlpatterns = [
     url(r'^api/', include(router.urls)),
 ]

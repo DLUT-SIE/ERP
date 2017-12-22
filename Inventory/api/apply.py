@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 
+from Core.utils.pagination import SmallResultsSetPagination
 from Inventory.models import (
     WeldingMaterialApplyCard,
     SteelMaterialApplyCard,
@@ -10,6 +11,7 @@ from Inventory import serializers, filters
 
 
 class WeldingMaterialApplyCardViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = WeldingMaterialApplyCard.objects.all().order_by('-pk')
     filter_class = filters.WeldingMaterialApplyCardFilter
 
@@ -21,6 +23,7 @@ class WeldingMaterialApplyCardViewSet(viewsets.ModelViewSet):
 
 
 class SteelMaterialApplyCardViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = SteelMaterialApplyCard.objects.all().order_by('-pk')
     filter_class = filters.SteelMaterialApplyCardFilter
 
@@ -32,6 +35,7 @@ class SteelMaterialApplyCardViewSet(viewsets.ModelViewSet):
 
 
 class AuxiliaryMaterialApplyCardViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = AuxiliaryMaterialApplyCard.objects.all().order_by('-pk')
     filter_class = filters.AuxiliaryMaterialApplyCardFilter
 
@@ -43,6 +47,7 @@ class AuxiliaryMaterialApplyCardViewSet(viewsets.ModelViewSet):
 
 
 class BoughtInComponentApplyCardViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = BoughtInComponentApplyCard.objects.all().order_by('-pk')
     filter_class = filters.BoughtInComponentApplyCardFilter
 

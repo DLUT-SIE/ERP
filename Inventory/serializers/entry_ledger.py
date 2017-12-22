@@ -65,7 +65,7 @@ class BoughtInComponentEntryLedgerSerializer(serializers.ModelSerializer):
         source='procurement_material.process_material.spec')
     entry_dt = serializers.DateTimeField(source='entry.create_dt')
     work_order_uid = serializers.CharField(
-        source=('entry.bidding_sheet.purchase_order.work_order.uid'))
+        source='entry.bidding_sheet.purchase_order.work_order.uid')
     material_number = serializers.CharField(
         source='procurement_material.process_material.material.uid')
     entry_uid = serializers.CharField(source='entry.uid')

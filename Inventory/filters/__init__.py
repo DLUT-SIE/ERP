@@ -26,6 +26,12 @@ from .entry_ledger import (
     BoughtInComponentEntryLedgerFilter,
     AuxiliaryMaterialEntryLedgerFilter,
 )
+from .inventory_ledger import (
+    WeldingMaterialInventoryLedgerFilter,
+    SteelMaterialInventoryLedgerFilter,
+    BoughtInComponentInventoryLedgerFilter,
+    AuxiliaryMaterialInventoryLedgerFilter,
+)
 
 
 __all__ = [
@@ -51,4 +57,9 @@ __all__ = [
     'SteelMaterialEntryLedgerFilter',
     'BoughtInComponentEntryLedgerFilter',
     'AuxiliaryMaterialEntryLedgerFilter',
+
+    'WeldingMaterialInventoryLedgerFilter',
+    'SteelMaterialInventoryLedgerFilter',
+    'BoughtInComponentInventoryLedgerFilter',
+    'AuxiliaryMaterialInventoryLedgerFilter',
 ]

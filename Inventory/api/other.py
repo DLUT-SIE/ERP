@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 
+from Core.utils.pagination import SmallResultsSetPagination
 from Inventory.models import (
     Warehouse,
     WeldingMaterialHumitureRecord,
@@ -10,12 +11,14 @@ from Inventory import serializers, filters
 
 
 class WarehouseViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = Warehouse.objects.all().order_by('-pk')
     serializer_class = serializers.WarehouseSerializer
     filter_class = filters.WarehouseFilter
 
 
 class WeldingMaterialHumitureRecordViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = WeldingMaterialHumitureRecord.objects.all().order_by('-pk')
     filter_class = filters.WeldingMaterialHumitureRecordFilter
 
@@ -27,6 +30,7 @@ class WeldingMaterialHumitureRecordViewSet(viewsets.ModelViewSet):
 
 
 class WeldingMaterialBakeRecordViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = WeldingMaterialBakeRecord.objects.all().order_by('-pk')
     filter_class = filters.WeldingMaterialBakeRecordFilter
 

@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 
+from Core.utils.pagination import SmallResultsSetPagination
 from Inventory.models import (
     WeldingMaterialEntry, SteelMaterialEntry, AuxiliaryMaterialEntry,
     BoughtInComponentEntry,)
@@ -7,6 +8,7 @@ from Inventory import serializers, filters
 
 
 class WeldingMaterialEntryViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = WeldingMaterialEntry.objects.all().order_by('-pk')
     filter_class = filters.WeldingMaterialEntryFilter
 
@@ -18,6 +20,7 @@ class WeldingMaterialEntryViewSet(viewsets.ModelViewSet):
 
 
 class SteelMaterialEntryViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = SteelMaterialEntry.objects.all().order_by('-pk')
     filter_class = filters.SteelMaterialEntryFilter
 
@@ -29,6 +32,7 @@ class SteelMaterialEntryViewSet(viewsets.ModelViewSet):
 
 
 class AuxiliaryMaterialEntryViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = AuxiliaryMaterialEntry.objects.all().order_by('-pk')
     filter_class = filters.AuxiliaryMaterialEntryFilter
 
@@ -40,6 +44,7 @@ class AuxiliaryMaterialEntryViewSet(viewsets.ModelViewSet):
 
 
 class BoughtInComponentEntryViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
     queryset = BoughtInComponentEntry.objects.all().order_by('-pk')
     filter_class = filters.BoughtInComponentEntryFilter
 

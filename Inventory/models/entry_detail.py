@@ -11,6 +11,7 @@ class AbstractEntryDetail(models.Model):
     count = models.FloatField(verbose_name='数量')
     unit = models.CharField(verbose_name='单位', max_length=20,
                             blank=True, default='')
+    # TODO: Move this to BoughtInComponentMaterialEntryDetail
     factory = models.CharField(verbose_name='厂家', max_length=100,
                                blank=True, default='')
     remark = models.CharField(verbose_name='备注', max_length=100,

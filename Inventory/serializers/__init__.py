@@ -58,6 +58,12 @@ from .entry_ledger import (
     AuxiliaryMaterialEntryLedgerSerializer,
     BoughtInComponentEntryLedgerSerializer,
 )
+from .inventory_ledger import (
+    WeldingMaterialInventoryLedgerSerializer,
+    SteelMaterialInventoryLedgerSerializer,
+    AuxiliaryMaterialInventoryLedgerSerializer,
+    BoughtInComponentInventoryLedgerSerializer,
+)
 
 
 __all__ = [
@@ -112,4 +118,9 @@ __all__ = [
     'SteelMaterialEntryLedgerSerializer',
     'AuxiliaryMaterialEntryLedgerSerializer',
     'BoughtInComponentEntryLedgerSerializer',
+
+    'WeldingMaterialInventoryLedgerSerializer',
+    'SteelMaterialInventoryLedgerSerializer',
+    'AuxiliaryMaterialInventoryLedgerSerializer',
+    'BoughtInComponentInventoryLedgerSerializer',
 ]
