@@ -14,8 +14,8 @@ class BiddingSheet(models.Model):
                                           on_delete=models.CASCADE)
     uid = models.CharField(verbose_name='标单编号', unique=True, max_length=20)
     # TODO: auto_now_add?
-    create_date = models.DateField(verbose_name='创建日期',
-                                   blank=True, null=True)
+    create_dt = models.DateTimeField(verbose_name='创建时间',
+                                     blank=True, null=True)
     status = models.IntegerField(verbose_name='标单状态', unique=True,
                                  choices=BIDDING_SHEET_STATUS_CHOICES)
     contract_number = models.CharField(verbose_name='合同编号', max_length=50,
@@ -50,18 +50,18 @@ class BiddingApplication(models.Model):
                                   blank=True, null=True)
     plan_project = models.CharField(verbose_name='拟招(议)项目', max_length=40,
                                     blank=True, null=True)
-    plan_date = models.DateField(verbose_name='拟招(议)标时间',
-                                 blank=True, null=True)
+    plan_dt = models.DateTimeField(verbose_name='拟招(议)标时间',
+                                   blank=True, null=True)
     model = models.CharField(verbose_name='规格、型号', max_length=40,
                              null=True, blank=True)
     is_core_part = models.BooleanField(verbose_name='是否为核心件',
                                        default=False)
     category = models.CharField(verbose_name='项目类别', max_length=40,
                                 null=True, blank=True)
-    tender_date = models.DateField(verbose_name='招(议)标时间',
-                                   null=True, blank=True)
-    delivery_date = models.DateField(verbose_name='标书递送时间',
+    tender_dt = models.DateTimeField(verbose_name='招(议)标时间',
                                      null=True, blank=True)
+    delivery_dt = models.DateTimeField(verbose_name='标书递送时间',
+                                       null=True, blank=True)
     place = models.CharField(verbose_name='地点', max_length=40,
                              null=True, blank=True)
     status = models.IntegerField(verbose_name='状态',
@@ -123,8 +123,8 @@ class BiddingAcceptance(models.Model):
                                blank=True, default='')
     # TODO: IntegerField?
     amount = models.CharField(verbose_name='数量', null=True, max_length=40)
-    accept_date = models.DateField(verbose_name='中标日期',
-                                   null=True, blank=True)
+    accept_dt = models.DateTimeField(verbose_name='中标时间',
+                                     null=True, blank=True)
     accept_money = models.CharField(verbose_name='中标金额', max_length=40,
                                     null=True, blank=True)
     accept_supplier = models.ForeignKey('Supplier', verbose_name='中标单位',

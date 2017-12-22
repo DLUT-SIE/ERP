@@ -33,7 +33,7 @@ class ProcessFollowingInfo(models.Model):
     """
     bidding_sheet = models.ForeignKey('BiddingSheet', verbose_name='标单',
                                       on_delete=models.CASCADE)
-    following_date = models.DateField(verbose_name='跟踪日期')
+    following_dt = models.DateTimeField(verbose_name='跟踪时间')
     following_method = models.CharField(verbose_name='跟踪方式', max_length=20)
     following_feedback = models.CharField(verbose_name='跟踪反馈',
                                           max_length=200)
@@ -65,8 +65,8 @@ class StatusChange(models.Model):
                                      choices=BIDDING_SHEET_STATUS_CHOICES)
     change_user = models.ForeignKey(User, verbose_name='更改用户',
                                     on_delete=models.CASCADE)
-    change_time = models.DateTimeField(verbose_name='更改时间',
-                                       auto_now_add=True)
+    change_dt = models.DateTimeField(verbose_name='更改时间',
+                                     auto_now_add=True)
     normal_change = models.BooleanField(verbose_name='是否正常更改',
                                         default=True)
     reason = models.CharField(verbose_name='回溯原因',

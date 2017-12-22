@@ -8,7 +8,7 @@ class BaseComment(models.Model):
     user = models.ForeignKey(User, verbose_name='用户',
                              on_delete=models.CASCADE)
     comment = models.CharField(verbose_name='意见内容', max_length=200)
-    submit_dt = models.DateTimeField(verbose_name='提交日期',
+    submit_dt = models.DateTimeField(verbose_name='提交时间',
                                      auto_now_add=True)
 
     class Meta:

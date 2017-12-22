@@ -13,28 +13,28 @@ class PurchaseOrder(models.Model):
     """
     uid = models.CharField(verbose_name='编号', max_length=20, unique=True)
     work_order = models.ForeignKey(WorkOrder, verbose_name='工作令')
-    create_date = models.DateTimeField(verbose_name='创建日期',
-                                       auto_now_add=True)
+    create_dt = models.DateTimeField(verbose_name='创建时间',
+                                     auto_now_add=True)
     status = models.IntegerField(verbose_name='订购单状态',
                                  choices=PURCHASE_ORDER_STATUS_CHOICES)
     lister = models.ForeignKey(User, verbose_name='编制人',
                                related_name='purchase_order_lister',
                                null=True, blank=True,
                                on_delete=models.SET_NULL)
-    list_date = models.DateTimeField(verbose_name='编制日期',
-                                     blank=True, null=True)
+    list_dt = models.DateTimeField(verbose_name='编制时间',
+                                   blank=True, null=True)
     chief = models.ForeignKey(User, verbose_name='外采科长',
                               related_name='purchase_order_chief',
                               null=True, blank=True,
                               on_delete=models.SET_NULL)
-    audit_date = models.DateTimeField(verbose_name='审核日期',
-                                      blank=True, null=True)
+    audit_dt = models.DateTimeField(verbose_name='审核时间',
+                                    blank=True, null=True)
     approver = models.ForeignKey(User, verbose_name='批准人',
                                  related_name='purchase_order_approver',
                                  null=True, blank=True,
                                  on_delete=models.SET_NULL)
-    approve_time = models.DateTimeField(verbose_name='批准日期',
-                                        blank=True, null=True)
+    approve_dt = models.DateTimeField(verbose_name='批准时间',
+                                      blank=True, null=True)
     tech_requirement = models.TextField(verbose_name='工艺需求',
                                         max_length=1000,
                                         blank=True, default='')

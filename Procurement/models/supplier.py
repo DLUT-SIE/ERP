@@ -31,7 +31,7 @@ class SupplierCheck(models.Model):
                                          on_delete=models.CASCADE)
     # TODO: ForeignKey?
     applicant = models.CharField(verbose_name='申请单位', max_length=40)
-    application_date = models.DateField(verbose_name='申请日期')
+    application_dt = models.DateTimeField(verbose_name='申请时间')
     project = models.CharField(verbose_name='项目名称', max_length=40)
     estimated_price = models.FloatField(verbose_name='估算价格')
     basic_situation = models.CharField(verbose_name='招（议）标项目基本情况',

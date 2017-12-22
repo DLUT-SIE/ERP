@@ -11,7 +11,7 @@ class MaterialExecution(models.Model):
     uid = models.CharField(verbose_name='编号', max_length=50, unique=True)
     lister = models.ForeignKey(User, verbose_name='制表人',
                                on_delete=models.CASCADE)
-    list_date = models.DateField(verbose_name='制表日期')
+    list_dt = models.DateTimeField(verbose_name='制表时间')
     material_type = models.IntegerField(verbose_name='材料类型',
                                         choices=MATERIEL_TYPE_CHOICES)
     saved = models.BooleanField(verbose_name='已保存', default=False)
