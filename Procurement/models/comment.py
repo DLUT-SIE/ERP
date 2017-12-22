@@ -39,6 +39,7 @@ class SubApplyComment(BaseComment):
     """
     sub_apply = models.ForeignKey('MaterialSubApply',
                                   verbose_name='材料代用申请单',
+                                  related_name='sub_spply_comments',
                                   on_delete=models.CASCADE)
     user_title = models.IntegerField(verbose_name='审批人属性',
                                      choices=COMMENT_USER_CHOICES)

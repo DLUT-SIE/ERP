@@ -1,8 +1,10 @@
 from .materialsub import (
     MaterialSubApplyViewSet,
-    MaterialSubApplyItemsViewSet)
+    MaterialSubApplyItemsViewSet,
+    MaterialSubApplyCommentsViewSet)
 
 
 __all__ = [
-    'MaterialSubApplyViewSet', 'MaterialSubApplyItemsViewSet'
+    'MaterialSubApplyViewSet', 'MaterialSubApplyItemsViewSet',
+    'MaterialSubApplyCommentsViewSet'
 ]

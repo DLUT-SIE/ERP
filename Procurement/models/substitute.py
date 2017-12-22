@@ -38,7 +38,7 @@ class MaterialSubApplyItems(models.Model):
     """
     sub_apply = models.ForeignKey(MaterialSubApply,
                                   verbose_name='材料代用申请单',
-                                  related_name='items',
+                                  related_name='sub_apply_items',
                                   on_delete=models.CASCADE)
     part_figure_code = models.CharField(verbose_name='部件图号',
                                         max_length=100)

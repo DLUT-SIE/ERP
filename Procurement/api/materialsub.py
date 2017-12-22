@@ -3,6 +3,7 @@ from rest_framework.exceptions import MethodNotAllowed
 
 from Core.utils.pagination import SmallResultsSetPagination
 from Procurement.models import MaterialSubApply, MaterialSubApplyItems
+from Procurement.models import SubApplyComment
 from Procurement import serializers
 
 
@@ -27,7 +28,18 @@ class MaterialSubApplyItemsViewSet(viewsets.ModelViewSet):
     queryset = MaterialSubApplyItems.objects.all().order_by('-pk')
 
     def get_serializer_class(self):
-        if self.action == 'create':
-            return serializers.MaterialSubApplyItemsCreateSerializer
+        if self.action == 'update':
+            return serializers.MaterialSubApplyItemsUpdateSerializer
         else:
             return serializers.MaterialSubApplyItemsSerializer
+
+
+class MaterialSubApplyCommentsViewSet(viewsets.ModelViewSet):
+
+    queryset = SubApplyComment.objects.all().order_by('-pk')
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return serializers.MaterialSubApplyCommentsCreateSerializer
+        else:
+            return serializers.MaterialSubApplyCommentsSerializer
