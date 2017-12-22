@@ -85,8 +85,6 @@ class TransferCard(models.Model):
     container_category = models.CharField(verbose_name='容器类别',
                                           max_length=50,
                                           blank=True, default='')
-    parent_name = models.CharField(verbose_name='所属部件名称', max_length=50,
-                                   blank=True, default='')
     welding_plate_idx = models.CharField(verbose_name='焊接试板图号',
                                          max_length=50,
                                          blank=True, default='')
