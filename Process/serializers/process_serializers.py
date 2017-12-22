@@ -57,6 +57,9 @@ class CirculationRouteSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         circulation_routes = validated_data['circulation_routes']
+        circulation_routes = [circulation_routes] if isinstance(
+            circulation_routes, int) else circulation_routes
+        circulation_routes.extend([None] * (10 - len(circulation_routes)))
         for index, item in enumerate(circulation_routes):
             setattr(instance, 'C{}'.format(index + 1), item)
         instance.save()
@@ -89,6 +92,8 @@ class ProcessRouteSerializer(serializers.ModelSerializer):
         instance.steps.all().delete()
         process_steps = validated_data['process_steps']
         steps = []
+        process_steps = [process_steps] if isinstance(process_steps, int) \
+            else process_steps
         for step in process_steps:
             steps.append(ProcessStep(route=instance, step=step))
         ProcessStep.objects.bulk_create(steps)
