@@ -17,10 +17,10 @@ class SubMaterial(models.Model):
                                  on_delete=models.CASCADE)
     sub_order = models.ForeignKey(SubWorkOrder, verbose_name='子工作令',
                                   on_delete=models.CASCADE)
-    estimated_finish_date = models.DateField(verbose_name='计划完成日期',
-                                             blank=True, null=True)
-    actual_finish_date = models.DateField(verbose_name='实际完成日期',
-                                          blank=True, null=True)
+    estimated_finish_dt = models.DateTimeField(verbose_name='计划完成日期',
+                                               blank=True, null=True)
+    actual_finish_dt = models.DateTimeField(verbose_name='实际完成日期',
+                                            blank=True, null=True)
 
     class Meta:
         verbose_name = '子工作票'
@@ -78,24 +78,24 @@ class ProcessDetail(models.Model):
                                    on_delete=models.SET_NULL)
     # *IMPORTANT*
     # TODO: estimated should be changed if 'Plan' is noun and not verb
-    estimated_start_date = models.DateField(verbose_name='计划开始日期',
+    estimated_start_dt = models.DateTimeField(verbose_name='计划开始日期',
+                                              blank=True, null=True)
+    estimated_finish_dt = models.DateTimeField(verbose_name='计划完成日期',
+                                               blank=True, null=True)
+    actual_finish_dt = models.DateTimeField(verbose_name='实际完成日期',
                                             blank=True, null=True)
-    estimated_finish_date = models.DateField(verbose_name='计划完成日期',
-                                             blank=True, null=True)
-    actual_finish_date = models.DateField(verbose_name='实际完成日期',
-                                          blank=True, null=True)
-    # plan_startdate = models.DateField(
+    # plan_startdate = models.DateTimeField(
     #     blank = True, null= True, verbose_name = u"计划开始时间")
-    # plan_enddate = models.DateField(
+    # plan_enddate = models.DateTimeField(
     #     blank = True, null= True, verbose_name = u"计划完成时间")
-    # complete_process_date = models.DateField(
+    # complete_process_date = models.DateTimeField(
     #     blank = True, null= True, verbose_name = u"完成时间")
 
     inspector = models.ForeignKey(User, verbose_name='检查者',
                                   blank=True, null=True,
                                   on_delete=models.SET_NULL)
-    inspection_date = models.DateField(verbose_name='检查时间',
-                                       blank=True, null=True)
+    inspection_dt = models.DateTimeField(verbose_name='检查时间',
+                                         blank=True, null=True)
     remark = models.CharField(verbose_name='检查内容', max_length=200,
                               blank=True, default='')
 
@@ -143,7 +143,7 @@ class ProductionPlan(models.Model):
     status = models.IntegerField(verbose_name='生产计划状态',
                                  choices=PRODUCTION_PLAN_STATUS_CHOICES,
                                  default=PRODUCTION_PLAN_RELAX)
-    plan_date = models.DateField(verbose_name='计划年月')
+    plan_dt = models.DateTimeField(verbose_name='计划年月')
 
     class Meta:
         verbose_name = '生产计划'
