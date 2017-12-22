@@ -1,6 +1,5 @@
 from django.db import models
 
-from Core.models import SubWorkOrder
 from Procurement.models import ProcurementMaterial
 
 
@@ -28,8 +27,6 @@ class SteelMaterialApplyDetail(AbstractApplyDetail):
                                          verbose_name='库存明细',
                                          blank=True, null=True,
                                          on_delete=models.SET_NULL)
-    sub_order = models.ForeignKey(SubWorkOrder, verbose_name='子工作令',
-                                  on_delete=models.CASCADE)
     count = models.IntegerField(verbose_name='申请数量')
     component = models.CharField(verbose_name='零件编号', max_length=100,
                                  blank=True, default='')
