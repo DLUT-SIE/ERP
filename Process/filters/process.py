@@ -42,12 +42,13 @@ class ProcessRouteFilter(filters.FilterSet):
 
 
 class TransferCardFilter(filters.FilterSet):
-    process_material = filters.CharFilter(name='process_material__id',
-                                          lookup_expr='exact')
+    worker_order_uid = filters.CharFilter(
+        name='process_material__lib__work_order__uid',
+        lookup_expr='exact')
 
     class Meta:
         model = TransferCard
-        fields = ('process_material',)
+        fields = ('worker_order_uid',)
 
 
 class TransferCardProcessFilter(filters.FilterSet):
