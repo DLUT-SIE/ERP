@@ -42,6 +42,7 @@ class CirculationRoute(models.Model):
     """
     process_material = models.OneToOneField(ProcessMaterial,
                                             verbose_name='物料',
+                                            related_name='circulation_route',
                                             on_delete=models.CASCADE)
     C1 = models.IntegerField(verbose_name='路线1', blank=True, null=True,
                              choices=CIRCULATION_CHOICES)
