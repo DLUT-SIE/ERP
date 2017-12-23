@@ -24,9 +24,6 @@ class WeldingMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
         fields = ('id', 'material_mark', 'specification', 'entry_count',
                   'entry_dt', 'material_number', 'factory', 'count',
                   'pretty_status')
-        read_only_fields = ('material_mark', 'specification', 'entry_count',
-                            'entry_dt', 'material_number', 'factory', 'count',
-                            'pretty_status')
 
 
 class SteelMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
@@ -52,9 +49,6 @@ class SteelMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
         fields = ('id', 'material', 'batch_number', 'specification',
                   'entry_dt', 'material_number', 'work_order_uid',
                   'location', 'refund_times', 'count')
-        read_only_fields = ('material', 'batch_number', 'specification',
-                            'entry_dt', 'material_number', 'work_order_uid',
-                            'location', 'refund_times', 'count')
 
 
 class AuxiliaryMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
@@ -72,8 +66,6 @@ class AuxiliaryMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
         model = AuxiliaryMaterialInventoryDetail
         fields = ('id', 'specification', 'entry_count', 'entry_dt',
                   'entry_uid', 'factory', 'supplier', 'count')
-        read_only_fields = ('specification', 'entry_count', 'entry_dt',
-                            'entry_uid', 'factory', 'supplier', 'count')
 
 
 class BoughtInComponentInventoryLedgerSerializer(serializers.ModelSerializer):
@@ -99,6 +91,3 @@ class BoughtInComponentInventoryLedgerSerializer(serializers.ModelSerializer):
         fields = ('id', 'work_order_uid', 'specification', 'material',
                   'entry_dt', 'material_number', 'entry_uid', 'category',
                   'count')
-        read_only_fields = ('work_order_uid', 'specification', 'material',
-                            'entry_dt', 'material_number', 'entry_uid',
-                            'category', 'count')

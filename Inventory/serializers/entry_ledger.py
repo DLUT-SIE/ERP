@@ -18,8 +18,6 @@ class WeldingMaterialEntryLedgerSerializer(serializers.ModelSerializer):
         model = WeldingMaterialEntryDetail
         fields = ('id', 'material_mark', 'specification', 'entry_dt',
                   'material_number', 'factory', 'count', 'weight')
-        read_only_fields = ('material_mark', 'specification', 'entry_dt',
-                            'material_number', 'factory', 'count', 'weight')
 
 
 class SteelMaterialEntryLedgerSerializer(serializers.ModelSerializer):
@@ -37,9 +35,6 @@ class SteelMaterialEntryLedgerSerializer(serializers.ModelSerializer):
         model = SteelMaterialEntryDetail
         fields = ('id', 'material', 'specification', 'entry_dt',
                   'material_number', 'work_order_uid', 'count', 'weight')
-        read_only_fields = ('material', 'specification', 'entry_dt',
-                            'material_number', 'work_order_uid', 'count',
-                            'weight')
 
 
 class AuxiliaryMaterialEntryLedgerSerializer(serializers.ModelSerializer):
@@ -54,8 +49,6 @@ class AuxiliaryMaterialEntryLedgerSerializer(serializers.ModelSerializer):
         model = AuxiliaryMaterialEntryDetail
         fields = ('id', 'specification', 'entry_dt', 'entry_uid', 'factory',
                   'supplier', 'count')
-        read_only_fields = ('specification', 'entry_dt', 'entry_uid',
-                            'factory', 'supplier', 'count')
 
 
 class BoughtInComponentEntryLedgerSerializer(serializers.ModelSerializer):
@@ -74,6 +67,3 @@ class BoughtInComponentEntryLedgerSerializer(serializers.ModelSerializer):
         model = BoughtInComponentEntryDetail
         fields = ('id', 'work_order_uid', 'specification', 'material',
                   'entry_dt', 'material_number', 'entry_uid', 'count')
-        read_only_fields = ('work_order_uid', 'specification', 'material',
-                            'entry_dt', 'material_number', 'entry_uid',
-                            'count')

@@ -62,5 +62,9 @@ class SubWorkOrder(models.Model):
         verbose_name = "子工作令"
         verbose_name_plural = "子工作令"
 
-    def __str__(self):
+    @property
+    def uid(self):
         return '{}-{}'.format(self.work_order, self.index)
+
+    def __str__(self):
+        return self.uid
