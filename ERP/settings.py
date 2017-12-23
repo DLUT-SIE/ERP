@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'Messaging',
-    'Core',
+    'Core.apps.CoreConfig',
     'Distribution',
     'Process',
     'Procurement',
@@ -121,3 +121,6 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'PAGE_SIZE': 100,
 }
+
+# Tests
+# TEST_RUNNER = 'Core.utils.test_runner.NoDatabaseTestRunner'

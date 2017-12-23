@@ -1,4 +1,4 @@
-from django.db import models, transaction
+from django.db import models
 
 from Core import SELL_TYPES
 from Distribution.models import Product
@@ -24,24 +24,6 @@ class WorkOrder(models.Model):
     class Meta:
         verbose_name = '工作令'
         verbose_name_plural = '工作令'
-
-    def save(self, *args, **kwargs):
-        """
-        工作令保存
-
-        工作令首次保存时会根据 *count* 自动创建子工作令
-        """
-        created = False
-        if not self.pk:
-            created = True
-        with transaction.atomic():
-            super(WorkOrder, self).save(*args, **kwargs)
-            if created:
-                sub_orders = []
-                for index in range(1, 1 + self.count):
-                    sub_orders.append(SubWorkOrder(work_order=self,
-                                                   index=index))
-                SubWorkOrder.objects.bulk_create(sub_orders)
 
     def __str__(self):
         return self.uid
