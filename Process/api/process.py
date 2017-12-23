@@ -3,14 +3,14 @@ from rest_framework import viewsets
 from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute,
-    ProcessRoute, TransferCard)
+    ProcessRoute, TransferCard, TransferCardProcess)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
-    TransferCardListSerializer)
+    TransferCardListSerializer, TransferCardProcessSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
-    ProcessRouteFilter, TransferCardFilter)
+    ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -51,3 +51,10 @@ class TransferCardViewSet(viewsets.ModelViewSet):
             return TransferCardListSerializer
         else:
             return TransferCardSerializer
+
+
+class TransferCardProcessViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = TransferCardProcess.objects.all().order_by('index')
+    filter_class = TransferCardProcessFilter
+    serializer_class = TransferCardProcessSerializer

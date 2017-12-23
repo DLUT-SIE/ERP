@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
-    ProcessStep, TransferCard)
+    ProcessStep, TransferCard, TransferCardProcess)
 
 
 class ProcessLibrarySerializer(serializers.ModelSerializer):
@@ -162,3 +162,10 @@ class TransferCardSerializer(TransferCardListSerializer):
                 break
             circulation_routes.append(cur)
         return circulation_routes
+
+
+class TransferCardProcessSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TransferCardProcess
+        fields = '__all__'

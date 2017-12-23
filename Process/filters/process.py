@@ -2,7 +2,7 @@ from django_filters import rest_framework as filters
 
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
-    TransferCard)
+    TransferCard, TransferCardProcess)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -48,3 +48,12 @@ class TransferCardFilter(filters.FilterSet):
     class Meta:
         model = TransferCard
         fields = ('process_material',)
+
+
+class TransferCardProcessFilter(filters.FilterSet):
+    transfer_card = filters.CharFilter(name='transfer_card__id',
+                                       lookup_expr='exact')
+
+    class Meta:
+        model = TransferCardProcess
+        fields = ('transfer_card',)
