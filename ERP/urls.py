@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^', include('Process.urls')),
     url(r'^', include('Procurement.urls')),
     url(r'^', include('Inventory.urls')),
+    url(r'^', include('Production.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
