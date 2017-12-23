@@ -3,10 +3,13 @@ from .materialsub import (
     MaterialSubApplyCommentViewSet,)
 
 from .material_execution import (
-    MaterialExecutionViewSet, MaterialExecutionDetailViewSet)
+    MaterialExecutionViewSet, MaterialExecutionDetailViewSet,)
+
+from .status_change import (
+    StatusChangeViewSet,)
 
 __all__ = [
     'MaterialSubApplyViewSet', 'MaterialSubApplyItemViewSet',
     'MaterialSubApplyCommentViewSet', 'MaterialExecutionViewSet',
-    'MaterialExecutionDetailViewSet'
+    'MaterialExecutionDetailViewSet', 'StatusChangeViewSet'
 ]

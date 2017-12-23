@@ -24,6 +24,4 @@ class MaterialExecutionViewSet(viewsets.ModelViewSet):
 class MaterialExecutionDetailViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = MaterialExecutionDetail.objects.all().order_by('-pk')
-
-    def get_serializer_class(self):
-        return serializers.MaterialExecutionDetailSerializer
+    serializer_class = serializers.MaterialExecutionDetailSerializer

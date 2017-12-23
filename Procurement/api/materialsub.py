@@ -25,7 +25,6 @@ class MaterialSubApplyViewSet(viewsets.ModelViewSet):
 
 
 class MaterialSubApplyItemViewSet(viewsets.ModelViewSet):
-
     queryset = MaterialSubApplyItems.objects.all().order_by('-pk')
 
     def get_serializer_class(self):
@@ -36,11 +35,8 @@ class MaterialSubApplyItemViewSet(viewsets.ModelViewSet):
 
 
 class MaterialSubApplyCommentViewSet(viewsets.ModelViewSet):
-
     queryset = SubApplyComment.objects.all().order_by('-pk')
+    serializer_class = serializers.MaterialSubApplyCommentsSerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-    def get_serializer_class(self):
-            return serializers.MaterialSubApplyCommentsSerializer
