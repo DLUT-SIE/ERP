@@ -11,10 +11,9 @@ class MaterialExecution(models.Model):
     uid = models.CharField(verbose_name='编号', max_length=50, unique=True)
     lister = models.ForeignKey(User, verbose_name='制表人',
                                on_delete=models.CASCADE)
-    list_dt = models.DateTimeField(verbose_name='制表时间')
+    list_dt = models.DateTimeField(verbose_name='制表时间', auto_now_add=True)
     material_type = models.IntegerField(verbose_name='材料类型',
                                         choices=MATERIEL_TYPE_CHOICES)
-    saved = models.BooleanField(verbose_name='已保存', default=False)
     process_requirement = models.CharField(verbose_name='工艺需求',
                                            max_length=200,
                                            blank=True, default='')
@@ -34,6 +33,7 @@ class MaterialExecutionDetail(models.Model):
     material_execution = models.ForeignKey(MaterialExecution,
                                            verbose_name='材料执行表',
                                            null=True, blank=True,
+                                           related_name='materialexecution',
                                            on_delete=models.SET_NULL)
     material = models.ForeignKey('ProcurementMaterial', verbose_name='物料',
                                  on_delete=models.CASCADE)

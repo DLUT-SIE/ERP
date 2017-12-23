@@ -11,9 +11,10 @@ class MaterialSubApplyViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = MaterialSubApply.objects.all().order_by('-pk')
 
+    def perform_create(self, serializer):
+        serializer.save(applicant=self.request.user)
+
     def get_serializer_class(self):
-        if self.action == 'create':
-            return serializers.MaterialSubApplyCreateSerializer
         if self.action == 'list':
             return serializers.MaterialSubApplyListSerializer
         else:
@@ -23,7 +24,7 @@ class MaterialSubApplyViewSet(viewsets.ModelViewSet):
         raise MethodNotAllowed(request.method)
 
 
-class MaterialSubApplyItemsViewSet(viewsets.ModelViewSet):
+class MaterialSubApplyItemViewSet(viewsets.ModelViewSet):
 
     queryset = MaterialSubApplyItems.objects.all().order_by('-pk')
 
@@ -34,12 +35,12 @@ class MaterialSubApplyItemsViewSet(viewsets.ModelViewSet):
             return serializers.MaterialSubApplyItemsSerializer
 
 
-class MaterialSubApplyCommentsViewSet(viewsets.ModelViewSet):
+class MaterialSubApplyCommentViewSet(viewsets.ModelViewSet):
 
     queryset = SubApplyComment.objects.all().order_by('-pk')
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
     def get_serializer_class(self):
-        if self.action == 'create':
-            return serializers.MaterialSubApplyCommentsCreateSerializer
-        else:
             return serializers.MaterialSubApplyCommentsSerializer

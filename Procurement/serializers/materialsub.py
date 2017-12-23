@@ -25,15 +25,6 @@ class MaterialSubApplyCommentsSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
 
-class MaterialSubApplyCommentsCreateSerializer(
-        MaterialSubApplyCommentsSerializer):
-    class Meta(MaterialSubApplyCommentsSerializer.Meta):
-        fields = '__all__'
-
-    def perform_create(self, serializer):
-        serializer.save(applicant=self.context['request'].user)
-
-
 class MaterialSubApplySerializer(serializers.ModelSerializer):
 
     sub_apply_items = MaterialSubApplyItemsSerializer(many=True,
@@ -51,11 +42,3 @@ class MaterialSubApplyListSerializer(MaterialSubApplySerializer):
     class Meta(MaterialSubApplySerializer.Meta):
         fields = ('id', 'uid', 'work_order', 'production', 'figure_code',
                   'applicant', 'reason',)
-
-
-class MaterialSubApplyCreateSerializer(MaterialSubApplySerializer):
-    class Meta(MaterialSubApplySerializer.Meta):
-        fields = '__all__'
-
-    def perform_create(self, serializer):
-        serializer.save(applicant=self.context['request'].user)
