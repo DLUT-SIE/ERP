@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
-    ProcessStep)
+    ProcessStep, TransferCard)
 
 
 class ProcessLibrarySerializer(serializers.ModelSerializer):
@@ -28,6 +28,7 @@ class ProcessLibrarySerializer(serializers.ModelSerializer):
 
 class ProcessMaterialSerializer(serializers.ModelSerializer):
     total_weight = serializers.SerializerMethodField()
+    material = serializers.CharField(source='material.name')
 
     class Meta:
         model = ProcessMaterial
@@ -107,3 +108,57 @@ class ProcessRouteSerializer(serializers.ModelSerializer):
         attrs['process_steps'] = ast.literal_eval(
             data['process_steps'])
         return attrs
+
+
+class TransferCardListSerializer(serializers.ModelSerializer):
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number')
+    name = serializers.CharField(source='process_material.name')
+    status = serializers.SerializerMethodField()
+    file_index = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TransferCard
+        fields = ('id', 'category', 'name', 'ticket_number', 'status',
+                  'file_index')
+
+    def get_status(self, obj):
+        return obj.status
+
+    def get_file_index(self, obj):
+        return str(obj)
+
+
+class TransferCardSerializer(TransferCardListSerializer):
+    basic_file = serializers.CharField(source='basic_file_name')
+    worker_order_uid = serializers.CharField(
+        source='process_material.lib.work_order.uid')
+    product_name = serializers.CharField(
+        source='process_material.lib.work_order.product')
+    parent_drawing_number = serializers.CharField(
+        source='process_material.parent_drawing_number')
+    count = serializers.IntegerField(source='process_material.count')
+
+    press_mark = serializers.CharField(source='process_material.remark')
+    material = serializers.CharField(source='process_material.material.name')
+    drawing_number = serializers.CharField(
+        source='process_material.drawing_number')
+    circulation_routes = serializers.SerializerMethodField()
+
+    class Meta(TransferCardListSerializer.Meta):
+        fields = '__all__'
+        read_only_fields = ('file_index', 'ticket_number', 'status',
+                            'basic_file', 'worker_order_uid', 'product_name',
+                            'parent_drawing_number', 'drawing_number',
+                            'name', 'count', 'press_mark', 'material',
+                            'circulation_routes')
+
+    def get_circulation_routes(self, obj, *args):
+        circulation_routes = []
+        routes = obj.process_material.circulation_route
+        for i in range(10):
+            cur = getattr(routes, 'C{}'.format(i + 1))
+            if not cur:
+                break
+            circulation_routes.append(cur)
+        return circulation_routes

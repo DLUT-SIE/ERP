@@ -1,14 +1,16 @@
 from rest_framework import viewsets
 
 from Core.utils.pagination import SmallResultsSetPagination
-from Process.models import (ProcessLibrary, ProcessMaterial, CirculationRoute,
-                            ProcessRoute)
+from Process.models import (
+    ProcessLibrary, ProcessMaterial, CirculationRoute,
+    ProcessRoute, TransferCard)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
-    CirculationRouteSerializer, ProcessRouteSerializer)
+    TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
+    TransferCardListSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
-    ProcessRouteFilter)
+    ProcessRouteFilter, TransferCardFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -37,3 +39,15 @@ class ProcessRouteViewSet(viewsets.ModelViewSet):
     queryset = ProcessRoute.objects.all().order_by('-pk')
     filter_class = ProcessRouteFilter
     serializer_class = ProcessRouteSerializer
+
+
+class TransferCardViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = TransferCard.objects.all().order_by('-pk')
+    filter_class = TransferCardFilter
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return TransferCardListSerializer
+        else:
+            return TransferCardSerializer

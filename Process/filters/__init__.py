@@ -1,6 +1,7 @@
 from .process import (
-    ProcessLibraryFilter, ProcessMaterialFilter,
+    ProcessLibraryFilter, ProcessMaterialFilter, TransferCardFilter,
     CirculationRouteFilter, ProcessRouteFilter)
 
 __all__ = ['ProcessLibraryFilter', 'ProcessMaterialFilter',
-           'CirculationRouteFilter', 'ProcessRouteFilter']
+           'TransferCardFilter', 'CirculationRouteFilter',
+           'ProcessRouteFilter']

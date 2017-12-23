@@ -134,10 +134,7 @@ class TransferCard(models.Model):
         verbose_name_plural = '流转卡'
 
     def __str__(self):
-        header = TRANSFER_HEADER_MAP.get(self.category, 'RH05')
-        return '{}-{}-{:0>2d}'.format(header,
-                                      self.process_material.lib.work_order.uid,
-                                      self.file_index)
+        return '{}-{:0>2d}'.format(self.basic_file_name, self.file_index)
 
     @property
     def status(self):
@@ -148,6 +145,12 @@ class TransferCard(models.Model):
             if signed:
                 return status_name
         return '初创建'
+
+    @property
+    def basic_file_name(self):
+        header = TRANSFER_HEADER_MAP.get(self.category, 'RH05')
+        return '{}-{}'.format(header,
+                              self.process_material.lib.work_order.uid)
 
 
 class TransferCardProcess(models.Model):
