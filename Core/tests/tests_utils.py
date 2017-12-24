@@ -89,22 +89,22 @@ class TransitionTest(TestCase):
         trans = Transition(None, 'field', None, None, permission=1)
         self.assertIs(trans._has_perm(self.inst, self.request), False)
 
-    def test_can_trans(self):
+    def test_match_source(self):
         # match
         trans = Transition(None, 'field', 0, None)
-        self.assertIs(trans._can_trans(self.inst, self.request), True)
+        self.assertIs(trans._match_source(self.inst, self.request), True)
 
         # all
         trans = Transition(None, 'field', '*', None)
-        self.assertIs(trans._can_trans(self.inst, self.request), True)
+        self.assertIs(trans._match_source(self.inst, self.request), True)
 
         # iterable
         trans = Transition(None, 'field', [1, 2], None)
-        self.assertIs(trans._can_trans(self.inst, self.request), False)
+        self.assertIs(trans._match_source(self.inst, self.request), False)
 
         # fail
         trans = Transition(None, 'field', 5, None)
-        self.assertIs(trans._can_trans(self.inst, self.request), False)
+        self.assertIs(trans._match_source(self.inst, self.request), False)
 
     def test_match_conds(self):
         # default

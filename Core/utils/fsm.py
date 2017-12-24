@@ -41,7 +41,7 @@ class Transition:
         else:
             return False
 
-    def _can_trans(self, inst, request):
+    def _match_source(self, inst, request):
         """
         检查前置状态
         """
@@ -73,7 +73,7 @@ class Transition:
                 raise exceptions.PermissionDenied()
             else:
                 return False
-        if not self._can_trans(inst, request):
+        if not self._match_source(inst, request):
             if raise_exception:
                 raise exceptions.ValidationError('当前状态无法进行此操作')
             else:
@@ -92,16 +92,13 @@ class Transition:
     def __call__(self, request, *args, **kwargs):
         inst = self.inst
         self.check_validity(inst, request)
-        with transaction.atomic():
-            ret = self.method(inst, request, *args, **kwargs)
-            setattr(inst, self.field_name, self.target)
-            inst.save()
-            return ret
+        ret = self.method(inst, request, *args, **kwargs)
+        setattr(inst, self.field_name, self.target)
+        return ret
 
 
 def transition(field, source, target, conditions=None,
                permission=None, name=None):
-
     """
     用于控制工作流状态转移的方法装饰器
 
@@ -197,6 +194,8 @@ class TransitionMeta(ModelBase):
     def __new__(cls, name, bases, attrs, **kwargs):
         transitions = []
         for attr_name, attr in attrs.items():
+            # TODO: Check incompatible Transition(eg. same source and target)
+            # Raise Exception
             if isinstance(attr, Transition):
                 transitions.append(attr)
         attrs['transitions'] = transitions
@@ -229,3 +228,41 @@ class TransitionSerializerMixin(serializers.Serializer):
     def get_actions(self, obj):
         actions = obj.actions(self.context['request'])
         return actions
+
+    def _run_transitions_validator(self, attrs):
+        inst = self.instance
+        request = self.context['request']
+        trans_map = defaultdict(list)
+        for trans in inst.transitions:
+            trans_map[trans.field_name].append(trans)
+        errors = {}
+        self.__attr_trans = {}
+        for attr in (attr for attr in attrs if attr in trans_map and
+                     not getattr(inst, attr) == attrs[attr]):
+            valid_trans = [trans for trans in trans_map[attr]
+                           if trans._match_source(inst, request) and
+                           trans.target == attrs[attr]]
+            if not valid_trans:
+                errors[attr] = '该操作无效'
+            trans = valid_trans[0]
+            self.__attr_trans[attr] = trans.method.__name__
+            try:
+                trans.check_validity(inst, request, raise_exception=True)
+            except (serializers.ValidationError,
+                    exceptions.ValidationError) as err:
+                errors[attr] = err.message
+        if errors:
+            raise serializers.ValidationError(errors)
+
+    def run_validators(self, attrs):
+        super().run_validators(attrs)
+        if self.instance:  # Only validate on update
+            self._run_transitions_validator(attrs)
+        return attrs
+
+    def update(self, instance, validated_data):
+        with transaction.atomic():
+            for attr, trans_name in self.__attr_trans.items():
+                validated_data.pop(attr)
+                getattr(instance, trans_name)(self.context['request'])
+            return super().update(instance, validated_data)
