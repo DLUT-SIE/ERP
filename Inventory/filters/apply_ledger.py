@@ -36,15 +36,18 @@ class WeldingMaterialApplyLedgerFilter(AbstractApplyLedgerFilter):
 
     def filter_sub_order_uid(self, queryset, name, value):
         splits = value.rsplit('-', 1)  # eg, WO1234-1
-        if len(splits) == 1:  # Only WorkOrder provided, fuzzy match
-            work_order_uid = splits[0]
-            return queryset.filter(
-                sub_order__work_order__uid__icontains=work_order_uid)
-        else:
-            work_order_uid, index = splits
+        if not splits:
+            return queryset
+        elif len(splits) > 1:
+            uid, index = splits
             index = int(index)
-            return queryset.filter(sub_order__work_order_uid=work_order_uid,
-                                   sub_order__index=index)
+            return queryset.filter(
+                apply_card__sub_order__work_order__uid=uid,
+                apply_card__sub_order__index=index)
+        else:
+            uid = splits[0]
+            return queryset.filter(
+                apply_card__sub_order__work_order__uid__icontains=uid)
 
 
 class SteelMaterialApplyLedgerFilter(AbstractApplyDetailLedgerFilter):

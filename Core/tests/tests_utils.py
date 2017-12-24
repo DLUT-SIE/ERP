@@ -2,6 +2,8 @@ import uuid
 import os.path as osp
 import hashlib
 
+from unittest.mock import Mock, MagicMock
+
 from django.test import TestCase
 from django.core import exceptions
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -27,10 +29,7 @@ class DynamicHashPathTest(TestCase):
     def test_call(self):
         hash_pather = DynamicHashPath('dynamic')
 
-        class Object:
-            pass
-
-        instance = Object()
+        instance = Mock()
         instance.path = SimpleUploadedFile('UploadFile.txt', b'file content')
         path = hash_pather(instance, 'UploadFile.txt')
 
@@ -45,10 +44,7 @@ class DynamicHashPathTest(TestCase):
     def test_call_without_date(self):
         hash_pather = DynamicHashPath('dynamic', False)
 
-        class Object:
-            pass
-
-        instance = Object()
+        instance = Mock()
         instance.path = SimpleUploadedFile('UploadFile.txt', b'file content')
         path = hash_pather(instance, 'UploadFile.txt')
 
@@ -61,22 +57,15 @@ class DynamicHashPathTest(TestCase):
         self.assertEqual(path, target_path)
 
 
-class RequestUserObject(object):
-    def __init__(self):
-        self.user = User.objects.get()
-
-
-class FakeModel(object):
-    def __getattr__(self, name):
-        return 0
-
-
 class TransitionTest(TestCase):
     def setUp(self):
         User.objects.create_user(
             username='user', password='123456')
-        self.request = RequestUserObject()
-        self.inst = FakeModel()
+        self.request = Mock()
+        self.request.user = Mock(spec=User)
+        self.request.user.has_perm.return_value = False
+        self.inst = MagicMock()
+        self.inst.field = 0
 
     def test_has_perm(self):
         # default
@@ -91,9 +80,8 @@ class TransitionTest(TestCase):
         self.assertIs(trans._has_perm(self.inst, self.request), False)
 
         # callable
-        def fake_perm_func(inst, request):
-            return False
-
+        fake_perm_func = Mock()
+        fake_perm_func.return_value = False
         trans = Transition(None, 'field', None, None,
                            permission=fake_perm_func)
         self.assertIs(trans._has_perm(self.inst, self.request), False)
@@ -128,9 +116,8 @@ class TransitionTest(TestCase):
         self.assertIs(trans._match_conds(self.inst, self.request), False)
 
         # callable
-        def fake_cond_func(inst, request):
-            return False
-
+        fake_cond_func = Mock()
+        fake_cond_func.return_value = False
         trans = Transition(None, 'field', None, None,
                            conditions=fake_cond_func)
         self.assertIs(trans._match_conds(self.inst, self.request), False)
