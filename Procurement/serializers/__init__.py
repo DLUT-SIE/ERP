@@ -12,6 +12,13 @@ from .material_execution import (
 from .status_change import (
     StatusChangeSerializer,)
 
+from .supplier import (
+    SupplierSerializer, SupplierDocumentSerializer, QuotationSerializer,
+    SupplierListSerializer, SupplierDetailSerializer)
+
+from .contact_detail import (
+    ContractDetailSerializer,)
+
 __all__ = [
     'MaterialSubApplySerializer', 'MaterialSubApplyListSerializer',
     'MaterialSubApplyItemsSerializer',
@@ -20,5 +27,8 @@ __all__ = [
     'MaterialExecutionSerializer',
     'MaterialExecutionDetailSerializer',
     'MaterialExecutionListSerializer', 'MaterialExecutionCreateSerializer',
-    'StatusChangeSerializer', 'MaterialSubApplyUpdateSerializer'
+    'StatusChangeSerializer', 'MaterialSubApplyUpdateSerializer',
+    'SupplierSerializer', 'SupplierDocumentSerializer', 'QuotationSerializer',
+    'SupplierListSerializer', 'SupplierDetailSerializer',
+    'ContractDetailSerializer'
 ]

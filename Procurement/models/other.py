@@ -98,7 +98,8 @@ class Quotation(models.Model):
     unit = models.CharField(verbose_name='单位', max_length=50,
                             blank=True, null=True)
     supplier = models.ForeignKey('Supplier', verbose_name='供应商',
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.CASCADE,
+                                 related_name='quotations')
 
     class Meta:
         verbose_name = '报价单'

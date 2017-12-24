@@ -53,7 +53,7 @@ class SupplierDocument(models.Model):
     供应商文件
     """
     supplier = models.ForeignKey(Supplier, verbose_name='供应商',
-                                 on_delete=models.CASCADE)
+                                 on_delete=models.CASCADE, related_name='docs')
     path = models.FileField(verbose_name='路径',
                             upload_to=DynamicHashPath('SupplierDocument'))
     upload_dt = models.DateTimeField(verbose_name='上传时间',

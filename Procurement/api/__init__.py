@@ -5,11 +5,16 @@ from .materialsub import (
 from .material_execution import (
     MaterialExecutionViewSet, MaterialExecutionDetailViewSet,)
 
-from .status_change import (
-    StatusChangeViewSet,)
+from .status_change import (StatusChangeViewSet,)
+
+from .supplier import (
+    SupplierViewSet, SupplierDocumentViewSet, QuotationViewSet,)
+
+from .contact_detail import (ContractDetailViewSet,)
 
 __all__ = [
     'MaterialSubApplyViewSet', 'MaterialSubApplyItemViewSet',
     'MaterialSubApplyCommentViewSet', 'MaterialExecutionViewSet',
-    'MaterialExecutionDetailViewSet', 'StatusChangeViewSet'
+    'MaterialExecutionDetailViewSet', 'StatusChangeViewSet', 'SupplierViewSet',
+    'SupplierDocumentViewSet', 'QuotationViewSet', 'ContractDetailViewSet'
 ]
