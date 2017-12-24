@@ -11,12 +11,11 @@ class MaterialSubApplyViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = MaterialSubApply.objects.all().order_by('-pk')
 
-    def perform_create(self, serializer):
-        serializer.save(applicant=self.request.user)
-
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.MaterialSubApplyListSerializer
+        elif self.action == "update":
+            return serializers.MaterialSubApplyUpdateSerializer
         else:
             return serializers.MaterialSubApplySerializer
 

@@ -2,7 +2,7 @@ from .materialsub import (
     MaterialSubApplySerializer,
     MaterialSubApplyListSerializer,
     MaterialSubApplyItemsSerializer, MaterialSubApplyItemsUpdateSerializer,
-    MaterialSubApplyCommentsSerializer,)
+    MaterialSubApplyCommentsSerializer, MaterialSubApplyUpdateSerializer)
 
 from .material_execution import (
     MaterialExecutionSerializer, MaterialExecutionDetailSerializer,
@@ -20,5 +20,5 @@ __all__ = [
     'MaterialExecutionSerializer',
     'MaterialExecutionDetailSerializer',
     'MaterialExecutionListSerializer', 'MaterialExecutionCreateSerializer',
-    'StatusChangeSerializer'
+    'StatusChangeSerializer', 'MaterialSubApplyUpdateSerializer'
 ]
