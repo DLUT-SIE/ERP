@@ -3,6 +3,8 @@ from .process import ProcessDetailViewSet, SubMaterialViewSet
 from .workgroup import (ProductionWorkGroupViewSet,
                         ProductionUserViewSet)
 from .ledgers import SubMaterialLedgersViewSet
+from .comprehensive_department_filelists import (
+    ComprehensiveDepartmentFileListViewSet,)
 
 __all__ = [
     'ProductionPlanViewSet',
@@ -10,5 +12,6 @@ __all__ = [
     'SubMaterialViewSet',
     'ProductionWorkGroupViewSet',
     'ProductionUserViewSet',
-    'SubMaterialLedgersViewSet'
+    'SubMaterialLedgersViewSet',
+    'ComprehensiveDepartmentFileListViewSet'
 ]

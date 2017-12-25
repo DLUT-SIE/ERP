@@ -1,22 +1,15 @@
 from django_filters import rest_framework as filters
 
-from Production.models import SubMaterial
+from Production.models import ComprehensiveDepartmentFileList
 
 
-class SubMaterialLedgersFilter(filters.FilterSet):
-    """
-    用于支持前端请求对子工作票台账queryset进行筛选的过滤器
-    """
-    ticket_number = filters.CharFilter(name='material__ticket_number',
-                                       label='工作票号')
-    parent_drawing_number = filters.CharFilter(
-        name='material__parent_drawing_number', label='部件图号')
+class ComprehensiveDepartmentFileListFilter(filters.FilterSet):
     sub_order_uid = filters.CharFilter(label='工作令', name='sub_order',
                                        method='filter_sub_order_uid')
 
     class Meta:
-        model = SubMaterial
-        fields = ('sub_order_uid', 'ticket_number', 'parent_drawing_number')
+        model = ComprehensiveDepartmentFileList
+        fields = ('sub_order_uid',)
 
     def filter_sub_order_uid(self, queryset, name, value):
         splits = value.rsplit('-', 1)  # eg, WO1234-1

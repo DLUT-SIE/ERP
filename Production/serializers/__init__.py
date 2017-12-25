@@ -10,6 +10,8 @@ from .process import (ProcessDetailListSerializer,
                       SubMaterialCreateSerializer)
 from .ledgers import (SubMaterialLedgersListSerializer,
                       SubMaterialLedgersUpdateSerializer)
+from .comprehensive_department_file_list import (
+    ComprehensiveDepartmentFileListSerializer,)
 
 from .workgroup import (ProductionWorkGroupSerializer,
                         ProductionUserSerializer,
@@ -29,5 +31,6 @@ __all__ = [
     'ProductionUserSerializer',
     'ProductionUserUpdateSerializer',
     'SubMaterialLedgersListSerializer',
-    'SubMaterialLedgersUpdateSerializer'
+    'SubMaterialLedgersUpdateSerializer',
+    'ComprehensiveDepartmentFileListSerializer'
 ]

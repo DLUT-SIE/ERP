@@ -11,7 +11,10 @@ class ProductionPlanFilter(filters.FilterSet):
         label='计划年月开始', name='plan_dt', lookup_expr='gte')
     plan_end_time = filters.DateTimeFilter(
         label='计划年月终止', name='plan_dt', lookup_expr='lte')
+    work_order_uid = filters.CharFilter(label='工作令', name='work_order__uid',
+                                        lookup_expr='icontains')
 
     class Meta:
         model = ProductionPlan
-        fields = ('work_order', 'status', 'plan_start_time', 'plan_end_time')
+        fields = ('work_order_uid', 'status',
+                  'plan_start_time', 'plan_end_time')
