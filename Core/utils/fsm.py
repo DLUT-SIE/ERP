@@ -159,7 +159,7 @@ def transition(field, source, target, conditions=None,
 
 def valid_actions(inst, request=None):
     actions = defaultdict(partial(defaultdict, int))
-    for trans in inst.transitions:
+    for name, trans in inst.transitions.items():
         if trans.check_validity(inst, request, raise_exception=False):
             actions[trans.field_name][trans.name] = trans.target
     return actions
@@ -236,7 +236,7 @@ class TransitionSerializerMixin(serializers.Serializer):
         inst = self.instance
         request = self.context['request']
         trans_map = defaultdict(list)
-        for trans in inst.transitions:
+        for name, trans in inst.transitions.items():
             trans_map[trans.field_name].append(trans)
         errors = {}
         self.__attr_trans = {}
