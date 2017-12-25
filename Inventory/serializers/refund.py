@@ -23,7 +23,7 @@ class WeldingMaterialRefundCardSerializer(serializers.ModelSerializer):
                                            read_only=True)
     model = serializers.CharField(default='', read_only=True)
     specification = serializers.CharField(
-        source='apply_card.procurement_material.spec', read_only=True)
+        source='apply_card.process_material.spec', read_only=True)
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)
 

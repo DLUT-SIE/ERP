@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from Core.models import SubWorkOrder
-from Procurement.models import ProcurementMaterial
+from Process.models import ProcessMaterial
 from Inventory import APPLYCARD_STATUS_CHOICES, APPLYCARD_STATUS_APPLICANT
 
 
@@ -48,9 +48,8 @@ class WeldingMaterialApplyCard(AbstractApplyCard):
     """
     焊材领用单
     """
-    procurement_material = models.ForeignKey(
-        ProcurementMaterial, verbose_name='采购物料',
-        blank=True, null=True, on_delete=models.SET_NULL)
+    process_material = models.ForeignKey(
+        ProcessMaterial, verbose_name='工艺物料', on_delete=models.CASCADE)
     inventory = models.ForeignKey('WeldingMaterialInventoryDetail',
                                   verbose_name='库存明细',
                                   blank=True, null=True,

@@ -28,12 +28,12 @@ class SteelMaterialApplyLedgerSerializer(serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(
         source='apply_card.sub_order.uid')
     material = serializers.CharField(
-        source='procurement_material.process_material.material.name')
+        source='process_material.material.name')
     specification = serializers.CharField(
-        source='procurement_material.process_material.spec')
+        source='process_material.spec')
     apply_dt = serializers.CharField(source='apply_card.create_dt')
     material_number = serializers.CharField(
-        source='procurement_material.process_material.material.uid')
+        source='process_material.material.uid')
     apply_count = serializers.IntegerField(source='count')
 
     class Meta:
@@ -66,12 +66,12 @@ class BoughtInComponentApplyLedgerSerializer(serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(
         source='apply_card.sub_order.uid')
     material = serializers.CharField(
-        source='procurement_material.process_material.material.name')
+        source='process_material.material.name')
     specification = serializers.CharField(
-        source='procurement_material.process_material.spec')
+        source='process_material.spec')
     apply_dt = serializers.CharField(source='apply_card.create_dt')
     material_number = serializers.CharField(
-        source='procurement_material.process_material.material.uid')
+        source='process_material.material.uid')
     apply_card_uid = serializers.CharField(source='apply_card.uid')
     apply_count = serializers.IntegerField(source='count')
 

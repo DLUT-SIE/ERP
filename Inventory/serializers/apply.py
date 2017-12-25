@@ -17,11 +17,11 @@ class WeldingMaterialApplyCardSerializer(serializers.ModelSerializer):
                                           read_only=True)
     welding_seam_uid = serializers.CharField(default='', read_only=True)
     material_mark = serializers.CharField(
-        source='procurement_material.process_material.name', read_only=True)
+        source='process_material.name', read_only=True)
     material_code = serializers.CharField(
-        source='procurement_material.material_number', read_only=True)
+        source='material_number', read_only=True)
     model = serializers.CharField(default='', read_only=True)
-    specification = serializers.CharField(source='procurement_material.spec',
+    specification = serializers.CharField(source='process_material.spec',
                                           read_only=True)
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)

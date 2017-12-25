@@ -1,12 +1,11 @@
 from django.db import models
 
-from Procurement.models import ProcurementMaterial
+from Process.models import ProcessMaterial
 
 
 class AbstractApplyDetail(models.Model):
-    procurement_material = models.ForeignKey(
-        ProcurementMaterial, verbose_name='采购物料',
-        blank=True, null=True, on_delete=models.SET_NULL)
+    process_material = models.ForeignKey(
+        ProcessMaterial, verbose_name='工艺物料', on_delete=models.CASCADE)
 
     class Meta:
         abstract = True

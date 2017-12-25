@@ -10,11 +10,10 @@ from Inventory.models import (
 class BoardSteelMaterialRefundDetailSerializer(serializers.ModelSerializer):
     name = serializers.CharField(default='', read_only=True)
     material = serializers.CharField(
-        source='apply_detail.procurement_material.process_material.material',
+        source='apply_detail.process_material.material',
         read_only=True)
-    material_code = serializers.CharField(
-        source='apply_detail.procurement_material.material_number',
-        read_only=True)
+    # TODO: Review this field
+    material_code = serializers.CharField(default='', read_only=True)
     apply_card_uid = serializers.CharField(source='apply_card.uid',
                                            read_only=True)
 
@@ -27,11 +26,10 @@ class BoardSteelMaterialRefundDetailSerializer(serializers.ModelSerializer):
 class BarSteelMaterialRefundDetailSerializer(serializers.ModelSerializer):
     name = serializers.CharField(default='', read_only=True)
     material = serializers.CharField(
-        source='apply_detail.procurement_material.process_material.material',
+        source='apply_detail.process_material.material',
         read_only=True)
-    material_code = serializers.CharField(
-        source='apply_detail.procurement_material.material_number',
-        read_only=True)
+    # TODO: Review this field
+    material_code = serializers.CharField(default='', read_only=True)
     apply_card_uid = serializers.CharField(source='apply_card.uid',
                                            read_only=True)
 
@@ -43,18 +41,16 @@ class BarSteelMaterialRefundDetailSerializer(serializers.ModelSerializer):
 
 class BoughtInComponentRefundDetailSerializer(serializers.ModelSerializer):
     drawing_number = serializers.CharField(
-        source=('apply_detail.procurement_material'
-                '.process_material.drawing_number'),
+        source='apply_detail.process_material.drawing_number',
         read_only=True)
     specification = serializers.CharField(
-        source='apply_detail.procurement_material.spec',
+        source='apply_detail.process_material.spec',
         read_only=True, default='')
     name = serializers.CharField(
-        source='apply_detail.procurement_material.process_material.name',
+        source='apply_detail.process_material.name',
         read_only=True)
-    material_number = serializers.CharField(
-        source='apply_detail.procurement_material.material_number',
-        read_only=True)
+    # TODO: Review this field
+    material_number = serializers.CharField(default='', read_only=True)
     unit = serializers.CharField(
         source='apply_detail.inventory_detail.entry_detail.unit',
         read_only=True)
