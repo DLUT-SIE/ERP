@@ -5,10 +5,15 @@ from .production_plan import (ProductionPlanListSerializer,
 from .process import (ProcessDetailListSerializer,
                       ProcessDetailCreateSerializer,
                       ProcessDetailSerializer,
+                      ProcessDetailSimpleSerializer,
                       SubMaterialSerializer,
                       SubMaterialCreateSerializer)
 from .ledgers import (SubMaterialLedgersListSerializer,
                       SubMaterialLedgersUpdateSerializer)
+
+from .workgroup import (ProductionWorkGroupSerializer,
+                        ProductionUserSerializer,
+                        ProductionUserUpdateSerializer)
 
 __all__ = [
     'ProductionPlanListSerializer',
@@ -16,9 +21,13 @@ __all__ = [
     'ProductionPlanUpdateSerializer',
     'ProcessDetailListSerializer',
     'ProcessDetailCreateSerializer',
+    'ProcessDetailSimpleSerializer',
     'ProcessDetailSerializer',
     'SubMaterialSerializer',
     'SubMaterialCreateSerializer',
+    'ProductionWorkGroupSerializer',
+    'ProductionUserSerializer',
+    'ProductionUserUpdateSerializer',
     'SubMaterialLedgersListSerializer',
     'SubMaterialLedgersUpdateSerializer'
 ]

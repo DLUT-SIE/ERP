@@ -3,12 +3,6 @@ from rest_framework import serializers
 from Production.models import ProcessDetail, SubMaterial
 
 
-class ProcessDetailCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProcessDetail
-        fields = ('id', 'sub_material', 'process_step')
-
-
 class ProcessDetailSerializer(serializers.ModelSerializer):
     material_index = serializers.CharField(
         source='sub_material.material.ticket_number', read_only=True)
@@ -18,23 +12,40 @@ class ProcessDetailSerializer(serializers.ModelSerializer):
                                           read_only=True)
     process_name = serializers.CharField(
         source='process_step.get_step_display', read_only=True)
-    work_hour = serializers.FloatField(source='process_step.man_hour',
+    work_hour = serializers.FloatField(source='process_step.man_hours',
                                        read_only=True)
+    work_group_name = serializers.CharField(source='work_group.name',
+                                            read_only=True)
+    inspector_name = serializers.CharField(source='inspector.username',
+                                           read_only=True)
 
     class Meta:
         model = ProcessDetail
-        fields = ('id', 'material_index', 'work_order_uid', 'process_id',
-                  'process_name', 'work_hour', 'estimated_start_dt',
-                  'estimated_finish_dt', 'work_group', 'actual_finish_dt',
-                  'remark', 'inspector', 'inspection_dt')
+        fields = ('id', 'sub_material', 'material_index', 'work_order_uid',
+                  'process_step', 'process_id', 'process_name', 'work_hour',
+                  'estimated_start_dt', 'estimated_finish_dt', 'work_group',
+                  'work_group_name', 'actual_finish_dt', 'remark',
+                  'inspector', 'inspector_name', 'inspection_dt')
+
+
+class ProcessDetailCreateSerializer(ProcessDetailSerializer):
+    class Meta(ProcessDetailSerializer.Meta):
+        read_only_fields = ('estimated_start_dt', 'estimated_finish_dt',
+                            'work_group', 'actual_finish_dt', 'remark',
+                            'inspector', 'inspection_dt')
 
 
 class ProcessDetailListSerializer(ProcessDetailSerializer):
     class Meta(ProcessDetailSerializer.Meta):
         fields = ('id', 'material_index', 'work_order_uid', 'process_id',
                   'process_name', 'work_hour', 'estimated_start_dt',
-                  'estimated_finish_dt', 'work_group', 'actual_finish_dt',
+                  'estimated_finish_dt', 'work_group_name', 'actual_finish_dt',
                   'inspection_dt')
+
+
+class ProcessDetailSimpleSerializer(ProcessDetailSerializer):
+    class Meta(ProcessDetailSerializer.Meta):
+        read_only_fields = ('sub_material', 'process_step')
 
 
 class SubMaterialSerializer(serializers.ModelSerializer):

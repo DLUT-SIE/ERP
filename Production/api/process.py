@@ -16,6 +16,8 @@ class ProcessDetailViewSet(viewsets.ModelViewSet):
             return serializers.ProcessDetailCreateSerializer
         elif self.action == 'list':
             return serializers.ProcessDetailListSerializer
+        elif self.action in ('partial_update', 'update'):
+            return serializers.ProcessDetailSimpleSerializer
         else:
             return serializers.ProcessDetailSerializer
 
