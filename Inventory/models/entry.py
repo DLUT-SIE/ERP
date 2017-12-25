@@ -1,12 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from Core.utils.fsm import transition, TransitionMeta
 from Procurement.models import BiddingSheet
-from Inventory import (ENTRYSTATUS_CHOICES, ENTRYSTATUS_CHOICES_PUCAHSER,
-                       BOUGHTIN_COMPONENT_CHOICES, STEEL_TYPES)
+from Inventory import (
+    ENTRYSTATUS_CHOICES,
+    ENTRYSTATUS_CHOICES_PUCAHSER,
+    ENTRYSTATUS_CHOICES_INSPECTOR,
+    ENTRYSTATUS_CHOICES_KEEPER,
+    ENTRYSTATUS_CHOICES_END,
+    BOUGHTIN_COMPONENT_CHOICES,
+    STEEL_TYPES)
+from Inventory.models import (
+    WeldingMaterialInventoryDetail,
+    SteelMaterialInventoryDetail,
+    AuxiliaryMaterialInventoryDetail,
+    BoughtInComponentInventoryDetail,
+)
 
 
-class AbstractEntry(models.Model):
+class AbstractEntry(models.Model, metaclass=TransitionMeta):
     uid = models.CharField(verbose_name='编号', max_length=20, unique=True)
     bidding_sheet = models.OneToOneField(BiddingSheet, verbose_name='标单',
                                          on_delete=models.CASCADE)
@@ -32,17 +45,71 @@ class AbstractEntry(models.Model):
     remark = models.CharField(verbose_name='备注', max_length=100,
                               blank=True, default='')
 
+    @transition(field='status',
+                source=ENTRYSTATUS_CHOICES_PUCAHSER,
+                target=ENTRYSTATUS_CHOICES_INSPECTOR, name='采购确认')
+    def purchaser_confirmed(self, request):
+        """
+        采购确认
+        """
+        self.purchaser = request.user
+
+    @transition(field='status',
+                source=ENTRYSTATUS_CHOICES_INSPECTOR,
+                target=ENTRYSTATUS_CHOICES_KEEPER, name='检查确认')
+    def inspector_confirmed(self, request):
+        """
+        检查确认
+        """
+        self.inspector = request.user
+
     class Meta:
         abstract = True
 
     def __str__(self):
         return self.uid
 
+    @staticmethod
+    def create_inventory_details(entry_details, InventoryDetailClass,
+                                 extra_funcs=None):
+        if extra_funcs is None:
+            extra_funcs = []
+        inventory_details = []
+        for entry_detail in entry_details:
+            inventory_detail = InventoryDetailClass()
+            inventory_detail.weight = entry_detail.weight
+            inventory_detail.count = entry_detail.count
+            inventory_detail.entry_detail = entry_detail
+            for (field_name, extra_func) in extra_funcs:
+                field_value = extra_func(entry_detail)
+                setattr(inventory_detail, field_name, field_value)
+            inventory_details.append(inventory_detail)
+        InventoryDetailClass.objects.bulk_create(inventory_details)
+
 
 class WeldingMaterialEntry(AbstractEntry):
     """
     焊材入库单
     """
+    @transition(field='status',
+                source=ENTRYSTATUS_CHOICES_KEEPER,
+                target=ENTRYSTATUS_CHOICES_END, name='库管确认')
+    def keeper_confirmed(self, request):
+        """
+        库管确认
+        """
+        self.keeper = request.user
+        entry_details = self.details.all()
+
+        def calculate_deadline(entry_detail):
+            deadline = entry_detail.production_dt
+            deadline = deadline.replace(year=deadline.year+2)
+            return deadline
+
+        self.create_inventory_details(
+            entry_details, WeldingMaterialInventoryDetail,
+            [('deadline', calculate_deadline)])
+
     class Meta:
         verbose_name = '焊材入库单'
         verbose_name_plural = '焊材入库单'
@@ -56,6 +123,18 @@ class SteelMaterialEntry(AbstractEntry):
     steel_type = models.IntegerField(verbose_name='材料类型',
                                      choices=STEEL_TYPES)
 
+    @transition(field='status',
+                source=ENTRYSTATUS_CHOICES_KEEPER,
+                target=ENTRYSTATUS_CHOICES_END, name='库管确认')
+    def keeper_confirmed(self, request):
+        """
+        库管确认
+        """
+        self.keeper = request.user
+        entry_details = self.details.all()
+        self.create_inventory_details(
+            entry_details, SteelMaterialInventoryDetail)
+
     class Meta:
         verbose_name = '钢材入库单'
         verbose_name_plural = '钢材入库单'
@@ -65,6 +144,19 @@ class AuxiliaryMaterialEntry(AbstractEntry):
     """
     辅材入库单
     """
+
+    @transition(field='status',
+                source=ENTRYSTATUS_CHOICES_KEEPER,
+                target=ENTRYSTATUS_CHOICES_END, name='库管确认')
+    def keeper_confirmed(self, request):
+        """
+        库管确认
+        """
+        self.keeper = request.user
+        entry_details = self.details.all()
+        self.create_inventory_details(
+            entry_details, AuxiliaryMaterialInventoryDetail)
+
     class Meta:
         verbose_name = '辅材入库单'
         verbose_name_plural = '辅材入库单'
@@ -76,6 +168,18 @@ class BoughtInComponentEntry(AbstractEntry):
     """
     category = models.IntegerField(verbose_name='外购件类型',
                                    choices=BOUGHTIN_COMPONENT_CHOICES)
+
+    @transition(field='status',
+                source=ENTRYSTATUS_CHOICES_KEEPER,
+                target=ENTRYSTATUS_CHOICES_END, name='库管确认')
+    def keeper_confirmed(self, request):
+        """
+        库管确认
+        """
+        self.keeper = request.user
+        entry_details = self.details.all()
+        self.create_inventory_details(
+            entry_details, BoughtInComponentInventoryDetail)
 
     class Meta:
         verbose_name = '外购件入库单'

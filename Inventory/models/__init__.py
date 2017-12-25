@@ -1,11 +1,11 @@
-from .entry import (WeldingMaterialEntry, SteelMaterialEntry,
-                    AuxiliaryMaterialEntry, BoughtInComponentEntry)
-from .entry_detail import (
-    WeldingMaterialEntryDetail, SteelMaterialEntryDetail,
-    AuxiliaryMaterialEntryDetail, BoughtInComponentEntryDetail)
 from .inventory_detail import (
     WeldingMaterialInventoryDetail, SteelMaterialInventoryDetail,
     AuxiliaryMaterialInventoryDetail, BoughtInComponentInventoryDetail)
+from .entry_detail import (
+    WeldingMaterialEntryDetail, SteelMaterialEntryDetail,
+    AuxiliaryMaterialEntryDetail, BoughtInComponentEntryDetail)
+from .entry import (WeldingMaterialEntry, SteelMaterialEntry,
+                    AuxiliaryMaterialEntry, BoughtInComponentEntry)
 from .apply import (WeldingMaterialApplyCard, SteelMaterialApplyCard,
                     AuxiliaryMaterialApplyCard, BoughtInComponentApplyCard)
 from .apply_detail import (
