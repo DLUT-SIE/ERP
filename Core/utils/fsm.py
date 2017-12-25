@@ -192,12 +192,15 @@ class TransitionMeta(ModelBase):
                 pass
     """
     def __new__(cls, name, bases, attrs, **kwargs):
-        transitions = []
+        transitions = {}
+        for base in bases:
+            if hasattr(base, 'transitions'):
+                transitions.update(getattr(base, 'transitions'))
         for attr_name, attr in attrs.items():
             # TODO: Check incompatible Transition(eg. same source and target)
             # Raise Exception
             if isinstance(attr, Transition):
-                transitions.append(attr)
+                transitions[attr_name] = attr
         attrs['transitions'] = transitions
         attrs['actions'] = valid_actions
         return super().__new__(cls, name, bases, attrs, **kwargs)
@@ -244,6 +247,7 @@ class TransitionSerializerMixin(serializers.Serializer):
                            trans.target == attrs[attr]]
             if not valid_trans:
                 errors[attr] = '该操作无效'
+                continue
             trans = valid_trans[0]
             self.__attr_trans[attr] = trans.method.__name__
             try:
