@@ -4,7 +4,8 @@ from rest_framework import routers
 
 from Process.api import (
     ProcessLibraryViewSet, ProcessMaterialViewSet, CirculationRouteViewSet,
-    ProcessRouteViewSet, TransferCardViewSet, TransferCardProcessViewSet)
+    ProcessRouteViewSet, TransferCardViewSet, TransferCardProcessViewSet,
+    BoughtInItemViewSet, FirstFeedingItemViewSet, CooperantItemViewSet)
 from Process.views import FileUploadView
 
 router = routers.SimpleRouter()
@@ -14,6 +15,9 @@ router.register(r'circulation_routes', CirculationRouteViewSet)
 router.register(r'process_routes', ProcessRouteViewSet)
 router.register(r'transfer_cards', TransferCardViewSet)
 router.register(r'transfer_card_processes', TransferCardProcessViewSet)
+router.register(r'bought_in_items', BoughtInItemViewSet)
+router.register(r'first_feeding_items', FirstFeedingItemViewSet)
+router.register(r'cooperant_items', CooperantItemViewSet)
 
 urlpatterns = [
     url(r'^api/process_libraries/upload/', FileUploadView.as_view()),

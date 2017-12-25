@@ -1,8 +1,11 @@
 from .process import (
     ProcessLibraryViewSet, ProcessMaterialViewSet, TransferCardViewSet,
-    CirculationRouteViewSet, ProcessRouteViewSet, TransferCardProcessViewSet)
+    CirculationRouteViewSet, ProcessRouteViewSet, TransferCardProcessViewSet,
+    BoughtInItemViewSet, FirstFeedingItemViewSet, CooperantItemViewSet)
 
 
 __all__ = ['ProcessLibraryViewSet', 'ProcessMaterialViewSet',
            'CirculationRouteViewSet', 'ProcessRouteViewSet',
-           'TransferCardViewSet', 'TransferCardProcessViewSet']
+           'TransferCardViewSet', 'TransferCardProcessViewSet',
+           'BoughtInItemViewSet', 'CooperantItemViewSet',
+           'FirstFeedingItemViewSet']

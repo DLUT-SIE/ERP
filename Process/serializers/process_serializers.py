@@ -4,7 +4,23 @@ from rest_framework import serializers
 
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
-    ProcessStep, TransferCard, TransferCardProcess)
+    ProcessStep, TransferCard, TransferCardProcess, BoughtInItem,
+    FirstFeedingItem, CooperantItem, AbstractQuotaItem)
+
+
+class GetCirculationRoutesMixin(serializers.Serializer):
+    circulation_routes = serializers.SerializerMethodField(read_only=True)
+
+    def get_circulation_routes(self, obj):
+        circulation_routes = []
+        routes = obj.process_material.circulation_route
+        for i in range(10):
+            cur = getattr(routes, 'C{}'.format(i + 1))
+            if not cur:
+                break
+            name = getattr(routes, 'get_C{}_display'.format(i + 1))()
+            circulation_routes.append(name)
+        return circulation_routes
 
 
 class ProcessLibrarySerializer(serializers.ModelSerializer):
@@ -131,7 +147,8 @@ class TransferCardListSerializer(serializers.ModelSerializer):
         return str(obj)
 
 
-class TransferCardSerializer(TransferCardListSerializer):
+class TransferCardSerializer(GetCirculationRoutesMixin,
+                             TransferCardListSerializer):
     basic_file = serializers.CharField(source='basic_file_name',
                                        read_only=True)
     work_order_uid = serializers.CharField(
@@ -154,19 +171,117 @@ class TransferCardSerializer(TransferCardListSerializer):
     class Meta(TransferCardListSerializer.Meta):
         fields = '__all__'
 
-    def get_circulation_routes(self, obj, *args):
-        circulation_routes = []
-        routes = obj.process_material.circulation_route
-        for i in range(10):
-            cur = getattr(routes, 'C{}'.format(i + 1))
-            if not cur:
-                break
-            circulation_routes.append(cur)
-        return circulation_routes
-
 
 class TransferCardProcessSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TransferCardProcess
         fields = '__all__'
+
+
+class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
+                                  serializers.ModelSerializer):
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number')
+    drawing_number = serializers.CharField(
+        source='process_material.drawing_number', read_only=True)
+    name = serializers.CharField(source='process_material.name',
+                                 read_only=True)
+    count = serializers.IntegerField(source='process_material.count',
+                                     read_only=True)
+    piece_weight = serializers.FloatField(
+        source='process_material.piece_weight', read_only=True)
+    total_weight = serializers.SerializerMethodField()
+    material = serializers.CharField(source='process_material.material.name',
+                                     read_only=True)
+    writer = serializers.CharField(source='quota_list.writer.first_name',
+                                   allow_null=True, read_only=True)
+    reviewer = serializers.CharField(source='quota_list.reviewer.first_name',
+                                     allow_null=True, read_only=True)
+    product_name = serializers.CharField(
+        source='process_material.lib.work_order.product', read_only=True)
+    work_order_uid = serializers.CharField(
+        source='process_material.lib.work_order.uid')
+
+    class Meta:
+        model = AbstractQuotaItem
+        fields = ('id', 'ticket_number', 'drawing_number', 'name',
+                  'product_name', 'count', 'material',
+                  'piece_weight', 'total_weight', 'writer', 'reviewer',
+                  'quota_list', 'work_order_uid', 'circulation_routes',
+                  'remark')
+
+    def get_total_weight(self, obj):
+        piece_weight = obj.process_material.piece_weight
+        if piece_weight:
+            return piece_weight * obj.process_material.count
+        return 0
+
+    def create(self, validated_data):
+        ticket_number = validated_data['process_material']['ticket_number']
+        quota_list = validated_data['quota_list']
+        work_order_uid = validated_data['uid']
+        process_material = ProcessMaterial.objects.get(
+            ticket_number=ticket_number,
+            lib__work_order__uid=work_order_uid)
+        quota_item = self.Meta.model.objects.create(
+            quota_list=quota_list, process_material=process_material)
+        return quota_item
+
+    def validate(self, attrs):
+        ticket_number = attrs['process_material']['ticket_number']
+        work_order_uid =\
+            attrs['process_material']['lib']['work_order']['uid']
+        quota_list = attrs['quota_list']
+        attrs['uid'] = work_order_uid
+        attrs['ticket_number'] = ticket_number
+        process_material = ProcessMaterial.objects.filter(
+            ticket_number=ticket_number,
+            lib__work_order__uid=work_order_uid)
+        if not process_material:
+            raise serializers.ValidationError("创建信息有误，请核对")
+        else:
+            process_material = process_material[0]
+
+        if self.Meta.model.objects.filter(
+                quota_list=quota_list, process_material=process_material)\
+                .count():
+            raise serializers.ValidationError("该条物料已经添加")
+        return attrs
+
+
+class AbstractQuotaItemUpdateSerializer(AbstractQuotaItemSerializer):
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number', read_only=True)
+    work_order_uid = serializers.CharField(
+        source='process_material.lib.work_order.uid', read_only=True)
+
+
+class FirstFeedingItemSerializer(AbstractQuotaItemSerializer):
+    class Meta(AbstractQuotaItemSerializer.Meta):
+        model = FirstFeedingItem
+
+
+class FirstFeedingItemUpdateSerializer(AbstractQuotaItemUpdateSerializer):
+    class Meta(AbstractQuotaItemUpdateSerializer.Meta):
+        model = FirstFeedingItem
+
+
+class CooperantItemSerializer(AbstractQuotaItemSerializer):
+    class Meta(AbstractQuotaItemSerializer.Meta):
+        model = CooperantItem
+
+
+class CooperantItemUpdateSerializer(AbstractQuotaItemUpdateSerializer):
+    class Meta(AbstractQuotaItemUpdateSerializer.Meta):
+        model = CooperantItem
+
+
+class BoughtInItemSerializer(AbstractQuotaItemSerializer):
+    class Meta(AbstractQuotaItemSerializer.Meta):
+        model = BoughtInItem
+
+
+class BoughtInItemUpdateSerializer(AbstractQuotaItemUpdateSerializer):
+    class Meta(AbstractQuotaItemUpdateSerializer.Meta):
+        model = BoughtInItem

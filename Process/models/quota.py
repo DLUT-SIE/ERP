@@ -32,7 +32,7 @@ class QuotaList(models.Model):
         verbose_name_plural = '定额明细表'
 
     def __str__(self):
-        return str(self.work_order)
+        return str(self.lib)
 
 
 class AbstractQuotaItem(models.Model):

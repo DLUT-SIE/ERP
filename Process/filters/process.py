@@ -2,7 +2,8 @@ from django_filters import rest_framework as filters
 
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
-    TransferCard, TransferCardProcess)
+    TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
+    CooperantItem)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -58,3 +59,33 @@ class TransferCardProcessFilter(filters.FilterSet):
     class Meta:
         model = TransferCardProcess
         fields = ('transfer_card',)
+
+
+class BoughtInItemFilter(filters.FilterSet):
+    worker_order_uid = filters.CharFilter(
+        name='process_material__lib__work_order__uid',
+        lookup_expr='exact')
+
+    class Meta:
+        model = BoughtInItem
+        fields = ('worker_order_uid',)
+
+
+class FirstFeedingItemFilter(filters.FilterSet):
+    worker_order_uid = filters.CharFilter(
+        name='process_material__lib__work_order__uid',
+        lookup_expr='exact')
+
+    class Meta:
+        model = FirstFeedingItem
+        fields = ('worker_order_uid',)
+
+
+class CooperantItemFilter(filters.FilterSet):
+    worker_order_uid = filters.CharFilter(
+        name='process_material__lib__work_order__uid',
+        lookup_expr='exact')
+
+    class Meta:
+        model = CooperantItem
+        fields = ('worker_order_uid',)
