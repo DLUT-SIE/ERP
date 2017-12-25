@@ -1,17 +1,7 @@
 TZ-ERP
 ==========
-<<<<<<< Updated upstream
-.. image:: https://readthedocs.org/projects/erp/badge/?version=dev-docs
-    :target: http://erp.readthedocs.io/?badge=dev-docs
-=======
-<<<<<<< HEAD
 .. image:: https://readthedocs.org/projects/erp/badge/?version=latest
     :target: http://erp.readthedocs.io/?badge=latest
-=======
-.. image:: https://readthedocs.org/projects/erp/badge/?version=dev-docs
-    :target: http://erp.readthedocs.io/?badge=dev-docs
->>>>>>> 8f0f37da6fee829b7aa8e051a81d51467457bf60
->>>>>>> Stashed changes
 .. image:: https://travis-ci.org/DLUT-SIE/ERP.svg?branch=dev
     :target: https://travis-ci.org/DLUT-SIE/ERP
 .. image:: https://coveralls.io/repos/github/DLUT-SIE/ERP/badge.svg?branch=dev
