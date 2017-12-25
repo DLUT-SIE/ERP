@@ -1,7 +1,5 @@
 TZ-ERP
 ==========
-.. image:: https://readthedocs.org/projects/erp/badge/?version=latest
-    :target: http://erp.readthedocs.io/?badge=latest
 .. image:: https://travis-ci.org/DLUT-SIE/ERP.svg?branch=dev
     :target: https://travis-ci.org/DLUT-SIE/ERP
 .. image:: https://coveralls.io/repos/github/DLUT-SIE/ERP/badge.svg?branch=dev

@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>库存模块 &mdash; ERP 0.1 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="../genindex.html"/>
+        <link rel="search" title="搜索" href="../search.html"/>
+    <link rel="top" title="ERP 0.1 文档" href="../index.html"/>
+        <link rel="next" title="库存模块-模型定义" href="models.html"/>
+        <link rel="prev" title="采购模块-API" href="../Procurement/api.html"/>
+<link rel="stylesheet" type="text/css" 
+     href="../_static/custom.css" /> 
+
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ERP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">ERP开发文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../APIs.html">API总览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Coding_Guidelines/index.html">代码规范</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Core/index.html">核心模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Distribution/index.html">经销模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Process/index.html">工艺模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Procurement/index.html">采购模块</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">库存模块</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html">库存模块-模型定义</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html">库存模块-视图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">库存模块-API</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Production/index.html">生产模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Messaging/index.html">消息模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Updates/index.html">更新文档</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ERP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>库存模块</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Inventory/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="inventory">
+<span id="id1"></span><h1>库存模块<a class="headerlink" href="#inventory" title="永久链接至标题">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="models.html">库存模块-模型定义</a></li>
+<li class="toctree-l1"><a class="reference internal" href="views.html">库存模块-视图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">库存模块-API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id1">焊材入库单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id2">钢材入库单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id7">外购件入库单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id12">辅材入库单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id17">焊材入库单明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id21">钢材入库单明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id25">外购件入库单明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id29">辅材入库单明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id33">焊材入库台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id35">钢材入库台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id37">外购件入库台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id39">辅材入库台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id41">焊材库存明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id45">钢材库存明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id49">外购件库存明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id53">辅材库存明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id57">焊材库存台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id59">钢材库存台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id61">外购件库存台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id63">辅材库存台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id65">焊材领用单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id70">钢材领用单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id75">外购件领用单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id80">辅材领用单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id85">钢材领用明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id89">外购件领用明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id93">焊材出库台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id95">钢材出库台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id97">外购件出库台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id99">辅材出库台账</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id101">焊材退库单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id106">钢材退库单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id111">外购件退库单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id116">板材退库单明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id120">型材退库单明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id124">外购件退库单明细</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id128">库房</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id133">焊材库温湿度记录卡</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#id138">焊材烘焙记录卡</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="models.html" class="btn btn-neutral float-right" title="库存模块-模型定义" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Procurement/api.html" class="btn btn-neutral" title="采购模块-API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Youchen Du.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

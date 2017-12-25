@@ -101,7 +101,7 @@ ENV/
 .mypy_cache/
 
 # ERP
-documents/build/
+!build/
 old_stuff/
 static/
 media/

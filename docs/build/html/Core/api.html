@@ -1,0 +1,1317 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>核心模块-API &mdash; ERP 0.1 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="../genindex.html"/>
+        <link rel="search" title="搜索" href="../search.html"/>
+    <link rel="top" title="ERP 0.1 文档" href="../index.html"/>
+        <link rel="up" title="核心模块" href="index.html"/>
+        <link rel="next" title="经销模块" href="../Distribution/index.html"/>
+        <link rel="prev" title="核心模块-工具" href="utils.html"/>
+<link rel="stylesheet" type="text/css" 
+     href="../_static/custom.css" /> 
+
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ERP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">ERP开发文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../APIs.html">API总览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Coding_Guidelines/index.html">代码规范</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">核心模块</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="models.html">核心模块-模型定义</a></li>
+<li class="toctree-l2"><a class="reference internal" href="base_views.html">核心模块-基础视图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">核心模块-工具</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">核心模块-API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">用户信息</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#list">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#read">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#partial-update">partial_update</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">部门</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#list-distribution">list(distribution)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">工作令</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">子工作令</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id12">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">partial_update</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Distribution/index.html">经销模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Process/index.html">工艺模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Procurement/index.html">采购模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Inventory/index.html">库存模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Production/index.html">生产模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Messaging/index.html">消息模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Updates/index.html">更新文档</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ERP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">核心模块</a> &raquo;</li>
+        
+      <li>核心模块-API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Core/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<span id="core-api"></span><h1>核心模块-API<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>用户信息<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="section" id="list">
+<h3>list<a class="headerlink" href="#list" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回用户信息列表</p>
+<p><span class="post">POST</span> <span class="code">/api/users/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>用户信息id</td>
+</tr>
+<tr class="row-odd"><td>first_name</td>
+<td>str</td>
+<td>名</td>
+</tr>
+<tr class="row-even"><td>email</td>
+<td>str</td>
+<td>邮箱</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="read">
+<h3>read<a class="headerlink" href="#read" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的用户信息</p>
+<p><span class="get">GET</span> <span class="code">/api/users/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>用户信息id</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>用户信息id</td>
+</tr>
+<tr class="row-odd"><td>first_name</td>
+<td>str</td>
+<td>名</td>
+</tr>
+<tr class="row-even"><td>last_name</td>
+<td>str</td>
+<td>姓</td>
+</tr>
+<tr class="row-odd"><td>email</td>
+<td>str</td>
+<td>邮箱</td>
+</tr>
+<tr class="row-even"><td>info</td>
+<td>dict</td>
+<td>额外信息</td>
+</tr>
+</tbody>
+</table>
+<p>info字典</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>字段</td>
+<td>类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>phone</td>
+<td>str</td>
+<td>固定电话</td>
+</tr>
+<tr class="row-odd"><td>mobile</td>
+<td>str</td>
+<td>移动电话</td>
+</tr>
+<tr class="row-even"><td>gender</td>
+<td>int</td>
+<td>性别</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="partial-update">
+<h3>partial_update<a class="headerlink" href="#partial-update" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id的用户信息, 返回更新后的用户信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/users/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>用户信息id</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>用户信息id</td>
+</tr>
+<tr class="row-odd"><td>first_name</td>
+<td>str</td>
+<td>名</td>
+</tr>
+<tr class="row-even"><td>last_name</td>
+<td>str</td>
+<td>姓</td>
+</tr>
+<tr class="row-odd"><td>email</td>
+<td>str</td>
+<td>邮箱</td>
+</tr>
+<tr class="row-even"><td>info</td>
+<td>dict</td>
+<td>额外信息</td>
+</tr>
+</tbody>
+</table>
+<p>info字典</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>字段</td>
+<td>类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>phone</td>
+<td>str</td>
+<td>固定电话</td>
+</tr>
+<tr class="row-odd"><td>mobile</td>
+<td>str</td>
+<td>移动电话</td>
+</tr>
+<tr class="row-even"><td>gender</td>
+<td>int</td>
+<td>性别</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>部门<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h3>list<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回部门列表</p>
+<p><span class="get">GET</span> <span class="code">/api/departments/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>部门id</td>
+</tr>
+<tr class="row-odd"><td>superior</td>
+<td>int</td>
+<td>上级部门id</td>
+</tr>
+<tr class="row-even"><td>admin</td>
+<td>int</td>
+<td>部门管理员id</td>
+</tr>
+<tr class="row-odd"><td>short_name</td>
+<td>str</td>
+<td>部门名称简写</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="list-distribution">
+<h3>list(distribution)<a class="headerlink" href="#list-distribution" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回经销模块所需的部门信息字典</p>
+<p><span class="get">GET</span> <span class="code">/api/departments/distribution/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>Distribution</td>
+<td>int</td>
+<td>经销部门id</td>
+</tr>
+<tr class="row-odd"><td>Process</td>
+<td>int</td>
+<td>工艺部门id</td>
+</tr>
+<tr class="row-even"><td>Procurement</td>
+<td>int</td>
+<td>采购部门id</td>
+</tr>
+<tr class="row-odd"><td>Production</td>
+<td>int</td>
+<td>生产部门id</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h3>read<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的部门信息</p>
+<p><span class="get">GET</span> <span class="code">/api/departments/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>部门id</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>部门id</td>
+</tr>
+<tr class="row-odd"><td>group</td>
+<td>dict</td>
+<td>系统组信息</td>
+</tr>
+<tr class="row-even"><td>superior</td>
+<td>int</td>
+<td>上级部门id</td>
+</tr>
+<tr class="row-odd"><td>admin</td>
+<td>int</td>
+<td>部门管理员id</td>
+</tr>
+<tr class="row-even"><td>short_name</td>
+<td>str</td>
+<td>部门名称简写</td>
+</tr>
+</tbody>
+</table>
+<p>group字典</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>字段</td>
+<td>类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>str</td>
+<td>系统组名</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h3>partial_update<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id的部门信息, 返回更新后的部门信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/departments/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>部门id</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>部门id</td>
+</tr>
+<tr class="row-odd"><td>group</td>
+<td>dict</td>
+<td>系统组信息</td>
+</tr>
+<tr class="row-even"><td>superior</td>
+<td>int</td>
+<td>上级部门id</td>
+</tr>
+<tr class="row-odd"><td>admin</td>
+<td>int</td>
+<td>部门管理员id</td>
+</tr>
+<tr class="row-even"><td>short_name</td>
+<td>str</td>
+<td>部门名称简写</td>
+</tr>
+</tbody>
+</table>
+<p>group字典</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>字段</td>
+<td>类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>str</td>
+<td>系统组名</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="create">
+<h3>create<a class="headerlink" href="#create" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的部门信息</p>
+<p><span class="post">POST</span> <span class="code">/api/departments/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>group</td>
+<td>str</td>
+<td>系统组名</td>
+</tr>
+<tr class="row-odd"><td>short_name</td>
+<td>str</td>
+<td>部门名缩写</td>
+</tr>
+<tr class="row-even"><td>superior(Optional)</td>
+<td>int</td>
+<td>上级部门id</td>
+</tr>
+<tr class="row-odd"><td>admin(Optional)</td>
+<td>int</td>
+<td>部门管理员id</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>部门id</td>
+</tr>
+<tr class="row-odd"><td>group</td>
+<td>dict</td>
+<td>系统组信息</td>
+</tr>
+<tr class="row-even"><td>superior</td>
+<td>int</td>
+<td>上级部门id</td>
+</tr>
+<tr class="row-odd"><td>admin</td>
+<td>int</td>
+<td>部门管理员id</td>
+</tr>
+<tr class="row-even"><td>short_name</td>
+<td>str</td>
+<td>部门名称简写</td>
+</tr>
+</tbody>
+</table>
+<p>group字典</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>字段</td>
+<td>类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>str</td>
+<td>系统组名</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>工作令<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id7">
+<h3>list<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回工作令列表</p>
+<p><span class="get">GET</span> <span class="code">/api/work_orders/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>工作令id</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>sell_type</td>
+<td>int</td>
+<td>销售类型</td>
+</tr>
+<tr class="row-odd"><td>pretty_sell_type</td>
+<td>str</td>
+<td>销售类型中文表达</td>
+</tr>
+<tr class="row-even"><td>client</td>
+<td>str</td>
+<td>客户名称</td>
+</tr>
+<tr class="row-odd"><td>project</td>
+<td>str</td>
+<td>项目名称</td>
+</tr>
+<tr class="row-even"><td>product</td>
+<td>int</td>
+<td>产品id</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>finished</td>
+<td>bool</td>
+<td>已结束</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id8">
+<h3>read<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的工作令信息</p>
+<p><span class="get">GET</span> <span class="code">/api/work_orders/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>工作令id</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>工作令id</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>sell_type</td>
+<td>int</td>
+<td>销售类型</td>
+</tr>
+<tr class="row-odd"><td>pretty_sell_type</td>
+<td>str</td>
+<td>销售类型中文表达</td>
+</tr>
+<tr class="row-even"><td>client</td>
+<td>str</td>
+<td>客户名称</td>
+</tr>
+<tr class="row-odd"><td>project</td>
+<td>str</td>
+<td>项目名称</td>
+</tr>
+<tr class="row-even"><td>product</td>
+<td>int</td>
+<td>产品id</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>finished</td>
+<td>bool</td>
+<td>已结束</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id9">
+<h3>partial_update<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id的工作令信息, 返回更新后的工作令信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/work_orders/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>工作令id</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>工作令id</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>sell_type</td>
+<td>int</td>
+<td>销售类型</td>
+</tr>
+<tr class="row-odd"><td>pretty_sell_type</td>
+<td>str</td>
+<td>销售类型中文表达</td>
+</tr>
+<tr class="row-even"><td>client</td>
+<td>str</td>
+<td>客户名称</td>
+</tr>
+<tr class="row-odd"><td>project</td>
+<td>str</td>
+<td>项目名称</td>
+</tr>
+<tr class="row-even"><td>product</td>
+<td>int</td>
+<td>产品id</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>finished</td>
+<td>bool</td>
+<td>已结束</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id10">
+<h3>create<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的工作令信息</p>
+<p><span class="post">POST</span> <span class="code">/api/work_orders/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>sell_type</td>
+<td>int</td>
+<td>销售类型</td>
+</tr>
+<tr class="row-even"><td>client</td>
+<td>str</td>
+<td>客户名称</td>
+</tr>
+<tr class="row-odd"><td>project</td>
+<td>str</td>
+<td>项目名称</td>
+</tr>
+<tr class="row-even"><td>product</td>
+<td>int</td>
+<td>产品id</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>工作令id</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>sell_type</td>
+<td>int</td>
+<td>销售类型</td>
+</tr>
+<tr class="row-odd"><td>pretty_sell_type</td>
+<td>str</td>
+<td>销售类型中文表达</td>
+</tr>
+<tr class="row-even"><td>client</td>
+<td>str</td>
+<td>客户名称</td>
+</tr>
+<tr class="row-odd"><td>project</td>
+<td>str</td>
+<td>项目名称</td>
+</tr>
+<tr class="row-even"><td>product</td>
+<td>int</td>
+<td>产品id</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>finished</td>
+<td>bool</td>
+<td>已结束</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>子工作令<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id12">
+<h3>list<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回子工作令列表</p>
+<p><span class="get">GET</span> <span class="code">/api/sub_work_orders/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>子工作令id</td>
+</tr>
+<tr class="row-odd"><td>index</td>
+<td>int</td>
+<td>序号</td>
+</tr>
+<tr class="row-even"><td>finished</td>
+<td>bool</td>
+<td>已结束</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id13">
+<h3>read<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的子工作令信息</p>
+<p><span class="get">GET</span> <span class="code">/api/sub_work_orders/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>子工作令id</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>子工作令id</td>
+</tr>
+<tr class="row-odd"><td>index</td>
+<td>int</td>
+<td>序号</td>
+</tr>
+<tr class="row-even"><td>finished</td>
+<td>bool</td>
+<td>已结束</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id14">
+<h3>partial_update<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id的子工作令信息, 返回更新后的子工作令信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/sub_work_orders/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>子工作令id</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>子工作令id</td>
+</tr>
+<tr class="row-odd"><td>index</td>
+<td>int</td>
+<td>序号</td>
+</tr>
+<tr class="row-even"><td>finished</td>
+<td>bool</td>
+<td>已结束</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Distribution/index.html" class="btn btn-neutral float-right" title="经销模块" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="utils.html" class="btn btn-neutral" title="核心模块-工具" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Youchen Du.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
