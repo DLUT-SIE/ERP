@@ -33,7 +33,7 @@ class WeldingMaterialApplyCardSerializer(serializers.ModelSerializer):
                   'specification', 'apply_weight', 'apply_count',
                   'material_code', 'actual_weight', 'actual_count',
                   'applicant', 'auditor', 'inspector', 'keeper',
-                  'status', 'pretty_status')
+                  'status', 'pretty_status', 'actions')
 
 
 class WeldingMaterialApplyCardListSerializer(
@@ -67,19 +67,28 @@ class AuxiliaryMaterialApplyCardSerializer(serializers.ModelSerializer):
                                           read_only=True, default='')
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)
+    apply_inventory_name = serializers.CharField(
+        source='apply_inventory.entry_detail.procurement_material',
+        read_only=True)
+    actual_inventory_name = serializers.CharField(
+        source='actual_inventory.entry_detail.procurement_material',
+        read_only=True, allow_null=True)
 
     class Meta:
         model = AuxiliaryMaterialApplyCard
         fields = ('id', 'sub_order_uid', 'department', 'uid', 'create_dt',
                   'applicant', 'auditor', 'inspector', 'keeper',
-                  'status', 'pretty_status', 'apply_inventory', 'apply_count',
-                  'actual_inventory', 'actual_count', 'remark')
+                  'status', 'pretty_status', 'apply_inventory',
+                  'apply_inventory_name', 'apply_count',
+                  'actual_inventory_name', 'actual_inventory',
+                  'actual_count', 'remark')
 
 
 class AuxiliaryMaterialApplyCardListSerializer(
         AuxiliaryMaterialApplyCardSerializer):
     class Meta(AuxiliaryMaterialApplyCardSerializer.Meta):
-        fields = ('id', 'sub_order_uid', 'uid', 'create_dt', 'applicant',
+        fields = ('id', 'sub_order_uid', 'uid', 'create_dt',
+                  'apply_inventory_name', 'apply_count', 'applicant',
                   'department', 'status', 'pretty_status')
 
 
