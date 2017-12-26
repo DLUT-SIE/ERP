@@ -103,7 +103,6 @@ ENV/
 # ERP
 !build/
 old_stuff/
-static/
 media/
 htmlcov/
 *.swp
