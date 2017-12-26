@@ -3,14 +3,14 @@ from rest_framework.pagination import LimitOffsetPagination
 
 from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
-    ProcessLibrary, ProcessMaterial, CirculationRoute, BoughtInItem,
+    ProcessLibrary, ProcessMaterial, CirculationRoute, BoughtInItem, QuotaList,
     ProcessRoute, TransferCard, TransferCardProcess, FirstFeedingItem,
     CooperantItem, PrincipalQuotaItem)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
     TransferCardListSerializer, TransferCardProcessSerializer,
-    BoughtInItemSerializer, BoughtInItemUpdateSerializer,
+    BoughtInItemSerializer, BoughtInItemUpdateSerializer, QuotaListSerializer,
     FirstFeedingItemUpdateSerializer, FirstFeedingItemSerializer,
     CooperantItemUpdateSerializer, CooperantItemSerializer,
     PrincipalQuotaItemSerializer)
@@ -18,7 +18,7 @@ from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
     BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
-    PrincipalQuotaItemFilter)
+    PrincipalQuotaItemFilter, QuotaListFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -109,3 +109,10 @@ class PrincipalQuotaItemViewSet(viewsets.ModelViewSet):
     queryset = PrincipalQuotaItem.objects.all().order_by('-pk')
     filter_class = PrincipalQuotaItemFilter
     serializer_class = PrincipalQuotaItemSerializer
+
+
+class QuotaListViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = QuotaList.objects.all().order_by('-pk')
+    filter_class = QuotaListFilter
+    serializer_class = QuotaListSerializer

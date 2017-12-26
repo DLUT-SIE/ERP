@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
-    ProcessStep, TransferCard, TransferCardProcess, BoughtInItem,
+    ProcessStep, TransferCard, TransferCardProcess, BoughtInItem, QuotaList,
     FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem)
 
 
@@ -194,22 +194,12 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
     total_weight = serializers.SerializerMethodField()
     material = serializers.CharField(source='process_material.material.name',
                                      read_only=True)
-    writer = serializers.CharField(source='quota_list.writer.first_name',
-                                   allow_null=True, read_only=True)
-    reviewer = serializers.CharField(source='quota_list.reviewer.first_name',
-                                     allow_null=True, read_only=True)
-    product_name = serializers.CharField(
-        source='process_material.lib.work_order.product', read_only=True)
-    work_order_uid = serializers.CharField(
-        source='process_material.lib.work_order.uid')
 
     class Meta:
         model = AbstractQuotaItem
-        fields = ('id', 'ticket_number', 'drawing_number', 'name',
-                  'product_name', 'count', 'material',
-                  'piece_weight', 'total_weight', 'writer', 'reviewer',
-                  'quota_list', 'work_order_uid', 'circulation_routes',
-                  'remark')
+        fields = ('id', 'ticket_number', 'drawing_number', 'name', 'count',
+                  'material', 'piece_weight', 'total_weight', 'quota_list',
+                  'circulation_routes', 'remark')
 
     def get_total_weight(self, obj):
         piece_weight = obj.process_material.piece_weight
@@ -298,3 +288,18 @@ class PrincipalQuotaItemSerializer(serializers.ModelSerializer):
 
     def get_total_weight(self, obj):
         return obj.count * obj.weight
+
+
+class QuotaListSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source='lib.work_order.product',
+                                         read_only=True)
+    work_order_uid = serializers.CharField(source='lib.work_order.uid',
+                                           read_only=True)
+    writer = serializers.CharField(source='writer.first_name',
+                                   allow_null=True, read_only=True)
+    reviewer = serializers.CharField(source='reviewer.first_name',
+                                     allow_null=True, read_only=True)
+
+    class Meta:
+        model = QuotaList
+        fields = ('id', 'writer', 'reviewer', 'product_name', 'work_order_uid')
