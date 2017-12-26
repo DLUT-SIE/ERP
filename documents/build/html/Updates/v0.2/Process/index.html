@@ -1,0 +1,772 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>工艺模块 &mdash; ERP 0.1 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="../../../genindex.html"/>
+        <link rel="search" title="搜索" href="../../../search.html"/>
+    <link rel="top" title="ERP 0.1 文档" href="../../../index.html"/>
+        <link rel="up" title="V0.2更新文档" href="../index.html"/>
+        <link rel="next" title="采购模块" href="../Procurement/index.html"/>
+        <link rel="prev" title="核心模块" href="../Core/index.html"/>
+<link rel="stylesheet" type="text/css" 
+     href="../../../_static/custom.css" /> 
+
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> ERP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">ERP开发文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../APIs.html">API总览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Coding_Guidelines/index.html">代码规范</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Core/index.html">核心模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Distribution/index.html">经销模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Process/index.html">工艺模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Procurement/index.html">采购模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Inventory/index.html">库存模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Production/index.html">生产模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Messaging/index.html">消息模块</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">更新文档</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../v0.1/index.html">V0.1更新文档</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">V0.2更新文档</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#id1">模块改动</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../Distribution/index.html">经销模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Core/index.html">核心模块</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">工艺模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Procurement/index.html">采购模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Inventory/index.html">库存模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Production/index.html">生产模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Messaging/index.html">消息模块</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ERP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">更新文档</a> &raquo;</li>
+        
+          <li><a href="../index.html">V0.2更新文档</a> &raquo;</li>
+        
+      <li>工艺模块</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/Updates/v0.2/Process/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>工艺模块<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<ul>
+<li><p class="first">从 <strong>Core</strong> 模块移动模型 <strong>Materiel</strong></p>
+</li>
+<li><p class="first">添加 <strong>ProcessLibrary</strong> 模型, 用以分离工艺物料与工作令之间的关系</p>
+</li>
+<li><p class="first">添加 <strong>QuotaList</strong> 模型, 用以关联定额明细与工艺物料</p>
+</li>
+<li><p class="first">模型 <strong>Materiel</strong> 重命名为 <strong>ProcessMaterial</strong></p>
+</li>
+<li><p class="first">模型 <strong>AuxiliaryItem</strong> 重命名为 <strong>AuxiliaryQuotaItem</strong></p>
+</li>
+<li><p class="first">模型 <strong>PrincipalItem</strong> 重命名为 <strong>PrincipalQuotaItem</strong></p>
+</li>
+<li><p class="first">模型 <strong>WeldQuota</strong> 重命名为 <strong>WeldingQuotaItem</strong></p>
+</li>
+<li><p class="first">模型 <strong>WeldJointTechDetail</strong> 重命名为 <strong>WeldingJointProcessAnalysis</strong></p>
+</li>
+<li><p class="first">模型 <strong>WeldCertification</strong> 重命名为 <strong>WeldingCertification</strong></p>
+</li>
+<li><p class="first">模型 <strong>WeldSeam</strong> 重命名为 <strong>WeldingSeam</strong></p>
+</li>
+<li><p class="first">模型 <strong>WeldingWorkInstructionTest</strong> 重命名为 <strong>WeldingWorkInstructionExamination</strong></p>
+</li>
+<li><p class="first">模型 <strong>ProgramingNestingChart</strong> 重命名为 <strong>ProgrammingBlankingChart</strong></p>
+</li>
+<li><p class="first">模型 <strong>WeldingStep</strong> 重命名为 <strong>WeldingLayerCard</strong></p>
+</li>
+<li><p class="first">模型 <strong>OutPurchasedItem</strong> 重命名为 <strong>BoughtInItem</strong></p>
+</li>
+<li><p class="first">删除 <strong>Signature</strong> 模型</p>
+</li>
+<li><p class="first">删除 <strong>ProcessStep</strong> 模型</p>
+</li>
+<li><p class="first">删除 <strong>Circulation</strong> 模型</p>
+</li>
+<li><p class="first">删除 <strong>TransferCardSignature</strong> 模型</p>
+</li>
+<li><p class="first">删除 <strong>ProcessLibrarySignature</strong> 模型</p>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Material</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="61%" />
+<col width="39%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>material_id</td>
+<td>uid</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">删除 <em>display_material_name</em> 方法</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>ProcessMaterial</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>index</td>
+<td>ticket_number</td>
+</tr>
+<tr class="row-odd"><td>sub_index</td>
+<td>part_number</td>
+</tr>
+<tr class="row-even"><td>schematic_index</td>
+<td>drawing_number</td>
+</tr>
+<tr class="row-odd"><td>parent_schematic_index</td>
+<td>parent_drawing_number</td>
+</tr>
+<tr class="row-even"><td>parent_name</td>
+<td>name</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>spec</td>
+</tr>
+<tr class="row-even"><td>net_weight</td>
+<td>piece_weight</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>ticket_number</em> 为 <em>IntegerField</em></p>
+</li>
+<li><p class="first">修改 <em>part_number</em> 为 <em>IntegerField</em></p>
+</li>
+<li><p class="first">修改 <em>count</em> 为 <em>IntegerField</em></p>
+</li>
+<li><p class="first">删除 <em>total_weight</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>quota</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>quota_coefficient</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>standard</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>unit</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>status</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>press</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>recheck</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>detection_level</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>total_weight_cal</em> 方法</p>
+</li>
+<li><p class="first">删除 <em>route</em> 方法</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>AuxiliaryQuotaItem</strong></dt>
+<dd><ul class="first last simple">
+<li>修改 <em>quota_coef</em> 为 <em>FloatField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>PrincipalQuotaItem</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>stardard</td>
+<td>operative_norm</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">添加 <em>quota_list</em> 字段</p>
+</li>
+<li><p class="first">修改 <em>count</em> 为 <em>IntegerField</em></p>
+</li>
+<li><p class="first">删除 <em>work_order</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>total_weight</em> 方法</p>
+</li>
+<li><p class="first">删除 <em>stadard_status</em> 方法</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>WeldQuotaItem</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>order</td>
+<td>work_order</td>
+</tr>
+<tr class="row-odd"><td>stardard</td>
+<td>operative_norm</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">添加 <em>quota_list</em> 字段</p>
+</li>
+<li><p class="first">修改 <em>quota</em> 为 <em>FloatField</em></p>
+</li>
+<li><p class="first">删除 <em>work_order</em> 字段</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>ProcessRoute</strong></dt>
+<dd><ul class="first last simple">
+<li>使用 <cite>Sx</cite> 和 <cite>Hx</cite> 来代表工序和工时, x取值范围为[1, 12]</li>
+<li>修改 <em>Hx</em> 为 <em>FloatField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>CirculationRoute</strong></dt>
+<dd><ul class="first last simple">
+<li>使用 <cite>Cx</cite> 来代表流转, x取值范围为[1, 10]</li>
+<li>删除 <em>full_name</em> 字段</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>TransferCard</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>weld_test_plate_index</td>
+<td>welding_plate_idx</td>
+</tr>
+<tr class="row-odd"><td>parent_test_plate_index</td>
+<td>parent_plate_idx</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">添加 <em>writer</em>, <em>write_date</em>, <em>reviewer</em>, <em>review_date</em>, <em>proofreader</em>, <em>proofread_date</em>, <em>approver</em>, <em>approve_date</em> 字段</p>
+</li>
+<li><p class="first">添加 <em>status</em> 属性</p>
+</li>
+<li><p class="first">删除 <em>uid</em> 字段</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>TransferCardProcess</strong></dt>
+<dd><ul class="first last simple">
+<li>修改 <em>index</em> 为 <em>IntegerField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>WeldingCertification</strong></dt>
+<dd><ul class="first last simple">
+<li>修改 <em>weld_method</em> 为 <em>IntegerField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>WeldingJointProcessAnalysis</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>spec</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>weld_position</em> 为 <em>IntegerField</em></p>
+</li>
+<li><p class="first">修改 <em>weld_method_1</em> 和 <em>weld_method_2</em> 为 <em>IntegerField</em></p>
+</li>
+<li><p class="first">修改 <em>proc_qual_index</em> 为 <em>IntegerField</em></p>
+</li>
+<li><p class="first">删除 <em>bm_texture_1</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>bm_spec_1</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>bm_texture_2</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>bm_spec_2</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>weld_position</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>weld_method_1</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>weld_method_2</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>weld_method</em> 方法</p>
+</li>
+<li><p class="first">删除 <em>get_weld_certification1</em> 方法</p>
+</li>
+<li><p class="first">删除 <em>get_weld_cert_1</em> 方法</p>
+</li>
+<li><p class="first">删除 <em>get_weld_certification2</em> 方法</p>
+</li>
+<li><p class="first">删除 <em>get_weld_cert_2</em> 方法</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>WeldingSeam</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>base_metal_1</td>
+<td>bm_1</td>
+</tr>
+<tr class="row-odd"><td>base_metal_2</td>
+<td>bm_2</td>
+</tr>
+<tr class="row-even"><td>base_metal_thick_1</td>
+<td>bm_thick_1</td>
+</tr>
+<tr class="row-odd"><td>base_metal_thick_2</td>
+<td>bm_thick_2</td>
+</tr>
+<tr class="row-even"><td>weld_material_1</td>
+<td>wm_1</td>
+</tr>
+<tr class="row-odd"><td>weld_flux_1</td>
+<td>wf_1</td>
+</tr>
+<tr class="row-even"><td>thick_1</td>
+<td>wt_1</td>
+</tr>
+<tr class="row-odd"><td>size_1</td>
+<td>ws_1</td>
+</tr>
+<tr class="row-even"><td>flux_weight_1</td>
+<td>wf_weight_1</td>
+</tr>
+<tr class="row-odd"><td>weld_material_2</td>
+<td>wm_2</td>
+</tr>
+<tr class="row-even"><td>weld_flux_2</td>
+<td>wf_2</td>
+</tr>
+<tr class="row-odd"><td>thick_2</td>
+<td>wt_2</td>
+</tr>
+<tr class="row-even"><td>size_2</td>
+<td>ws_2</td>
+</tr>
+<tr class="row-odd"><td>flux_weight_2</td>
+<td>wf_weight_2</td>
+</tr>
+<tr class="row-even"><td>weld_joint_detail</td>
+<td>analysis</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>seam_type</em> 为 <em>CharField</em></p>
+</li>
+<li><p class="first">修改 <em>base_metal_thick_1</em> 和 <em>base_metal_thick_2</em> 为 <em>FloatField</em></p>
+</li>
+<li><p class="first">修改 <em>length</em> 为 <em>FloatField</em></p>
+</li>
+<li><p class="first">删除 <em>groove_inspction</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>welded_status_inspection</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>heat_treatment_inspection</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>pressure_test_inspection</em> 字段</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>WeldingWorkInstruction</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>detail</td>
+<td>analysis</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">删除 <em>uid</em> 字段</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>WeldingWorkInstructionProcess</strong></dt>
+<dd><ul class="first last simple">
+<li>修改 <em>index</em> 为 <em>IntegerField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>WeldingWorkInstructionExamination</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>test_method</td>
+<td>surveyor</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>index</em> 为 <em>IntegerField</em></p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>ProgrammingBlankingChart</strong></dt>
+<dd><ul class="first last simple">
+<li>删除 <em>name</em> 字段</li>
+<li>删除 <em>size</em> 字段</li>
+<li>删除 <em>file_type</em> 字段</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>ProgrammingBlankingChart</strong></dt>
+<dd><ul class="first last simple">
+<li>修改 <em>layer</em> 为 <em>IntegerField</em></li>
+<li>修改 <em>weld_method</em> 为 <em>IntegerField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Procurement/index.html" class="btn btn-neutral float-right" title="采购模块" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Core/index.html" class="btn btn-neutral" title="核心模块" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Youchen Du.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

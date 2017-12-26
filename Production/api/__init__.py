@@ -5,6 +5,7 @@ from .workgroup import (ProductionWorkGroupViewSet,
 from .ledgers import SubMaterialLedgersViewSet
 from .comprehensive_department_filelists import (
     ComprehensiveDepartmentFileListViewSet,)
+from .man_hour_message import ManHourMessageViewSet
 
 __all__ = [
     'ProductionPlanViewSet',
@@ -13,5 +14,6 @@ __all__ = [
     'ProductionWorkGroupViewSet',
     'ProductionUserViewSet',
     'SubMaterialLedgersViewSet',
-    'ComprehensiveDepartmentFileListViewSet'
+    'ComprehensiveDepartmentFileListViewSet',
+    'ManHourMessageViewSet'
 ]

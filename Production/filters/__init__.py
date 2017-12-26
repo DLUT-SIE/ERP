@@ -5,10 +5,12 @@ from .workgroup import (ProductionUserFilter,
 from .ledgers import SubMaterialLedgersFilter
 from .comprehensive_department_file_list import (
     ComprehensiveDepartmentFileListFilter,)
+from .man_hour_message import ManHourMessageFilter
 
 __all__ = ['ProductionPlanFilter',
            'ProcessDetailFilter',
            'ProductionUserFilter',
            'ProductionWorkGroupFilter',
            'SubMaterialLedgersFilter',
-           'ComprehensiveDepartmentFileListFilter']
+           'ComprehensiveDepartmentFileListFilter',
+           'ManHourMessageFilter']

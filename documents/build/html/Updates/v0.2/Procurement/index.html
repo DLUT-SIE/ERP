@@ -1,0 +1,668 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>采购模块 &mdash; ERP 0.1 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="../../../genindex.html"/>
+        <link rel="search" title="搜索" href="../../../search.html"/>
+    <link rel="top" title="ERP 0.1 文档" href="../../../index.html"/>
+        <link rel="up" title="V0.2更新文档" href="../index.html"/>
+        <link rel="next" title="库存模块" href="../Inventory/index.html"/>
+        <link rel="prev" title="工艺模块" href="../Process/index.html"/>
+<link rel="stylesheet" type="text/css" 
+     href="../../../_static/custom.css" /> 
+
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> ERP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">ERP开发文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../APIs.html">API总览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Coding_Guidelines/index.html">代码规范</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Core/index.html">核心模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Distribution/index.html">经销模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Process/index.html">工艺模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Procurement/index.html">采购模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Inventory/index.html">库存模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Production/index.html">生产模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Messaging/index.html">消息模块</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">更新文档</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../v0.1/index.html">V0.1更新文档</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">V0.2更新文档</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#id1">模块改动</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../Distribution/index.html">经销模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Core/index.html">核心模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Process/index.html">工艺模块</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">采购模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Inventory/index.html">库存模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Production/index.html">生产模块</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../Messaging/index.html">消息模块</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ERP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">更新文档</a> &raquo;</li>
+        
+          <li><a href="../index.html">V0.2更新文档</a> &raquo;</li>
+        
+      <li>采购模块</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/Updates/v0.2/Procurement/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>采购模块<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<ul>
+<li><p class="first">模型 <strong>FakeMateriel</strong> 重命名为 <strong>ProcurementMaterial</strong></p>
+</li>
+<li><p class="first">模型 <strong>SupplierFile</strong> 重命名为 <strong>SupplierDocument</strong></p>
+</li>
+<li><p class="first">模型 <strong>SupplierSelect</strong> 重命名为 <strong>SupplyRelationship</strong></p>
+</li>
+<li><p class="first">模型 <strong>Quote</strong> 重命名为 <strong>Quotation</strong></p>
+</li>
+<li><p class="first">删除 <strong>BiddingSheetStatus</strong> 模型</p>
+</li>
+<li><p class="first">删除 <strong>PurchaseOrderStatus</strong> 模型</p>
+</li>
+<li><p class="first">删除 <strong>CommentStatus</strong> 模型</p>
+</li>
+<li><p class="first">删除 <strong>MaterielPurchaseRelationSheet</strong> 模型</p>
+</li>
+<li><p class="first">删除 <strong>MaterielPurchasingStatus</strong> 模型</p>
+</li>
+<li><dl class="first docutils">
+<dt><strong>ProcurementMaterial</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>origin_materiel</td>
+<td>process_material</td>
+</tr>
+<tr class="row-odd"><td>related_materiel</td>
+<td>merged_material</td>
+</tr>
+<tr class="row-even"><td>delivery_time</td>
+<td>delivery_dt</td>
+</tr>
+<tr class="row-odd"><td>material_category</td>
+<td>category</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>delivery_dt</em> 为 <em>DateTimeField</em></p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>MaterialExecution</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>materiel_choice</td>
+<td>material_type</td>
+</tr>
+<tr class="row-odd"><td>tech_requirement</td>
+<td>process_requirement</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">删除 <em>tech_feedback</em> 字段</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>PurchaseOrder</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>auditor</td>
+<td>lister</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>status</em> 为 <em>IntegerField</em></p>
+</li>
+<li><p class="first">删除 <em>number</em> 字段</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>BiddingSheet</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>contract_id</td>
+<td>contract_number</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>purchase_order</em> 为 <em>OneToOneField</em></p>
+</li>
+<li><p class="first">修改 <em>status</em> 为 <em>IntegerField</em></p>
+</li>
+<li><p class="first">删除 <em>list_date</em>, <em>audit_date</em>, <em>approve_date</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>prepaid_amount</em>, <em>payable_amount</em> 属性</p>
+</li>
+<li><p class="first">删除 <em>supplier_select</em> 方法</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>ContractDetail</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>user</td>
+<td>submitter</td>
+</tr>
+<tr class="row-odd"><td>submit_date</td>
+<td>submit_dt</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>submit_dt</em> 为 <em>DateTimeField</em></p>
+</li>
+<li><p class="first">修改 <em>amount</em> 为 <em>FloatField</em></p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>BaseComment</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>submit_date</td>
+<td>submit_dt</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>submit_dt</em> 为 <em>DateTimeField</em></p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>SupplierDocument</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>submit_date</td>
+<td>submit_dt</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">删除 <em>name</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>size</em> 字段</p>
+</li>
+<li><p class="first">删除 <em>file_type</em> 字段</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Supplier</strong></dt>
+<dd><ul class="first last simple">
+<li>添加 <em>bidding_sheets</em> 字段</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>SupplierCheck</strong></dt>
+<dd><ul class="first last simple">
+<li>修改 <em>status</em> 为 <em>IntegerField</em></li>
+<li>修改 <em>estimated_price</em> 为 <em>FloatField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>SupplyRelationship</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>submit_date</td>
+<td>submit_dt</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>price</em> 为 <em>FloatField</em></p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>BiddingApplication</strong></dt>
+<dd><ul class="first last simple">
+<li>修改 <em>status</em> 为 <em>IntegerField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>ParityRatioCard</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>apply_company</td>
+<td>applicant</td>
+</tr>
+<tr class="row-odd"><td>demand_company</td>
+<td>requestor</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>status</em> 为 <em>IntegerField</em></p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>ArrivalInspection</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>materiel</td>
+<td>material</td>
+</tr>
+<tr class="row-odd"><td>is_pass</td>
+<td>passed</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">修改 <em>material</em> 为 <em>OneToOneField</em></p>
+</li>
+<li><p class="first">删除 <em>bidding_sheet</em> 字段</p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>MaterialSubApply</strong></dt>
+<dd><ul class="first last simple">
+<li>修改 <em>status</em> 为 <em>IntegerField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>StatusChange</strong></dt>
+<dd><ul class="first last simple">
+<li>修改 <em>original_status</em> 为 <em>IntegerField</em></li>
+<li>修改 <em>new_status</em> 为 <em>IntegerField</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>MaterialExecutionDetail</strong></dt>
+<dd><ul class="first last">
+<li><p class="first">字段重命名</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>改动前</td>
+<td>改动后</td>
+</tr>
+<tr class="row-even"><td>materiel</td>
+<td>material</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Inventory/index.html" class="btn btn-neutral float-right" title="库存模块" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Process/index.html" class="btn btn-neutral" title="工艺模块" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Youchen Du.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

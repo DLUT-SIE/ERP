@@ -1,0 +1,299 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>代码规范 &mdash; ERP 0.1 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="../genindex.html"/>
+        <link rel="search" title="搜索" href="../search.html"/>
+    <link rel="top" title="ERP 0.1 文档" href="../index.html"/>
+        <link rel="next" title="核心模块" href="../Core/index.html"/>
+        <link rel="prev" title="API总览" href="../APIs.html"/>
+<link rel="stylesheet" type="text/css" 
+     href="../_static/custom.css" /> 
+
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ERP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">ERP开发文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../APIs.html">API总览</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">代码规范</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">基本要求</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">命名要求</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">文档与测试要求</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Core/index.html">核心模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Distribution/index.html">经销模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Process/index.html">工艺模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Procurement/index.html">采购模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Inventory/index.html">库存模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Production/index.html">生产模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Messaging/index.html">消息模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Updates/index.html">更新文档</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ERP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>代码规范</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Coding_Guidelines/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>代码规范<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>基本要求<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ul>
+<li><p class="first">遵循 <strong>PEP8</strong> 代码规范, 代码通过 <strong>flake8</strong> 检测</p>
+</li>
+<li><p class="first">采用 <strong>4空格</strong> 缩进</p>
+</li>
+<li><dl class="first docutils">
+<dt>导入(<cite>import</cite>, <cite>from foo import bar</cite>) 按照 <strong>Python内置模块(一类)</strong>, <strong>Django模块(二类)</strong>, <strong>第三方模块(三类)</strong>, <strong>本系统其他模块(四类)</strong>, <strong>本模块(四类)</strong> 顺序进行导入, 以一个空行分隔不同类型模块, <cite>import</cite> 优先于 <cite>from foo import bar</cite>, 示例:</dt>
+<dd><div class="first last highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">django</span>
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">utils</span>
+
+<span class="kn">import</span> <span class="nn">guardian</span>
+
+<span class="kn">from</span> <span class="nn">Core</span> <span class="kn">import</span> <span class="n">views</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first">使用带有完整模块名的导入, 不使用类似 <cite>from . import x</cite> 等使用一个或两个点指示路径的导入方式</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>命名要求<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>类命名采用 <strong>帕斯卡命名法</strong> ( <cite>class FooBar</cite> ), 单词首字母大写</li>
+<li>函数、变量命名采用 <strong>下划线命名法</strong> ( <cite>def hello_world()</cite> ), 均采用小写</li>
+<li>有意义的变量命名</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>文档与测试要求<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<ul class="simple">
+<li>编写必要的文档对类, 方法, 函数等进行说明, 文档语言使用 <cite>ReStructuredText</cite> , 使用参见 <a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickstart.html">A ReStructuredText Primer</a> , 文档风格使用 <cite>Numpy</cite> 风格， 参见 <a class="reference external" href="http://www.sphinx-doc.org/en/stable/ext/napoleon.html">Numpy风格1</a> , <a class="reference external" href="https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt">Numpy风格2</a></li>
+<li>编写完整的测试用例对代码进行测试, 测试采用单元测试方式, 参见 <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Testing">Testing a Django web application</a> , <a class="reference external" href="https://realpython.com/blog/python/testing-in-django-part-1-best-practices-and-examples/">Testing in Django (Part 1)</a></li>
+<li>测试内容: <strong>Model</strong>, <strong>Form</strong>, <strong>View</strong>, <strong>Util</strong>, <strong>覆盖度</strong></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Core/index.html" class="btn btn-neutral float-right" title="核心模块" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../APIs.html" class="btn btn-neutral" title="API总览" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Youchen Du.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
