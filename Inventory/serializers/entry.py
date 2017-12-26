@@ -102,6 +102,8 @@ class AuxiliaryMaterialEntryListSerializer(AuxiliaryMaterialEntrySerializer):
 
 class BoughtInComponentEntrySerializer(TransitionSerializerMixin,
                                        serializers.ModelSerializer):
+    pretty_category = serializers.CharField(source='get_category_display',
+                                            read_only=True)
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)
     purchaser = serializers.CharField(source='purchaser.username',
@@ -113,11 +115,12 @@ class BoughtInComponentEntrySerializer(TransitionSerializerMixin,
     class Meta:
         model = BoughtInComponentEntry
         fields = ('id', 'uid', 'bidding_sheet', 'source', 'create_dt',
-                  'purchaser', 'inspector', 'keeper', 'status',
-                  'pretty_status', 'details', 'actions')
+                  'source', 'category', 'pretty_category', 'purchaser',
+                  'inspector', 'keeper', 'status', 'pretty_status',
+                  'details', 'actions')
 
 
 class BoughtInComponentEntryListSerializer(BoughtInComponentEntrySerializer):
     class Meta(BoughtInComponentEntrySerializer.Meta):
-        fields = ('id', 'uid', 'create_dt', 'purchaser', 'inspector',
-                  'status', 'pretty_status')
+        fields = ('id', 'uid', 'create_dt', 'source', 'pretty_category',
+                  'purchaser', 'status', 'pretty_status')
