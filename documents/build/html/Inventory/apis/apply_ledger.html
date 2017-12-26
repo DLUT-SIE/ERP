@@ -1,0 +1,645 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>焊材出库台账 &mdash; ERP 0.1 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="../../genindex.html"/>
+        <link rel="search" title="搜索" href="../../search.html"/>
+    <link rel="top" title="ERP 0.1 文档" href="../../index.html"/>
+<link rel="stylesheet" type="text/css" 
+     href="../../_static/custom.css" /> 
+
+
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ERP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">ERP开发文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../APIs.html">API总览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Coding_Guidelines/index.html">代码规范</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Core/index.html">核心模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Distribution/index.html">经销模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Process/index.html">工艺模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Procurement/index.html">采购模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">库存模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Production/index.html">生产模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Messaging/index.html">消息模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Updates/index.html">更新文档</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ERP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>焊材出库台账</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Inventory/apis/apply_ledger.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>焊材出库台账<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="list">
+<h2>list<a class="headerlink" href="#list" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_apply_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>welding_seam_uid(Optional)</td>
+<td>str</td>
+<td>焊缝编号</td>
+</tr>
+<tr class="row-even"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>welding_seam_uid</td>
+<td>str</td>
+<td>焊缝编号</td>
+</tr>
+<tr class="row-odd"><td>apply_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-even"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用单编号</td>
+</tr>
+<tr class="row-odd"><td>actual_weight</td>
+<td>float</td>
+<td>实发重量</td>
+</tr>
+<tr class="row-even"><td>actual_count</td>
+<td>float</td>
+<td>实发数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id2">
+<h1>钢材出库台账<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id3">
+<h2>list<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_apply_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>material_mark(Optional)</td>
+<td>str</td>
+<td>材料牌号</td>
+</tr>
+<tr class="row-even"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>material_number(Optional)</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>apply_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-odd"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-even"><td>–</td>
+<td>str</td>
+<td>零件编号</td>
+</tr>
+<tr class="row-odd"><td>apply_count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id4">
+<h1>外购件出库台账<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id5">
+<h2>list<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_apply_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标准号/图号</td>
+</tr>
+<tr class="row-even"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>–</td>
+<td>str</td>
+<td>标准号/图号</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>apply_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-even"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用单号</td>
+</tr>
+<tr class="row-even"><td>apply_count</td>
+<td>float</td>
+<td>领用数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id6">
+<h1>辅材出库台账<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id7">
+<h2>list<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_apply_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>department(Optional)</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>材料名称</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid(Optional)</td>
+<td>str</td>
+<td>领用卡编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>材料名称</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>apply_name</td>
+<td>str</td>
+<td>请领名称</td>
+</tr>
+<tr class="row-even"><td>apply_specification</td>
+<td>str</td>
+<td>请领规格</td>
+</tr>
+<tr class="row-odd"><td>apply_count</td>
+<td>int</td>
+<td>请领数量</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用卡编号</td>
+</tr>
+<tr class="row-odd"><td>apply_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-even"><td>actual_specification</td>
+<td>str</td>
+<td>实发规格</td>
+</tr>
+<tr class="row-odd"><td>actual_count</td>
+<td>int</td>
+<td>实发数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Youchen Du.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

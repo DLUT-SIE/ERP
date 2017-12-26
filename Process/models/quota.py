@@ -59,6 +59,10 @@ class AuxiliaryQuotaItem(AbstractQuotaItem):
     """
     辅材定额
     """
+    process_material = models.OneToOneField(ProcessMaterial,
+                                            verbose_name='工艺物料',
+                                            related_name='%(class)s',
+                                            on_delete=models.CASCADE)
     quota_coef = models.FloatField(verbose_name='定额系数')
     quota = models.FloatField(verbose_name='定额')
     stardard_code = models.CharField(verbose_name='标准代码', max_length=50,
@@ -103,6 +107,8 @@ class PrincipalQuotaItem(models.Model):
     """
     主材定额
     """
+    lib = models.ForeignKey(ProcessLibrary, verbose_name='工艺库',
+                            on_delete=models.CASCADE)
     quota_list = models.ForeignKey(QuotaList, verbose_name='定额明细表',
                                    on_delete=models.CASCADE)
     size = models.CharField(verbose_name='规格', max_length=50,
@@ -129,6 +135,8 @@ class WeldingQuotaItem(models.Model):
     """
     焊材定额
     """
+    lib = models.ForeignKey(ProcessLibrary, verbose_name='工艺库',
+                            on_delete=models.CASCADE)
     quota_list = models.ForeignKey(QuotaList, verbose_name='定额明细表',
                                    on_delete=models.CASCADE)
     material = models.ForeignKey(Material, verbose_name='材质',
