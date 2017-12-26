@@ -4,7 +4,8 @@ from .process_serializers import (
     TransferCardListSerializer, TransferCardProcessSerializer,
     BoughtInItemUpdateSerializer, BoughtInItemSerializer,
     FirstFeedingItemUpdateSerializer, FirstFeedingItemSerializer,
-    CooperantItemSerializer, CooperantItemUpdateSerializer)
+    CooperantItemSerializer, CooperantItemUpdateSerializer,
+    PrincipalQuotaItemSerializer)
 
 
 __all__ = ['ProcessLibrarySerializer', 'ProcessMaterialSerializer',
@@ -13,4 +14,5 @@ __all__ = ['ProcessLibrarySerializer', 'ProcessMaterialSerializer',
            'TransferCardProcessSerializer', 'BoughtInItemUpdateSerializer',
            'BoughtInItemSerializer', 'FirstFeedingItemUpdateSerializer',
            'FirstFeedingItemUpdateSerializer', 'FirstFeedingItemSerializer',
-           'CooperantItemUpdateSerializer', 'CooperantItemSerializer']
+           'CooperantItemUpdateSerializer', 'CooperantItemSerializer',
+           'PrincipalQuotaItemSerializer']

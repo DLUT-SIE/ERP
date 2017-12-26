@@ -5,7 +5,7 @@ from rest_framework import serializers
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
     ProcessStep, TransferCard, TransferCardProcess, BoughtInItem,
-    FirstFeedingItem, CooperantItem, AbstractQuotaItem)
+    FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem)
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
@@ -285,3 +285,16 @@ class BoughtInItemSerializer(AbstractQuotaItemSerializer):
 class BoughtInItemUpdateSerializer(AbstractQuotaItemUpdateSerializer):
     class Meta(AbstractQuotaItemUpdateSerializer.Meta):
         model = BoughtInItem
+
+
+class PrincipalQuotaItemSerializer(serializers.ModelSerializer):
+    material_name = serializers.CharField(source='material.name', default=None)
+    total_weight = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PrincipalQuotaItem
+        fields = ('id', 'material_name', 'total_weight', 'size', 'count',
+                  'weight', 'operative_norm', 'status', 'remark', 'material')
+
+    def get_total_weight(self, obj):
+        return obj.count * obj.weight

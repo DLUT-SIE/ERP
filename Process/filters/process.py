@@ -3,7 +3,7 @@ from django_filters import rest_framework as filters
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
     TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
-    CooperantItem)
+    CooperantItem, PrincipalQuotaItem)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -88,4 +88,13 @@ class CooperantItemFilter(filters.FilterSet):
 
     class Meta:
         model = CooperantItem
+        fields = ('worker_order_uid',)
+
+
+class PrincipalQuotaItemFilter(filters.FilterSet):
+    worker_order_uid = filters.CharFilter(name='lib__work_order__uid',
+                                          lookup_expr='exact')
+
+    class Meta:
+        model = PrincipalQuotaItem
         fields = ('worker_order_uid',)

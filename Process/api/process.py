@@ -5,18 +5,20 @@ from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, BoughtInItem,
     ProcessRoute, TransferCard, TransferCardProcess, FirstFeedingItem,
-    CooperantItem)
+    CooperantItem, PrincipalQuotaItem)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
     TransferCardListSerializer, TransferCardProcessSerializer,
     BoughtInItemSerializer, BoughtInItemUpdateSerializer,
     FirstFeedingItemUpdateSerializer, FirstFeedingItemSerializer,
-    CooperantItemUpdateSerializer, CooperantItemSerializer)
+    CooperantItemUpdateSerializer, CooperantItemSerializer,
+    PrincipalQuotaItemSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
-    BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter)
+    BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
+    PrincipalQuotaItemFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -100,3 +102,10 @@ class CooperantItemViewSet(viewsets.ModelViewSet):
             return CooperantItemUpdateSerializer
         else:
             return CooperantItemSerializer
+
+
+class PrincipalQuotaItemViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = PrincipalQuotaItem.objects.all().order_by('-pk')
+    filter_class = PrincipalQuotaItemFilter
+    serializer_class = PrincipalQuotaItemSerializer
