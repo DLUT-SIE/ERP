@@ -1,7 +1,7 @@
 from django_filters import rest_framework as filters
 
 from Process.models import (
-    ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
+    ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute, Material,
     TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
     CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem)
 
@@ -114,3 +114,11 @@ class QuotaListFilter(AbstractQuotaFilter):
 class WeldingQuotaItemFilter(AbstractQuotaFilter):
     class Meta(AbstractQuotaFilter.Meta):
         model = WeldingQuotaItem
+
+
+class MaterialFilter(filters.FilterSet):
+    category = filters.ChoiceFilter(name='category', lookup_expr='exact')
+
+    class Meta:
+        model = Material
+        fields = ('category',)

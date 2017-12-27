@@ -5,7 +5,7 @@ from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, BoughtInItem, QuotaList,
     ProcessRoute, TransferCard, TransferCardProcess, FirstFeedingItem,
-    CooperantItem, PrincipalQuotaItem, WeldingQuotaItem)
+    CooperantItem, PrincipalQuotaItem, WeldingQuotaItem, Material)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
@@ -14,12 +14,14 @@ from Process.serializers import (
     FirstFeedingItemUpdateSerializer, FirstFeedingItemSerializer,
     CooperantItemUpdateSerializer, CooperantItemSerializer,
     PrincipalQuotaItemSerializer, WeldingQuotaItemSerializer,
-    PrincipalQuotaItemCreateSerializer, WeldingQuotaItemCreateSerializer)
+    PrincipalQuotaItemCreateSerializer, WeldingQuotaItemCreateSerializer,
+    MaterialSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
     BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
-    PrincipalQuotaItemFilter, QuotaListFilter, WeldingQuotaItemFilter)
+    PrincipalQuotaItemFilter, QuotaListFilter, WeldingQuotaItemFilter,
+    MaterialFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -134,3 +136,10 @@ class WeldingQuotaItemViewSet(viewsets.ModelViewSet):
             return WeldingQuotaItemCreateSerializer
         else:
             return WeldingQuotaItemSerializer
+
+
+class MaterialViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = Material.objects.all().order_by('-pk')
+    filter_class = MaterialFilter
+    serializer_class = MaterialSerializer

@@ -6,7 +6,7 @@ from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
     ProcessStep, TransferCard, TransferCardProcess, BoughtInItem, QuotaList,
     FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem,
-    WeldingQuotaItem)
+    WeldingQuotaItem, Material)
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
@@ -335,3 +335,10 @@ class WeldingQuotaItemCreateSerializer(WeldingQuotaItemSerializer):
         model = WeldingQuotaItem
         fields = ('id', 'category', 'material', 'size', 'operative_norm',
                   'quota_list', 'remark', 'material_name', 'quota')
+
+
+class MaterialSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Material
+        fields = '__all__'

@@ -2,7 +2,8 @@ from .process import (
     ProcessLibraryViewSet, ProcessMaterialViewSet, TransferCardViewSet,
     CirculationRouteViewSet, ProcessRouteViewSet, TransferCardProcessViewSet,
     BoughtInItemViewSet, FirstFeedingItemViewSet, CooperantItemViewSet,
-    PrincipalQuotaItemViewSet, QuotaListViewSet, WeldingQuotaItemViewSet)
+    PrincipalQuotaItemViewSet, QuotaListViewSet, WeldingQuotaItemViewSet,
+    MaterialViewSet)
 
 
 __all__ = ['ProcessLibraryViewSet', 'ProcessMaterialViewSet',
@@ -10,4 +11,4 @@ __all__ = ['ProcessLibraryViewSet', 'ProcessMaterialViewSet',
            'TransferCardViewSet', 'TransferCardProcessViewSet',
            'BoughtInItemViewSet', 'CooperantItemViewSet',
            'FirstFeedingItemViewSet', 'PrincipalQuotaItemViewSet',
-           'QuotaListViewSet', 'WeldingQuotaItemViewSet']
+           'QuotaListViewSet', 'WeldingQuotaItemViewSet', 'MaterialViewSet']
