@@ -224,9 +224,7 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
         if viewset.action in ['update', 'partial_update']:
             return attrs
         ticket_number = attrs['process_material']['ticket_number']
-        work_order_uid = attrs['process_material']
-        work_order_uid = work_order_uid['lib']['work_order']['uid']
-        quota_list = attrs['quota_list']
+        work_order_uid = attrs['quota_list'].lib.work_order.uid
         attrs['uid'] = work_order_uid
         attrs['ticket_number'] = ticket_number
         process_material = ProcessMaterial.objects.filter(
@@ -238,8 +236,7 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
             process_material = process_material[0]
 
         if self.Meta.model.objects.filter(
-                quota_list=quota_list,
-                process_material=process_material).count():
+                process_material=process_material).exists():
             raise serializers.ValidationError("该条物料已经添加")
         return attrs
 
@@ -247,8 +244,6 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
 class AbstractQuotaItemUpdateSerializer(AbstractQuotaItemSerializer):
     ticket_number = serializers.IntegerField(
         source='process_material.ticket_number', read_only=True)
-    work_order_uid = serializers.CharField(
-        source='process_material.lib.work_order.uid', read_only=True)
 
 
 class FirstFeedingItemSerializer(AbstractQuotaItemSerializer):
