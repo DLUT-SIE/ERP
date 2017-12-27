@@ -1,5 +1,6 @@
 from django_filters import rest_framework as filters
 
+from Process import MATERIAL_CATEGORY_CHOICES
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute, Material,
     TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
@@ -117,7 +118,8 @@ class WeldingQuotaItemFilter(AbstractQuotaFilter):
 
 
 class MaterialFilter(filters.FilterSet):
-    category = filters.ChoiceFilter(name='category', lookup_expr='exact')
+    category = filters.ChoiceFilter(name='category', lookup_expr='exact',
+                                    choices=MATERIAL_CATEGORY_CHOICES)
 
     class Meta:
         model = Material

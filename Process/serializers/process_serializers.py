@@ -221,11 +221,11 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
 
     def validate(self, attrs):
         viewset = self.context['view']
-        if viewset.action == 'create':
+        if viewset.action in ['update', 'partial_update']:
             return attrs
         ticket_number = attrs['process_material']['ticket_number']
-        work_order_uid =\
-            attrs['process_material']['lib']['work_order']['uid']
+        work_order_uid = attrs['process_material']
+        work_order_uid = work_order_uid['lib']['work_order']['uid']
         quota_list = attrs['quota_list']
         attrs['uid'] = work_order_uid
         attrs['ticket_number'] = ticket_number
