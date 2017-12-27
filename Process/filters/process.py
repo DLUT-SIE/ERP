@@ -3,7 +3,7 @@ from django_filters import rest_framework as filters
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
     TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
-    CooperantItem, PrincipalQuotaItem, QuotaList)
+    CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -91,20 +91,26 @@ class CooperantItemFilter(filters.FilterSet):
         fields = ('worker_order_uid',)
 
 
-class PrincipalQuotaItemFilter(filters.FilterSet):
-    worker_order_uid = filters.CharFilter(name='lib__work_order__uid',
-                                          lookup_expr='exact')
-
-    class Meta:
-        model = PrincipalQuotaItem
-        fields = ('worker_order_uid',)
-
-
-class QuotaListFilter(filters.FilterSet):
+class AbstractQuotaFilter(filters.FilterSet):
     worker_order_uid = filters.CharFilter(name='lib__work_order__uid',
                                           lookup_expr='exact')
     category = filters.NumberFilter(name='category', lookup_expr='exact')
 
     class Meta:
-        model = QuotaList
+        model = None
         fields = ('worker_order_uid', 'category')
+
+
+class PrincipalQuotaItemFilter(AbstractQuotaFilter):
+    class Meta(AbstractQuotaFilter.Meta):
+        model = PrincipalQuotaItem
+
+
+class QuotaListFilter(AbstractQuotaFilter):
+    class Meta(AbstractQuotaFilter.Meta):
+        model = QuotaList
+
+
+class WeldingQuotaItemFilter(AbstractQuotaFilter):
+    class Meta(AbstractQuotaFilter.Meta):
+        model = WeldingQuotaItem

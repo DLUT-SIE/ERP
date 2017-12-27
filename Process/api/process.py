@@ -5,7 +5,7 @@ from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, BoughtInItem, QuotaList,
     ProcessRoute, TransferCard, TransferCardProcess, FirstFeedingItem,
-    CooperantItem, PrincipalQuotaItem)
+    CooperantItem, PrincipalQuotaItem, WeldingQuotaItem)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
@@ -13,12 +13,13 @@ from Process.serializers import (
     BoughtInItemSerializer, BoughtInItemUpdateSerializer, QuotaListSerializer,
     FirstFeedingItemUpdateSerializer, FirstFeedingItemSerializer,
     CooperantItemUpdateSerializer, CooperantItemSerializer,
-    PrincipalQuotaItemSerializer)
+    PrincipalQuotaItemSerializer, WeldingQuotaItemSerializer,
+    PrincipalQuotaItemCreateSerializer, WeldingQuotaItemCreateSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
     BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
-    PrincipalQuotaItemFilter, QuotaListFilter)
+    PrincipalQuotaItemFilter, QuotaListFilter, WeldingQuotaItemFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -108,7 +109,12 @@ class PrincipalQuotaItemViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = PrincipalQuotaItem.objects.all().order_by('-pk')
     filter_class = PrincipalQuotaItemFilter
-    serializer_class = PrincipalQuotaItemSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PrincipalQuotaItemCreateSerializer
+        else:
+            return PrincipalQuotaItemSerializer
 
 
 class QuotaListViewSet(viewsets.ModelViewSet):
@@ -116,3 +122,15 @@ class QuotaListViewSet(viewsets.ModelViewSet):
     queryset = QuotaList.objects.all().order_by('-pk')
     filter_class = QuotaListFilter
     serializer_class = QuotaListSerializer
+
+
+class WeldingQuotaItemViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = WeldingQuotaItem.objects.all().order_by('-pk')
+    filter_class = WeldingQuotaItemFilter
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return WeldingQuotaItemCreateSerializer
+        else:
+            return WeldingQuotaItemSerializer

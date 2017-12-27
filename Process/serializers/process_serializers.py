@@ -5,7 +5,8 @@ from rest_framework import serializers
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
     ProcessStep, TransferCard, TransferCardProcess, BoughtInItem, QuotaList,
-    FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem)
+    FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem,
+    WeldingQuotaItem)
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
@@ -278,7 +279,8 @@ class BoughtInItemUpdateSerializer(AbstractQuotaItemUpdateSerializer):
 
 
 class PrincipalQuotaItemSerializer(serializers.ModelSerializer):
-    material_name = serializers.CharField(source='material.name', default=None)
+    material_name = serializers.CharField(source='material.name', default=None,
+                                          read_only=True)
     total_weight = serializers.SerializerMethodField()
 
     class Meta:
@@ -303,3 +305,33 @@ class QuotaListSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuotaList
         fields = ('id', 'writer', 'reviewer', 'product_name', 'work_order_uid')
+
+
+class PrincipalQuotaItemCreateSerializer(PrincipalQuotaItemSerializer):
+    class Meta:
+        model = PrincipalQuotaItem
+        fields = ('id', 'material_name', 'total_weight', 'size', 'count',
+                  'weight', 'operative_norm', 'status', 'remark', 'material',
+                  'quota_list')
+
+    def get_total_weight(self, obj):
+        return obj.count * obj.weight
+
+
+class WeldingQuotaItemSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source='get_category_display',
+                                     read_only=True)
+    material_name = serializers.CharField(source='material.name',
+                                          read_only=True)
+
+    class Meta:
+        model = WeldingQuotaItem
+        fields = ('id', 'category', 'material', 'size', 'operative_norm',
+                  'remark', 'material_name', 'quota')
+
+
+class WeldingQuotaItemCreateSerializer(WeldingQuotaItemSerializer):
+    class Meta:
+        model = WeldingQuotaItem
+        fields = ('id', 'category', 'material', 'size', 'operative_norm',
+                  'quota_list', 'remark', 'material_name', 'quota')
