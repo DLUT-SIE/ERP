@@ -12,7 +12,7 @@ from .ledgers import (SubMaterialLedgersListSerializer,
                       SubMaterialLedgersUpdateSerializer)
 from .comprehensive_department_file_list import (
     ComprehensiveDepartmentFileListSerializer,)
-
+from .man_hour_message import ManHourMessageSerializer
 from .workgroup import (ProductionWorkGroupSerializer,
                         ProductionUserSerializer,
                         ProductionUserUpdateSerializer)
@@ -32,5 +32,6 @@ __all__ = [
     'ProductionUserUpdateSerializer',
     'SubMaterialLedgersListSerializer',
     'SubMaterialLedgersUpdateSerializer',
-    'ComprehensiveDepartmentFileListSerializer'
+    'ComprehensiveDepartmentFileListSerializer',
+    'ManHourMessageSerializer'
 ]

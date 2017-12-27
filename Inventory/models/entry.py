@@ -48,7 +48,7 @@ class AbstractEntry(models.Model, metaclass=TransitionMeta):
     @transition(field='status',
                 source=ENTRYSTATUS_CHOICES_PUCAHSER,
                 target=ENTRYSTATUS_CHOICES_INSPECTOR, name='采购确认')
-    def purchaser_confirmed(self, request):
+    def purchaser_confirm(self, request):
         """
         采购确认
         """
@@ -57,7 +57,7 @@ class AbstractEntry(models.Model, metaclass=TransitionMeta):
     @transition(field='status',
                 source=ENTRYSTATUS_CHOICES_INSPECTOR,
                 target=ENTRYSTATUS_CHOICES_KEEPER, name='检查确认')
-    def inspector_confirmed(self, request):
+    def inspector_confirm(self, request):
         """
         检查确认
         """
@@ -94,7 +94,7 @@ class WeldingMaterialEntry(AbstractEntry):
     @transition(field='status',
                 source=ENTRYSTATUS_CHOICES_KEEPER,
                 target=ENTRYSTATUS_CHOICES_END, name='库管确认')
-    def keeper_confirmed(self, request):
+    def keeper_confirm(self, request):
         """
         库管确认
         """
@@ -126,7 +126,7 @@ class SteelMaterialEntry(AbstractEntry):
     @transition(field='status',
                 source=ENTRYSTATUS_CHOICES_KEEPER,
                 target=ENTRYSTATUS_CHOICES_END, name='库管确认')
-    def keeper_confirmed(self, request):
+    def keeper_confirm(self, request):
         """
         库管确认
         """
@@ -148,7 +148,7 @@ class AuxiliaryMaterialEntry(AbstractEntry):
     @transition(field='status',
                 source=ENTRYSTATUS_CHOICES_KEEPER,
                 target=ENTRYSTATUS_CHOICES_END, name='库管确认')
-    def keeper_confirmed(self, request):
+    def keeper_confirm(self, request):
         """
         库管确认
         """
@@ -172,7 +172,7 @@ class BoughtInComponentEntry(AbstractEntry):
     @transition(field='status',
                 source=ENTRYSTATUS_CHOICES_KEEPER,
                 target=ENTRYSTATUS_CHOICES_END, name='库管确认')
-    def keeper_confirmed(self, request):
+    def keeper_confirm(self, request):
         """
         库管确认
         """

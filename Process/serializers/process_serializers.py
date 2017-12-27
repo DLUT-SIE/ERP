@@ -4,8 +4,9 @@ from rest_framework import serializers
 
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
-    ProcessStep, TransferCard, TransferCardProcess, BoughtInItem,
-    FirstFeedingItem, CooperantItem, AbstractQuotaItem)
+    ProcessStep, TransferCard, TransferCardProcess, BoughtInItem, QuotaList,
+    FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem,
+    WeldingQuotaItem, Material)
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
@@ -194,22 +195,12 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
     total_weight = serializers.SerializerMethodField()
     material = serializers.CharField(source='process_material.material.name',
                                      read_only=True)
-    writer = serializers.CharField(source='quota_list.writer.first_name',
-                                   allow_null=True, read_only=True)
-    reviewer = serializers.CharField(source='quota_list.reviewer.first_name',
-                                     allow_null=True, read_only=True)
-    product_name = serializers.CharField(
-        source='process_material.lib.work_order.product', read_only=True)
-    work_order_uid = serializers.CharField(
-        source='process_material.lib.work_order.uid')
 
     class Meta:
         model = AbstractQuotaItem
-        fields = ('id', 'ticket_number', 'drawing_number', 'name',
-                  'product_name', 'count', 'material',
-                  'piece_weight', 'total_weight', 'writer', 'reviewer',
-                  'quota_list', 'work_order_uid', 'circulation_routes',
-                  'remark')
+        fields = ('id', 'ticket_number', 'drawing_number', 'name', 'count',
+                  'material', 'piece_weight', 'total_weight', 'quota_list',
+                  'circulation_routes', 'remark')
 
     def get_total_weight(self, obj):
         piece_weight = obj.process_material.piece_weight
@@ -229,9 +220,12 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
         return quota_item
 
     def validate(self, attrs):
+        viewset = self.context['view']
+        if viewset.action in ['update', 'partial_update']:
+            return attrs
         ticket_number = attrs['process_material']['ticket_number']
-        work_order_uid =\
-            attrs['process_material']['lib']['work_order']['uid']
+        work_order_uid = attrs['process_material']
+        work_order_uid = work_order_uid['lib']['work_order']['uid']
         quota_list = attrs['quota_list']
         attrs['uid'] = work_order_uid
         attrs['ticket_number'] = ticket_number
@@ -244,8 +238,8 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
             process_material = process_material[0]
 
         if self.Meta.model.objects.filter(
-                quota_list=quota_list, process_material=process_material)\
-                .count():
+                quota_list=quota_list,
+                process_material=process_material).count():
             raise serializers.ValidationError("该条物料已经添加")
         return attrs
 
@@ -285,3 +279,69 @@ class BoughtInItemSerializer(AbstractQuotaItemSerializer):
 class BoughtInItemUpdateSerializer(AbstractQuotaItemUpdateSerializer):
     class Meta(AbstractQuotaItemUpdateSerializer.Meta):
         model = BoughtInItem
+
+
+class PrincipalQuotaItemSerializer(serializers.ModelSerializer):
+    material_name = serializers.CharField(source='material.name', default=None,
+                                          read_only=True)
+    total_weight = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PrincipalQuotaItem
+        fields = ('id', 'material_name', 'total_weight', 'size', 'count',
+                  'weight', 'operative_norm', 'status', 'remark', 'material')
+
+    def get_total_weight(self, obj):
+        return obj.count * obj.weight
+
+
+class QuotaListSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source='lib.work_order.product',
+                                         read_only=True)
+    work_order_uid = serializers.CharField(source='lib.work_order.uid',
+                                           read_only=True)
+    writer = serializers.CharField(source='writer.first_name',
+                                   allow_null=True, read_only=True)
+    reviewer = serializers.CharField(source='reviewer.first_name',
+                                     allow_null=True, read_only=True)
+
+    class Meta:
+        model = QuotaList
+        fields = ('id', 'writer', 'reviewer', 'product_name', 'work_order_uid')
+
+
+class PrincipalQuotaItemCreateSerializer(PrincipalQuotaItemSerializer):
+    class Meta:
+        model = PrincipalQuotaItem
+        fields = ('id', 'material_name', 'total_weight', 'size', 'count',
+                  'weight', 'operative_norm', 'status', 'remark', 'material',
+                  'quota_list')
+
+    def get_total_weight(self, obj):
+        return obj.count * obj.weight
+
+
+class WeldingQuotaItemSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source='get_category_display',
+                                     read_only=True)
+    material_name = serializers.CharField(source='material.name',
+                                          read_only=True)
+
+    class Meta:
+        model = WeldingQuotaItem
+        fields = ('id', 'category', 'material', 'size', 'operative_norm',
+                  'remark', 'material_name', 'quota')
+
+
+class WeldingQuotaItemCreateSerializer(WeldingQuotaItemSerializer):
+    class Meta:
+        model = WeldingQuotaItem
+        fields = ('id', 'category', 'material', 'size', 'operative_norm',
+                  'quota_list', 'remark', 'material_name', 'quota')
+
+
+class MaterialSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Material
+        fields = '__all__'

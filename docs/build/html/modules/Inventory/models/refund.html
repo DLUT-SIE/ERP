@@ -170,13 +170,21 @@
            <div itemprop="articleBody">
             
   <h1>Inventory.models.refund 源代码</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">chain</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">User</span>
 
-<span class="kn">from</span> <span class="nn">Inventory</span> <span class="k">import</span> <span class="n">REFUNDSTATUS_CHOICES</span><span class="p">,</span> <span class="n">REFUNDSTATUS_REFUNDER</span>
+<span class="kn">from</span> <span class="nn">Core.utils.fsm</span> <span class="k">import</span> <span class="n">transition</span><span class="p">,</span> <span class="n">TransitionMeta</span>
+<span class="kn">from</span> <span class="nn">Inventory</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">REFUNDSTATUS_CHOICES</span><span class="p">,</span> <span class="n">REFUNDSTATUS_REFUNDER</span><span class="p">,</span>
+    <span class="n">REFUNDSTATUS_INSPECTOR</span><span class="p">,</span> <span class="n">REFUNDSTATUS_KEEPER</span><span class="p">,</span>
+    <span class="n">REFUNDSTATUS_END</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">Inventory.models</span> <span class="k">import</span> <span class="n">SteelMaterialInventoryDetail</span>
 
 
-<span class="k">class</span> <span class="nc">AbstractRefundCard</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">AbstractRefundCard</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">TransitionMeta</span><span class="p">):</span>
     <span class="n">uid</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;编号&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">create_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;创建日期&#39;</span><span class="p">,</span>
                                      <span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -202,6 +210,71 @@
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span>
 
+    <span class="k">def</span> <span class="nf">_valid_refund_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">valid_refund_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        因为FSM直接引用了函数, 所以继承无法重载, 因此进行wrap</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_valid_refund_params</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">REFUNDSTATUS_REFUNDER</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">REFUNDSTATUS_INSPECTOR</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;退库确认&#39;</span><span class="p">,</span>
+                <span class="n">conditions</span><span class="o">=</span><span class="n">valid_refund_params</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">refunder_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refunder</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">REFUNDSTATUS_INSPECTOR</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">REFUNDSTATUS_KEEPER</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;检查确认&#39;</span><span class="p">,</span>
+                <span class="n">conditions</span><span class="o">=</span><span class="n">valid_refund_params</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">inspector_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector_confirm</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+
+<div class="viewcode-block" id="WeldingMaterialRefundCard"><a class="viewcode-back" href="../../../Inventory/models.html#Inventory.models.WeldingMaterialRefundCard">[文档]</a><span class="k">class</span> <span class="nc">WeldingMaterialRefundCard</span><span class="p">(</span><span class="n">AbstractRefundCard</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    焊材退库单</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">apply_card</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="s1">&#39;WeldingMaterialApplyCard&#39;</span><span class="p">,</span>
+                                      <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;领用单&#39;</span><span class="p">,</span>
+                                      <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="c1"># TODO: 不必要的字段?</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;退库量（重量）&#39;</span><span class="p">)</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;退库量（数量）&#39;</span><span class="p">,</span>
+                              <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s1">&#39;焊材退库单&#39;</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s1">&#39;焊材退库单&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">apply_card</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_valid_refund_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        退库确认先验条件, 退库数量不能大于领用数量</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_card</span><span class="o">.</span><span class="n">actual_count</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">REFUNDSTATUS_KEEPER</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">REFUNDSTATUS_END</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;库管确认&#39;</span><span class="p">,</span>
+                <span class="n">conditions</span><span class="o">=</span><span class="n">_valid_refund_params</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">keeper_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keeper</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="n">inventory_detail</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_card</span><span class="o">.</span><span class="n">inventory</span>
+        <span class="n">inventory_detail</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span>
+        <span class="n">inventory_detail</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+
 
 <div class="viewcode-block" id="SteelMaterialRefundCard"><a class="viewcode-back" href="../../../Inventory/models.html#Inventory.models.SteelMaterialRefundCard">[文档]</a><span class="k">class</span> <span class="nc">SteelMaterialRefundCard</span><span class="p">(</span><span class="n">AbstractRefundCard</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -214,26 +287,44 @@
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="s1">&#39;钢材退库单&#39;</span>
-        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s1">&#39;钢材退库单&#39;</span></div>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s1">&#39;钢材退库单&#39;</span>
 
+    <span class="k">def</span> <span class="nf">_valid_refund_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">refund_detail</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">board_details</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;apply_detail&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">refund_detail</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">refund_detail</span><span class="o">.</span><span class="n">apply_detail</span><span class="o">.</span><span class="n">count</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">refund_detail</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bar_details</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span>
+                <span class="s1">&#39;apply_detail&#39;</span><span class="p">,</span> <span class="s1">&#39;apply_detail__inventory_detail&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">refund_detail</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">refund_detail</span><span class="o">.</span><span class="n">apply_detail</span><span class="o">.</span><span class="n">count</span> <span class="ow">or</span>
+                    <span class="n">refund_detail</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">refund_detail</span><span class="o">.</span><span class="n">apply_detail</span>
+                    <span class="o">.</span><span class="n">inventory_detail</span><span class="o">.</span><span class="n">length</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="WeldingMaterialRefundCard"><a class="viewcode-back" href="../../../Inventory/models.html#Inventory.models.WeldingMaterialRefundCard">[文档]</a><span class="k">class</span> <span class="nc">WeldingMaterialRefundCard</span><span class="p">(</span><span class="n">AbstractRefundCard</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    焊材退库单</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">apply_card</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="s1">&#39;WeldingMaterialApplyCard&#39;</span><span class="p">,</span>
-                                      <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;领用单&#39;</span><span class="p">,</span>
-                                      <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
-    <span class="n">weight</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;退库量（重量）&#39;</span><span class="p">)</span>
-    <span class="n">count</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;退库量（数量）&#39;</span><span class="p">,</span>
-                              <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">verbose_name</span> <span class="o">=</span> <span class="s1">&#39;焊材退库单&#39;</span>
-        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s1">&#39;焊材退库单&#39;</span>
-
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">apply_card</span><span class="p">)</span></div>
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">REFUNDSTATUS_KEEPER</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">REFUNDSTATUS_END</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;库管确认&#39;</span><span class="p">,</span>
+                <span class="n">conditions</span><span class="o">=</span><span class="n">_valid_refund_params</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">keeper_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        根据退库明细创建新的库存明细</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keeper</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="k">for</span> <span class="n">refund_detail</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">board_details</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span>
+                    <span class="s1">&#39;apply_detail&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;apply_detail__inventory_detail&#39;</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bar_details</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span>
+                    <span class="s1">&#39;apply_detail&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;apply_detail__inventory_detail&#39;</span><span class="p">)):</span>
+            <span class="n">old_inventory_detail</span> <span class="o">=</span> <span class="n">refund_detail</span><span class="o">.</span><span class="n">apply_detail</span><span class="o">.</span><span class="n">inventory_detail</span>
+            <span class="n">SteelMaterialInventoryDetail</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">entry_detail</span><span class="o">=</span><span class="n">old_inventory_detail</span><span class="o">.</span><span class="n">entry_detail</span><span class="p">,</span>
+                <span class="n">weight</span><span class="o">=</span><span class="n">refund_detail</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                <span class="n">count</span><span class="o">=</span><span class="n">refund_detail</span><span class="o">.</span><span class="n">count</span><span class="p">,</span>
+                <span class="n">length</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">refund_detail</span><span class="p">,</span> <span class="s1">&#39;length&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">refund_times</span><span class="o">=</span><span class="n">old_inventory_detail</span><span class="o">.</span><span class="n">refund_times</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BoughtInComponentRefundCard"><a class="viewcode-back" href="../../../Inventory/models.html#Inventory.models.BoughtInComponentRefundCard">[文档]</a><span class="k">class</span> <span class="nc">BoughtInComponentRefundCard</span><span class="p">(</span><span class="n">AbstractRefundCard</span><span class="p">):</span>
@@ -246,7 +337,25 @@
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="s1">&#39;外购件退库单&#39;</span>
-        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s1">&#39;外购件退库单&#39;</span></div>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s1">&#39;外购件退库单&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_valid_refund_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">refund_detail</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">details</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;apply_detail&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">refund_detail</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">refund_detail</span><span class="o">.</span><span class="n">apply_detail</span><span class="o">.</span><span class="n">count</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">REFUNDSTATUS_KEEPER</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">REFUNDSTATUS_END</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;库管确认&#39;</span><span class="p">,</span>
+                <span class="n">conditions</span><span class="o">=</span><span class="n">_valid_refund_params</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">keeper_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keeper</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="k">for</span> <span class="n">refund_detail</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">details</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s1">&#39;apply_detail&#39;</span><span class="p">):</span>
+            <span class="n">inventory_detail</span> <span class="o">=</span> <span class="n">refund_detail</span><span class="o">.</span><span class="n">apply_detail</span><span class="o">.</span><span class="n">inventory_detail</span>
+            <span class="n">inventory_detail</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="n">refund_detail</span><span class="o">.</span><span class="n">count</span>
+            <span class="n">inventory_detail</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
 </pre></div>
 
            </div>

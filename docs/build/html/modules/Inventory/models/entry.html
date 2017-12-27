@@ -220,7 +220,7 @@
     <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
                 <span class="n">source</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_PUCAHSER</span><span class="p">,</span>
                 <span class="n">target</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_INSPECTOR</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;采购确认&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">purchaser_confirmed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">purchaser_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        采购确认</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -229,7 +229,7 @@
     <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
                 <span class="n">source</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_INSPECTOR</span><span class="p">,</span>
                 <span class="n">target</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_KEEPER</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;检查确认&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">inspector_confirmed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inspector_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        检查确认</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -266,7 +266,7 @@
     <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
                 <span class="n">source</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_KEEPER</span><span class="p">,</span>
                 <span class="n">target</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_END</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;库管确认&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">keeper_confirmed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">keeper_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        库管确认</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -298,7 +298,7 @@
     <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
                 <span class="n">source</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_KEEPER</span><span class="p">,</span>
                 <span class="n">target</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_END</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;库管确认&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">keeper_confirmed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">keeper_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        库管确认</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -320,7 +320,7 @@
     <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
                 <span class="n">source</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_KEEPER</span><span class="p">,</span>
                 <span class="n">target</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_END</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;库管确认&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">keeper_confirmed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">keeper_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        库管确认</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -344,7 +344,7 @@
     <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
                 <span class="n">source</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_KEEPER</span><span class="p">,</span>
                 <span class="n">target</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_END</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;库管确认&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">keeper_confirmed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">keeper_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        库管确认</span>
 <span class="sd">        &quot;&quot;&quot;</span>

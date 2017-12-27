@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TZ-ERP &mdash; ERP 0.1 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="genindex.html"/>
+        <link rel="search" title="搜索" href="search.html"/>
+    <link rel="top" title="ERP 0.1 文档" href="index.html"/>
+<link rel="stylesheet" type="text/css" 
+     href="_static/custom.css" /> 
+
+
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ERP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">ERP开发文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="APIs.html">API总览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding_Guidelines/index.html">代码规范</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Core/index.html">核心模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Distribution/index.html">经销模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Process/index.html">工艺模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Procurement/index.html">采购模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Inventory/index.html">库存模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Production/index.html">生产模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Messaging/index.html">消息模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Updates/index.html">更新文档</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ERP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>TZ-ERP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/README.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tz-erp">
+<span id="readme"></span><h1>TZ-ERP<a class="headerlink" href="#tz-erp" title="永久链接至标题">¶</a></h1>
+<a class="reference external image-reference" href="http://erp.readthedocs.io/?badge=dev-docs"><img alt="https://readthedocs.org/projects/erp/badge/?version=dev-docs" src="https://readthedocs.org/projects/erp/badge/?version=dev-docs" /></a>
+<a class="reference external image-reference" href="https://travis-ci.org/DLUT-SIE/ERP"><img alt="https://travis-ci.org/DLUT-SIE/ERP.svg?branch=dev" src="https://travis-ci.org/DLUT-SIE/ERP.svg?branch=dev" /></a>
+<a class="reference external image-reference" href="https://coveralls.io/github/DLUT-SIE/ERP?branch=dev"><img alt="https://coveralls.io/repos/github/DLUT-SIE/ERP/badge.svg?branch=dev" src="https://coveralls.io/repos/github/DLUT-SIE/ERP/badge.svg?branch=dev" /></a>
+<div class="section" id="id1">
+<h2>安装<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<ol class="arabic simple">
+<li>安装 Python 3.6+</li>
+<li>pip install -r requirements.txt</li>
+</ol>
+</div>
+<div class="section" id="id2">
+<h2>开发说明<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<ol class="arabic simple">
+<li>分支 <strong>master</strong> 被保护, 用于发布最新稳定版本代码</li>
+<li>分支 <strong>dev</strong> 被保护, 代表最新开发进度, 该分支请及时同步到本地</li>
+<li>个人开发单独创建分支, 请保证从最新的 <strong>dev</strong> 分支创建 <cite>git checkout -b branch-name</cite></li>
+<li>开发完成后, 运行 <cite>coverage run manange.py test -v 2</cite> 进行单元测试, 如无测试错误运行 <cite>coverage report</cite> 查看代码覆盖度</li>
+<li>通过单元测试以及覆盖度检测的代码请合并最新远端 <strong>dev</strong> 分支代码, 然后推送更新至远端仓库</li>
+<li>在Github上发出 <strong>Pull Request</strong>, 向 <strong>dev</strong> 分支进行合并</li>
+<li>发起 <strong>PR</strong> 以后, 集成的 <strong>Travis CI</strong> 和 <strong>Coveralls</strong> 会自动执行单元测试以及覆盖度检测</li>
+<li>请在通过自动检测以后选择 <strong>Reviewer</strong> 进行 <strong>Code Review</strong>, 选择检测人为 <strong>同组人员</strong> 及 <strong>管理员</strong></li>
+<li>通过所有检测以后联系管理员进行代码合并</li>
+<li>代码合并后，仓库将在远端删除该分支, 请及时删除本地对应分支</li>
+<li>分支命名请尽量采用 <strong>feature-xxx</strong>, <strong>fix-xx</strong> 等命名方式</li>
+</ol>
+</div>
+<div class="section" id="id3">
+<h2>目录结构<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<blockquote>
+<div><div class="highlight-none"><div class="highlight"><pre><span></span>.
+├── Core  # 核心
+│   ├── api
+│   ├── migrations
+│   ├── models
+│   ├── serializers
+│   ├── templates
+│   ├── tests
+│   ├── utils
+│   └── views
+├── Distribution  # 经销
+│   ├── api
+│   ├── migrations
+│   └── serializers
+├── ERP  # 项目配置文件
+├── Inventory  # 库存
+│   ├── migrations
+│   └── models
+├── Messaging  # 消息
+│   ├── migrations
+│   └── tests
+├── Process  # 工艺
+│   ├── migrations
+│   └── models
+├── Procurement  # 采购
+│   ├── migrations
+│   └── models
+├── Production  # 生产
+│   └── migrations
+└── documents  # 文档
+    ├── build
+    └── source
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Youchen Du.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

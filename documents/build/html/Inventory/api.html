@@ -1,0 +1,7697 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>库存模块-API &mdash; ERP 0.1 文档</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="索引"
+              href="../genindex.html"/>
+        <link rel="search" title="搜索" href="../search.html"/>
+    <link rel="top" title="ERP 0.1 文档" href="../index.html"/>
+        <link rel="up" title="库存模块" href="index.html"/>
+        <link rel="next" title="生产模块" href="../Production/index.html"/>
+        <link rel="prev" title="库存模块-视图" href="views.html"/>
+<link rel="stylesheet" type="text/css" 
+     href="../_static/custom.css" /> 
+
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ERP
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">ERP开发文档</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../APIs.html">API总览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Coding_Guidelines/index.html">代码规范</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Core/index.html">核心模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Distribution/index.html">经销模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Process/index.html">工艺模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Procurement/index.html">采购模块</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">库存模块</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="models.html">库存模块-模型定义</a></li>
+<li class="toctree-l2"><a class="reference internal" href="views.html">库存模块-视图</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">库存模块-API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">焊材入库单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#list">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#read">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#partial-update">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">钢材入库单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">外购件入库单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">辅材入库单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id13">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">焊材入库单明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">钢材入库单明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id22">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id25">外购件入库单明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id26">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id28">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">辅材入库单明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id30">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id31">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id32">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id33">焊材入库台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id34">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id35">钢材入库台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id36">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id37">外购件入库台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id38">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id39">辅材入库台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id40">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id41">焊材库存明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id42">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id43">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id44">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id45">钢材库存明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id46">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id47">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id48">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id49">外购件库存明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id50">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id51">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id52">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id53">辅材库存明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id54">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id55">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id56">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id57">焊材库存台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id58">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id59">钢材库存台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id60">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id61">外购件库存台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id62">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id63">辅材库存台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id64">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id65">焊材领用单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id66">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id67">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id68">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id69">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id70">钢材领用单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id71">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id72">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id73">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id74">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id75">外购件领用单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id76">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id77">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id78">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id79">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id80">辅材领用单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id81">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id82">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id83">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id84">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id85">钢材领用明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id86">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id87">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id88">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id89">外购件领用明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id90">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id91">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id92">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id93">焊材出库台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id94">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id95">钢材出库台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id96">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id97">外购件出库台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id98">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id99">辅材出库台账</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id100">list</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id101">焊材退库单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id102">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id103">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id104">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id105">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id106">钢材退库单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id107">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id108">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id109">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id110">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id111">外购件退库单</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id112">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id113">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id114">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id115">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id116">板材退库单明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id117">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id118">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id119">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id120">型材退库单明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id121">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id122">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id123">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id124">外购件退库单明细</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id125">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id126">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id127">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id128">库房</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id129">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id130">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id131">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id132">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id133">焊材库温湿度记录卡</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id134">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id135">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id136">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id137">create</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id138">焊材烘焙记录卡</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id139">list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id140">read</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id141">partial_update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id142">create</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Production/index.html">生产模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Messaging/index.html">消息模块</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Updates/index.html">更新文档</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ERP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">库存模块</a> &raquo;</li>
+        
+      <li>库存模块-API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Inventory/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<span id="inventory-api"></span><h1>库存模块-API<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>焊材入库单<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="section" id="list">
+<h3>list<a class="headerlink" href="#list" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_entries/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="read">
+<h3>read<a class="headerlink" href="#read" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_entries/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>bidding_sheet</td>
+<td>int</td>
+<td>标单id</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="partial-update">
+<h3>partial_update<a class="headerlink" href="#partial-update" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/welding_material_entries/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>bidding_sheet</td>
+<td>int</td>
+<td>标单id</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="create">
+<h3>create<a class="headerlink" href="#create" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/welding_material_entries/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>钢材入库单<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id3">
+<h3>list<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_entries/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>source(Optional)</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>steel_type</td>
+<td>int</td>
+<td>类型</td>
+</tr>
+<tr class="row-even"><td>pretty_steel_type</td>
+<td>str</td>
+<td>类型(中文)</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h3>read<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_entries/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>bidding_sheet</td>
+<td>int</td>
+<td>标单id</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id5">
+<h3>partial_update<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/steel_material_entries/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>bidding_sheet</td>
+<td>int</td>
+<td>标单id</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h3>create<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/steel_material_entries/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>外购件入库单<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id8">
+<h3>list<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_entries/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>source(Optional)</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+<tr class="row-odd"><td>category(Optional)</td>
+<td>int</td>
+<td>外购件类型</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id9">
+<h3>read<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_entries/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>bidding_sheet</td>
+<td>int</td>
+<td>标单id</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id10">
+<h3>partial_update<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/welding_material_entries/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>bidding_sheet</td>
+<td>int</td>
+<td>标单id</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id11">
+<h3>create<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/bought_in_component_entries/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id12">
+<h2>辅材入库单<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id13">
+<h3>list<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_entries/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id14">
+<h3>read<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_entries/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>bidding_sheet</td>
+<td>int</td>
+<td>标单id</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id15">
+<h3>partial_update<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/auxiliary_material_entries/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>bidding_sheet</td>
+<td>int</td>
+<td>标单id</td>
+</tr>
+<tr class="row-odd"><td>source</td>
+<td>str</td>
+<td>货物来源</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>purchaser</td>
+<td>str</td>
+<td>采购员</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id16">
+<h3>create<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/auxiliary_material_entries/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id17">
+<h2>焊材入库单明细<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id18">
+<h3>read<a class="headerlink" href="#id18" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_entry_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry</td>
+<td>int</td>
+<td>入库单id</td>
+</tr>
+<tr class="row-even"><td>procurement_material</td>
+<td>int</td>
+<td>采购物料id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+<tr class="row-even"><td>production_dt</td>
+<td>datetime</td>
+<td>出厂日期</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id19">
+<h3>partial_update<a class="headerlink" href="#id19" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/welding_material_entry_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry</td>
+<td>int</td>
+<td>入库单id</td>
+</tr>
+<tr class="row-even"><td>procurement_material</td>
+<td>int</td>
+<td>采购物料id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+<tr class="row-even"><td>production_dt</td>
+<td>datetime</td>
+<td>出厂日期</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id20">
+<h3>create<a class="headerlink" href="#id20" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/welding_material_entry_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id21">
+<h2>钢材入库单明细<a class="headerlink" href="#id21" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id22">
+<h3>read<a class="headerlink" href="#id22" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_entry_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry</td>
+<td>int</td>
+<td>入库单id</td>
+</tr>
+<tr class="row-even"><td>procurement_material</td>
+<td>int</td>
+<td>采购物料id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+<tr class="row-even"><td>length</td>
+<td>float</td>
+<td>长度</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id23">
+<h3>partial_update<a class="headerlink" href="#id23" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/steel_material_entry_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry</td>
+<td>int</td>
+<td>入库单id</td>
+</tr>
+<tr class="row-even"><td>procurement_material</td>
+<td>int</td>
+<td>采购物料id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+<tr class="row-even"><td>length</td>
+<td>float</td>
+<td>长度</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id24">
+<h3>create<a class="headerlink" href="#id24" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/steel_material_entry_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id25">
+<h2>外购件入库单明细<a class="headerlink" href="#id25" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id26">
+<h3>read<a class="headerlink" href="#id26" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_entry_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry</td>
+<td>int</td>
+<td>入库单id</td>
+</tr>
+<tr class="row-even"><td>procurement_material</td>
+<td>int</td>
+<td>采购物料id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id27">
+<h3>partial_update<a class="headerlink" href="#id27" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/bought_in_component_entry_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry</td>
+<td>int</td>
+<td>入库单id</td>
+</tr>
+<tr class="row-even"><td>procurement_material</td>
+<td>int</td>
+<td>采购物料id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id28">
+<h3>create<a class="headerlink" href="#id28" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/bought_in_component_entry_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id29">
+<h2>辅材入库单明细<a class="headerlink" href="#id29" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id30">
+<h3>read<a class="headerlink" href="#id30" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_entry_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry</td>
+<td>int</td>
+<td>入库单id</td>
+</tr>
+<tr class="row-even"><td>procurement_material</td>
+<td>int</td>
+<td>采购物料id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id31">
+<h3>partial_update<a class="headerlink" href="#id31" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/auxiliary_material_entry_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry</td>
+<td>int</td>
+<td>入库单id</td>
+</tr>
+<tr class="row-even"><td>procurement_material</td>
+<td>int</td>
+<td>采购物料id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id32">
+<h3>create<a class="headerlink" href="#id32" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/auxiliary_material_entry_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id33">
+<h2>焊材入库台账<a class="headerlink" href="#id33" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id34">
+<h3>list<a class="headerlink" href="#id34" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_entry_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>material_mark(Optional)</td>
+<td>str</td>
+<td>牌号</td>
+</tr>
+<tr class="row-odd"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>material_mark</td>
+<td>str</td>
+<td>牌号</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>entry_dt</td>
+<td>datetime</td>
+<td>入库时间</td>
+</tr>
+<tr class="row-even"><td>–</td>
+<td>str</td>
+<td>材料批号?</td>
+</tr>
+<tr class="row-odd"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>float</td>
+<td>入库数量</td>
+</tr>
+<tr class="row-even"><td>weight</td>
+<td>float</td>
+<td>入库重量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id35">
+<h2>钢材入库台账<a class="headerlink" href="#id35" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id36">
+<h3>list<a class="headerlink" href="#id36" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_entry_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>work_order_uid(Optional)</td>
+<td>str</td>
+<td>工作令编号</td>
+</tr>
+<tr class="row-odd"><td>material_mark(Optional)</td>
+<td>str</td>
+<td>材料牌号</td>
+</tr>
+<tr class="row-even"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>entry_dt</td>
+<td>datetime</td>
+<td>入库时间</td>
+</tr>
+<tr class="row-even"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>work_order_uid</td>
+<td>str</td>
+<td>工作令编号</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>入库数量</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>入库重量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id37">
+<h2>外购件入库台账<a class="headerlink" href="#id37" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id38">
+<h3>list<a class="headerlink" href="#id38" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_entry_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>work_order_uid(Optional)</td>
+<td>str</td>
+<td>工作令编号</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标准号/图号</td>
+</tr>
+<tr class="row-even"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>work_order_uid</td>
+<td>str</td>
+<td>工作令编号</td>
+</tr>
+<tr class="row-even"><td>–</td>
+<td>str</td>
+<td>标准号/图号</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>entry_dt</td>
+<td>datetime</td>
+<td>入库时间</td>
+</tr>
+<tr class="row-even"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>entry_uid</td>
+<td>str</td>
+<td>入库单号</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>入库数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id39">
+<h2>辅材入库台账<a class="headerlink" href="#id39" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id40">
+<h3>list<a class="headerlink" href="#id40" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_entry_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>–</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-odd"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>factory(Optional)</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>supplier(Optional)</td>
+<td>str</td>
+<td>供货商</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>entry_dt</td>
+<td>datetime</td>
+<td>入库时间</td>
+</tr>
+<tr class="row-even"><td>entry_uid</td>
+<td>str</td>
+<td>入库单号</td>
+</tr>
+<tr class="row-odd"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-even"><td>suppilier</td>
+<td>str</td>
+<td>供货商</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id41">
+<h2>焊材库存明细<a class="headerlink" href="#id41" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id42">
+<h3>read<a class="headerlink" href="#id42" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_inventory_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry_detail</td>
+<td>int</td>
+<td>入库明细id</td>
+</tr>
+<tr class="row-even"><td>deadline</td>
+<td>date</td>
+<td>有效期</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id43">
+<h3>partial_update<a class="headerlink" href="#id43" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/welding_material_inventory_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry_detail</td>
+<td>int</td>
+<td>入库明细id</td>
+</tr>
+<tr class="row-even"><td>deadline</td>
+<td>date</td>
+<td>有效期</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id44">
+<h3>create<a class="headerlink" href="#id44" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/welding_material_inventory_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id45">
+<h2>钢材库存明细<a class="headerlink" href="#id45" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id46">
+<h3>read<a class="headerlink" href="#id46" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_inventory_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry_detail</td>
+<td>int</td>
+<td>入库明细id</td>
+</tr>
+<tr class="row-even"><td>length</td>
+<td>float</td>
+<td>长度</td>
+</tr>
+<tr class="row-odd"><td>refund_times</td>
+<td>int</td>
+<td>退库次数</td>
+</tr>
+<tr class="row-even"><td>warehouse</td>
+<td>int</td>
+<td>库房id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id47">
+<h3>partial_update<a class="headerlink" href="#id47" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/steel_material_inventory_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry_detail</td>
+<td>int</td>
+<td>入库明细id</td>
+</tr>
+<tr class="row-even"><td>length</td>
+<td>float</td>
+<td>长度</td>
+</tr>
+<tr class="row-odd"><td>refund_times</td>
+<td>int</td>
+<td>退库次数</td>
+</tr>
+<tr class="row-even"><td>warehouse</td>
+<td>int</td>
+<td>库房id</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id48">
+<h3>create<a class="headerlink" href="#id48" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/steel_material_inventory_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id49">
+<h2>外购件库存明细<a class="headerlink" href="#id49" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id50">
+<h3>read<a class="headerlink" href="#id50" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_inventory_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry_detail</td>
+<td>int</td>
+<td>入库明细id</td>
+</tr>
+<tr class="row-even"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id51">
+<h3>partial_update<a class="headerlink" href="#id51" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/bought_in_component_inventory_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry_detail</td>
+<td>int</td>
+<td>入库明细id</td>
+</tr>
+<tr class="row-even"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id52">
+<h3>create<a class="headerlink" href="#id52" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/bought_in_component_inventory_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id53">
+<h2>辅材库存明细<a class="headerlink" href="#id53" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id54">
+<h3>read<a class="headerlink" href="#id54" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_inventory_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry_detail</td>
+<td>int</td>
+<td>入库明细id</td>
+</tr>
+<tr class="row-even"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id55">
+<h3>partial_update<a class="headerlink" href="#id55" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/auxiliary_material_inventory_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>entry_detail</td>
+<td>int</td>
+<td>入库明细id</td>
+</tr>
+<tr class="row-even"><td>weight</td>
+<td>float</td>
+<td>单重</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id56">
+<h3>create<a class="headerlink" href="#id56" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/auxiliary_material_inventory_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id57">
+<h2>焊材库存台账<a class="headerlink" href="#id57" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id58">
+<h3>list<a class="headerlink" href="#id58" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_inventory_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>material_mark(Optional)</td>
+<td>str</td>
+<td>牌号</td>
+</tr>
+<tr class="row-odd"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>material_mark</td>
+<td>str</td>
+<td>牌号</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>entry_count</td>
+<td>float</td>
+<td>入库数量</td>
+</tr>
+<tr class="row-even"><td>entry_dt</td>
+<td>datetime</td>
+<td>入库时间</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>材料批号?</td>
+</tr>
+<tr class="row-even"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>float</td>
+<td>库存数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id59">
+<h2>钢材库存台账<a class="headerlink" href="#id59" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id60">
+<h3>list<a class="headerlink" href="#id60" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_inventory_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>work_order_uid(Optional)</td>
+<td>str</td>
+<td>工作令编号</td>
+</tr>
+<tr class="row-odd"><td>material_mark(Optional)</td>
+<td>str</td>
+<td>牌号</td>
+</tr>
+<tr class="row-even"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-even"><td>batch_number</td>
+<td>str</td>
+<td>炉批号</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>entry_dt</td>
+<td>datetime</td>
+<td>入库时间</td>
+</tr>
+<tr class="row-odd"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-even"><td>work_order_uid</td>
+<td>str</td>
+<td>工作令编号</td>
+</tr>
+<tr class="row-odd"><td>location</td>
+<td>str</td>
+<td>库房位置</td>
+</tr>
+<tr class="row-even"><td>refund_times</td>
+<td>int</td>
+<td>退库次数</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>套料图</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id61">
+<h2>外购件库存台账<a class="headerlink" href="#id61" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id62">
+<h3>list<a class="headerlink" href="#id62" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_inventory_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>work_order_uid(Optional)</td>
+<td>str</td>
+<td>工作令编号</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标准号/图号</td>
+</tr>
+<tr class="row-even"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>work_order_uid</td>
+<td>str</td>
+<td>工作令编号</td>
+</tr>
+<tr class="row-even"><td>–</td>
+<td>str</td>
+<td>标准号/图号</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>entry_dt</td>
+<td>datetime</td>
+<td>入库时间</td>
+</tr>
+<tr class="row-even"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>entry_uid</td>
+<td>str</td>
+<td>入库单号</td>
+</tr>
+<tr class="row-even"><td>category</td>
+<td>str</td>
+<td>材料类别</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>float</td>
+<td>入库数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id63">
+<h2>辅材库存台账<a class="headerlink" href="#id63" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id64">
+<h3>list<a class="headerlink" href="#id64" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_inventory_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>material_mark(Optional)</td>
+<td>str</td>
+<td>牌号</td>
+</tr>
+<tr class="row-odd"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>factory(Optional)</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>supplier(Optional)</td>
+<td>str</td>
+<td>供货商</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>entry_count</td>
+<td>int</td>
+<td>入库数量</td>
+</tr>
+<tr class="row-even"><td>entry_dt</td>
+<td>datetime</td>
+<td>入库时间</td>
+</tr>
+<tr class="row-odd"><td>entry_uid</td>
+<td>str</td>
+<td>入库单号</td>
+</tr>
+<tr class="row-even"><td>factory</td>
+<td>str</td>
+<td>厂家</td>
+</tr>
+<tr class="row-odd"><td>suppilier</td>
+<td>str</td>
+<td>供货商</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id65">
+<h2>焊材领用单<a class="headerlink" href="#id65" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id66">
+<h3>list<a class="headerlink" href="#id66" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_apply_cards/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>material_mark(Optional)</td>
+<td>str</td>
+<td>焊材牌号</td>
+</tr>
+<tr class="row-odd"><td>model(Optional)</td>
+<td>str</td>
+<td>型号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>welding_seam_uid</td>
+<td>str</td>
+<td>焊缝编号</td>
+</tr>
+<tr class="row-odd"><td>material_mark</td>
+<td>str</td>
+<td>焊材牌号</td>
+</tr>
+<tr class="row-even"><td>model</td>
+<td>str</td>
+<td>型号</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id67">
+<h3>read<a class="headerlink" href="#id67" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_apply_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>welding_seam_uid</td>
+<td>str</td>
+<td>焊缝编号</td>
+</tr>
+<tr class="row-even"><td>material_mark</td>
+<td>str</td>
+<td>焊材牌号</td>
+</tr>
+<tr class="row-odd"><td>model</td>
+<td>str</td>
+<td>型号</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>apply_weight</td>
+<td>float</td>
+<td>领用重量</td>
+</tr>
+<tr class="row-even"><td>apply_count</td>
+<td>float</td>
+<td>领用数量</td>
+</tr>
+<tr class="row-odd"><td>material_code</td>
+<td>str</td>
+<td>材质标记</td>
+</tr>
+<tr class="row-even"><td>actual_weight</td>
+<td>float</td>
+<td>实发重量</td>
+</tr>
+<tr class="row-odd"><td>actual_count</td>
+<td>float</td>
+<td>实发数量</td>
+</tr>
+<tr class="row-even"><td>applicant</td>
+<td>str</td>
+<td>领料人</td>
+</tr>
+<tr class="row-odd"><td>auditor</td>
+<td>str</td>
+<td>审核人</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>发料人</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id68">
+<h3>partial_update<a class="headerlink" href="#id68" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/welding_material_apply_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>welding_seam_uid</td>
+<td>str</td>
+<td>焊缝编号</td>
+</tr>
+<tr class="row-even"><td>material_mark</td>
+<td>str</td>
+<td>焊材牌号</td>
+</tr>
+<tr class="row-odd"><td>model</td>
+<td>str</td>
+<td>型号</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>apply_weight</td>
+<td>float</td>
+<td>领用重量</td>
+</tr>
+<tr class="row-even"><td>apply_count</td>
+<td>float</td>
+<td>领用数量</td>
+</tr>
+<tr class="row-odd"><td>material_code</td>
+<td>str</td>
+<td>材质标记</td>
+</tr>
+<tr class="row-even"><td>actual_weight</td>
+<td>float</td>
+<td>实发重量</td>
+</tr>
+<tr class="row-odd"><td>actual_count</td>
+<td>float</td>
+<td>实发数量</td>
+</tr>
+<tr class="row-even"><td>applicant</td>
+<td>str</td>
+<td>领料人</td>
+</tr>
+<tr class="row-odd"><td>auditor</td>
+<td>str</td>
+<td>审核人</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>发料人</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id69">
+<h3>create<a class="headerlink" href="#id69" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/welding_material_apply_cards/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id70">
+<h2>钢材领用单<a class="headerlink" href="#id70" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id71">
+<h3>list<a class="headerlink" href="#id71" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_apply_cards/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id72">
+<h3>read<a class="headerlink" href="#id72" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_apply_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-odd"><td>auditor</td>
+<td>str</td>
+<td>审核人</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id73">
+<h3>partial_update<a class="headerlink" href="#id73" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/steel_material_apply_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-odd"><td>auditor</td>
+<td>str</td>
+<td>审核人</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id74">
+<h3>create<a class="headerlink" href="#id74" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/steel_material_apply_cards/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id75">
+<h2>外购件领用单<a class="headerlink" href="#id75" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id76">
+<h3>list<a class="headerlink" href="#id76" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_apply_cards/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>department(Optional)</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id77">
+<h3>read<a class="headerlink" href="#id77" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_apply_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-even"><td>auditor</td>
+<td>str</td>
+<td>审核人</td>
+</tr>
+<tr class="row-odd"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-odd"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id78">
+<h3>partial_update<a class="headerlink" href="#id78" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/bought_in_component_apply_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-even"><td>auditor</td>
+<td>str</td>
+<td>审核人</td>
+</tr>
+<tr class="row-odd"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-odd"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id79">
+<h3>create<a class="headerlink" href="#id79" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/bought_in_component_apply_cards/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id80">
+<h2>辅材领用单<a class="headerlink" href="#id80" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id81">
+<h3>list<a class="headerlink" href="#id81" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_apply_cards/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>apply_intentory(Optional)</td>
+<td>str</td>
+<td>领用材料</td>
+</tr>
+<tr class="row-even"><td>department(Optional)</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id82">
+<h3>read<a class="headerlink" href="#id82" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_apply_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-even"><td>auditor</td>
+<td>str</td>
+<td>审核人</td>
+</tr>
+<tr class="row-odd"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-odd"><td>apply_inventory</td>
+<td>int</td>
+<td>库存明细id</td>
+</tr>
+<tr class="row-even"><td>apply_count</td>
+<td>int</td>
+<td>领用数量</td>
+</tr>
+<tr class="row-odd"><td>actual_inventory</td>
+<td>int</td>
+<td>实发明细id</td>
+</tr>
+<tr class="row-even"><td>actual_count</td>
+<td>int</td>
+<td>实发数量</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id83">
+<h3>partial_update<a class="headerlink" href="#id83" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/auxiliary_material_apply_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-even"><td>auditor</td>
+<td>str</td>
+<td>审核人</td>
+</tr>
+<tr class="row-odd"><td>inspector</td>
+<td>str</td>
+<td>检查员</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-odd"><td>apply_inventory</td>
+<td>int</td>
+<td>库存明细id</td>
+</tr>
+<tr class="row-even"><td>apply_count</td>
+<td>int</td>
+<td>领用数量</td>
+</tr>
+<tr class="row-odd"><td>actual_inventory</td>
+<td>int</td>
+<td>实发明细id</td>
+</tr>
+<tr class="row-even"><td>actual_count</td>
+<td>int</td>
+<td>实发数量</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id84">
+<h3>create<a class="headerlink" href="#id84" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/auxiliary_material_apply_cards/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id85">
+<h2>钢材领用明细<a class="headerlink" href="#id85" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id86">
+<h3>read<a class="headerlink" href="#id86" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_apply_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>material_mark</td>
+<td>str</td>
+<td>钢号</td>
+</tr>
+<tr class="row-odd"><td>material_code</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>申请数量</td>
+</tr>
+<tr class="row-even"><td>component</td>
+<td>str</td>
+<td>零件编号</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id87">
+<h3>partial_update<a class="headerlink" href="#id87" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/steel_material_apply_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>material_mark</td>
+<td>str</td>
+<td>钢号</td>
+</tr>
+<tr class="row-odd"><td>material_code</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>申请数量</td>
+</tr>
+<tr class="row-even"><td>component</td>
+<td>str</td>
+<td>零件编号</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id88">
+<h3>create<a class="headerlink" href="#id88" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/steel_material_apply_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id89">
+<h2>外购件领用明细<a class="headerlink" href="#id89" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id90">
+<h3>read<a class="headerlink" href="#id90" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_apply_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>drawing_number</td>
+<td>str</td>
+<td>零件图/标准</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>名称及规格</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>材料牌号</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>material_number</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+<tr class="row-even"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id91">
+<h3>partial_update<a class="headerlink" href="#id91" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/bought_in_component_apply_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>drawing_number</td>
+<td>str</td>
+<td>零件图/标准</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>名称及规格</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>材料牌号</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>material_number</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+<tr class="row-even"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id92">
+<h3>create<a class="headerlink" href="#id92" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/bought_in_component_apply_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id93">
+<h2>焊材出库台账<a class="headerlink" href="#id93" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id94">
+<h3>list<a class="headerlink" href="#id94" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_apply_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>welding_seam_uid(Optional)</td>
+<td>str</td>
+<td>焊缝编号</td>
+</tr>
+<tr class="row-even"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>welding_seam_uid</td>
+<td>str</td>
+<td>焊缝编号</td>
+</tr>
+<tr class="row-odd"><td>apply_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-even"><td>applicant</td>
+<td>str</td>
+<td>领用人</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用单编号</td>
+</tr>
+<tr class="row-odd"><td>actual_weight</td>
+<td>float</td>
+<td>实发重量</td>
+</tr>
+<tr class="row-even"><td>actual_count</td>
+<td>float</td>
+<td>实发数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id95">
+<h2>钢材出库台账<a class="headerlink" href="#id95" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id96">
+<h3>list<a class="headerlink" href="#id96" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_apply_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>material_mark(Optional)</td>
+<td>str</td>
+<td>材料牌号</td>
+</tr>
+<tr class="row-even"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>material_number(Optional)</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>apply_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-odd"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-even"><td>–</td>
+<td>str</td>
+<td>零件编号</td>
+</tr>
+<tr class="row-odd"><td>apply_count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id97">
+<h2>外购件出库台账<a class="headerlink" href="#id97" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id98">
+<h3>list<a class="headerlink" href="#id98" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_apply_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标准号/图号</td>
+</tr>
+<tr class="row-even"><td>specification(Optional)</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>–</td>
+<td>str</td>
+<td>标准号/图号</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>apply_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-even"><td>material_number</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用单号</td>
+</tr>
+<tr class="row-even"><td>apply_count</td>
+<td>float</td>
+<td>领用数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id99">
+<h2>辅材出库台账<a class="headerlink" href="#id99" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id100">
+<h3>list<a class="headerlink" href="#id100" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/auxiliary_material_apply_ledgers/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>department(Optional)</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>材料名称</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid(Optional)</td>
+<td>str</td>
+<td>领用卡编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>–</td>
+<td>str</td>
+<td>材料名称</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>apply_name</td>
+<td>str</td>
+<td>请领名称</td>
+</tr>
+<tr class="row-even"><td>apply_specification</td>
+<td>str</td>
+<td>请领规格</td>
+</tr>
+<tr class="row-odd"><td>apply_count</td>
+<td>int</td>
+<td>请领数量</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用卡编号</td>
+</tr>
+<tr class="row-odd"><td>apply_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-even"><td>actual_specification</td>
+<td>str</td>
+<td>实发规格</td>
+</tr>
+<tr class="row-odd"><td>actual_count</td>
+<td>int</td>
+<td>实发数量</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id101">
+<h2>焊材退库单<a class="headerlink" href="#id101" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id102">
+<h3>list<a class="headerlink" href="#id102" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_refund_cards/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>welding_seam_uid(Optional)</td>
+<td>str</td>
+<td>焊缝编号</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>welding_seam_uid</td>
+<td>str</td>
+<td>焊缝编号</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id103">
+<h3>read<a class="headerlink" href="#id103" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_refund_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>apply_card_create_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用单编号</td>
+</tr>
+<tr class="row-odd"><td>model</td>
+<td>str</td>
+<td>型号</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>退库重量</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>退库数量</td>
+</tr>
+<tr class="row-odd"><td>refunder</td>
+<td>str</td>
+<td>退库人</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id104">
+<h3>partial_update<a class="headerlink" href="#id104" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/welding_material_refund_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-odd"><td>apply_card_create_dt</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用单编号</td>
+</tr>
+<tr class="row-odd"><td>model</td>
+<td>str</td>
+<td>型号</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>退库重量</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>float</td>
+<td>退库数量</td>
+</tr>
+<tr class="row-odd"><td>refunder</td>
+<td>str</td>
+<td>退库人</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id105">
+<h3>create<a class="headerlink" href="#id105" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/welding_material_refund_cards/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id106">
+<h2>钢材退库单<a class="headerlink" href="#id106" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id107">
+<h3>list<a class="headerlink" href="#id107" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_refund_cards/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>steel_type</td>
+<td>str</td>
+<td>材料类型</td>
+</tr>
+<tr class="row-odd"><td>refunder</td>
+<td>str</td>
+<td>退料人</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id108">
+<h3>read<a class="headerlink" href="#id108" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/steel_material_refund_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>steel_type</td>
+<td>str</td>
+<td>材料类型</td>
+</tr>
+<tr class="row-odd"><td>refunder</td>
+<td>str</td>
+<td>退料人</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检验员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id109">
+<h3>partial_update<a class="headerlink" href="#id109" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/steel_material_refund_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>steel_type</td>
+<td>str</td>
+<td>材料类型</td>
+</tr>
+<tr class="row-odd"><td>refunder</td>
+<td>str</td>
+<td>退料人</td>
+</tr>
+<tr class="row-even"><td>inspector</td>
+<td>str</td>
+<td>检验员</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-even"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id110">
+<h3>create<a class="headerlink" href="#id110" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/steel_material_refund_cards/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id111">
+<h2>外购件退库单<a class="headerlink" href="#id111" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id112">
+<h3>list<a class="headerlink" href="#id112" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_refund_cards/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>status(Optional)</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-odd"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-even"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid(Optional)</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>uid(Optional)</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>department(Optional)</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-even"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-odd"><td>refunder</td>
+<td>str</td>
+<td>退料人</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id113">
+<h3>read<a class="headerlink" href="#id113" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_refund_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>refunder</td>
+<td>str</td>
+<td>退料人</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-odd"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id114">
+<h3>partial_update<a class="headerlink" href="#id114" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/bought_in_component_refund_cards/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>sub_order_uid</td>
+<td>str</td>
+<td>子工作令编号</td>
+</tr>
+<tr class="row-even"><td>department</td>
+<td>str</td>
+<td>领用单位</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>uid</td>
+<td>str</td>
+<td>编号</td>
+</tr>
+<tr class="row-odd"><td>refunder</td>
+<td>str</td>
+<td>退料人</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>pretty_status</td>
+<td>str</td>
+<td>状态(中文)</td>
+</tr>
+<tr class="row-odd"><td>details</td>
+<td>list</td>
+<td>明细列表</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id115">
+<h3>create<a class="headerlink" href="#id115" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/bought_in_component_refund_cards/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id116">
+<h2>板材退库单明细<a class="headerlink" href="#id116" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id117">
+<h3>read<a class="headerlink" href="#id117" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/board_steel_material_refund_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>material_code</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>str</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>重量</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用单编号</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id118">
+<h3>partial_update<a class="headerlink" href="#id118" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/board_steel_material_refund_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>material_code</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>str</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-odd"><td>weight</td>
+<td>float</td>
+<td>重量</td>
+</tr>
+<tr class="row-even"><td>apply_card_uid</td>
+<td>str</td>
+<td>领用单编号</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id119">
+<h3>create<a class="headerlink" href="#id119" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/board_steel_material_refund_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id120">
+<h2>型材退库单明细<a class="headerlink" href="#id120" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id121">
+<h3>read<a class="headerlink" href="#id121" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/bar_steel_material_refund_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>material_code</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>str</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>length</td>
+<td>float</td>
+<td>长度</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>weight</td>
+<td>float</td>
+<td>重量</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id122">
+<h3>partial_update<a class="headerlink" href="#id122" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/bar_steel_material_refund_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>material</td>
+<td>str</td>
+<td>材质</td>
+</tr>
+<tr class="row-odd"><td>specification</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>material_code</td>
+<td>str</td>
+<td>材质编号</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>str</td>
+<td>状态</td>
+</tr>
+<tr class="row-even"><td>length</td>
+<td>float</td>
+<td>长度</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>weight</td>
+<td>float</td>
+<td>重量</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id123">
+<h3>create<a class="headerlink" href="#id123" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/bar_steel_material_refund_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id124">
+<h2>外购件退库单明细<a class="headerlink" href="#id124" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id125">
+<h3>read<a class="headerlink" href="#id125" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/bought_in_component_refund_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>drawing_number</td>
+<td>str</td>
+<td>零件图/标准</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>名称及规格</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>材料牌号</td>
+</tr>
+<tr class="row-even"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>material_number</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id126">
+<h3>partial_update<a class="headerlink" href="#id126" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/bought_in_component_refund_details/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>drawing_number</td>
+<td>str</td>
+<td>零件图/标准</td>
+</tr>
+<tr class="row-even"><td>specification</td>
+<td>str</td>
+<td>名称及规格</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>材料牌号</td>
+</tr>
+<tr class="row-even"><td>unit</td>
+<td>str</td>
+<td>单位</td>
+</tr>
+<tr class="row-odd"><td>count</td>
+<td>int</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>material_number</td>
+<td>str</td>
+<td>标记号</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id127">
+<h3>create<a class="headerlink" href="#id127" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/bought_in_component_refund_details/</span></p>
+<p>未完成</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id128">
+<h2>库房<a class="headerlink" href="#id128" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id129">
+<h3>list<a class="headerlink" href="#id129" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/warehouses/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>name(Optional)</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-odd"><td>location(Optional)</td>
+<td>str</td>
+<td>位置</td>
+</tr>
+<tr class="row-even"><td>category(Optional)</td>
+<td>int</td>
+<td>材料类型</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>location</td>
+<td>str</td>
+<td>位置</td>
+</tr>
+<tr class="row-odd"><td>category</td>
+<td>int</td>
+<td>材料类型</td>
+</tr>
+<tr class="row-even"><td>pretty_category</td>
+<td>str</td>
+<td>材料类型(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id130">
+<h3>read<a class="headerlink" href="#id130" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/warehouses/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>location</td>
+<td>str</td>
+<td>位置</td>
+</tr>
+<tr class="row-odd"><td>category</td>
+<td>int</td>
+<td>材料类型</td>
+</tr>
+<tr class="row-even"><td>pretty_category</td>
+<td>str</td>
+<td>材料类型(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id131">
+<h3>partial_update<a class="headerlink" href="#id131" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/warehouses/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>location</td>
+<td>str</td>
+<td>位置</td>
+</tr>
+<tr class="row-odd"><td>category</td>
+<td>int</td>
+<td>材料类型</td>
+</tr>
+<tr class="row-even"><td>pretty_category</td>
+<td>str</td>
+<td>材料类型(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id132">
+<h3>create<a class="headerlink" href="#id132" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/warehouses/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-odd"><td>location</td>
+<td>str</td>
+<td>位置</td>
+</tr>
+<tr class="row-even"><td>category</td>
+<td>int</td>
+<td>材料类型</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>str</td>
+<td>名称</td>
+</tr>
+<tr class="row-even"><td>location</td>
+<td>str</td>
+<td>位置</td>
+</tr>
+<tr class="row-odd"><td>category</td>
+<td>int</td>
+<td>材料类型</td>
+</tr>
+<tr class="row-even"><td>pretty_category</td>
+<td>str</td>
+<td>材料类型(中文)</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id133">
+<h2>焊材库温湿度记录卡<a class="headerlink" href="#id133" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id134">
+<h3>list<a class="headerlink" href="#id134" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_humiture_records/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id135">
+<h3>read<a class="headerlink" href="#id135" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_humiture_records/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>actual_temp_1</td>
+<td>float</td>
+<td>实际温度(10:00)</td>
+</tr>
+<tr class="row-even"><td>actual_humid_1</td>
+<td>float</td>
+<td>实际湿度(10:00)</td>
+</tr>
+<tr class="row-odd"><td>actual_temp_2</td>
+<td>float</td>
+<td>实际温度(16:00)</td>
+</tr>
+<tr class="row-even"><td>actual_humid_2</td>
+<td>float</td>
+<td>实际湿度(16:00)</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id136">
+<h3>partial_update<a class="headerlink" href="#id136" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/welding_material_humiture_records/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>actual_temp_1</td>
+<td>float</td>
+<td>实际温度(10:00)</td>
+</tr>
+<tr class="row-even"><td>actual_humid_1</td>
+<td>float</td>
+<td>实际湿度(10:00)</td>
+</tr>
+<tr class="row-odd"><td>actual_temp_2</td>
+<td>float</td>
+<td>实际温度(16:00)</td>
+</tr>
+<tr class="row-even"><td>actual_humid_2</td>
+<td>float</td>
+<td>实际湿度(16:00)</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id137">
+<h3>create<a class="headerlink" href="#id137" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/welding_material_humiture_records/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>actual_temp_1</td>
+<td>float</td>
+<td>实际温度(10:00)</td>
+</tr>
+<tr class="row-odd"><td>actual_humid_1</td>
+<td>float</td>
+<td>实际湿度(10:00)</td>
+</tr>
+<tr class="row-even"><td>actual_temp_2</td>
+<td>float</td>
+<td>实际温度(16:00)</td>
+</tr>
+<tr class="row-odd"><td>actual_humid_2</td>
+<td>float</td>
+<td>实际湿度(16:00)</td>
+</tr>
+<tr class="row-even"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>actual_temp_1</td>
+<td>float</td>
+<td>实际温度(10:00)</td>
+</tr>
+<tr class="row-even"><td>actual_humid_1</td>
+<td>float</td>
+<td>实际湿度(10:00)</td>
+</tr>
+<tr class="row-odd"><td>actual_temp_2</td>
+<td>float</td>
+<td>实际温度(16:00)</td>
+</tr>
+<tr class="row-even"><td>actual_humid_2</td>
+<td>float</td>
+<td>实际湿度(16:00)</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="id138">
+<h2>焊材烘焙记录卡<a class="headerlink" href="#id138" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id139">
+<h3>list<a class="headerlink" href="#id139" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回列表</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_bake_records/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="16%" />
+<col width="42%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>page(Optional)</td>
+<td>int</td>
+<td>指定页数, 默认值: 1</td>
+</tr>
+<tr class="row-odd"><td>limit(Optional)</td>
+<td>int</td>
+<td>每页数量</td>
+</tr>
+<tr class="row-even"><td>create_dt_start(Optional)</td>
+<td>datetime</td>
+<td>起始时间</td>
+</tr>
+<tr class="row-odd"><td>create_dt_end(Optional)</td>
+<td>datetime</td>
+<td>终止时间</td>
+</tr>
+<tr class="row-even"><td>standard_num(Optional)</td>
+<td>str</td>
+<td>标准号</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>standard_num</td>
+<td>str</td>
+<td>标准号</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>heat_num</td>
+<td>str</td>
+<td>炉批号</td>
+</tr>
+<tr class="row-odd"><td>codedmark</td>
+<td>str</td>
+<td>编码标记</td>
+</tr>
+<tr class="row-even"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-odd"><td>welding_engineer</td>
+<td>str</td>
+<td>焊接工程师</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id140">
+<h3>read<a class="headerlink" href="#id140" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>返回指定id的详细信息</p>
+<p><span class="get">GET</span> <span class="code">/api/welding_material_bake_records/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>standard_num</td>
+<td>str</td>
+<td>标准号</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>class_num</td>
+<td>str</td>
+<td>牌号</td>
+</tr>
+<tr class="row-odd"><td>heat_num</td>
+<td>str</td>
+<td>炉批号</td>
+</tr>
+<tr class="row-even"><td>codedmark</td>
+<td>str</td>
+<td>编码标记</td>
+</tr>
+<tr class="row-odd"><td>quantity</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>furnace_time</td>
+<td>datetime</td>
+<td>进炉时间</td>
+</tr>
+<tr class="row-odd"><td>baking_temp</td>
+<td>float</td>
+<td>烘焙温度</td>
+</tr>
+<tr class="row-even"><td>heating_time</td>
+<td>datetime</td>
+<td>到达温度时间</td>
+</tr>
+<tr class="row-odd"><td>cooling_time</td>
+<td>datetime</td>
+<td>降温时间</td>
+</tr>
+<tr class="row-even"><td>holding_time</td>
+<td>datetime</td>
+<td>进保温炉时间</td>
+</tr>
+<tr class="row-odd"><td>holding_temp</td>
+<td>float</td>
+<td>保温温度</td>
+</tr>
+<tr class="row-even"><td>apply_time</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>welding_engineer</td>
+<td>str</td>
+<td>焊接工程师</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id141">
+<h3>partial_update<a class="headerlink" href="#id141" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>更新指定id, 返回更新后的信息</p>
+<p><span class="patch">PATCH</span> <span class="code">/api/welding_material_bake_records/{id}/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="19%" />
+<col width="48%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>standard_num</td>
+<td>str</td>
+<td>标准号</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>class_num</td>
+<td>str</td>
+<td>牌号</td>
+</tr>
+<tr class="row-odd"><td>heat_num</td>
+<td>str</td>
+<td>炉批号</td>
+</tr>
+<tr class="row-even"><td>codedmark</td>
+<td>str</td>
+<td>编码标记</td>
+</tr>
+<tr class="row-odd"><td>quantity</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>furnace_time</td>
+<td>datetime</td>
+<td>进炉时间</td>
+</tr>
+<tr class="row-odd"><td>baking_temp</td>
+<td>float</td>
+<td>烘焙温度</td>
+</tr>
+<tr class="row-even"><td>heating_time</td>
+<td>datetime</td>
+<td>到达温度时间</td>
+</tr>
+<tr class="row-odd"><td>cooling_time</td>
+<td>datetime</td>
+<td>降温时间</td>
+</tr>
+<tr class="row-even"><td>holding_time</td>
+<td>datetime</td>
+<td>进保温炉时间</td>
+</tr>
+<tr class="row-odd"><td>holding_temp</td>
+<td>float</td>
+<td>保温温度</td>
+</tr>
+<tr class="row-even"><td>apply_time</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>welding_engineer</td>
+<td>str</td>
+<td>焊接工程师</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="id142">
+<h3>create<a class="headerlink" href="#id142" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><p>创建新的对象</p>
+<p><span class="post">POST</span> <span class="code">/api/welding_material_bake_records/</span></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>参数</td>
+<td>参数类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>create_dt</td>
+<td>datetime</td>
+<td>创建时间</td>
+</tr>
+<tr class="row-even"><td>standard_num</td>
+<td>str</td>
+<td>标准号</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td>str</td>
+<td>规格</td>
+</tr>
+<tr class="row-even"><td>class_num</td>
+<td>str</td>
+<td>牌号</td>
+</tr>
+<tr class="row-odd"><td>heat_num</td>
+<td>str</td>
+<td>炉批号</td>
+</tr>
+<tr class="row-even"><td>codedmark</td>
+<td>str</td>
+<td>编码标记</td>
+</tr>
+<tr class="row-odd"><td>quantity</td>
+<td>float</td>
+<td>数量</td>
+</tr>
+<tr class="row-even"><td>furnace_time</td>
+<td>datetime</td>
+<td>进炉时间</td>
+</tr>
+<tr class="row-odd"><td>baking_temp</td>
+<td>float</td>
+<td>烘焙温度</td>
+</tr>
+<tr class="row-even"><td>heating_time</td>
+<td>datetime</td>
+<td>到达温度时间</td>
+</tr>
+<tr class="row-odd"><td>cooling_time</td>
+<td>datetime</td>
+<td>降温时间</td>
+</tr>
+<tr class="row-even"><td>holding_time</td>
+<td>datetime</td>
+<td>进保温炉时间</td>
+</tr>
+<tr class="row-odd"><td>holding_temp</td>
+<td>float</td>
+<td>保温温度</td>
+</tr>
+<tr class="row-even"><td>apply_time</td>
+<td>datetime</td>
+<td>领用时间</td>
+</tr>
+<tr class="row-odd"><td>keeper</td>
+<td>str</td>
+<td>库管员</td>
+</tr>
+<tr class="row-even"><td>welding_engineer</td>
+<td>str</td>
+<td>焊接工程师</td>
+</tr>
+<tr class="row-odd"><td>remark</td>
+<td>str</td>
+<td>备注</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Production/index.html" class="btn btn-neutral float-right" title="生产模块" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="views.html" class="btn btn-neutral" title="库存模块-视图" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Youchen Du.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

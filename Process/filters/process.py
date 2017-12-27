@@ -1,9 +1,10 @@
 from django_filters import rest_framework as filters
 
+from Process import MATERIAL_CATEGORY_CHOICES
 from Process.models import (
-    ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
+    ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute, Material,
     TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
-    CooperantItem)
+    CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -89,3 +90,37 @@ class CooperantItemFilter(filters.FilterSet):
     class Meta:
         model = CooperantItem
         fields = ('worker_order_uid',)
+
+
+class AbstractQuotaFilter(filters.FilterSet):
+    worker_order_uid = filters.CharFilter(name='lib__work_order__uid',
+                                          lookup_expr='exact')
+    category = filters.NumberFilter(name='category', lookup_expr='exact')
+
+    class Meta:
+        model = None
+        fields = ('worker_order_uid', 'category')
+
+
+class PrincipalQuotaItemFilter(AbstractQuotaFilter):
+    class Meta(AbstractQuotaFilter.Meta):
+        model = PrincipalQuotaItem
+
+
+class QuotaListFilter(AbstractQuotaFilter):
+    class Meta(AbstractQuotaFilter.Meta):
+        model = QuotaList
+
+
+class WeldingQuotaItemFilter(AbstractQuotaFilter):
+    class Meta(AbstractQuotaFilter.Meta):
+        model = WeldingQuotaItem
+
+
+class MaterialFilter(filters.FilterSet):
+    category = filters.ChoiceFilter(name='category', lookup_expr='exact',
+                                    choices=MATERIAL_CATEGORY_CHOICES)
+
+    class Meta:
+        model = Material
+        fields = ('category',)

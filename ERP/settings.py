@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'Distribution',
     'Process',
     'Procurement',
-    'Inventory',
+    'Inventory.apps.InventoryConfig',
     'Production',
 ]
 

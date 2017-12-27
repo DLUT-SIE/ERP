@@ -9,7 +9,8 @@ from Production.api import (ProductionPlanViewSet,
                             ProductionWorkGroupViewSet,
                             ProductionUserViewSet,
                             SubMaterialLedgersViewSet,
-                            ComprehensiveDepartmentFileListViewSet)
+                            ComprehensiveDepartmentFileListViewSet,
+                            ManHourMessageViewSet)
 
 router = routers.SimpleRouter()
 router.register(r'production_plans', ProductionPlanViewSet)
@@ -20,6 +21,7 @@ router.register(r'production_users', ProductionUserViewSet)
 router.register(r'sub_material_ledgers', SubMaterialLedgersViewSet)
 router.register(r'comprehensive_department_file_lists',
                 ComprehensiveDepartmentFileListViewSet)
+router.register(r'man_hour_messages', ManHourMessageViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
