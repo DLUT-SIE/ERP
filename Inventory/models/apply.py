@@ -2,11 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from Core.models import SubWorkOrder
+from Core.utils.fsm import transition, TransitionMeta
 from Process.models import ProcessMaterial
-from Inventory import APPLYCARD_STATUS_CHOICES, APPLYCARD_STATUS_APPLICANT
+from Inventory import (
+    APPLYCARD_STATUS_CHOICES, APPLYCARD_STATUS_APPLICANT,
+    APPLYCARD_STATUS_AUDITOR, APPLYCARD_STATUS_INSPECTOR,
+    APPLYCARD_STATUS_KEEPER, APPLYCARD_STATUS_END)
 
 
-class AbstractApplyCard(models.Model):
+class AbstractApplyCard(models.Model, metaclass=TransitionMeta):
     uid = models.CharField(verbose_name='编号', max_length=20, unique=True)
     sub_order = models.ForeignKey(SubWorkOrder, verbose_name='子工作令',
                                   on_delete=models.CASCADE)
@@ -43,6 +47,36 @@ class AbstractApplyCard(models.Model):
     def __str__(self):
         return self.uid
 
+    @transition(field='status',
+                source=APPLYCARD_STATUS_APPLICANT,
+                target=APPLYCARD_STATUS_AUDITOR,
+                name='领用确认')
+    def applicant_confirm(self, request):
+        """
+        领用确认
+        """
+        self.applicant = request.user
+
+    @transition(field='status',
+                source=APPLYCARD_STATUS_AUDITOR,
+                target=APPLYCARD_STATUS_INSPECTOR,
+                name='审核确认')
+    def auditor_confirm(self, request):
+        """
+        审核确认
+        """
+        self.auditor = request.user
+
+    @transition(field='status',
+                source=APPLYCARD_STATUS_INSPECTOR,
+                target=APPLYCARD_STATUS_KEEPER,
+                name='检查确认')
+    def inspector_confirm(self, request):
+        """
+        检查确认
+        """
+        self.inspector = request.user
+
 
 class WeldingMaterialApplyCard(AbstractApplyCard):
     """
@@ -65,6 +99,32 @@ class WeldingMaterialApplyCard(AbstractApplyCard):
         verbose_name = '焊材领用单'
         verbose_name_plural = '焊材领用单'
 
+    def valid_inventory_assigned(self, request):
+        """
+        领用确认先验条件, 库管已完成相关分配, 且符合条件
+        """
+        if (self.actual_weight is None or self.actual_count is None
+                or self.inventory is None):
+            return False
+        # TODO: 重量与数量跟库存的比较合法性, 重量是否为常量?
+        if self.inventory.count < self.actual_count:
+            return False
+        return True
+
+    @transition(field='status',
+                source=APPLYCARD_STATUS_KEEPER,
+                target=APPLYCARD_STATUS_END,
+                name='库管确认',
+                conditions=valid_inventory_assigned)
+    def keeper_confirm(self, request):
+        """
+        库管确认
+        """
+        self.keeper = request.user
+        # TODO: 是否只需要减去数量(重量为常数的前提下)
+        self.inventory.count -= self.actual_count
+        self.inventory.save()
+
 
 class SteelMaterialApplyCard(AbstractApplyCard):
     """
@@ -73,6 +133,33 @@ class SteelMaterialApplyCard(AbstractApplyCard):
     class Meta:
         verbose_name = '钢材领用单'
         verbose_name_plural = '钢材领用单'
+
+    def valid_inventory_assigned(self, request):
+        """
+        领用确认先验条件, 库管已完成相关分配, 且符合条件
+        """
+        details = self.details.all().select_related('inventory_detail')
+        for detail in details:
+            if not detail.inventory_detail:
+                return False
+            if detail.inventory_detail.count < detail.count:
+                return False
+        return True
+
+    @transition(field='status',
+                source=APPLYCARD_STATUS_KEEPER,
+                target=APPLYCARD_STATUS_END,
+                name='库管确认',
+                conditions=valid_inventory_assigned)
+    def keeper_confirm(self, request):
+        """
+        库管确认
+        """
+        self.keeper = request.user
+        details = self.details.all().select_related('inventory_detail')
+        for detail in details:
+            detail.inventory_detail.count -= detail.count
+            detail.inventory_detail.save()
 
 
 class AuxiliaryMaterialApplyCard(AbstractApplyCard):
@@ -96,6 +183,29 @@ class AuxiliaryMaterialApplyCard(AbstractApplyCard):
         verbose_name = '辅材领用单'
         verbose_name_plural = '辅材领用单'
 
+    def valid_inventory_assigned(self, request):
+        """
+        领用确认先验条件, 库管已完成相关分配, 且符合条件
+        """
+        if self.actual_inventory is None or self.actual_count is None:
+            return False
+        if self.actual_inventory.count < self.actual_count:
+            return False
+        return True
+
+    @transition(field='status',
+                source=APPLYCARD_STATUS_KEEPER,
+                target=APPLYCARD_STATUS_END,
+                name='库管确认',
+                conditions=valid_inventory_assigned)
+    def keeper_confirm(self, request):
+        """
+        库管确认
+        """
+        self.keeper = request.user
+        self.actual_inventory.count -= self.actual_count
+        self.actual_inventory.save()
+
 
 class BoughtInComponentApplyCard(AbstractApplyCard):
     """
@@ -110,3 +220,30 @@ class BoughtInComponentApplyCard(AbstractApplyCard):
     class Meta:
         verbose_name = '外购件领用单'
         verbose_name_plural = '外购件领用单'
+
+    def valid_inventory_assigned(self, request):
+        """
+        领用确认先验条件, 库管已完成相关分配, 且符合条件
+        """
+        details = self.details.all().select_related('inventory_detail')
+        for detail in details:
+            if not detail.inventory_detail:
+                return False
+            if detail.inventory_detail.count < detail.count:
+                return False
+        return True
+
+    @transition(field='status',
+                source=APPLYCARD_STATUS_KEEPER,
+                target=APPLYCARD_STATUS_END,
+                name='库管确认',
+                conditions=valid_inventory_assigned)
+    def keeper_confirm(self, request):
+        """
+        库管确认
+        """
+        self.keeper = request.user
+        details = self.details.all().select_related('inventory_detail')
+        for detail in details:
+            detail.inventory_detail.count -= detail.count
+            detail.inventory_detail.save()

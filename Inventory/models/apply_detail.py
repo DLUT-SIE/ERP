@@ -11,7 +11,7 @@ class AbstractApplyDetail(models.Model):
         abstract = True
 
     def __str__(self):
-        return str(self.procurement_material)
+        return str(self.process_material)
 
 
 class SteelMaterialApplyDetail(AbstractApplyDetail):

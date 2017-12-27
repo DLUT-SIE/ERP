@@ -2,7 +2,6 @@ from django.db import models
 from django.utils import timezone
 
 from Inventory import (INVENTORY_DETAIL_STATUS_CHOICES,
-                       INVENTORY_DETAIL_STATUS_EXHAUST,
                        INVENTORY_DETAIL_STATUS_NORMAL)
 
 
@@ -16,17 +15,6 @@ class AbstractInventoryDetail(models.Model):
 
     class Meta:
         abstract = True
-
-    def save(self, *args, **kwargs):
-        # Update status after refunding
-        if (self.count > 0 and
-                self.status == INVENTORY_DETAIL_STATUS_EXHAUST):
-            self.status = INVENTORY_DETAIL_STATUS_NORMAL
-        # Update status after applying
-        elif (self.count == 0 and
-                self.status == INVENTORY_DETAIL_STATUS_NORMAL):
-            self.status = INVENTORY_DETAIL_STATUS_EXHAUST
-        super(AbstractInventoryDetail, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.entry_detail)
