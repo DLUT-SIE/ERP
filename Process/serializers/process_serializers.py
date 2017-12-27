@@ -220,6 +220,9 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
         return quota_item
 
     def validate(self, attrs):
+        viewset = self.context['view']
+        if viewset.action == 'create':
+            return attrs
         ticket_number = attrs['process_material']['ticket_number']
         work_order_uid =\
             attrs['process_material']['lib']['work_order']['uid']
@@ -235,8 +238,8 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
             process_material = process_material[0]
 
         if self.Meta.model.objects.filter(
-                quota_list=quota_list, process_material=process_material)\
-                .count():
+                quota_list=quota_list,
+                process_material=process_material).count():
             raise serializers.ValidationError("该条物料已经添加")
         return attrs
 
