@@ -32,6 +32,7 @@ class WeldingMaterialEntrySerializer(TransitionSerializerMixin,
         fields = ('id', 'uid', 'bidding_sheet', 'source', 'create_dt',
                   'purchaser', 'inspector', 'keeper', 'status',
                   'pretty_status', 'details', 'actions')
+        read_only_fields = ('purchaser', 'inspector', 'keeper')
 
 
 class WeldingMaterialEntryListSerializer(WeldingMaterialEntrySerializer):
@@ -60,6 +61,7 @@ class SteelMaterialEntrySerializer(TransitionSerializerMixin,
         fields = ('id', 'uid', 'bidding_sheet', 'source', 'create_dt',
                   'purchaser', 'inspector', 'keeper', 'status',
                   'pretty_status', 'details', 'actions')
+        read_only_fields = ('purchaser', 'inspector', 'keeper')
 
 
 class SteelMaterialEntryListSerializer(SteelMaterialEntrySerializer):
@@ -92,6 +94,7 @@ class AuxiliaryMaterialEntrySerializer(TransitionSerializerMixin,
         fields = ('id', 'uid', 'bidding_sheet', 'source', 'create_dt',
                   'purchaser', 'inspector', 'keeper', 'status',
                   'pretty_status', 'details', 'actions')
+        read_only_fields = ('purchaser', 'inspector', 'keeper')
 
 
 class AuxiliaryMaterialEntryListSerializer(AuxiliaryMaterialEntrySerializer):
@@ -118,6 +121,7 @@ class BoughtInComponentEntrySerializer(TransitionSerializerMixin,
                   'source', 'category', 'pretty_category', 'purchaser',
                   'inspector', 'keeper', 'status', 'pretty_status',
                   'details', 'actions')
+        read_only_fields = ('purchaser', 'inspector', 'keeper')
 
 
 class BoughtInComponentEntryListSerializer(BoughtInComponentEntrySerializer):

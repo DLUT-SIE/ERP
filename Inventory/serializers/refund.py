@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from Core.utils.fsm import TransitionSerializerMixin
 from Inventory.models import (
     WeldingMaterialRefundCard,
     SteelMaterialRefundCard,
@@ -12,7 +13,8 @@ from .refund_detail import (
 )
 
 
-class WeldingMaterialRefundCardSerializer(serializers.ModelSerializer):
+class WeldingMaterialRefundCardSerializer(TransitionSerializerMixin,
+                                          serializers.ModelSerializer):
     department = serializers.CharField(source='apply_card.department',
                                        read_only=True)
     sub_order_uid = serializers.CharField(source='apply_card.sub_order.uid',
@@ -32,7 +34,8 @@ class WeldingMaterialRefundCardSerializer(serializers.ModelSerializer):
         fields = ('id', 'department', 'create_dt', 'uid', 'sub_order_uid',
                   'apply_card_create_dt', 'apply_card_uid', 'model',
                   'specification', 'weight', 'count', 'refunder', 'keeper',
-                  'status', 'pretty_status')
+                  'status', 'pretty_status', 'actions')
+        read_only_fields = ('refunder', 'keeper')
 
 
 class WeldingMaterialRefundCardListSerializer(
@@ -44,7 +47,8 @@ class WeldingMaterialRefundCardListSerializer(
                   'welding_seam_uid', 'status', 'pretty_status')
 
 
-class SteelMaterialRefundCardSerializer(serializers.ModelSerializer):
+class SteelMaterialRefundCardSerializer(TransitionSerializerMixin,
+                                        serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(source='apply_card.sub_order.uid',
                                           read_only=True)
     steel_type = serializers.CharField(default='', read_only=True)
@@ -59,7 +63,8 @@ class SteelMaterialRefundCardSerializer(serializers.ModelSerializer):
         model = SteelMaterialRefundCard
         fields = ('id', 'sub_order_uid', 'create_dt', 'uid', 'steel_type',
                   'refunder', 'inspector', 'keeper', 'status', 'pretty_status',
-                  'board_details', 'bar_details')
+                  'board_details', 'bar_details', 'actions')
+        read_only_fields = ('refunder', 'inspector', 'keeper')
 
 
 class SteelMaterialRefundCardListSerializer(
@@ -69,7 +74,8 @@ class SteelMaterialRefundCardListSerializer(
                   'refunder', 'status', 'pretty_status')
 
 
-class BoughtInComponentRefundCardSerializer(serializers.ModelSerializer):
+class BoughtInComponentRefundCardSerializer(TransitionSerializerMixin,
+                                            serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(source='apply_card.sub_order.uid',
                                           read_only=True)
     department = serializers.CharField(source='apply_card.department',
@@ -82,7 +88,8 @@ class BoughtInComponentRefundCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = BoughtInComponentRefundCard
         fields = ('id', 'sub_order_uid', 'department', 'uid', 'refunder',
-                  'keeper', 'status', 'pretty_status', 'details')
+                  'keeper', 'status', 'pretty_status', 'details', 'actions')
+        read_only_fields = ('refunder', 'keeper')
 
 
 class BoughtInComponentRefundCardListSerializer(

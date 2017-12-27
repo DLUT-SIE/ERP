@@ -103,7 +103,7 @@ class AuxiliaryMaterialApplyCardListSerializer(
 class BoughtInComponentApplyCardSerializer(TransitionSerializerMixin,
                                            serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(source='sub_order.uid',
-                                          read_only=True, default='')
+                                          read_only=True)
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)
     details = BoughtInComponentApplyDetailSerializer(many=True, read_only=True)
