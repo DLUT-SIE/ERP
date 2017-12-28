@@ -5,7 +5,8 @@ from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, BoughtInItem, QuotaList,
     ProcessRoute, TransferCard, TransferCardProcess, FirstFeedingItem,
-    CooperantItem, PrincipalQuotaItem, WeldingQuotaItem, Material)
+    CooperantItem, PrincipalQuotaItem, WeldingQuotaItem, Material,
+    AuxiliaryQuotaItem)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
@@ -15,13 +16,14 @@ from Process.serializers import (
     CooperantItemUpdateSerializer, CooperantItemSerializer,
     PrincipalQuotaItemSerializer, WeldingQuotaItemSerializer,
     PrincipalQuotaItemCreateSerializer, WeldingQuotaItemCreateSerializer,
-    MaterialSerializer)
+    MaterialSerializer, AuxiliaryQuotaItemListSerializer,
+    AuxiliaryQuotaItemSerializer, AuxiliaryQuotaItemCreateSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
     BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
     PrincipalQuotaItemFilter, QuotaListFilter, WeldingQuotaItemFilter,
-    MaterialFilter)
+    MaterialFilter, AuxiliaryQuotaItemFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -143,3 +145,16 @@ class MaterialViewSet(viewsets.ModelViewSet):
     queryset = Material.objects.all().order_by('-pk')
     filter_class = MaterialFilter
     serializer_class = MaterialSerializer
+
+
+class AuxiliaryQuotaItemViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = AuxiliaryQuotaItem.objects.all().order_by('-pk')
+    filter_class = AuxiliaryQuotaItemFilter
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return AuxiliaryQuotaItemListSerializer
+        elif self.action == 'create':
+            return AuxiliaryQuotaItemCreateSerializer
+        return AuxiliaryQuotaItemSerializer

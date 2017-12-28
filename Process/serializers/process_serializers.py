@@ -6,7 +6,7 @@ from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
     ProcessStep, TransferCard, TransferCardProcess, BoughtInItem, QuotaList,
     FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem,
-    WeldingQuotaItem, Material)
+    WeldingQuotaItem, Material, AuxiliaryQuotaItem)
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
@@ -313,7 +313,9 @@ class PrincipalQuotaItemCreateSerializer(PrincipalQuotaItemSerializer):
                   'quota_list')
 
     def get_total_weight(self, obj):
-        return obj.count * obj.weight
+        if obj.weight:
+            return obj.count * obj.weight
+        return 0
 
 
 class WeldingQuotaItemSerializer(serializers.ModelSerializer):
@@ -340,3 +342,53 @@ class MaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Material
         fields = '__all__'
+
+
+class AuxiliaryQuotaItemListSerializer(AbstractQuotaItemSerializer):
+    parent_drawing_number = serializers.CharField(
+        source='process_material.parent_drawing_number', read_only=True)
+    spec = serializers.CharField(source='process_material.spec',
+                                 read_only=True)
+    press_mark = serializers.CharField(source='process_material.remark',
+                                       read_only=True)
+    use_ratio = serializers.SerializerMethodField(read_only=True)
+
+    def get_use_ratio(self, obj):
+        if obj.process_material.piece_weight and obj.quota:
+            return obj.quota / obj.process_material.piece_weight * 100
+        return 0
+
+    class Meta(AbstractQuotaItemSerializer.Meta):
+        model = AuxiliaryQuotaItem
+
+        # TODO: 毛重属性绑定有问题
+        fields = ('id', 'ticket_number', 'parent_drawing_number',
+                  'drawing_number', 'category', 'material', 'spec', 'count',
+                  'piece_weight', 'total_weight', 'quota', 'use_ratio',
+                  'press_mark')
+
+
+class AuxiliaryQuotaItemSerializer(AuxiliaryQuotaItemListSerializer):
+    name = serializers.CharField(source='process_material.name',
+                                 read_only=True)
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number', read_only=True)
+
+    class Meta(AuxiliaryQuotaItemListSerializer.Meta):
+        fields = ('id', 'ticket_number', 'drawing_number', 'name',
+                  'press_mark', 'material', 'count', 'piece_weight',
+                  'total_weight', 'spec', 'quota_coef', 'quota',
+                  'stardard_code', 'remark', 'category')
+
+
+class AuxiliaryQuotaItemCreateSerializer(AuxiliaryQuotaItemSerializer):
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number')
+
+    class Meta(AuxiliaryQuotaItemSerializer.Meta):
+        fields = ('id', 'ticket_number', 'drawing_number', 'name',
+                  'press_mark', 'material', 'count', 'piece_weight',
+                  'total_weight', 'spec', 'quota_coef', 'quota',
+                  'stardard_code', 'remark', 'category', 'quota_list')
+        read_only_fields = ('quota_coef', 'quota', 'stardard_code', 'remark',
+                            'category')

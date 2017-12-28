@@ -4,7 +4,8 @@ from Process import MATERIAL_CATEGORY_CHOICES
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute, Material,
     TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
-    CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem)
+    CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem,
+    AuxiliaryQuotaItem)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -124,3 +125,8 @@ class MaterialFilter(filters.FilterSet):
     class Meta:
         model = Material
         fields = ('category',)
+
+
+class AuxiliaryQuotaItemFilter(AbstractQuotaFilter):
+    class Meta(AbstractQuotaFilter.Meta):
+        model = AuxiliaryQuotaItem
