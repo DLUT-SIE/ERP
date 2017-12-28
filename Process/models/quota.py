@@ -63,8 +63,9 @@ class AuxiliaryQuotaItem(AbstractQuotaItem):
                                             verbose_name='工艺物料',
                                             related_name='%(class)s',
                                             on_delete=models.CASCADE)
-    quota_coef = models.FloatField(verbose_name='定额系数')
-    quota = models.FloatField(verbose_name='定额')
+    quota_coef = models.FloatField(verbose_name='定额系数', blank=True,
+                                   null=True)
+    quota = models.FloatField(verbose_name='定额', blank=True, null=True)
     stardard_code = models.CharField(verbose_name='标准代码', max_length=50,
                                      blank=True, default='')
     # TODO: choices?
