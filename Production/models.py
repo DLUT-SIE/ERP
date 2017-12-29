@@ -144,6 +144,8 @@ class ProductionPlan(models.Model):
                                  choices=PRODUCTION_PLAN_STATUS_CHOICES,
                                  default=PRODUCTION_PLAN_RELAX)
     plan_dt = models.DateTimeField(verbose_name='计划年月')
+    remark = models.CharField(verbose_name='备注', blank=True,
+                              default='', max_length=50)
 
     class Meta:
         verbose_name = '生产计划'
