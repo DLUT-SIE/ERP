@@ -1,8 +1,10 @@
 from rest_framework import viewsets
 
 from Core.utils.pagination import SmallResultsSetPagination
-from Procurement.models import Supplier, SupplierDocument, Quotation
+from Procurement.models import (Supplier, SupplierDocument, Quotation,
+                                SupplyRelationship, SupplierCheck)
 from Procurement import serializers
+from Procurement import filters
 
 
 class SupplierViewSet(viewsets.ModelViewSet):
@@ -29,3 +31,18 @@ class QuotationViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = Quotation.objects.all().order_by('-pk')
     serializer_class = serializers.QuotationSerializer
+
+
+# 供应商标单关系
+class SupplyRelationshipViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = SupplyRelationship.objects.all().order_by('-pk')
+    filter_class = filters.SupplyRelationshipFilter
+    serializer_class = serializers.BaseSupplyRelationshipSerializer
+
+
+# 供应商审核
+class SupplierCheckViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = SupplierCheck.objects.all().order_by('-pk')
+    serializer_class = serializers.BaseSupplierCheckSerializer

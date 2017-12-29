@@ -84,6 +84,8 @@ class ProcurementMaterial(models.Model):
     finished = models.BooleanField(verbose_name='是否结束', default=False)
     add_to_detail = models.BooleanField(verbose_name='已加入物料汇总',
                                         default=False)
+    count = models.IntegerField(verbose_name='数量')
+    weight = models.FloatField(verbose_name='重量')
 
     class Meta:
         verbose_name = '采购物料'
