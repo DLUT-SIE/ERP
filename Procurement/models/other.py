@@ -26,6 +26,11 @@ class ArrivalInspection(models.Model):
     def __str__(self):
         return str(self.material)
 
+    # 生成入库单，成功后回调。
+    def entry_confirm(self):
+        self.passed = True
+        self.save()
+
 
 class ProcessFollowingInfo(models.Model):
     """
