@@ -243,7 +243,7 @@
 <h3>list<a class="headerlink" href="#list" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回生产人员信息列表</p>
-<p><span class="get">GET</span> <span class="code">/api/pruction_users/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/production_users/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="35%" />
@@ -308,7 +308,7 @@
 <h3>read<a class="headerlink" href="#read" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回指定id的生产人员信息</p>
-<p><span class="get">GET</span> <span class="code">/api/pruction_users/{id}/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/production_users/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -361,7 +361,7 @@
 <h3>partial_update<a class="headerlink" href="#partial-update" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>更新指定id的生产人员, 返回更新后的生产人员信息</p>
-<p><span class="patch">PATCH</span> <span class="code">/api/pruction_users/{id}/</span></p>
+<p><span class="patch">PATCH</span> <span class="code">/api/production_users/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -414,7 +414,7 @@
 <h3>create<a class="headerlink" href="#create" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>创建新的生产人员</p>
-<p><span class="post">POST</span> <span class="code">/api/pruction_users/</span></p>
+<p><span class="post">POST</span> <span class="code">/api/production_users/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -470,7 +470,7 @@
 <h3>list<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回生产计划列表</p>
-<p><span class="get">GET</span> <span class="code">/api/pruction_plans/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/production_plans/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="38%" />
@@ -527,27 +527,27 @@
 <td>str</td>
 <td>工作令</td>
 </tr>
-<tr class="row-even"><td>client_name</td>
+<tr class="row-even"><td>client</td>
 <td>str</td>
 <td>客户名称</td>
 </tr>
-<tr class="row-odd"><td>delivery_dt</td>
+<tr class="row-odd"><td>delivery_dt(未找到)</td>
 <td>str</td>
 <td>交货期</td>
 </tr>
-<tr class="row-even"><td>product_name</td>
+<tr class="row-even"><td>product</td>
 <td>str</td>
 <td>产品名称</td>
 </tr>
-<tr class="row-odd"><td>number</td>
+<tr class="row-odd"><td>count</td>
 <td>int</td>
 <td>数量（台数）</td>
 </tr>
-<tr class="row-even"><td>output_value</td>
+<tr class="row-even"><td>output_value(未找到)</td>
 <td>float</td>
 <td>产值（万元）</td>
 </tr>
-<tr class="row-odd"><td>output</td>
+<tr class="row-odd"><td>output(未找到)</td>
 <td>float</td>
 <td>产量（吨）</td>
 </tr>
@@ -563,6 +563,10 @@
 <td>str</td>
 <td>计划年月</td>
 </tr>
+<tr class="row-odd"><td>status_description</td>
+<td>str</td>
+<td>状态描述</td>
+</tr>
 </tbody>
 </table>
 </div></blockquote>
@@ -571,7 +575,7 @@
 <h3>partial_update<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>更新指定id的生产计划, 返回更新后的生产计划信息</p>
-<p><span class="patch">PATCH</span> <span class="code">/api/pruction_plans/{id}/</span></p>
+<p><span class="patch">PATCH</span> <span class="code">/api/production_plans/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -624,7 +628,7 @@
 <h3>create<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>创建新的生产计划</p>
-<p><span class="post">POST</span> <span class="code">/api/pruction_plans/</span></p>
+<p><span class="post">POST</span> <span class="code">/api/production_plans/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -661,27 +665,27 @@
 <td>str</td>
 <td>工作令</td>
 </tr>
-<tr class="row-even"><td>client_name</td>
+<tr class="row-even"><td>client</td>
 <td>str</td>
 <td>客户名称</td>
 </tr>
-<tr class="row-odd"><td>delivery_dt</td>
+<tr class="row-odd"><td>delivery_dt(未找到)</td>
 <td>str</td>
 <td>交货期</td>
 </tr>
-<tr class="row-even"><td>product_name</td>
+<tr class="row-even"><td>product</td>
 <td>str</td>
 <td>产品名称</td>
 </tr>
-<tr class="row-odd"><td>number</td>
+<tr class="row-odd"><td>count</td>
 <td>int</td>
 <td>数量（台数）</td>
 </tr>
-<tr class="row-even"><td>output_value</td>
+<tr class="row-even"><td>output_value(未找到)</td>
 <td>float</td>
 <td>产值（万元）</td>
 </tr>
-<tr class="row-odd"><td>output</td>
+<tr class="row-odd"><td>output(未找到)</td>
 <td>float</td>
 <td>产量（吨）</td>
 </tr>
@@ -708,12 +712,12 @@
 <h3>list<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回台账列表</p>
-<p><span class="get">GET</span> <span class="code">/api/ledgers/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/sub_material_ledgers/</span></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="35%" />
-<col width="18%" />
-<col width="47%" />
+<col width="44%" />
+<col width="16%" />
+<col width="40%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>参数</td>
@@ -727,6 +731,18 @@
 <tr class="row-odd"><td>limit(Optional)</td>
 <td>int</td>
 <td>每页数量</td>
+</tr>
+<tr class="row-even"><td>sub_order(Optional)</td>
+<td>str</td>
+<td>工作令</td>
+</tr>
+<tr class="row-odd"><td>ticket_number(Optional)</td>
+<td>str</td>
+<td>工作票号</td>
+</tr>
+<tr class="row-even"><td>parent_drawing_number(Optional)</td>
+<td>str</td>
+<td>部件图号</td>
 </tr>
 </tbody>
 </table>
@@ -745,23 +761,23 @@
 <td>int</td>
 <td>台账id</td>
 </tr>
-<tr class="row-odd"><td>verbose_id</td>
+<tr class="row-odd"><td>ticket_number</td>
 <td>int</td>
 <td>工作票号</td>
 </tr>
-<tr class="row-even"><td>work_order</td>
+<tr class="row-even"><td>sub_order</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
-<tr class="row-odd"><td>components_id</td>
+<tr class="row-odd"><td>part_number</td>
 <td>int</td>
 <td>件号</td>
 </tr>
-<tr class="row-even"><td>drawing_id</td>
+<tr class="row-even"><td>drawing_number</td>
 <td>str</td>
 <td>图号</td>
 </tr>
-<tr class="row-odd"><td>components_drawing_id</td>
+<tr class="row-odd"><td>parent_drawing_number</td>
 <td>str</td>
 <td>部件图号</td>
 </tr>
@@ -773,11 +789,11 @@
 <td>str</td>
 <td>材质</td>
 </tr>
-<tr class="row-even"><td>number</td>
+<tr class="row-even"><td>count</td>
 <td>int</td>
 <td>数量</td>
 </tr>
-<tr class="row-odd"><td>net_weight</td>
+<tr class="row-odd"><td>piece_weight</td>
 <td>float</td>
 <td>净重</td>
 </tr>
@@ -789,7 +805,7 @@
 <td>str</td>
 <td>流转路线</td>
 </tr>
-<tr class="row-even"><td>remarks</td>
+<tr class="row-even"><td>remark</td>
 <td>str</td>
 <td>备注</td>
 </tr>
@@ -801,7 +817,7 @@
 <h3>read<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回指定id的产品信息</p>
-<p><span class="get">GET</span> <span class="code">/api/ledgers/{id}/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/sub_material_ledgers/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -834,35 +850,35 @@
 <td>int</td>
 <td>台账id</td>
 </tr>
-<tr class="row-odd"><td>verbose_id</td>
+<tr class="row-odd"><td>ticket_number</td>
 <td>int</td>
 <td>工作票号</td>
 </tr>
-<tr class="row-even"><td>work_order</td>
+<tr class="row-even"><td>sub_order</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
-<tr class="row-odd"><td>components_id</td>
+<tr class="row-odd"><td>part_number</td>
 <td>int</td>
 <td>件号</td>
 </tr>
-<tr class="row-even"><td>drawing_id</td>
+<tr class="row-even"><td>drawing_number</td>
 <td>str</td>
 <td>图号</td>
 </tr>
-<tr class="row-odd"><td>components_drawing_id</td>
+<tr class="row-odd"><td>parent_drawing_number</td>
 <td>str</td>
 <td>部件图号</td>
 </tr>
-<tr class="row-even"><td>steel_id</td>
+<tr class="row-even"><td>steel_id(未找到)</td>
 <td>str</td>
 <td>钢号</td>
 </tr>
-<tr class="row-odd"><td>transfercard</td>
-<td>list</td>
+<tr class="row-odd"><td>transfercards</td>
+<td>dict</td>
 <td>流转卡</td>
 </tr>
-<tr class="row-even"><td>number</td>
+<tr class="row-even"><td>count</td>
 <td>int</td>
 <td>数量</td>
 </tr>
@@ -871,24 +887,28 @@
 <td>材料规格</td>
 </tr>
 <tr class="row-even"><td>process_route</td>
-<td>list</td>
+<td>dict</td>
 <td>工序路线</td>
 </tr>
-<tr class="row-odd"><td>circulation_route</td>
-<td>str</td>
+<tr class="row-odd"><td>inspectors</td>
+<td>list</td>
+<td>检查者</td>
+</tr>
+<tr class="row-even"><td>circulation_route</td>
+<td>dict</td>
 <td>流转路线</td>
 </tr>
-<tr class="row-even"><td>estimated_finish_dt</td>
+<tr class="row-odd"><td>estimated_finish_dt</td>
 <td>datetime</td>
 <td>计划完成时间</td>
 </tr>
-<tr class="row-odd"><td>remarks</td>
+<tr class="row-even"><td>remark</td>
 <td>str</td>
 <td>备注</td>
 </tr>
 </tbody>
 </table>
-<p>transfercard 流转卡</p>
+<p>transfercards 流转卡</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="35%" />
@@ -966,7 +986,25 @@
 <td>float</td>
 <td>工时</td>
 </tr>
-<tr class="row-odd"><td>checker</td>
+</tbody>
+</table>
+<p>inspectors 检查者</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="18%" />
+<col width="47%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>返回字段</td>
+<td>返回类型</td>
+<td>描述</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>int</td>
+<td>检查者id</td>
+</tr>
+<tr class="row-odd"><td>inspector</td>
 <td>str</td>
 <td>检查者</td>
 </tr>
@@ -978,7 +1016,7 @@
 <h3>partial_update<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>更新指定id的台账, 返回更新后的工作票信息</p>
-<p><span class="patch">PATCH</span> <span class="code">/api/ledgers/{id}/</span></p>
+<p><span class="patch">PATCH</span> <span class="code">/api/sub_material_ledgers/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -1026,7 +1064,7 @@
 <h3>list<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回综合工部列表</p>
-<p><span class="get">GET</span> <span class="code">/api/comprehensive_department_filelists/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/comprehensive_department_file_lists/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="35%" />
@@ -1063,7 +1101,7 @@
 <td>int</td>
 <td>综合工部id</td>
 </tr>
-<tr class="row-odd"><td>work_order</td>
+<tr class="row-odd"><td>sub_order</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
@@ -1107,7 +1145,7 @@
 <h3>partial_update<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>更新指定id的综合工部, 返回更新后的综合工部信息</p>
-<p><span class="patch">PATCH</span> <span class="code">/api/comprehensive_department_filelists/{id}/</span></p>
+<p><span class="patch">PATCH</span> <span class="code">/api/comprehensive_department_file_lists/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -1140,7 +1178,7 @@
 <td>int</td>
 <td>综合工部id</td>
 </tr>
-<tr class="row-odd"><td>work_order</td>
+<tr class="row-odd"><td>sub_order</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
@@ -1187,7 +1225,7 @@
 <h3>list<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回生产工作组列表</p>
-<p><span class="get">GET</span> <span class="code">/api/pruction_workgroups/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/production_workgroups/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="35%" />
@@ -1240,7 +1278,7 @@
 <h3>read<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回指定id的工作组信息</p>
-<p><span class="get">GET</span> <span class="code">/api/pruction_workgroups/{id}/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/production_workgroups/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -1289,7 +1327,7 @@
 <h3>partial_update<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>更新指定id的生产工作组, 返回更新后的工作组信息</p>
-<p><span class="patch">PATCH</span> <span class="code">/api/pruction_workgroups/{id}/</span></p>
+<p><span class="patch">PATCH</span> <span class="code">/api/production_workgroups/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -1338,7 +1376,7 @@
 <h3>create<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>创建新的生产工作组</p>
-<p><span class="post">POST</span> <span class="code">/api/pruction_workgroups/</span></p>
+<p><span class="post">POST</span> <span class="code">/api/production_workgroups/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -2236,12 +2274,12 @@
 <h3>list<a class="headerlink" href="#id33" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回工时详情列表</p>
-<p><span class="get">GET</span> <span class="code">/api/query_man_hours/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/man_hour_messages/</span></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="35%" />
+<col width="37%" />
 <col width="18%" />
-<col width="47%" />
+<col width="45%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>参数</td>
@@ -2256,15 +2294,15 @@
 <td>int</td>
 <td>每页数量</td>
 </tr>
-<tr class="row-even"><td>work_hour(Optional)</td>
+<tr class="row-even"><td>sub_order(Optional)</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
-<tr class="row-odd"><td>verbose_id(Optional)</td>
+<tr class="row-odd"><td>ticket_number(Optional)</td>
 <td>str</td>
 <td>工作票号</td>
 </tr>
-<tr class="row-even"><td>group_name(Optional)</td>
+<tr class="row-even"><td>work_group(Optional)</td>
 <td>str</td>
 <td>组号</td>
 </tr>
@@ -2285,15 +2323,15 @@
 <td>int</td>
 <td>工时详情id</td>
 </tr>
-<tr class="row-odd"><td>work_hour</td>
+<tr class="row-odd"><td>sub_order</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
-<tr class="row-even"><td>verbose_id</td>
+<tr class="row-even"><td>ticket_number</td>
 <td>str</td>
 <td>工作票号</td>
 </tr>
-<tr class="row-odd"><td>group_name</td>
+<tr class="row-odd"><td>work_group</td>
 <td>str</td>
 <td>组号</td>
 </tr>
@@ -2313,7 +2351,7 @@
 <td>str</td>
 <td>定额员</td>
 </tr>
-<tr class="row-even"><td>finish_dt</td>
+<tr class="row-even"><td>actual_finish_dt</td>
 <td>datetime</td>
 <td>完工时间</td>
 </tr>
