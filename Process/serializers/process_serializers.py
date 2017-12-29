@@ -6,7 +6,7 @@ from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
     ProcessStep, TransferCard, TransferCardProcess, BoughtInItem, QuotaList,
     FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem,
-    WeldingQuotaItem, Material, AuxiliaryQuotaItem)
+    WeldingQuotaItem, Material, AuxiliaryQuotaItem, WeldingSeam)
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
@@ -392,3 +392,33 @@ class AuxiliaryQuotaItemCreateSerializer(AuxiliaryQuotaItemSerializer):
                   'stardard_code', 'remark', 'category', 'quota_list')
         read_only_fields = ('quota_coef', 'quota', 'stardard_code', 'remark',
                             'category')
+
+
+class WeldingSeamListSerializer(serializers.ModelSerializer):
+    drawing_number = serializers.CharField(
+        source='process_material.drawing_number')
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number')
+    weld_method_1 = serializers.CharField(source='get_weld_method_1_display')
+    weld_method_2 = serializers.CharField(source='get_weld_method_2_display')
+    # TODO: 母材是否绑定材质表？
+
+    class Meta:
+        model = WeldingSeam
+        fields = ('id', 'drawing_number', 'uid', 'ticket_number', 'seam_type',
+                  'weld_method_1', 'weld_method_2', 'bm_thick_1', 'bm_thick_2',
+                  'length', 'wm_1', 'ws_1', 'weight_1', 'wm_2', 'ws_2',
+                  'weight_2', 'remark')
+
+
+class WeldingSeamSerializer(serializers.ModelSerializer):
+    weld_position_name = serializers.CharField(
+        source='get_weld_position_display', read_only=True)
+    weld_method_1_name = serializers.CharField(
+        source='get_weld_method_1_display', read_only=True)
+    weld_method_2_name = serializers.CharField(
+        source='get_weld_method_2_display', read_only=True)
+
+    class Meta:
+        model = WeldingSeam
+        fields = '__all__'

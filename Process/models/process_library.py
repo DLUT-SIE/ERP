@@ -1,8 +1,10 @@
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
 
 from Core.models import WorkOrder
-from Process import MATERIAL_CATEGORY_CHOICES
+from Process import (
+    MATERIAL_CATEGORY_CHOICES, WELD_ROD, WELD_WIRE, WELD_RIBBON, WELD_FLUX)
 
 
 class Material(models.Model):
@@ -21,6 +23,54 @@ class Material(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TotalWeldingMaterialManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            Q(category=WELD_ROD) | Q(category=WELD_WIRE) |
+            Q(category=WELD_RIBBON))
+
+
+class TotalWeldingMaterial(Material):
+    """
+    焊丝焊条焊带
+    """
+    objects = TotalWeldingMaterialManager()
+
+    class Meta:
+        proxy = True
+
+
+class WeldingMaterialManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            Q(category=WELD_ROD) | Q(category=WELD_WIRE))
+
+
+class WeldingMaterial(Material):
+    """
+    焊丝焊条
+    """
+    objects = WeldingMaterialManager()
+
+    class Meta:
+        proxy = True
+
+
+class FluxMaterialManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(category=WELD_FLUX)
+
+
+class FluxMaterial(Material):
+    """
+    焊剂
+    """
+    objects = FluxMaterialManager()
+
+    class Meta:
+        proxy = True
 
 
 class ProcessLibrary(models.Model):

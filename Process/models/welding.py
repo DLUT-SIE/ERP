@@ -6,7 +6,8 @@ from Core.utils import DynamicHashPath
 from Process import (WELD_METHODS, WELD_POSITION_CHOICES,
                      PROCEDURE_QUALIFICATION_INDEXS,
                      WWI_EXAMINATION_SURVEYOR_CHOICES)
-from Process.models import Material, ProcessMaterial
+from Process.models import (
+    ProcessMaterial, WeldingMaterial, FluxMaterial)
 
 
 class WeldingProcessSpecification(models.Model):
@@ -118,11 +119,11 @@ class WeldingSeam(models.Model):
     bm_thick_2 = models.FloatField(verbose_name='母材厚度2')
     length = models.FloatField(verbose_name='长度')
 
-    wm_1 = models.ForeignKey(Material, verbose_name='焊丝/焊条_1_材质',
+    wm_1 = models.ForeignKey(WeldingMaterial, verbose_name='焊丝/焊条_1_材质',
                              blank=True, null=True,
                              on_delete=models.SET_NULL,
                              related_name='weld_seam_material_1')
-    wf_1 = models.ForeignKey(Material, verbose_name='焊丝/焊条_1_焊剂',
+    wf_1 = models.ForeignKey(FluxMaterial, verbose_name='焊丝/焊条_1_焊剂',
                              blank=True, null=True,
                              on_delete=models.SET_NULL,
                              related_name='weld_seam_flux_1')
@@ -133,11 +134,11 @@ class WeldingSeam(models.Model):
     weight_1 = models.FloatField(verbose_name='焊材重量_1', default=0)
     wf_weight_1 = models.FloatField(verbose_name='焊剂重量_1', default=0)
 
-    wm_2 = models.ForeignKey(Material, verbose_name='焊丝/焊条_2_材质',
+    wm_2 = models.ForeignKey(WeldingMaterial, verbose_name='焊丝/焊条_2_材质',
                              blank=True, null=True,
                              on_delete=models.SET_NULL,
                              related_name='weld_seam_material_2')
-    wf_2 = models.ForeignKey(Material, verbose_name='焊丝/焊条_2_焊剂',
+    wf_2 = models.ForeignKey(FluxMaterial, verbose_name='焊丝/焊条_2_焊剂',
                              blank=True, null=True,
                              on_delete=models.SET_NULL,
                              related_name='weld_seam_flux_2')

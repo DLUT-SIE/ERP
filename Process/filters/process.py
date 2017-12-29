@@ -5,7 +5,7 @@ from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute, Material,
     TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
     CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem,
-    AuxiliaryQuotaItem)
+    AuxiliaryQuotaItem, WeldingSeam)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -130,3 +130,12 @@ class MaterialFilter(filters.FilterSet):
 class AuxiliaryQuotaItemFilter(AbstractQuotaFilter):
     class Meta(AbstractQuotaFilter.Meta):
         model = AuxiliaryQuotaItem
+
+
+class WeldingSeamFilter(AbstractQuotaFilter):
+    worker_order_uid = filters.ChoiceFilter(
+        name='process_material__lib__work_order__uid', lookup_expr='exact')
+
+    class Meta(AbstractQuotaFilter.Meta):
+        model = WeldingSeam
+        fields = ('worker_order_uid',)

@@ -3,7 +3,7 @@ from .process import (
     CirculationRouteFilter, ProcessRouteFilter, TransferCardProcessFilter,
     BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
     PrincipalQuotaItemFilter, QuotaListFilter, WeldingQuotaItemFilter,
-    MaterialFilter, AuxiliaryQuotaItemFilter)
+    MaterialFilter, AuxiliaryQuotaItemFilter, WeldingSeamFilter)
 
 __all__ = ['ProcessLibraryFilter', 'ProcessMaterialFilter', 'QuotaListFilter',
            'TransferCardFilter', 'CirculationRouteFilter',
@@ -11,4 +11,4 @@ __all__ = ['ProcessLibraryFilter', 'ProcessMaterialFilter', 'QuotaListFilter',
            'BoughtInItemFilter', 'FirstFeedingItemFilter',
            'CooperantItemFilter', 'PrincipalQuotaItemFilter',
            'WeldingQuotaItemFilter', 'MaterialFilter',
-           'AuxiliaryQuotaItemFilter']
+           'AuxiliaryQuotaItemFilter', 'WeldingSeamFilter']

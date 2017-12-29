@@ -6,7 +6,7 @@ from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, BoughtInItem, QuotaList,
     ProcessRoute, TransferCard, TransferCardProcess, FirstFeedingItem,
     CooperantItem, PrincipalQuotaItem, WeldingQuotaItem, Material,
-    AuxiliaryQuotaItem)
+    AuxiliaryQuotaItem, WeldingSeam)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
@@ -17,13 +17,14 @@ from Process.serializers import (
     PrincipalQuotaItemSerializer, WeldingQuotaItemSerializer,
     PrincipalQuotaItemCreateSerializer, WeldingQuotaItemCreateSerializer,
     MaterialSerializer, AuxiliaryQuotaItemListSerializer,
-    AuxiliaryQuotaItemSerializer, AuxiliaryQuotaItemCreateSerializer)
+    AuxiliaryQuotaItemSerializer, AuxiliaryQuotaItemCreateSerializer,
+    WeldingSeamSerializer, WeldingSeamListSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
     BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
     PrincipalQuotaItemFilter, QuotaListFilter, WeldingQuotaItemFilter,
-    MaterialFilter, AuxiliaryQuotaItemFilter)
+    MaterialFilter, AuxiliaryQuotaItemFilter, WeldingSeamFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -158,3 +159,14 @@ class AuxiliaryQuotaItemViewSet(viewsets.ModelViewSet):
         elif self.action == 'create':
             return AuxiliaryQuotaItemCreateSerializer
         return AuxiliaryQuotaItemSerializer
+
+
+class WeldingSeamViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = WeldingSeam.objects.all().order_by('-pk')
+    filter_class = WeldingSeamFilter
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return WeldingSeamListSerializer
+        return WeldingSeamSerializer
