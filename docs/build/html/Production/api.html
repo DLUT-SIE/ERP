@@ -246,9 +246,9 @@
 <p><span class="get">GET</span> <span class="code">/api/production_users/</span></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="35%" />
-<col width="18%" />
-<col width="47%" />
+<col width="41%" />
+<col width="17%" />
+<col width="42%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>参数</td>
@@ -263,13 +263,9 @@
 <td>int</td>
 <td>每页数量</td>
 </tr>
-<tr class="row-even"><td>username(Optional)</td>
+<tr class="row-even"><td>work_group_name(Optional)</td>
 <td>str</td>
-<td>生产人员姓名</td>
-</tr>
-<tr class="row-odd"><td>group_name(Optional)</td>
-<td>str</td>
-<td>组号</td>
+<td>工作组</td>
 </tr>
 </tbody>
 </table>
@@ -288,17 +284,13 @@
 <td>int</td>
 <td>生产人员id</td>
 </tr>
-<tr class="row-odd"><td>username</td>
-<td>str</td>
-<td>用户名</td>
+<tr class="row-odd"><td>user</td>
+<td>dict</td>
+<td>用户信息</td>
 </tr>
-<tr class="row-even"><td>realname</td>
+<tr class="row-even"><td>work_group_name</td>
 <td>str</td>
-<td>姓名</td>
-</tr>
-<tr class="row-odd"><td>group_name</td>
-<td>str</td>
-<td>组号</td>
+<td>工作组</td>
 </tr>
 </tbody>
 </table>
@@ -341,17 +333,13 @@
 <td>int</td>
 <td>生产人员id</td>
 </tr>
-<tr class="row-odd"><td>username</td>
-<td>str</td>
-<td>用户名</td>
+<tr class="row-odd"><td>user</td>
+<td>dict</td>
+<td>用户信息</td>
 </tr>
-<tr class="row-even"><td>realname</td>
+<tr class="row-even"><td>work_group_name</td>
 <td>str</td>
-<td>姓名</td>
-</tr>
-<tr class="row-odd"><td>group_name</td>
-<td>str</td>
-<td>组号</td>
+<td>工作组</td>
 </tr>
 </tbody>
 </table>
@@ -394,17 +382,13 @@
 <td>int</td>
 <td>生产人员id</td>
 </tr>
-<tr class="row-odd"><td>username</td>
-<td>str</td>
-<td>用户名</td>
+<tr class="row-odd"><td>user</td>
+<td>dict</td>
+<td>用户信息</td>
 </tr>
-<tr class="row-even"><td>realname</td>
+<tr class="row-even"><td>work_group_name</td>
 <td>str</td>
-<td>姓名</td>
-</tr>
-<tr class="row-odd"><td>group_name</td>
-<td>str</td>
-<td>组号</td>
+<td>工作组</td>
 </tr>
 </tbody>
 </table>
@@ -417,18 +401,22 @@
 <p><span class="post">POST</span> <span class="code">/api/production_users/</span></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="33%" />
-<col width="19%" />
-<col width="48%" />
+<col width="37%" />
+<col width="18%" />
+<col width="45%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>参数</td>
 <td>参数类型</td>
 <td>描述</td>
 </tr>
-<tr class="row-even"><td>id</td>
+<tr class="row-even"><td>user_info</td>
 <td>int</td>
-<td>生产人员对应用户id</td>
+<td>用户info id</td>
+</tr>
+<tr class="row-odd"><td>work_group(Optional)</td>
+<td>int</td>
+<td>工作组id</td>
 </tr>
 </tbody>
 </table>
@@ -447,17 +435,13 @@
 <td>int</td>
 <td>生产人员id</td>
 </tr>
-<tr class="row-odd"><td>username</td>
-<td>str</td>
-<td>用户名</td>
+<tr class="row-odd"><td>user</td>
+<td>dict</td>
+<td>用户信息</td>
 </tr>
-<tr class="row-even"><td>realname</td>
+<tr class="row-even"><td>work_group_name</td>
 <td>str</td>
-<td>姓名</td>
-</tr>
-<tr class="row-odd"><td>group_name</td>
-<td>str</td>
-<td>组号</td>
+<td>工作组</td>
 </tr>
 </tbody>
 </table>
@@ -1225,12 +1209,12 @@
 <h3>list<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回生产工作组列表</p>
-<p><span class="get">GET</span> <span class="code">/api/production_workgroups/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/production_work_groups/</span></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="35%" />
-<col width="18%" />
-<col width="47%" />
+<col width="41%" />
+<col width="17%" />
+<col width="42%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>参数</td>
@@ -1244,6 +1228,14 @@
 <tr class="row-odd"><td>limit(Optional)</td>
 <td>int</td>
 <td>每页数量</td>
+</tr>
+<tr class="row-even"><td>name(Optional)</td>
+<td>str</td>
+<td>工作组名</td>
+</tr>
+<tr class="row-odd"><td>process_name(Optional)</td>
+<td>str</td>
+<td>工序</td>
 </tr>
 </tbody>
 </table>
@@ -1278,7 +1270,7 @@
 <h3>read<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>返回指定id的工作组信息</p>
-<p><span class="get">GET</span> <span class="code">/api/production_workgroups/{id}/</span></p>
+<p><span class="get">GET</span> <span class="code">/api/production_work_groups/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -1327,7 +1319,7 @@
 <h3>partial_update<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>更新指定id的生产工作组, 返回更新后的工作组信息</p>
-<p><span class="patch">PATCH</span> <span class="code">/api/production_workgroups/{id}/</span></p>
+<p><span class="patch">PATCH</span> <span class="code">/api/production_work_groups/{id}/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -1376,7 +1368,7 @@
 <h3>create<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <div><p>创建新的生产工作组</p>
-<p><span class="post">POST</span> <span class="code">/api/production_workgroups/</span></p>
+<p><span class="post">POST</span> <span class="code">/api/production_work_groups/</span></p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="33%" />
@@ -1741,7 +1733,7 @@
 <td>datetime</td>
 <td>计划完成时间</td>
 </tr>
-<tr class="row-even"><td>work_group</td>
+<tr class="row-even"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
 </tr>
@@ -1794,51 +1786,55 @@
 <td>int</td>
 <td>工序详细信息id</td>
 </tr>
-<tr class="row-odd"><td>material_index</td>
+<tr class="row-odd"><td>sub_material</td>
+<td>int</td>
+<td>子工作票id</td>
+</tr>
+<tr class="row-even"><td>material_index</td>
 <td>str</td>
 <td>工作票号</td>
 </tr>
-<tr class="row-even"><td>work_order_uid</td>
+<tr class="row-odd"><td>work_order_uid</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
-<tr class="row-odd"><td>process_id</td>
+<tr class="row-even"><td>process_id</td>
 <td>str</td>
 <td>工序编号</td>
 </tr>
-<tr class="row-even"><td>process_name</td>
+<tr class="row-odd"><td>process_name</td>
 <td>str</td>
 <td>工序</td>
 </tr>
-<tr class="row-odd"><td>work_hour</td>
+<tr class="row-even"><td>work_hour</td>
 <td>float</td>
 <td>工时</td>
 </tr>
-<tr class="row-even"><td>estimated_start_dt</td>
+<tr class="row-odd"><td>estimated_start_dt</td>
 <td>datetime</td>
 <td>计划开始时间</td>
 </tr>
-<tr class="row-odd"><td>estimated_finish_dt</td>
+<tr class="row-even"><td>estimated_finish_dt</td>
 <td>datetime</td>
 <td>计划完成时间</td>
 </tr>
-<tr class="row-even"><td>work_group</td>
+<tr class="row-odd"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
 </tr>
-<tr class="row-odd"><td>actual_finish_dt</td>
+<tr class="row-even"><td>actual_finish_dt</td>
 <td>datetime</td>
 <td>确认时间</td>
 </tr>
-<tr class="row-even"><td>remark</td>
+<tr class="row-odd"><td>remark</td>
 <td>str</td>
 <td>检查内容</td>
 </tr>
-<tr class="row-odd"><td>inspector</td>
+<tr class="row-even"><td>inspector_name</td>
 <td>str</td>
 <td>检查者</td>
 </tr>
-<tr class="row-even"><td>inspection_dt</td>
+<tr class="row-odd"><td>inspection_dt</td>
 <td>datetime</td>
 <td>检查时间</td>
 </tr>
@@ -1883,51 +1879,55 @@
 <td>int</td>
 <td>工序详细信息id</td>
 </tr>
-<tr class="row-odd"><td>material_index</td>
+<tr class="row-odd"><td>sub_material</td>
+<td>int</td>
+<td>子工作票id</td>
+</tr>
+<tr class="row-even"><td>material_index</td>
 <td>str</td>
 <td>工作票号</td>
 </tr>
-<tr class="row-even"><td>work_order_uid</td>
+<tr class="row-odd"><td>work_order_uid</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
-<tr class="row-odd"><td>process_id</td>
+<tr class="row-even"><td>process_id</td>
 <td>str</td>
 <td>工序编号</td>
 </tr>
-<tr class="row-even"><td>process_name</td>
+<tr class="row-odd"><td>process_name</td>
 <td>str</td>
 <td>工序</td>
 </tr>
-<tr class="row-odd"><td>work_hour</td>
+<tr class="row-even"><td>work_hour</td>
 <td>float</td>
 <td>工时</td>
 </tr>
-<tr class="row-even"><td>estimated_start_dt</td>
+<tr class="row-odd"><td>estimated_start_dt</td>
 <td>datetime</td>
 <td>计划开始时间</td>
 </tr>
-<tr class="row-odd"><td>estimated_finish_dt</td>
+<tr class="row-even"><td>estimated_finish_dt</td>
 <td>datetime</td>
 <td>计划完成时间</td>
 </tr>
-<tr class="row-even"><td>work_group</td>
+<tr class="row-odd"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
 </tr>
-<tr class="row-odd"><td>actual_finish_dt</td>
+<tr class="row-even"><td>actual_finish_dt</td>
 <td>datetime</td>
 <td>确认时间</td>
 </tr>
-<tr class="row-even"><td>remark</td>
+<tr class="row-odd"><td>remark</td>
 <td>str</td>
 <td>检查内容</td>
 </tr>
-<tr class="row-odd"><td>inspector</td>
+<tr class="row-even"><td>inspector_name</td>
 <td>str</td>
 <td>检查者</td>
 </tr>
-<tr class="row-even"><td>inspection_dt</td>
+<tr class="row-odd"><td>inspection_dt</td>
 <td>datetime</td>
 <td>检查时间</td>
 </tr>
@@ -1976,51 +1976,55 @@
 <td>int</td>
 <td>工序详细信息id</td>
 </tr>
-<tr class="row-odd"><td>material_index</td>
+<tr class="row-odd"><td>sub_material</td>
+<td>str</td>
+<td>子工作票id</td>
+</tr>
+<tr class="row-even"><td>material_index</td>
 <td>str</td>
 <td>工作票号</td>
 </tr>
-<tr class="row-even"><td>work_order_uid</td>
+<tr class="row-odd"><td>work_order_uid</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
-<tr class="row-odd"><td>process_id</td>
+<tr class="row-even"><td>process_id</td>
 <td>str</td>
 <td>工序编号</td>
 </tr>
-<tr class="row-even"><td>process_name</td>
+<tr class="row-odd"><td>process_name</td>
 <td>str</td>
 <td>工序</td>
 </tr>
-<tr class="row-odd"><td>work_hour</td>
+<tr class="row-even"><td>work_hour</td>
 <td>float</td>
 <td>工时</td>
 </tr>
-<tr class="row-even"><td>estimated_start_dt</td>
+<tr class="row-odd"><td>estimated_start_dt</td>
 <td>datetime</td>
 <td>计划开始时间</td>
 </tr>
-<tr class="row-odd"><td>estimated_finish_dt</td>
+<tr class="row-even"><td>estimated_finish_dt</td>
 <td>datetime</td>
 <td>计划完成时间</td>
 </tr>
-<tr class="row-even"><td>work_group</td>
+<tr class="row-odd"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
 </tr>
-<tr class="row-odd"><td>actual_finish_dt</td>
+<tr class="row-even"><td>actual_finish_dt</td>
 <td>datetime</td>
 <td>确认时间</td>
 </tr>
-<tr class="row-even"><td>remark</td>
+<tr class="row-odd"><td>remark</td>
 <td>str</td>
 <td>检查内容</td>
 </tr>
-<tr class="row-odd"><td>inspector</td>
+<tr class="row-even"><td>inspector_name</td>
 <td>str</td>
 <td>检查者</td>
 </tr>
-<tr class="row-even"><td>inspection_dt</td>
+<tr class="row-odd"><td>inspection_dt</td>
 <td>datetime</td>
 <td>检查时间</td>
 </tr>
@@ -2073,12 +2077,12 @@
 <td>子工作票id</td>
 </tr>
 <tr class="row-odd"><td>material</td>
-<td>str</td>
-<td>工艺物料</td>
+<td>int</td>
+<td>工艺物料id</td>
 </tr>
 <tr class="row-even"><td>sub_order</td>
-<td>str</td>
-<td>子工作令</td>
+<td>int</td>
+<td>子工作令id</td>
 </tr>
 <tr class="row-odd"><td>estimated_finish_dt</td>
 <td>datetime</td>
@@ -2130,12 +2134,12 @@
 <td>子工作票id</td>
 </tr>
 <tr class="row-odd"><td>material</td>
-<td>str</td>
-<td>工艺物料</td>
+<td>int</td>
+<td>工艺物料id</td>
 </tr>
 <tr class="row-even"><td>sub_order</td>
-<td>str</td>
-<td>子工作令</td>
+<td>int</td>
+<td>子工作令id</td>
 </tr>
 <tr class="row-odd"><td>estimated_finish_dt</td>
 <td>datetime</td>
@@ -2187,12 +2191,12 @@
 <td>子工作票id</td>
 </tr>
 <tr class="row-odd"><td>material</td>
-<td>str</td>
-<td>工艺物料</td>
+<td>int</td>
+<td>工艺物料id</td>
 </tr>
 <tr class="row-even"><td>sub_order</td>
-<td>str</td>
-<td>子工作令</td>
+<td>int</td>
+<td>子工作令id</td>
 </tr>
 <tr class="row-odd"><td>estimated_finish_dt</td>
 <td>datetime</td>
@@ -2248,12 +2252,12 @@
 <td>子工作票id</td>
 </tr>
 <tr class="row-odd"><td>material</td>
-<td>str</td>
-<td>工艺物料</td>
+<td>int</td>
+<td>工艺物料id</td>
 </tr>
 <tr class="row-even"><td>sub_order</td>
-<td>str</td>
-<td>子工作令</td>
+<td>int</td>
+<td>子工作令id</td>
 </tr>
 <tr class="row-odd"><td>estimated_finish_dt</td>
 <td>datetime</td>
