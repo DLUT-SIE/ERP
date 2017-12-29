@@ -28,6 +28,17 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             return serializers.UserSerializer
 
+    @list_route()
+    def non_production_users(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(info__isnull=True)
+        queryset = queryset.filter(info__productionuser__isnull=True)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
 
 class DepartmentViewSet(viewsets.ModelViewSet):
     """

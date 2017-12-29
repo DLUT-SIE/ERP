@@ -6,12 +6,16 @@ from .entry_detail import (
 from .entry import (
     WeldingMaterialEntrySerializer,
     WeldingMaterialEntryListSerializer,
+    WeldingMaterialEntryCreateSerializer,
     SteelMaterialEntrySerializer,
     SteelMaterialEntryListSerializer,
+    SteelMaterialEntryCreateSerializer,
     AuxiliaryMaterialEntrySerializer,
     AuxiliaryMaterialEntryListSerializer,
+    AuxiliaryMaterialEntryCreateSerializer,
     BoughtInComponentEntrySerializer,
     BoughtInComponentEntryListSerializer,
+    BoughtInComponentEntryCreateSerializer,
 )
 from .inventory_detail import (
     WeldingMaterialInventoryDetailSerializer,
@@ -80,12 +84,16 @@ __all__ = [
 
     'WeldingMaterialEntrySerializer',
     'WeldingMaterialEntryListSerializer',
+    'WeldingMaterialEntryCreateSerializer',
     'SteelMaterialEntrySerializer',
     'SteelMaterialEntryListSerializer',
+    'SteelMaterialEntryCreateSerializer',
     'AuxiliaryMaterialEntrySerializer',
     'AuxiliaryMaterialEntryListSerializer',
+    'AuxiliaryMaterialEntryCreateSerializer',
     'BoughtInComponentEntrySerializer',
     'BoughtInComponentEntryListSerializer',
+    'BoughtInComponentEntryCreateSerializer',
 
     'WeldingMaterialInventoryDetailSerializer',
     'SteelMaterialInventoryDetailSerializer',
