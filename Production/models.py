@@ -17,9 +17,9 @@ class SubMaterial(models.Model):
                                  on_delete=models.CASCADE)
     sub_order = models.ForeignKey(SubWorkOrder, verbose_name='子工作令',
                                   on_delete=models.CASCADE)
-    estimated_finish_dt = models.DateTimeField(verbose_name='计划完成日期',
+    estimated_finish_dt = models.DateTimeField(verbose_name='计划完成时间',
                                                blank=True, null=True)
-    actual_finish_dt = models.DateTimeField(verbose_name='实际完成日期',
+    actual_finish_dt = models.DateTimeField(verbose_name='实际完成时间',
                                             blank=True, null=True)
 
     class Meta:
@@ -71,18 +71,18 @@ class ProcessDetail(models.Model):
     """
     sub_material = models.ForeignKey(SubMaterial, verbose_name='子工作票',
                                      on_delete=models.CASCADE)
-    process_step = models.OneToOneField(ProcessStep, verbose_name='工序步骤',
-                                        on_delete=models.CASCADE)
+    process_step = models.ForeignKey(ProcessStep, verbose_name='工序步骤',
+                                     on_delete=models.CASCADE)
     work_group = models.ForeignKey(ProductionWorkGroup, verbose_name='工作组',
                                    blank=True, null=True,
                                    on_delete=models.SET_NULL)
     # *IMPORTANT*
     # TODO: estimated should be changed if 'Plan' is noun and not verb
-    estimated_start_dt = models.DateTimeField(verbose_name='计划开始日期',
+    estimated_start_dt = models.DateTimeField(verbose_name='计划开始时间',
                                               blank=True, null=True)
-    estimated_finish_dt = models.DateTimeField(verbose_name='计划完成日期',
+    estimated_finish_dt = models.DateTimeField(verbose_name='计划完成时间',
                                                blank=True, null=True)
-    actual_finish_dt = models.DateTimeField(verbose_name='实际完成日期',
+    actual_finish_dt = models.DateTimeField(verbose_name='实际完成时间',
                                             blank=True, null=True)
     # plan_startdate = models.DateTimeField(
     #     blank = True, null= True, verbose_name = u"计划开始时间")

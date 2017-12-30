@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'Process',
     'Procurement',
     'Inventory.apps.InventoryConfig',
-    'Production',
+    'Production.apps.ProductionConfig',
 ]
 
 MIDDLEWARE = [

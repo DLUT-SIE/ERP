@@ -57,4 +57,6 @@ class SubMaterialSerializer(serializers.ModelSerializer):
 
 class SubMaterialCreateSerializer(SubMaterialSerializer):
     class Meta(SubMaterialSerializer.Meta):
+        fields = ('id', 'material', 'sub_order',
+                  'estimated_finish_dt', 'actual_finish_dt')
         read_only_fields = ('estimated_finish_dt', 'actual_finish_dt')
