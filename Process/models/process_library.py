@@ -135,9 +135,10 @@ class ProcessMaterial(models.Model):
     spec = models.CharField(verbose_name='规格', blank=True,
                             default='', max_length=20)
     count = models.IntegerField(verbose_name='数量')
-    material = models.ForeignKey(Material, verbose_name='材质',
-                                 blank=True, null=True,
-                                 on_delete=models.PROTECT)
+    material = models.OneToOneField(Material, verbose_name='材质',
+                                    blank=True, null=True,
+                                    on_delete=models.PROTECT,
+                                    related_name='process_material')
     name = models.CharField(verbose_name='名称', blank=True, max_length=50)
     piece_weight = models.FloatField(verbose_name='净重', blank=True, null=True)
     remark = models.CharField(verbose_name='备注', blank=True,
