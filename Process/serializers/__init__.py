@@ -9,7 +9,9 @@ from .process_serializers import (
     PrincipalQuotaItemCreateSerializer, WeldingQuotaItemCreateSerializer,
     MaterialSerializer, AuxiliaryQuotaItemListSerializer,
     AuxiliaryQuotaItemSerializer, AuxiliaryQuotaItemCreateSerializer,
-    WeldingSeamSerializer, WeldingSeamListSerializer)
+    WeldingSeamSerializer, WeldingSeamListSerializer,
+    TotalWeldingMaterialSerializer, WeldingMaterialSerializer,
+    FluxMaterialSerializer)
 
 
 __all__ = ['ProcessLibrarySerializer', 'ProcessMaterialSerializer',
@@ -24,4 +26,6 @@ __all__ = ['ProcessLibrarySerializer', 'ProcessMaterialSerializer',
            'WeldingQuotaItemCreateSerializer', 'MaterialSerializer',
            'AuxiliaryQuotaItemListSerializer', 'WeldingSeamListSerializer',
            'AuxiliaryQuotaItemCreateSerializer',
-           'AuxiliaryQuotaItemSerializer', 'WeldingSeamSerializer']
+           'AuxiliaryQuotaItemSerializer', 'WeldingSeamSerializer',
+           'TotalWeldingMaterialSerializer', 'WeldingMaterialSerializer',
+           'FluxMaterialSerializer']
