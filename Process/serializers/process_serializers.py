@@ -49,7 +49,7 @@ class ProcessMaterialSerializer(serializers.ModelSerializer):
     transfer_card_id = serializers.IntegerField(source='transfer_card.id')
     transfer_card_name = serializers.CharField(
         source='transfer_card.get_category_display')
-    
+
     class Meta:
         model = ProcessMaterial
         fields = '__all__'
