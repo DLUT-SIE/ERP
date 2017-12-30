@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from Production.models import ProcessDetail, SubMaterial
+from Production.models import (ProcessDetail,
+                               SubMaterial,
+                               ProductionWorkGroup)
 
 
 class ProcessDetailSerializer(serializers.ModelSerializer):
@@ -25,7 +27,7 @@ class ProcessDetailSerializer(serializers.ModelSerializer):
                   'process_step', 'process_id', 'process_name', 'work_hour',
                   'estimated_start_dt', 'estimated_finish_dt', 'work_group',
                   'work_group_name', 'actual_finish_dt', 'remark',
-                  'inspector', 'inspector_name', 'inspection_dt')
+                  'inspector', 'inspector_name', 'inspection_dt', 'status')
 
 
 class ProcessDetailCreateSerializer(ProcessDetailSerializer):
@@ -36,11 +38,22 @@ class ProcessDetailCreateSerializer(ProcessDetailSerializer):
 
 
 class ProcessDetailListSerializer(ProcessDetailSerializer):
+    select_work_groups = serializers.SerializerMethodField()
+
     class Meta(ProcessDetailSerializer.Meta):
         fields = ('id', 'material_index', 'work_order_uid', 'process_id',
                   'process_name', 'work_hour', 'estimated_start_dt',
-                  'estimated_finish_dt', 'work_group_name', 'actual_finish_dt',
-                  'inspection_dt')
+                  'estimated_finish_dt', 'work_group', 'work_group_name',
+                  'select_work_groups', 'actual_finish_dt', 'inspection_dt',
+                  'status')
+
+    def get_select_work_groups(self, obj):
+        groups = []
+        work_groups = ProductionWorkGroup.objects.filter(
+            process=obj.process_step.step)
+        for work_group in work_groups:
+            groups.append({'id': work_group.id, 'name': work_group.name})
+        return groups
 
 
 class ProcessDetailSimpleSerializer(ProcessDetailSerializer):
@@ -51,12 +64,11 @@ class ProcessDetailSimpleSerializer(ProcessDetailSerializer):
 class SubMaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubMaterial
-        fields = '__all__'
+        fields = ('id', 'material', 'sub_order',
+                  'estimated_finish_dt', 'actual_finish_dt')
         read_only_fields = ('material', 'sub_order')
 
 
 class SubMaterialCreateSerializer(SubMaterialSerializer):
     class Meta(SubMaterialSerializer.Meta):
-        fields = ('id', 'material', 'sub_order',
-                  'estimated_finish_dt', 'actual_finish_dt')
         read_only_fields = ('estimated_finish_dt', 'actual_finish_dt')

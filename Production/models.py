@@ -6,6 +6,7 @@ from Process import PROCESS_CHOICES
 from Process.models import ProcessMaterial, ProcessStep
 from Production import (PRODUCTION_PLAN_STATUS_CHOICES,
                         PRODUCTION_PLAN_RELAX)
+from Production import PROCESS_STATUS_CHOICES, PROCESS_STATUS_NEW
 
 
 # TODO: Review model name
@@ -98,6 +99,9 @@ class ProcessDetail(models.Model):
                                          blank=True, null=True)
     remark = models.CharField(verbose_name='检查内容', max_length=200,
                               blank=True, default='')
+    status = models.IntegerField(verbose_name='工序详细信息状态',
+                                 choices=PROCESS_STATUS_CHOICES,
+                                 default=PROCESS_STATUS_NEW)
 
     class Meta:
         verbose_name = '工序详细信息'
