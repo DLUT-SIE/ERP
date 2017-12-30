@@ -59,7 +59,12 @@ class Transition:
         检查附件条件
         """
         if self.conditions is None:
-            return True
+            valid_conds_func = getattr(
+                inst, 'valid_{}'.format(self.method.__name__), lambda x: True)
+            return valid_conds_func(request)
+        elif isinstance(self.conditions, str):
+            valid_conds_func = getattr(inst, self.conditions, lambda x: True)
+            return valid_conds_func(request)
         elif isinstance(self.conditions, bool):
             return self.conditions
         elif callable(self.conditions):
