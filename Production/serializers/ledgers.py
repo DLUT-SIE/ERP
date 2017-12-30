@@ -13,9 +13,9 @@ class SubMaterialLedgersListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubMaterial
-        fields = ('process_material', 'circulation_route', 'sub_order',
+        fields = ('id', 'process_material', 'circulation_route', 'sub_order',
                   'estimated_finish_dt', 'actual_finish_dt', 'material')
-        read_only_fields = ('process_material', 'circulation_route',
+        read_only_fields = ('id', 'process_material', 'circulation_route',
                             'estimated_finish_dt', 'material', 'sub_order',
                             'actual_finish_dt')
 
@@ -47,17 +47,14 @@ class SubMaterialLedgersUpdateSerializer(serializers.ModelSerializer):
         return inspectors
 
     def get_transfercards(self, obj):
-        cards = []
-        transfercards = obj.material.transfercard_set.all()
-        for a in transfercards:
-            record = {}
-            for field_name in ['writer', 'write_dt', 'reviewer',
-                               'review_dt', 'proofreader', 'proofread_dt',
-                               'approver', 'approve_dt']:
-                field_value = getattr(a, field_name, None)
-                record[field_name] = field_value
-            cards.append(record)
-        return cards
+        transfercards = obj.material.transfer_card
+        record = {}
+        for field_name in ['writer', 'write_dt', 'reviewer',
+                           'review_dt', 'proofreader', 'proofread_dt',
+                           'approver', 'approve_dt']:
+            field_value = getattr(transfercards, field_name, None)
+            record[field_name] = field_value
+        return record
 
     def get_process_route(self, obj):
         process_steps = []

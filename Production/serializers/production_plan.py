@@ -14,7 +14,7 @@ class ProductionPlanListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductionPlan
-        fields = ('work_order', 'status', 'status_description',
+        fields = ('id', 'work_order', 'status', 'status_description',
                   'plan_dt', 'client', 'product', 'count', 'remark')
 
     def get_status_description(self, obj):
