@@ -7,6 +7,7 @@ from Procurement import serializers
 from Procurement import filters
 
 
+# 供应商
 class SupplierViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = Supplier.objects.all().order_by('-pk')
@@ -21,12 +22,14 @@ class SupplierViewSet(viewsets.ModelViewSet):
             return serializers.SupplierSerializer
 
 
+# 供应商文件
 class SupplierDocumentViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = SupplierDocument.objects.all().order_by('-pk')
     serializer_class = serializers.SupplierDocumentSerializer
 
 
+# 供应商报价单
 class QuotationViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = Quotation.objects.all().order_by('-pk')

@@ -64,9 +64,9 @@ class StatusChange(models.Model):
     """
     bidding_sheet = models.ForeignKey('BiddingSheet', verbose_name='标单',
                                       on_delete=models.CASCADE)
-    original_status = models.IntegerField(verbose_name='标单状态', unique=True,
+    original_status = models.IntegerField(verbose_name='标单状态',
                                           choices=BIDDING_SHEET_STATUS_CHOICES)
-    new_status = models.IntegerField(verbose_name='标单状态', unique=True,
+    new_status = models.IntegerField(verbose_name='标单状态',
                                      choices=BIDDING_SHEET_STATUS_CHOICES)
     change_user = models.ForeignKey(User, verbose_name='更改用户',
                                     on_delete=models.CASCADE)

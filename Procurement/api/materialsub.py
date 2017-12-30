@@ -7,6 +7,7 @@ from Procurement.models import SubApplyComment
 from Procurement import serializers
 
 
+# 材料代用申请单
 class MaterialSubApplyViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = MaterialSubApply.objects.all().order_by('-pk')
@@ -23,6 +24,7 @@ class MaterialSubApplyViewSet(viewsets.ModelViewSet):
         raise MethodNotAllowed(request.method)
 
 
+# 材料代用申请单明细
 class MaterialSubApplyItemViewSet(viewsets.ModelViewSet):
     queryset = MaterialSubApplyItems.objects.all().order_by('-pk')
 
@@ -33,6 +35,7 @@ class MaterialSubApplyItemViewSet(viewsets.ModelViewSet):
             return serializers.MaterialSubApplyItemsSerializer
 
 
+# 材料代用申请单评论
 class MaterialSubApplyCommentViewSet(viewsets.ModelViewSet):
     queryset = SubApplyComment.objects.all().order_by('-pk')
     serializer_class = serializers.MaterialSubApplyCommentsSerializer

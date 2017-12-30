@@ -5,6 +5,7 @@ from Procurement.models import ContractDetail
 from Procurement import serializers
 
 
+# 合同金额明细
 class ContractDetailViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = ContractDetail.objects.all().order_by('-pk')

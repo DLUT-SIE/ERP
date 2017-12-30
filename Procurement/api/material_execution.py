@@ -5,6 +5,7 @@ from Procurement.models import MaterialExecution, MaterialExecutionDetail
 from Procurement import serializers
 
 
+#  材料执行表
 class MaterialExecutionViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = MaterialExecution.objects.all().order_by('-pk')
@@ -18,6 +19,7 @@ class MaterialExecutionViewSet(viewsets.ModelViewSet):
             return serializers.MaterialExecutionSerializer
 
 
+# 材料执行表明细
 class MaterialExecutionDetailViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = MaterialExecutionDetail.objects.all().filter(
