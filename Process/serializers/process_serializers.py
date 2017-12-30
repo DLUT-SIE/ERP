@@ -46,7 +46,10 @@ class ProcessLibrarySerializer(serializers.ModelSerializer):
 class ProcessMaterialSerializer(serializers.ModelSerializer):
     total_weight = serializers.SerializerMethodField()
     material = serializers.CharField(source='material.name')
-
+    transfer_card_id = serializers.IntegerField(source='transfer_card.id')
+    transfer_card_name = serializers.CharField(
+        source='transfer_card.get_category_display')
+    
     class Meta:
         model = ProcessMaterial
         fields = '__all__'
@@ -319,7 +322,7 @@ class PrincipalQuotaItemCreateSerializer(PrincipalQuotaItemSerializer):
 
 
 class WeldingQuotaItemSerializer(serializers.ModelSerializer):
-    category = serializers.CharField(source='get_category_display',
+    category = serializers.CharField(source='material.get_category_display',
                                      read_only=True)
     material_name = serializers.CharField(source='material.name',
                                           read_only=True)
