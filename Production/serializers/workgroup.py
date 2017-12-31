@@ -16,7 +16,7 @@ class ProductionWorkGroupSerializer(serializers.ModelSerializer):
 class ProductionUserSerializer(serializers.ModelSerializer):
     user = UserSerializer(source='user_info.user', read_only=True)
     work_group_name = serializers.CharField(source='work_group.name',
-                                            read_only=True)
+                                            allow_null=True, read_only=True)
 
     class Meta:
         model = ProductionUser

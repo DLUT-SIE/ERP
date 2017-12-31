@@ -1,11 +1,13 @@
 from rest_framework import serializers
 
+from Core.utils.fsm import TransitionSerializerMixin
 from Production.models import (ProcessDetail,
                                SubMaterial,
                                ProductionWorkGroup)
 
 
-class ProcessDetailSerializer(serializers.ModelSerializer):
+class ProcessDetailSerializer(TransitionSerializerMixin,
+                              serializers.ModelSerializer):
     material_index = serializers.CharField(
         source='sub_material.material.ticket_number', read_only=True)
     work_order_uid = serializers.CharField(source='sub_material.sub_order',
@@ -17,9 +19,9 @@ class ProcessDetailSerializer(serializers.ModelSerializer):
     work_hour = serializers.FloatField(source='process_step.man_hours',
                                        read_only=True)
     work_group_name = serializers.CharField(source='work_group.name',
-                                            read_only=True)
+                                            allow_null=True, read_only=True)
     inspector_name = serializers.CharField(source='inspector.username',
-                                           read_only=True)
+                                           allow_null=True, read_only=True)
 
     class Meta:
         model = ProcessDetail
@@ -48,17 +50,15 @@ class ProcessDetailListSerializer(ProcessDetailSerializer):
                   'status')
 
     def get_select_work_groups(self, obj):
-        groups = []
         work_groups = ProductionWorkGroup.objects.filter(
-            process=obj.process_step.step)
-        for work_group in work_groups:
-            groups.append({'id': work_group.id, 'name': work_group.name})
-        return groups
+            process=obj.process_step.step).values('id', 'name')
+        return work_groups
 
 
 class ProcessDetailSimpleSerializer(ProcessDetailSerializer):
     class Meta(ProcessDetailSerializer.Meta):
-        read_only_fields = ('sub_material', 'process_step')
+        read_only_fields = ('sub_material', 'process_step', 'actual_finish_dt',
+                            'inspector', 'inspection_dt')
 
 
 class SubMaterialSerializer(serializers.ModelSerializer):

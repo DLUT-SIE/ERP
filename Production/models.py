@@ -6,7 +6,14 @@ from Process import PROCESS_CHOICES
 from Process.models import ProcessMaterial, ProcessStep
 from Production import (PRODUCTION_PLAN_STATUS_CHOICES,
                         PRODUCTION_PLAN_RELAX)
-from Production import PROCESS_STATUS_CHOICES, PROCESS_STATUS_NEW
+from Core.utils.fsm import transition, TransitionMeta
+from Production import (PROCESS_STATUS_CHOICES,
+                        PROCESS_STATUS_NEW,
+                        PROCESS_STATUS_PLANED,
+                        PROCESS_STATUS_ALLOCATED,
+                        PROCESS_STATUS_CONFIRMED,
+                        PROCESS_STATUS_CHECKED)
+import datetime
 
 
 # TODO: Review model name
@@ -66,7 +73,7 @@ class ProductionUser(models.Model):
         return str(self.user_info)
 
 
-class ProcessDetail(models.Model):
+class ProcessDetail(models.Model, metaclass=TransitionMeta):
     """
     工序详细信息
     """
@@ -111,6 +118,55 @@ class ProcessDetail(models.Model):
 
     def __str__(self):
         return '{}({})'.format(self.sub_material, self.process_step)
+
+    @transition(field='status',
+                source=PROCESS_STATUS_NEW,
+                target=PROCESS_STATUS_PLANED)
+    def plan_confim(self, request):
+        pass
+
+    def valid_allocation_confim(self, request):
+        if (self.estimated_start_dt is None
+                or self.estimated_finish_dt is None):
+            return False
+        return True
+
+    @transition(field='status',
+                source=PROCESS_STATUS_PLANED,
+                target=PROCESS_STATUS_ALLOCATED)
+    def allocation_confim(self, request):
+        pass
+
+    @transition(field='status',
+                source=PROCESS_STATUS_ALLOCATED,
+                target=PROCESS_STATUS_PLANED)
+    def allocation_recall(self, request):
+        self.work_group = None
+
+    def valid_work_group_confirm(self, request):
+        if self.work_group is None:
+            return False
+        return True
+
+    @transition(field='status',
+                source=PROCESS_STATUS_ALLOCATED,
+                target=PROCESS_STATUS_CONFIRMED,
+                name='生产完成确认')
+    def work_group_confirm(self, request):
+        self.actual_finish_dt = datetime.datetime.now()
+
+    def valid_inspector_confirm(self, request):
+        if self.actual_finish_dt is None:
+            return False
+        return True
+
+    @transition(field='status',
+                source=PROCESS_STATUS_CONFIRMED,
+                target=PROCESS_STATUS_CHECKED,
+                name='检查确认')
+    def inspector_confirm(self, request):
+        self.inspection_dt = datetime.datetime.now()
+        self.inspector = request.user
 
 
 class ComprehensiveDepartmentFileList(models.Model):
