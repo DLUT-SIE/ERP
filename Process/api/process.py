@@ -21,7 +21,7 @@ from Process.serializers import (
     AuxiliaryQuotaItemSerializer, AuxiliaryQuotaItemCreateSerializer,
     WeldingSeamSerializer, WeldingSeamListSerializer,
     TotalWeldingMaterialSerializer, WeldingMaterialSerializer,
-    FluxMaterialSerializer)
+    FluxMaterialSerializer, TransferCardCreateSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
@@ -64,9 +64,24 @@ class TransferCardViewSet(viewsets.ModelViewSet):
     queryset = TransferCard.objects.all().order_by('-pk')
     filter_class = TransferCardFilter
 
+    def perform_create(self, serializer):
+        data = self.request.data
+        process_material = data['process_material']
+        process_material = ProcessMaterial.objects.get(
+            id=int(process_material))
+        count = TransferCard.objects\
+            .filter(category=int(data['category']),
+                    process_material__lib__work_order=process_material
+                    .lib.work_order).count()
+        count += 1
+        serializer.save(file_index=count,
+                        process_material=process_material)
+
     def get_serializer_class(self):
         if self.action == 'list':
             return TransferCardListSerializer
+        if self.action == 'create':
+            return TransferCardCreateSerializer
         else:
             return TransferCardSerializer
 

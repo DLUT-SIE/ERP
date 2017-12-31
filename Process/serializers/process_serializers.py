@@ -62,7 +62,7 @@ class ProcessMaterialSerializer(serializers.ModelSerializer):
 
 
 class CirculationRouteSerializer(serializers.ModelSerializer):
-    circulation_routes = serializers.SerializerMethodField()
+    circulation_routes = serializers.SerializerMethodField(allow_null=True)
 
     class Meta:
         model = CirculationRoute
@@ -81,6 +81,7 @@ class CirculationRouteSerializer(serializers.ModelSerializer):
         circulation_routes = validated_data['circulation_routes']
         circulation_routes = [circulation_routes] if isinstance(
             circulation_routes, int) else circulation_routes
+        circulation_routes = list(circulation_routes)
         circulation_routes.extend([None] * (10 - len(circulation_routes)))
         for index, item in enumerate(circulation_routes):
             setattr(instance, 'C{}'.format(index + 1), item)
@@ -88,6 +89,9 @@ class CirculationRouteSerializer(serializers.ModelSerializer):
         return instance
 
     def validate(self, attrs):
+        viewset = self.context['view']
+        if viewset.action not in ['update', 'partial_update']:
+            return attrs
         data = self.context['request'].data
         if 'circulation_routes' not in data:
             raise serializers.ValidationError("流转路线为空")
@@ -129,6 +133,23 @@ class ProcessRouteSerializer(serializers.ModelSerializer):
         attrs['process_steps'] = ast.literal_eval(
             data['process_steps'])
         return attrs
+
+
+class TransferCardCreateSerializer(serializers.ModelSerializer):
+    def validate_process_material(self, value):
+        if ProcessMaterial.objects.filter(id=value.id).exists():
+            return value
+        raise serializers.ValidationError("请传入正确的工艺物料")
+
+    class Meta:
+        model = TransferCard
+        fields = '__all__'
+        read_only_fields = ('container_category', 'parent_name',
+                            'welding_plate_idx', 'parent_plate_idx',
+                            'material_index', 'path', 'tech_requirement',
+                            'writer', 'write_dt', 'reviewer', 'review_dt',
+                            'proofreader', 'proofread_dt', 'approver',
+                            'approve_dt', 'file_index')
 
 
 class TransferCardListSerializer(serializers.ModelSerializer):
