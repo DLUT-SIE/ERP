@@ -292,6 +292,14 @@
 <td>str</td>
 <td>工作组</td>
 </tr>
+<tr class="row-odd"><td>user_info</td>
+<td>int</td>
+<td>用户info id</td>
+</tr>
+<tr class="row-even"><td>work_group</td>
+<td>int</td>
+<td>工作组id</td>
+</tr>
 </tbody>
 </table>
 </div></blockquote>
@@ -341,6 +349,14 @@
 <td>str</td>
 <td>工作组</td>
 </tr>
+<tr class="row-odd"><td>user_info</td>
+<td>int</td>
+<td>用户info id</td>
+</tr>
+<tr class="row-even"><td>work_group</td>
+<td>int</td>
+<td>工作组id</td>
+</tr>
 </tbody>
 </table>
 </div></blockquote>
@@ -389,6 +405,14 @@
 <tr class="row-even"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
+</tr>
+<tr class="row-odd"><td>user_info</td>
+<td>int</td>
+<td>用户info id</td>
+</tr>
+<tr class="row-even"><td>work_group</td>
+<td>int</td>
+<td>工作组id</td>
 </tr>
 </tbody>
 </table>
@@ -442,6 +466,14 @@
 <tr class="row-even"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
+</tr>
+<tr class="row-odd"><td>user_info</td>
+<td>int</td>
+<td>用户info id</td>
+</tr>
+<tr class="row-even"><td>work_group</td>
+<td>int</td>
+<td>工作组id</td>
 </tr>
 </tbody>
 </table>
@@ -1733,9 +1765,17 @@
 <td>datetime</td>
 <td>计划完成时间</td>
 </tr>
-<tr class="row-even"><td>work_group_name</td>
+<tr class="row-even"><td>work_group</td>
+<td>int</td>
+<td>工作组id</td>
+</tr>
+<tr class="row-odd"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
+</tr>
+<tr class="row-even"><td>select_work_groups</td>
+<td>list</td>
+<td>可选分配组</td>
 </tr>
 <tr class="row-odd"><td>actual_finish_dt</td>
 <td>datetime</td>
@@ -1744,6 +1784,10 @@
 <tr class="row-even"><td>inspection_dt</td>
 <td>datetime</td>
 <td>检查时间</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td>int</td>
+<td>状态</td>
 </tr>
 </tbody>
 </table>
@@ -1818,17 +1862,25 @@
 <td>datetime</td>
 <td>计划完成时间</td>
 </tr>
-<tr class="row-odd"><td>work_group_name</td>
+<tr class="row-odd"><td>work_group</td>
+<td>int</td>
+<td>工作组id</td>
+</tr>
+<tr class="row-even"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
 </tr>
-<tr class="row-even"><td>actual_finish_dt</td>
+<tr class="row-odd"><td>actual_finish_dt</td>
 <td>datetime</td>
 <td>确认时间</td>
 </tr>
-<tr class="row-odd"><td>remark</td>
+<tr class="row-even"><td>remark</td>
 <td>str</td>
 <td>检查内容</td>
+</tr>
+<tr class="row-odd"><td>inspector</td>
+<td>int</td>
+<td>检查者id</td>
 </tr>
 <tr class="row-even"><td>inspector_name</td>
 <td>str</td>
@@ -1837,6 +1889,10 @@
 <tr class="row-odd"><td>inspection_dt</td>
 <td>datetime</td>
 <td>检查时间</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
 </tr>
 </tbody>
 </table>
@@ -1911,17 +1967,25 @@
 <td>datetime</td>
 <td>计划完成时间</td>
 </tr>
-<tr class="row-odd"><td>work_group_name</td>
+<tr class="row-odd"><td>work_group</td>
+<td>int</td>
+<td>工作组id</td>
+</tr>
+<tr class="row-even"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
 </tr>
-<tr class="row-even"><td>actual_finish_dt</td>
+<tr class="row-odd"><td>actual_finish_dt</td>
 <td>datetime</td>
 <td>确认时间</td>
 </tr>
-<tr class="row-odd"><td>remark</td>
+<tr class="row-even"><td>remark</td>
 <td>str</td>
 <td>检查内容</td>
+</tr>
+<tr class="row-odd"><td>inspector</td>
+<td>int</td>
+<td>检查者id</td>
 </tr>
 <tr class="row-even"><td>inspector_name</td>
 <td>str</td>
@@ -1930,6 +1994,10 @@
 <tr class="row-odd"><td>inspection_dt</td>
 <td>datetime</td>
 <td>检查时间</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
 </tr>
 </tbody>
 </table>
@@ -1977,7 +2045,7 @@
 <td>工序详细信息id</td>
 </tr>
 <tr class="row-odd"><td>sub_material</td>
-<td>str</td>
+<td>int</td>
 <td>子工作票id</td>
 </tr>
 <tr class="row-even"><td>material_index</td>
@@ -2008,17 +2076,25 @@
 <td>datetime</td>
 <td>计划完成时间</td>
 </tr>
-<tr class="row-odd"><td>work_group_name</td>
+<tr class="row-odd"><td>work_group</td>
+<td>int</td>
+<td>工作组id</td>
+</tr>
+<tr class="row-even"><td>work_group_name</td>
 <td>str</td>
 <td>工作组</td>
 </tr>
-<tr class="row-even"><td>actual_finish_dt</td>
+<tr class="row-odd"><td>actual_finish_dt</td>
 <td>datetime</td>
 <td>确认时间</td>
 </tr>
-<tr class="row-odd"><td>remark</td>
+<tr class="row-even"><td>remark</td>
 <td>str</td>
 <td>检查内容</td>
+</tr>
+<tr class="row-odd"><td>inspector</td>
+<td>int</td>
+<td>检查者id</td>
 </tr>
 <tr class="row-even"><td>inspector_name</td>
 <td>str</td>
@@ -2027,6 +2103,10 @@
 <tr class="row-odd"><td>inspection_dt</td>
 <td>datetime</td>
 <td>检查时间</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td>int</td>
+<td>状态</td>
 </tr>
 </tbody>
 </table>
