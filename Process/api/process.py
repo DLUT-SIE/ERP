@@ -69,10 +69,10 @@ class TransferCardViewSet(viewsets.ModelViewSet):
         process_material = data['process_material']
         process_material = ProcessMaterial.objects.get(
             id=int(process_material))
-        count = TransferCard.objects\
-            .filter(category=int(data['category']),
-                    process_material__lib__work_order=process_material
-                    .lib.work_order).count()
+        work_order = process_material.lib.work_order
+        count = TransferCard.objects.filter(
+            category=int(data['category']),
+            process_material__lib__work_order=work_order).count()
         count += 1
         serializer.save(file_index=count,
                         process_material=process_material)

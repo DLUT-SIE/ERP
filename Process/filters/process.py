@@ -96,9 +96,11 @@ class CooperantItemFilter(filters.FilterSet):
 
 
 class AbstractQuotaFilter(filters.FilterSet):
-    work_order_uid = filters.CharFilter(name='lib__work_order__uid',
-                                        lookup_expr='exact')
-    category = filters.NumberFilter(name='category', lookup_expr='exact')
+    work_order_uid = filters.CharFilter(
+        name='quota_list__lib__work_order__uid',
+        lookup_expr='exact')
+    category = filters.NumberFilter(name='quota_list__category',
+                                    lookup_expr='exact')
 
     class Meta:
         model = None
@@ -110,8 +112,13 @@ class PrincipalQuotaItemFilter(AbstractQuotaFilter):
         model = PrincipalQuotaItem
 
 
-class QuotaListFilter(AbstractQuotaFilter):
-    class Meta(AbstractQuotaFilter.Meta):
+class QuotaListFilter(filters.FilterSet):
+    work_order_uid = filters.CharFilter(name='lib__work_order__uid',
+                                        lookup_expr='exact')
+    category = filters.NumberFilter(name='category', lookup_expr='exact')
+
+    class Meta:
+        fields = ('work_order_uid', 'category')
         model = QuotaList
 
 
@@ -134,11 +141,11 @@ class AuxiliaryQuotaItemFilter(AbstractQuotaFilter):
         model = AuxiliaryQuotaItem
 
 
-class WeldingSeamFilter(AbstractQuotaFilter):
+class WeldingSeamFilter(filters.FilterSet):
     work_order_uid = filters.CharFilter(
         name='process_material__lib__work_order__uid', lookup_expr='exact')
 
-    class Meta(AbstractQuotaFilter.Meta):
+    class Meta:
         model = WeldingSeam
         fields = ('work_order_uid',)
 

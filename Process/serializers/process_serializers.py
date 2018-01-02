@@ -136,6 +136,9 @@ class ProcessRouteSerializer(serializers.ModelSerializer):
 
 
 class TransferCardCreateSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='get_category_display',
+                                          read_only=True)
+
     def validate_process_material(self, value):
         if ProcessMaterial.objects.filter(id=value.id).exists():
             return value
@@ -149,7 +152,7 @@ class TransferCardCreateSerializer(serializers.ModelSerializer):
                             'material_index', 'path', 'tech_requirement',
                             'writer', 'write_dt', 'reviewer', 'review_dt',
                             'proofreader', 'proofread_dt', 'approver',
-                            'approve_dt', 'file_index')
+                            'approve_dt', 'file_index', 'category_name')
 
 
 class TransferCardListSerializer(serializers.ModelSerializer):
@@ -426,14 +429,17 @@ class WeldingSeamListSerializer(serializers.ModelSerializer):
         source='process_material.ticket_number')
     weld_method_1 = serializers.CharField(source='get_weld_method_1_display')
     weld_method_2 = serializers.CharField(source='get_weld_method_2_display')
+    weld_position_name = serializers.CharField(
+        source='get_weld_position_display', read_only=True)
+    weld_method_1_name = serializers.CharField(
+        source='get_weld_method_1_display', read_only=True)
+    weld_method_2_name = serializers.CharField(
+        source='get_weld_method_2_display', read_only=True)
     # TODO: 母材是否绑定材质表？
 
     class Meta:
         model = WeldingSeam
-        fields = ('id', 'drawing_number', 'uid', 'ticket_number', 'seam_type',
-                  'weld_method_1', 'weld_method_2', 'bm_thick_1', 'bm_thick_2',
-                  'length', 'wm_1', 'ws_1', 'weight_1', 'wm_2', 'ws_2',
-                  'weight_2', 'remark')
+        exclude = ('analysis',)
 
 
 class WeldingSeamSerializer(serializers.ModelSerializer):
