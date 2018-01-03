@@ -10,7 +10,6 @@ from .substitute import MaterialSubApply, MaterialSubApplyItems
 from .other import (ArrivalInspection, ProcessFollowingInfo,
                     StatusChange, Quotation)
 
-
 __all__ = [
     'ProcurementMaterial', 'PurchaseOrder',
     'BiddingSheet', 'BiddingApplication',

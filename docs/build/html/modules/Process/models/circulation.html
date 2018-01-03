@@ -250,9 +250,10 @@
 <span class="sd">    流转卡</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">file_index</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;文件编号&#39;</span><span class="p">)</span>
-    <span class="n">process_material</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ProcessMaterial</span><span class="p">,</span>
-                                         <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;工艺物料&#39;</span><span class="p">,</span>
-                                         <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="n">process_material</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">ProcessMaterial</span><span class="p">,</span>
+                                            <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;工艺物料&#39;</span><span class="p">,</span>
+                                            <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span>
+                                            <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;transfer_card&#39;</span><span class="p">)</span>
     <span class="n">category</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;流转卡类型&#39;</span><span class="p">,</span>
                                    <span class="n">choices</span><span class="o">=</span><span class="n">TRANSFER_CARD_CATEGORY_CHOICES</span><span class="p">)</span>
     <span class="n">container_category</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;容器类别&#39;</span><span class="p">,</span>

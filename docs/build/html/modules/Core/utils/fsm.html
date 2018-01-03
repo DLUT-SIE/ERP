@@ -231,7 +231,12 @@
 <span class="sd">        检查附件条件</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">conditions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="n">valid_conds_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                <span class="n">inst</span><span class="p">,</span> <span class="s1">&#39;valid_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">valid_conds_func</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conditions</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">valid_conds_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">conditions</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">valid_conds_func</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conditions</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conditions</span>
         <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conditions</span><span class="p">):</span>
@@ -279,13 +284,15 @@
 <span class="sd">    field</span>
 <span class="sd">        进行状态转移的字段名称</span>
 <span class="sd">    source</span>
-<span class="sd">        起始状态, 使用&#39;*&#39;表示任意状态</span>
+<span class="sd">        起始状态, 使用&#39;\*&#39;表示任意状态</span>
 <span class="sd">    target</span>
 <span class="sd">        目标状态, 完成对应操作后转入状态</span>
 <span class="sd">    conditions(可选)</span>
-<span class="sd">        进行该状态转移所需的额外条件, 默认跳过该检查, 若为&#39;bool&#39;类型, 则在检查\</span>
-<span class="sd">    时直接返回该值, 若为函数, 则在检查时接收一个参数&#39;request&#39;并返回其调用结果,\</span>
-<span class="sd">    否则不允许操作</span>
+<span class="sd">        进行该状态转移所需的额外条件, 若未设置, 则默认会查找\</span>
+<span class="sd">    `valid_+&lt;转移函数名&gt;` 的方法进行检查, 若不存在跳过该检查, 若为`str`类型,则\</span>
+<span class="sd">    在调用实例上查找同名函数并返回其调用结果, 若为&#39;bool&#39;类型, 则在检查时直接返\</span>
+<span class="sd">    回该值, 若为函数, 则在检查时接收实例变量`inst`以及&#39;request&#39;作为参数并返回\</span>
+<span class="sd">    其调用结果, 否则不允许操作</span>
 <span class="sd">    permission(可选)</span>
 <span class="sd">        进行该状态转移所需的权限, 默认跳过该检查, 若为&#39;bool&#39;类型，则在检查时直\</span>
 <span class="sd">    接返回该值, 若为&#39;str&#39;类型, 则根据&#39;user.has_perm&#39;进行判断, 若为函数, 则在检\</span>

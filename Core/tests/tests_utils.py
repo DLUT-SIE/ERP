@@ -65,6 +65,7 @@ class TransitionTest(TestCase):
         self.request.user = Mock(spec=User)
         self.request.user.has_perm.return_value = False
         self.inst = MagicMock()
+        self.inst.valid_method.return_value = True
         self.inst.field = 0
 
     def test_has_perm(self):
@@ -108,22 +109,24 @@ class TransitionTest(TestCase):
 
     def test_match_conds(self):
         # default
-        trans = Transition(None, 'field', None, None)
+        method = Mock()
+        method.__name__ = 'method'
+        trans = Transition(method, 'field', None, None)
         self.assertIs(trans._match_conds(self.inst, self.request), True)
 
         # bool
-        trans = Transition(None, 'field', None, None, conditions=False)
+        trans = Transition(method, 'field', None, None, conditions=False)
         self.assertIs(trans._match_conds(self.inst, self.request), False)
 
         # callable
         fake_cond_func = Mock()
         fake_cond_func.return_value = False
-        trans = Transition(None, 'field', None, None,
+        trans = Transition(method, 'field', None, None,
                            conditions=fake_cond_func)
         self.assertIs(trans._match_conds(self.inst, self.request), False)
 
         # others
-        trans = Transition(None, 'field', None, None, conditions=5)
+        trans = Transition(method, 'field', None, None, conditions=5)
         self.assertIs(trans._match_conds(self.inst, self.request), False)
 
     def test_call_raise_exception(self):

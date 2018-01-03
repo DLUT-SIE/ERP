@@ -15,6 +15,8 @@ class WeldingMaterialEntryViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.WeldingMaterialEntryListSerializer
+        elif self.action == 'create':
+            return serializers.WeldingMaterialEntryCreateSerializer
         else:
             return serializers.WeldingMaterialEntrySerializer
 
@@ -27,6 +29,8 @@ class SteelMaterialEntryViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.SteelMaterialEntryListSerializer
+        elif self.action == 'create':
+            return serializers.SteelMaterialEntryCreateSerializer
         else:
             return serializers.SteelMaterialEntrySerializer
 
@@ -39,6 +43,8 @@ class AuxiliaryMaterialEntryViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.AuxiliaryMaterialEntryListSerializer
+        elif self.action == 'create':
+            return serializers.AuxiliaryMaterialEntryCreateSerializer
         else:
             return serializers.AuxiliaryMaterialEntrySerializer
 
@@ -51,5 +57,7 @@ class BoughtInComponentEntryViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.BoughtInComponentEntryListSerializer
+        elif self.action == 'create':
+            return serializers.BoughtInComponentEntryCreateSerializer
         else:
             return serializers.BoughtInComponentEntrySerializer

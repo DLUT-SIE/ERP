@@ -17,6 +17,8 @@ class WeldingMaterialRefundCardViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.WeldingMaterialRefundCardListSerializer
+        elif self.action == 'create':
+            return serializers.WeldingMaterialRefundCardCreateSerializer
         else:
             return serializers.WeldingMaterialRefundCardSerializer
 
@@ -29,6 +31,8 @@ class SteelMaterialRefundCardViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.SteelMaterialRefundCardListSerializer
+        elif self.action == 'create':
+            return serializers.SteelMaterialRefundCardCreateSerializer
         else:
             return serializers.SteelMaterialRefundCardSerializer
 
@@ -41,5 +45,7 @@ class BoughtInComponentRefundCardViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.BoughtInComponentRefundCardListSerializer
+        elif self.action == 'create':
+            return serializers.BoughtInComponentRefundCardCreateSerializer
         else:
             return serializers.BoughtInComponentRefundCardSerializer

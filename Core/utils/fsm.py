@@ -59,7 +59,12 @@ class Transition:
         检查附件条件
         """
         if self.conditions is None:
-            return True
+            valid_conds_func = getattr(
+                inst, 'valid_{}'.format(self.method.__name__), lambda x: True)
+            return valid_conds_func(request)
+        elif isinstance(self.conditions, str):
+            valid_conds_func = getattr(inst, self.conditions, lambda x: True)
+            return valid_conds_func(request)
         elif isinstance(self.conditions, bool):
             return self.conditions
         elif callable(self.conditions):
@@ -107,13 +112,15 @@ def transition(field, source, target, conditions=None,
     field
         进行状态转移的字段名称
     source
-        起始状态, 使用'*'表示任意状态
+        起始状态, 使用'\*'表示任意状态
     target
         目标状态, 完成对应操作后转入状态
     conditions(可选)
-        进行该状态转移所需的额外条件, 默认跳过该检查, 若为'bool'类型, 则在检查\
-    时直接返回该值, 若为函数, 则在检查时接收一个参数'request'并返回其调用结果,\
-    否则不允许操作
+        进行该状态转移所需的额外条件, 若未设置, 则默认会查找\
+    `valid_+<转移函数名>` 的方法进行检查, 若不存在跳过该检查, 若为`str`类型,则\
+    在调用实例上查找同名函数并返回其调用结果, 若为'bool'类型, 则在检查时直接返\
+    回该值, 若为函数, 则在检查时接收实例变量`inst`以及'request'作为参数并返回\
+    其调用结果, 否则不允许操作
     permission(可选)
         进行该状态转移所需的权限, 默认跳过该检查, 若为'bool'类型，则在检查时直\
     接返回该值, 若为'str'类型, 则根据'user.has_perm'进行判断, 若为函数, 则在检\

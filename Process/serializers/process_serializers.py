@@ -6,7 +6,8 @@ from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
     ProcessStep, TransferCard, TransferCardProcess, BoughtInItem, QuotaList,
     FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem,
-    WeldingQuotaItem, Material)
+    WeldingQuotaItem, Material, AuxiliaryQuotaItem, WeldingSeam,
+    TotalWeldingMaterial, WeldingMaterial, FluxMaterial)
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
@@ -46,6 +47,9 @@ class ProcessLibrarySerializer(serializers.ModelSerializer):
 class ProcessMaterialSerializer(serializers.ModelSerializer):
     total_weight = serializers.SerializerMethodField()
     material = serializers.CharField(source='material.name')
+    transfer_card_id = serializers.IntegerField(source='transfer_card.id')
+    transfer_card_name = serializers.CharField(
+        source='transfer_card.get_category_display')
 
     class Meta:
         model = ProcessMaterial
@@ -58,7 +62,7 @@ class ProcessMaterialSerializer(serializers.ModelSerializer):
 
 
 class CirculationRouteSerializer(serializers.ModelSerializer):
-    circulation_routes = serializers.SerializerMethodField()
+    circulation_routes = serializers.SerializerMethodField(allow_null=True)
 
     class Meta:
         model = CirculationRoute
@@ -77,6 +81,7 @@ class CirculationRouteSerializer(serializers.ModelSerializer):
         circulation_routes = validated_data['circulation_routes']
         circulation_routes = [circulation_routes] if isinstance(
             circulation_routes, int) else circulation_routes
+        circulation_routes = list(circulation_routes)
         circulation_routes.extend([None] * (10 - len(circulation_routes)))
         for index, item in enumerate(circulation_routes):
             setattr(instance, 'C{}'.format(index + 1), item)
@@ -84,6 +89,9 @@ class CirculationRouteSerializer(serializers.ModelSerializer):
         return instance
 
     def validate(self, attrs):
+        viewset = self.context['view']
+        if viewset.action not in ['update', 'partial_update']:
+            return attrs
         data = self.context['request'].data
         if 'circulation_routes' not in data:
             raise serializers.ValidationError("流转路线为空")
@@ -125,6 +133,26 @@ class ProcessRouteSerializer(serializers.ModelSerializer):
         attrs['process_steps'] = ast.literal_eval(
             data['process_steps'])
         return attrs
+
+
+class TransferCardCreateSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='get_category_display',
+                                          read_only=True)
+
+    def validate_process_material(self, value):
+        if ProcessMaterial.objects.filter(id=value.id).exists():
+            return value
+        raise serializers.ValidationError("请传入正确的工艺物料")
+
+    class Meta:
+        model = TransferCard
+        fields = '__all__'
+        read_only_fields = ('container_category', 'parent_name',
+                            'welding_plate_idx', 'parent_plate_idx',
+                            'material_index', 'path', 'tech_requirement',
+                            'writer', 'write_dt', 'reviewer', 'review_dt',
+                            'proofreader', 'proofread_dt', 'approver',
+                            'approve_dt', 'file_index', 'category_name')
 
 
 class TransferCardListSerializer(serializers.ModelSerializer):
@@ -224,9 +252,7 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
         if viewset.action in ['update', 'partial_update']:
             return attrs
         ticket_number = attrs['process_material']['ticket_number']
-        work_order_uid = attrs['process_material']
-        work_order_uid = work_order_uid['lib']['work_order']['uid']
-        quota_list = attrs['quota_list']
+        work_order_uid = attrs['quota_list'].lib.work_order.uid
         attrs['uid'] = work_order_uid
         attrs['ticket_number'] = ticket_number
         process_material = ProcessMaterial.objects.filter(
@@ -238,8 +264,7 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
             process_material = process_material[0]
 
         if self.Meta.model.objects.filter(
-                quota_list=quota_list,
-                process_material=process_material).count():
+                process_material=process_material).exists():
             raise serializers.ValidationError("该条物料已经添加")
         return attrs
 
@@ -247,8 +272,6 @@ class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
 class AbstractQuotaItemUpdateSerializer(AbstractQuotaItemSerializer):
     ticket_number = serializers.IntegerField(
         source='process_material.ticket_number', read_only=True)
-    work_order_uid = serializers.CharField(
-        source='process_material.lib.work_order.uid', read_only=True)
 
 
 class FirstFeedingItemSerializer(AbstractQuotaItemSerializer):
@@ -318,11 +341,13 @@ class PrincipalQuotaItemCreateSerializer(PrincipalQuotaItemSerializer):
                   'quota_list')
 
     def get_total_weight(self, obj):
-        return obj.count * obj.weight
+        if obj.weight:
+            return obj.count * obj.weight
+        return 0
 
 
 class WeldingQuotaItemSerializer(serializers.ModelSerializer):
-    category = serializers.CharField(source='get_category_display',
+    category = serializers.CharField(source='material.get_category_display',
                                      read_only=True)
     material_name = serializers.CharField(source='material.name',
                                           read_only=True)
@@ -344,4 +369,108 @@ class MaterialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Material
+        fields = '__all__'
+
+
+class AuxiliaryQuotaItemListSerializer(AbstractQuotaItemSerializer):
+    parent_drawing_number = serializers.CharField(
+        source='process_material.parent_drawing_number', read_only=True)
+    spec = serializers.CharField(source='process_material.spec',
+                                 read_only=True)
+    press_mark = serializers.CharField(source='process_material.remark',
+                                       read_only=True)
+    use_ratio = serializers.SerializerMethodField(read_only=True)
+
+    def get_use_ratio(self, obj):
+        if obj.process_material.piece_weight and obj.quota:
+            return obj.quota / obj.process_material.piece_weight * 100
+        return 0
+
+    class Meta(AbstractQuotaItemSerializer.Meta):
+        model = AuxiliaryQuotaItem
+
+        # TODO: 毛重属性绑定有问题
+        fields = ('id', 'ticket_number', 'parent_drawing_number',
+                  'drawing_number', 'category', 'material', 'spec', 'count',
+                  'piece_weight', 'total_weight', 'quota', 'use_ratio',
+                  'press_mark')
+
+
+class AuxiliaryQuotaItemSerializer(AuxiliaryQuotaItemListSerializer):
+    name = serializers.CharField(source='process_material.name',
+                                 read_only=True)
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number', read_only=True)
+
+    class Meta(AuxiliaryQuotaItemListSerializer.Meta):
+        fields = ('id', 'ticket_number', 'drawing_number', 'name',
+                  'press_mark', 'material', 'count', 'piece_weight',
+                  'total_weight', 'spec', 'quota_coef', 'quota',
+                  'stardard_code', 'remark', 'category')
+
+
+class AuxiliaryQuotaItemCreateSerializer(AuxiliaryQuotaItemSerializer):
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number')
+
+    class Meta(AuxiliaryQuotaItemSerializer.Meta):
+        fields = ('id', 'ticket_number', 'drawing_number', 'name',
+                  'press_mark', 'material', 'count', 'piece_weight',
+                  'total_weight', 'spec', 'quota_coef', 'quota',
+                  'stardard_code', 'remark', 'category', 'quota_list')
+        read_only_fields = ('quota_coef', 'quota', 'stardard_code', 'remark',
+                            'category')
+
+
+class WeldingSeamListSerializer(serializers.ModelSerializer):
+    drawing_number = serializers.CharField(
+        source='process_material.drawing_number')
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number')
+    weld_method_1 = serializers.CharField(source='get_weld_method_1_display')
+    weld_method_2 = serializers.CharField(source='get_weld_method_2_display')
+    weld_position_name = serializers.CharField(
+        source='get_weld_position_display', read_only=True)
+    weld_method_1_name = serializers.CharField(
+        source='get_weld_method_1_display', read_only=True)
+    weld_method_2_name = serializers.CharField(
+        source='get_weld_method_2_display', read_only=True)
+    # TODO: 母材是否绑定材质表？
+
+    class Meta:
+        model = WeldingSeam
+        exclude = ('analysis',)
+
+
+class WeldingSeamSerializer(serializers.ModelSerializer):
+    weld_position_name = serializers.CharField(
+        source='get_weld_position_display', read_only=True)
+    weld_method_1_name = serializers.CharField(
+        source='get_weld_method_1_display', read_only=True)
+    weld_method_2_name = serializers.CharField(
+        source='get_weld_method_2_display', read_only=True)
+
+    class Meta:
+        model = WeldingSeam
+        fields = '__all__'
+
+
+class TotalWeldingMaterialSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TotalWeldingMaterial
+        fields = '__all__'
+
+
+class WeldingMaterialSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WeldingMaterial
+        fields = '__all__'
+
+
+class FluxMaterialSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FluxMaterial
         fields = '__all__'

@@ -188,6 +188,10 @@
     <span class="n">SteelMaterialInventoryDetail</span><span class="p">,</span>
     <span class="n">AuxiliaryMaterialInventoryDetail</span><span class="p">,</span>
     <span class="n">BoughtInComponentInventoryDetail</span><span class="p">,</span>
+    <span class="n">WeldingMaterialEntryDetail</span><span class="p">,</span>
+    <span class="n">SteelMaterialEntryDetail</span><span class="p">,</span>
+    <span class="n">AuxiliaryMaterialEntryDetail</span><span class="p">,</span>
+    <span class="n">BoughtInComponentEntryDetail</span><span class="p">,</span>
 <span class="p">)</span>
 
 
@@ -258,11 +262,34 @@
             <span class="n">inventory_details</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inventory_detail</span><span class="p">)</span>
         <span class="n">InventoryDetailClass</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">bulk_create</span><span class="p">(</span><span class="n">inventory_details</span><span class="p">)</span>
 
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create_entry</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bidding_sheet</span><span class="p">,</span> <span class="n">inspections</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        根据表单获取相关上下文, 根据到货检验创建入库单信息</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">bidding_sheet</span><span class="o">=</span><span class="n">bidding_sheet</span><span class="p">,</span>
+            <span class="n">source</span><span class="o">=</span><span class="n">bidding_sheet</span><span class="o">.</span><span class="n">biddingacceptance</span><span class="o">.</span><span class="n">accept_supplier</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">entry</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">details</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">inspection</span> <span class="ow">in</span> <span class="n">inspections</span><span class="p">:</span>
+            <span class="n">procurement_material</span> <span class="o">=</span> <span class="n">inspection</span><span class="o">.</span><span class="n">material</span>
+            <span class="n">detail</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">entry_detail_cls</span><span class="p">(</span>
+                <span class="n">entry</span><span class="o">=</span><span class="n">entry</span><span class="p">,</span>
+                <span class="n">procurement_material</span><span class="o">=</span><span class="n">procurement_material</span><span class="p">,</span>
+                <span class="n">weight</span><span class="o">=</span><span class="n">procurement_material</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                <span class="n">count</span><span class="o">=</span><span class="n">procurement_material</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+            <span class="n">details</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detail</span><span class="p">)</span>
+            <span class="n">inspection</span><span class="o">.</span><span class="n">entry_confirm</span><span class="p">()</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">entry_detail_cls</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">bulk_create</span><span class="p">(</span><span class="n">details</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="WeldingMaterialEntry"><a class="viewcode-back" href="../../../Inventory/models.html#Inventory.models.WeldingMaterialEntry">[文档]</a><span class="k">class</span> <span class="nc">WeldingMaterialEntry</span><span class="p">(</span><span class="n">AbstractEntry</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    焊材入库单</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">entry_detail_cls</span> <span class="o">=</span> <span class="n">WeldingMaterialEntryDetail</span>
+
     <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
                 <span class="n">source</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_KEEPER</span><span class="p">,</span>
                 <span class="n">target</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_END</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;库管确认&#39;</span><span class="p">)</span>
@@ -291,6 +318,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    钢材入库单</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">entry_detail_cls</span> <span class="o">=</span> <span class="n">SteelMaterialEntryDetail</span>
     <span class="c1"># TODO: Maybe move this to Detail would be more reasonable</span>
     <span class="n">steel_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;材料类型&#39;</span><span class="p">,</span>
                                      <span class="n">choices</span><span class="o">=</span><span class="n">STEEL_TYPES</span><span class="p">)</span>
@@ -316,6 +344,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    辅材入库单</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">entry_detail_cls</span> <span class="o">=</span> <span class="n">AuxiliaryMaterialEntryDetail</span>
 
     <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
                 <span class="n">source</span><span class="o">=</span><span class="n">ENTRYSTATUS_CHOICES_KEEPER</span><span class="p">,</span>
@@ -338,6 +367,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    外购件入库单</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">entry_detail_cls</span> <span class="o">=</span> <span class="n">BoughtInComponentEntryDetail</span>
+
     <span class="n">category</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;外购件类型&#39;</span><span class="p">,</span>
                                    <span class="n">choices</span><span class="o">=</span><span class="n">BOUGHTIN_COMPONENT_CHOICES</span><span class="p">)</span>
 

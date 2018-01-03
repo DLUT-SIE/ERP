@@ -1,9 +1,13 @@
 from rest_framework import serializers
 
-from Production.models import ProcessDetail, SubMaterial
+from Core.utils.fsm import TransitionSerializerMixin
+from Production.models import (ProcessDetail,
+                               SubMaterial,
+                               ProductionWorkGroup)
 
 
-class ProcessDetailSerializer(serializers.ModelSerializer):
+class ProcessDetailSerializer(TransitionSerializerMixin,
+                              serializers.ModelSerializer):
     material_index = serializers.CharField(
         source='sub_material.material.ticket_number', read_only=True)
     work_order_uid = serializers.CharField(source='sub_material.sub_order',
@@ -15,9 +19,9 @@ class ProcessDetailSerializer(serializers.ModelSerializer):
     work_hour = serializers.FloatField(source='process_step.man_hours',
                                        read_only=True)
     work_group_name = serializers.CharField(source='work_group.name',
-                                            read_only=True)
+                                            allow_null=True, read_only=True)
     inspector_name = serializers.CharField(source='inspector.username',
-                                           read_only=True)
+                                           allow_null=True, read_only=True)
 
     class Meta:
         model = ProcessDetail
@@ -25,7 +29,7 @@ class ProcessDetailSerializer(serializers.ModelSerializer):
                   'process_step', 'process_id', 'process_name', 'work_hour',
                   'estimated_start_dt', 'estimated_finish_dt', 'work_group',
                   'work_group_name', 'actual_finish_dt', 'remark',
-                  'inspector', 'inspector_name', 'inspection_dt')
+                  'inspector', 'inspector_name', 'inspection_dt', 'status')
 
 
 class ProcessDetailCreateSerializer(ProcessDetailSerializer):
@@ -36,22 +40,32 @@ class ProcessDetailCreateSerializer(ProcessDetailSerializer):
 
 
 class ProcessDetailListSerializer(ProcessDetailSerializer):
+    select_work_groups = serializers.SerializerMethodField()
+
     class Meta(ProcessDetailSerializer.Meta):
         fields = ('id', 'material_index', 'work_order_uid', 'process_id',
                   'process_name', 'work_hour', 'estimated_start_dt',
-                  'estimated_finish_dt', 'work_group_name', 'actual_finish_dt',
-                  'inspection_dt')
+                  'estimated_finish_dt', 'work_group', 'work_group_name',
+                  'select_work_groups', 'actual_finish_dt', 'inspection_dt',
+                  'status')
+
+    def get_select_work_groups(self, obj):
+        work_groups = ProductionWorkGroup.objects.filter(
+            process=obj.process_step.step).values('id', 'name')
+        return work_groups
 
 
 class ProcessDetailSimpleSerializer(ProcessDetailSerializer):
     class Meta(ProcessDetailSerializer.Meta):
-        read_only_fields = ('sub_material', 'process_step')
+        read_only_fields = ('sub_material', 'process_step', 'actual_finish_dt',
+                            'inspector', 'inspection_dt')
 
 
 class SubMaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubMaterial
-        fields = '__all__'
+        fields = ('id', 'material', 'sub_order',
+                  'estimated_finish_dt', 'actual_finish_dt')
         read_only_fields = ('material', 'sub_order')
 
 

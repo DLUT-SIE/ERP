@@ -1,10 +1,13 @@
 from django_filters import rest_framework as filters
 
+from Core.models import WorkOrder
 from Process import MATERIAL_CATEGORY_CHOICES
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute, Material,
     TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
-    CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem)
+    CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem,
+    AuxiliaryQuotaItem, WeldingSeam, TotalWeldingMaterial, WeldingMaterial,
+    FluxMaterial)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -44,13 +47,13 @@ class ProcessRouteFilter(filters.FilterSet):
 
 
 class TransferCardFilter(filters.FilterSet):
-    worker_order_uid = filters.CharFilter(
+    work_order_uid = filters.CharFilter(
         name='process_material__lib__work_order__uid',
         lookup_expr='exact')
 
     class Meta:
         model = TransferCard
-        fields = ('worker_order_uid',)
+        fields = ('work_order_uid',)
 
 
 class TransferCardProcessFilter(filters.FilterSet):
@@ -63,43 +66,45 @@ class TransferCardProcessFilter(filters.FilterSet):
 
 
 class BoughtInItemFilter(filters.FilterSet):
-    worker_order_uid = filters.CharFilter(
+    work_order_uid = filters.CharFilter(
         name='process_material__lib__work_order__uid',
         lookup_expr='exact')
 
     class Meta:
         model = BoughtInItem
-        fields = ('worker_order_uid',)
+        fields = ('work_order_uid',)
 
 
 class FirstFeedingItemFilter(filters.FilterSet):
-    worker_order_uid = filters.CharFilter(
+    work_order_uid = filters.CharFilter(
         name='process_material__lib__work_order__uid',
         lookup_expr='exact')
 
     class Meta:
         model = FirstFeedingItem
-        fields = ('worker_order_uid',)
+        fields = ('work_order_uid',)
 
 
 class CooperantItemFilter(filters.FilterSet):
-    worker_order_uid = filters.CharFilter(
+    work_order_uid = filters.CharFilter(
         name='process_material__lib__work_order__uid',
         lookup_expr='exact')
 
     class Meta:
         model = CooperantItem
-        fields = ('worker_order_uid',)
+        fields = ('work_order_uid',)
 
 
 class AbstractQuotaFilter(filters.FilterSet):
-    worker_order_uid = filters.CharFilter(name='lib__work_order__uid',
-                                          lookup_expr='exact')
-    category = filters.NumberFilter(name='category', lookup_expr='exact')
+    work_order_uid = filters.CharFilter(
+        name='quota_list__lib__work_order__uid',
+        lookup_expr='exact')
+    category = filters.NumberFilter(name='quota_list__category',
+                                    lookup_expr='exact')
 
     class Meta:
         model = None
-        fields = ('worker_order_uid', 'category')
+        fields = ('work_order_uid', 'category')
 
 
 class PrincipalQuotaItemFilter(AbstractQuotaFilter):
@@ -107,8 +112,13 @@ class PrincipalQuotaItemFilter(AbstractQuotaFilter):
         model = PrincipalQuotaItem
 
 
-class QuotaListFilter(AbstractQuotaFilter):
-    class Meta(AbstractQuotaFilter.Meta):
+class QuotaListFilter(filters.FilterSet):
+    work_order_uid = filters.CharFilter(name='lib__work_order__uid',
+                                        lookup_expr='exact')
+    category = filters.NumberFilter(name='category', lookup_expr='exact')
+
+    class Meta:
+        fields = ('work_order_uid', 'category')
         model = QuotaList
 
 
@@ -124,3 +134,46 @@ class MaterialFilter(filters.FilterSet):
     class Meta:
         model = Material
         fields = ('category',)
+
+
+class AuxiliaryQuotaItemFilter(AbstractQuotaFilter):
+    class Meta(AbstractQuotaFilter.Meta):
+        model = AuxiliaryQuotaItem
+
+
+class WeldingSeamFilter(filters.FilterSet):
+    work_order_uid = filters.CharFilter(
+        name='process_material__lib__work_order__uid', lookup_expr='exact')
+
+    class Meta:
+        model = WeldingSeam
+        fields = ('work_order_uid',)
+
+
+class TotalWeldingMaterialFilter(filters.FilterSet):
+    work_order_uid = filters.CharFilter(method='filter_work_order')
+
+    class Meta(AbstractQuotaFilter.Meta):
+        model = TotalWeldingMaterial
+        fields = ('work_order_uid',)
+
+    def filter_work_order(self, queryset, name, value):
+        work_order = WorkOrder.objects.filter(uid=value)
+        if not work_order:
+            return self.Meta.model.objects.none()
+        process_materials = ProcessMaterial.objects.filter(
+            lib__work_order=work_order[0])
+        return self.Meta.model.objects.filter(
+            process_materials__in=process_materials)
+
+
+class WeldingMaterialFilter(TotalWeldingMaterialFilter):
+
+    class Meta(TotalWeldingMaterialFilter.Meta):
+        model = WeldingMaterial
+
+
+class FluxMaterialFilter(TotalWeldingMaterialFilter):
+
+    class Meta(TotalWeldingMaterialFilter.Meta):
+        model = FluxMaterial

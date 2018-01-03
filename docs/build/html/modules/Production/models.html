@@ -178,6 +178,14 @@
 <span class="kn">from</span> <span class="nn">Process.models</span> <span class="k">import</span> <span class="n">ProcessMaterial</span><span class="p">,</span> <span class="n">ProcessStep</span>
 <span class="kn">from</span> <span class="nn">Production</span> <span class="k">import</span> <span class="p">(</span><span class="n">PRODUCTION_PLAN_STATUS_CHOICES</span><span class="p">,</span>
                         <span class="n">PRODUCTION_PLAN_RELAX</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">Core.utils.fsm</span> <span class="k">import</span> <span class="n">transition</span><span class="p">,</span> <span class="n">TransitionMeta</span>
+<span class="kn">from</span> <span class="nn">Production</span> <span class="k">import</span> <span class="p">(</span><span class="n">PROCESS_STATUS_CHOICES</span><span class="p">,</span>
+                        <span class="n">PROCESS_STATUS_NEW</span><span class="p">,</span>
+                        <span class="n">PROCESS_STATUS_PLANED</span><span class="p">,</span>
+                        <span class="n">PROCESS_STATUS_ALLOCATED</span><span class="p">,</span>
+                        <span class="n">PROCESS_STATUS_CONFIRMED</span><span class="p">,</span>
+                        <span class="n">PROCESS_STATUS_CHECKED</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
 
 
 <span class="c1"># TODO: Review model name</span>
@@ -189,9 +197,9 @@
                                  <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
     <span class="n">sub_order</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">SubWorkOrder</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;子工作令&#39;</span><span class="p">,</span>
                                   <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
-    <span class="n">estimated_finish_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;计划完成日期&#39;</span><span class="p">,</span>
+    <span class="n">estimated_finish_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;计划完成时间&#39;</span><span class="p">,</span>
                                                <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">actual_finish_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;实际完成日期&#39;</span><span class="p">,</span>
+    <span class="n">actual_finish_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;实际完成时间&#39;</span><span class="p">,</span>
                                             <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
@@ -237,24 +245,24 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_info</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ProcessDetail"><a class="viewcode-back" href="../../Production/models.html#Production.models.ProcessDetail">[文档]</a><span class="k">class</span> <span class="nc">ProcessDetail</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="ProcessDetail"><a class="viewcode-back" href="../../Production/models.html#Production.models.ProcessDetail">[文档]</a><span class="k">class</span> <span class="nc">ProcessDetail</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">TransitionMeta</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    工序详细信息</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sub_material</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">SubMaterial</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;子工作票&#39;</span><span class="p">,</span>
                                      <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
-    <span class="n">process_step</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">ProcessStep</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;工序步骤&#39;</span><span class="p">,</span>
-                                        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="n">process_step</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ProcessStep</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;工序步骤&#39;</span><span class="p">,</span>
+                                     <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
     <span class="n">work_group</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ProductionWorkGroup</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;工作组&#39;</span><span class="p">,</span>
                                    <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                    <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">)</span>
     <span class="c1"># *IMPORTANT*</span>
     <span class="c1"># TODO: estimated should be changed if &#39;Plan&#39; is noun and not verb</span>
-    <span class="n">estimated_start_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;计划开始日期&#39;</span><span class="p">,</span>
+    <span class="n">estimated_start_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;计划开始时间&#39;</span><span class="p">,</span>
                                               <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">estimated_finish_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;计划完成日期&#39;</span><span class="p">,</span>
+    <span class="n">estimated_finish_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;计划完成时间&#39;</span><span class="p">,</span>
                                                <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">actual_finish_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;实际完成日期&#39;</span><span class="p">,</span>
+    <span class="n">actual_finish_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;实际完成时间&#39;</span><span class="p">,</span>
                                             <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># plan_startdate = models.DateTimeField(</span>
     <span class="c1">#     blank = True, null= True, verbose_name = u&quot;计划开始时间&quot;)</span>
@@ -270,6 +278,9 @@
                                          <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">remark</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;检查内容&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
                               <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;工序详细信息状态&#39;</span><span class="p">,</span>
+                                 <span class="n">choices</span><span class="o">=</span><span class="n">PROCESS_STATUS_CHOICES</span><span class="p">,</span>
+                                 <span class="n">default</span><span class="o">=</span><span class="n">PROCESS_STATUS_NEW</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="s1">&#39;工序详细信息&#39;</span>
@@ -278,7 +289,56 @@
         <span class="n">unique_together</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;sub_material&#39;</span><span class="p">,</span> <span class="s1">&#39;process_step&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_material</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_step</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_material</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_step</span><span class="p">)</span>
+
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">PROCESS_STATUS_NEW</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">PROCESS_STATUS_PLANED</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">plan_confim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">valid_allocation_confim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">estimated_start_dt</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">estimated_finish_dt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">PROCESS_STATUS_PLANED</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">PROCESS_STATUS_ALLOCATED</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">allocation_confim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">PROCESS_STATUS_ALLOCATED</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">PROCESS_STATUS_PLANED</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">allocation_recall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">work_group</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">valid_work_group_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">work_group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">PROCESS_STATUS_ALLOCATED</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">PROCESS_STATUS_CONFIRMED</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;生产完成确认&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">work_group_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_finish_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">valid_inspector_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">actual_finish_dt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@transition</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="s1">&#39;status&#39;</span><span class="p">,</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">PROCESS_STATUS_CONFIRMED</span><span class="p">,</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">PROCESS_STATUS_CHECKED</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;检查确认&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">inspector_confirm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspection_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span></div>
 
 
 <div class="viewcode-block" id="ComprehensiveDepartmentFileList"><a class="viewcode-back" href="../../Production/models.html#Production.models.ComprehensiveDepartmentFileList">[文档]</a><span class="k">class</span> <span class="nc">ComprehensiveDepartmentFileList</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -316,6 +376,8 @@
                                  <span class="n">choices</span><span class="o">=</span><span class="n">PRODUCTION_PLAN_STATUS_CHOICES</span><span class="p">,</span>
                                  <span class="n">default</span><span class="o">=</span><span class="n">PRODUCTION_PLAN_RELAX</span><span class="p">)</span>
     <span class="n">plan_dt</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;计划年月&#39;</span><span class="p">)</span>
+    <span class="n">remark</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;备注&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="s1">&#39;生产计划&#39;</span>

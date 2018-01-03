@@ -1,4 +1,6 @@
-from .process_library import Material, ProcessLibrary, ProcessMaterial
+from .process_library import (
+    Material, ProcessLibrary, ProcessMaterial, WeldingMaterial, FluxMaterial,
+    TotalWeldingMaterial)
 from .circulation import (ProcessRoute, CirculationRoute, TransferCard,
                           TransferCardProcess, ProcessStep)
 from .others import ProcessReview, ProgrammingBlankingChart
@@ -20,4 +22,5 @@ __all__ = [
     'WeldingProcessSpecification', 'WeldingCertification',
     'WeldingJointProcessAnalysis', 'WeldingSeam', 'WeldingWorkInstruction',
     'WeldingWorkInstructionProcess', 'WeldingWorkInstructionExamination',
-    'WeldingLayerCard', 'AbstractQuotaItem']
+    'WeldingLayerCard', 'AbstractQuotaItem', 'WeldingMaterial', 'FluxMaterial',
+    'TotalWeldingMaterial']

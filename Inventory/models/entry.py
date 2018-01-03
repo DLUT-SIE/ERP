@@ -16,6 +16,10 @@ from Inventory.models import (
     SteelMaterialInventoryDetail,
     AuxiliaryMaterialInventoryDetail,
     BoughtInComponentInventoryDetail,
+    WeldingMaterialEntryDetail,
+    SteelMaterialEntryDetail,
+    AuxiliaryMaterialEntryDetail,
+    BoughtInComponentEntryDetail,
 )
 
 
@@ -86,11 +90,34 @@ class AbstractEntry(models.Model, metaclass=TransitionMeta):
             inventory_details.append(inventory_detail)
         InventoryDetailClass.objects.bulk_create(inventory_details)
 
+    @classmethod
+    def create_entry(cls, bidding_sheet, inspections):
+        """
+        根据表单获取相关上下文, 根据到货检验创建入库单信息
+        """
+        entry = cls(
+            bidding_sheet=bidding_sheet,
+            source=bidding_sheet.biddingacceptance.accept_supplier.name)
+        entry.save()
+        details = []
+        for inspection in inspections:
+            procurement_material = inspection.material
+            detail = cls.entry_detail_cls(
+                entry=entry,
+                procurement_material=procurement_material,
+                weight=procurement_material.weight,
+                count=procurement_material.count)
+            details.append(detail)
+            inspection.entry_confirm()
+        cls.entry_detail_cls.objects.bulk_create(details)
+
 
 class WeldingMaterialEntry(AbstractEntry):
     """
     焊材入库单
     """
+    entry_detail_cls = WeldingMaterialEntryDetail
+
     @transition(field='status',
                 source=ENTRYSTATUS_CHOICES_KEEPER,
                 target=ENTRYSTATUS_CHOICES_END, name='库管确认')
@@ -119,6 +146,7 @@ class SteelMaterialEntry(AbstractEntry):
     """
     钢材入库单
     """
+    entry_detail_cls = SteelMaterialEntryDetail
     # TODO: Maybe move this to Detail would be more reasonable
     steel_type = models.IntegerField(verbose_name='材料类型',
                                      choices=STEEL_TYPES)
@@ -144,6 +172,7 @@ class AuxiliaryMaterialEntry(AbstractEntry):
     """
     辅材入库单
     """
+    entry_detail_cls = AuxiliaryMaterialEntryDetail
 
     @transition(field='status',
                 source=ENTRYSTATUS_CHOICES_KEEPER,
@@ -166,6 +195,8 @@ class BoughtInComponentEntry(AbstractEntry):
     """
     外购件入库单
     """
+    entry_detail_cls = BoughtInComponentEntryDetail
+
     category = models.IntegerField(verbose_name='外购件类型',
                                    choices=BOUGHTIN_COMPONENT_CHOICES)
 

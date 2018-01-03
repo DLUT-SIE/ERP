@@ -21,7 +21,7 @@ class ManHourMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProcessDetail
-        fields = ('sub_order', 'ticket_number', 'work_group',
+        fields = ('id', 'sub_order', 'ticket_number', 'work_group',
                   'step', 'man_hours', 'writer', 'quota_clerk',
                   'actual_finish_dt')
-        read_only_fields = ('work_group', 'actual_finish_dt')
+        read_only_fields = ('id', 'work_group', 'actual_finish_dt')

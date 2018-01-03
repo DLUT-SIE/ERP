@@ -175,6 +175,7 @@
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
@@ -198,12 +199,26 @@
 </li>
       <li><a href="Messaging/models.html#Messaging.models.Announcement">Announcement (Messaging.models 中的类)</a>
 </li>
+      <li><a href="Inventory/models.html#Inventory.models.BoughtInComponentRefundCard.apply_cls">apply_cls (Inventory.models.BoughtInComponentRefundCard 属性)</a>
+
+      <ul>
+        <li><a href="Inventory/models.html#Inventory.models.SteelMaterialRefundCard.apply_cls">(Inventory.models.SteelMaterialRefundCard 属性)</a>
+</li>
+        <li><a href="Inventory/models.html#Inventory.models.WeldingMaterialRefundCard.apply_cls">(Inventory.models.WeldingMaterialRefundCard 属性)</a>
+</li>
+      </ul></li>
+      <li><a href="Inventory/models.html#Inventory.models.BoughtInComponentApplyCard.apply_detail_cls">apply_detail_cls (Inventory.models.BoughtInComponentApplyCard 属性)</a>
+
+      <ul>
+        <li><a href="Inventory/models.html#Inventory.models.SteelMaterialApplyCard.apply_detail_cls">(Inventory.models.SteelMaterialApplyCard 属性)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Procurement/models.html#Procurement.models.ArrivalInspection">ArrivalInspection (Procurement.models 中的类)</a>
 </li>
       <li><a href="Inventory/models.html#Inventory.models.AuxiliaryMaterialApplyCard">AuxiliaryMaterialApplyCard (Inventory.models 中的类)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Inventory/models.html#Inventory.models.AuxiliaryMaterialEntry">AuxiliaryMaterialEntry (Inventory.models 中的类)</a>
 </li>
       <li><a href="Inventory/models.html#Inventory.models.AuxiliaryMaterialEntryDetail">AuxiliaryMaterialEntryDetail (Inventory.models 中的类)</a>
@@ -286,6 +301,8 @@
 </li>
       <li><a href="Core/models.html#Core.models.Department">Department (Core.models 中的类)</a>
 </li>
+      <li><a href="Inventory/models.html#Inventory.models.BoughtInComponentRefundCard.detail_cls">detail_cls (Inventory.models.BoughtInComponentRefundCard 属性)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Core/base_views.html#Core.views.base.DetailView">DetailView (Core.views.base 中的类)</a>
@@ -299,6 +316,22 @@
   </ul></td>
 </tr></table>
 
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Inventory/models.html#Inventory.models.AuxiliaryMaterialEntry.entry_detail_cls">entry_detail_cls (Inventory.models.AuxiliaryMaterialEntry 属性)</a>
+
+      <ul>
+        <li><a href="Inventory/models.html#Inventory.models.BoughtInComponentEntry.entry_detail_cls">(Inventory.models.BoughtInComponentEntry 属性)</a>
+</li>
+        <li><a href="Inventory/models.html#Inventory.models.SteelMaterialEntry.entry_detail_cls">(Inventory.models.SteelMaterialEntry 属性)</a>
+</li>
+        <li><a href="Inventory/models.html#Inventory.models.WeldingMaterialEntry.entry_detail_cls">(Inventory.models.WeldingMaterialEntry 属性)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -306,6 +339,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Process/models.html#Process.models.FluxMaterial">FluxMaterial (Process.models 中的类)</a>
+</li>
       <li><a href="Core/base_views.html#Core.views.base.FormView">FormView (Core.views.base 中的类)</a>
 </li>
   </ul></td>
@@ -498,12 +533,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="Core/base_views.html#Core.views.base.TemplateView">TemplateView (Core.views.base 中的类)</a>
 </li>
-      <li><a href="Process/models.html#Process.models.TransferCard">TransferCard (Process.models 中的类)</a>
+      <li><a href="Process/models.html#Process.models.TotalWeldingMaterial">TotalWeldingMaterial (Process.models 中的类)</a>
 </li>
-      <li><a href="Process/models.html#Process.models.TransferCardProcess">TransferCardProcess (Process.models 中的类)</a>
+      <li><a href="Process/models.html#Process.models.TransferCard">TransferCard (Process.models 中的类)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Process/models.html#Process.models.TransferCardProcess">TransferCardProcess (Process.models 中的类)</a>
+</li>
       <li><a href="Core/utils.html#Core.utils.transition">transition() (在 Core.utils 模块中)</a>
 </li>
       <li><a href="Core/utils.html#Core.utils.TransitionMeta">TransitionMeta (Core.utils 中的类)</a>
@@ -528,18 +565,20 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="Inventory/models.html#Inventory.models.AuxiliaryMaterialApplyCard.valid_inventory_assigned">valid_inventory_assigned() (Inventory.models.AuxiliaryMaterialApplyCard 方法)</a>
+      <li><a href="Inventory/models.html#Inventory.models.AuxiliaryMaterialApplyCard.valid_keeper_confirm">valid_keeper_confirm() (Inventory.models.AuxiliaryMaterialApplyCard 方法)</a>
 
       <ul>
-        <li><a href="Inventory/models.html#Inventory.models.BoughtInComponentApplyCard.valid_inventory_assigned">(Inventory.models.BoughtInComponentApplyCard 方法)</a>
+        <li><a href="Inventory/models.html#Inventory.models.BoughtInComponentApplyCard.valid_keeper_confirm">(Inventory.models.BoughtInComponentApplyCard 方法)</a>
 </li>
-        <li><a href="Inventory/models.html#Inventory.models.SteelMaterialApplyCard.valid_inventory_assigned">(Inventory.models.SteelMaterialApplyCard 方法)</a>
+        <li><a href="Inventory/models.html#Inventory.models.SteelMaterialApplyCard.valid_keeper_confirm">(Inventory.models.SteelMaterialApplyCard 方法)</a>
 </li>
-        <li><a href="Inventory/models.html#Inventory.models.WeldingMaterialApplyCard.valid_inventory_assigned">(Inventory.models.WeldingMaterialApplyCard 方法)</a>
+        <li><a href="Inventory/models.html#Inventory.models.WeldingMaterialApplyCard.valid_keeper_confirm">(Inventory.models.WeldingMaterialApplyCard 方法)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="Inventory/models.html#Inventory.models.WeldingMaterialRefundCard.valid_refund_params">valid_refund_params() (Inventory.models.WeldingMaterialRefundCard 方法)</a>
+</li>
       <li><a href="Core/base_views.html#Core.views.base.View">View (Core.views.base 中的类)</a>
 </li>
   </ul></td>
@@ -555,6 +594,8 @@
       <li><a href="Process/models.html#Process.models.WeldingJointProcessAnalysis">WeldingJointProcessAnalysis (Process.models 中的类)</a>
 </li>
       <li><a href="Process/models.html#Process.models.WeldingLayerCard">WeldingLayerCard (Process.models 中的类)</a>
+</li>
+      <li><a href="Process/models.html#Process.models.WeldingMaterial">WeldingMaterial (Process.models 中的类)</a>
 </li>
       <li><a href="Inventory/models.html#Inventory.models.WeldingMaterialApplyCard">WeldingMaterialApplyCard (Inventory.models 中的类)</a>
 </li>

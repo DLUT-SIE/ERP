@@ -1,6 +1,10 @@
+from django.db import transaction
+
 from rest_framework import serializers
 
+from Core.models import SubWorkOrder
 from Core.utils.fsm import TransitionSerializerMixin
+from Process.models import ProcessMaterial
 from Inventory.models import (
     WeldingMaterialApplyCard,
     SteelMaterialApplyCard,
@@ -11,6 +15,35 @@ from .apply_detail import (
     SteelMaterialApplyDetailSerializer,
     BoughtInComponentApplyDetailSerializer,
 )
+
+
+class AbstractApplyCardCreateSerializerMixin(serializers.Serializer):
+    process_materials = serializers.ListField(label='工艺物料列表',
+                                              child=serializers.IntegerField(),
+                                              write_only=True)
+    sub_order = serializers.IntegerField(label='工作令', write_only=True)
+
+    class Meta:
+        model = None
+        fields = ('process_materials', 'sub_order')
+
+    def validate_process_materials(self, material_ids):
+        if not material_ids:
+            raise serializers.ValidationError('请至少选中一项')
+        materials = ProcessMaterial.objects.filter(id__in=material_ids)
+        if materials.count() != len(material_ids):
+            raise serializers.ValidationError('工艺物料有误')
+        return materials
+
+    def validate_sub_order(self, sub_order_id):
+        sub_order = SubWorkOrder.objects.filter(id=sub_order_id)
+        if not sub_order:
+            raise serializers.ValidationError('工作令有误')
+        return sub_order[0]
+
+    def create(self, validated_data):
+        with transaction.atomic():
+            self.Meta.model.create_apply_cards(**validated_data)
 
 
 class WeldingMaterialApplyCardSerializer(TransitionSerializerMixin,
@@ -47,6 +80,13 @@ class WeldingMaterialApplyCardListSerializer(
                   'uid', 'status', 'pretty_status')
 
 
+class WeldingMaterialApplyCardCreateSerializer(
+        AbstractApplyCardCreateSerializerMixin,
+        serializers.ModelSerializer):
+    class Meta(AbstractApplyCardCreateSerializerMixin.Meta):
+        model = WeldingMaterialApplyCard
+
+
 class SteelMaterialApplyCardSerializer(TransitionSerializerMixin,
                                        serializers.ModelSerializer):
     details = SteelMaterialApplyDetailSerializer(many=True, read_only=True)
@@ -66,6 +106,13 @@ class SteelMaterialApplyCardListSerializer(SteelMaterialApplyCardSerializer):
     class Meta(SteelMaterialApplyCardSerializer.Meta):
         fields = ('id', 'create_dt', 'uid', 'applicant', 'department',
                   'status', 'pretty_status')
+
+
+class SteelMaterialApplyCardCreateSerializer(
+        AbstractApplyCardCreateSerializerMixin,
+        serializers.ModelSerializer):
+    class Meta(AbstractApplyCardCreateSerializerMixin.Meta):
+        model = SteelMaterialApplyCard
 
 
 class AuxiliaryMaterialApplyCardSerializer(TransitionSerializerMixin,
@@ -100,6 +147,13 @@ class AuxiliaryMaterialApplyCardListSerializer(
                   'department', 'status', 'pretty_status')
 
 
+class AuxiliaryMaterialApplyCardCreateSerializer(
+        AbstractApplyCardCreateSerializerMixin,
+        serializers.ModelSerializer):
+    class Meta(AbstractApplyCardCreateSerializerMixin.Meta):
+        model = AuxiliaryMaterialApplyCard
+
+
 class BoughtInComponentApplyCardSerializer(TransitionSerializerMixin,
                                            serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(source='sub_order.uid',
@@ -122,3 +176,10 @@ class BoughtInComponentApplyCardListSerializer(
     class Meta(BoughtInComponentApplyCardSerializer.Meta):
         fields = ('id', 'sub_order_uid', 'uid', 'create_dt', 'applicant',
                   'department', 'status', 'pretty_status')
+
+
+class BoughtInComponentApplyCardCreateSerializer(
+        AbstractApplyCardCreateSerializerMixin,
+        serializers.ModelSerializer):
+    class Meta(AbstractApplyCardCreateSerializerMixin.Meta):
+        model = BoughtInComponentApplyCard

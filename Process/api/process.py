@@ -5,7 +5,9 @@ from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, BoughtInItem, QuotaList,
     ProcessRoute, TransferCard, TransferCardProcess, FirstFeedingItem,
-    CooperantItem, PrincipalQuotaItem, WeldingQuotaItem, Material)
+    CooperantItem, PrincipalQuotaItem, WeldingQuotaItem, Material,
+    AuxiliaryQuotaItem, WeldingSeam, TotalWeldingMaterial, WeldingMaterial,
+    FluxMaterial)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
@@ -15,13 +17,18 @@ from Process.serializers import (
     CooperantItemUpdateSerializer, CooperantItemSerializer,
     PrincipalQuotaItemSerializer, WeldingQuotaItemSerializer,
     PrincipalQuotaItemCreateSerializer, WeldingQuotaItemCreateSerializer,
-    MaterialSerializer)
+    MaterialSerializer, AuxiliaryQuotaItemListSerializer,
+    AuxiliaryQuotaItemSerializer, AuxiliaryQuotaItemCreateSerializer,
+    WeldingSeamSerializer, WeldingSeamListSerializer,
+    TotalWeldingMaterialSerializer, WeldingMaterialSerializer,
+    FluxMaterialSerializer, TransferCardCreateSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
     BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
     PrincipalQuotaItemFilter, QuotaListFilter, WeldingQuotaItemFilter,
-    MaterialFilter)
+    MaterialFilter, AuxiliaryQuotaItemFilter, WeldingSeamFilter,
+    TotalWeldingMaterialFilter, WeldingMaterialFilter, FluxMaterialFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -57,9 +64,24 @@ class TransferCardViewSet(viewsets.ModelViewSet):
     queryset = TransferCard.objects.all().order_by('-pk')
     filter_class = TransferCardFilter
 
+    def perform_create(self, serializer):
+        data = self.request.data
+        process_material = data['process_material']
+        process_material = ProcessMaterial.objects.get(
+            id=int(process_material))
+        work_order = process_material.lib.work_order
+        count = TransferCard.objects.filter(
+            category=int(data['category']),
+            process_material__lib__work_order=work_order).count()
+        count += 1
+        serializer.save(file_index=count,
+                        process_material=process_material)
+
     def get_serializer_class(self):
         if self.action == 'list':
             return TransferCardListSerializer
+        if self.action == 'create':
+            return TransferCardCreateSerializer
         else:
             return TransferCardSerializer
 
@@ -143,3 +165,48 @@ class MaterialViewSet(viewsets.ModelViewSet):
     queryset = Material.objects.all().order_by('-pk')
     filter_class = MaterialFilter
     serializer_class = MaterialSerializer
+
+
+class AuxiliaryQuotaItemViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = AuxiliaryQuotaItem.objects.all().order_by('-pk')
+    filter_class = AuxiliaryQuotaItemFilter
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return AuxiliaryQuotaItemListSerializer
+        elif self.action == 'create':
+            return AuxiliaryQuotaItemCreateSerializer
+        return AuxiliaryQuotaItemSerializer
+
+
+class WeldingSeamViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = WeldingSeam.objects.all().order_by('-pk')
+    filter_class = WeldingSeamFilter
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return WeldingSeamListSerializer
+        return WeldingSeamSerializer
+
+
+class TotalWeldingMaterialViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = TotalWeldingMaterial.objects.all().order_by('-pk')
+    filter_class = TotalWeldingMaterialFilter
+    serializer_class = TotalWeldingMaterialSerializer
+
+
+class WeldingMaterialViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = WeldingMaterial.objects.all().order_by('-pk')
+    filter_class = WeldingMaterialFilter
+    serializer_class = WeldingMaterialSerializer
+
+
+class FluxMaterialViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = FluxMaterial.objects.all().order_by('-pk')
+    filter_class = FluxMaterialFilter
+    serializer_class = FluxMaterialSerializer

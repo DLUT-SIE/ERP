@@ -1,4 +1,6 @@
 from rest_framework import viewsets, mixins
+from rest_framework.decorators import list_route
+from rest_framework.response import Response
 
 from Core.models import WorkOrder, SubWorkOrder
 from Core.filters import SubWorkOrderFilter
@@ -17,6 +19,17 @@ class WorkOrderViewSet(mixins.CreateModelMixin,
     serializer_class = WorkOrderSerializer
     pagination_class = SmallResultsSetPagination
     queryset = WorkOrder.objects.all().order_by('-pk')
+
+    @list_route()
+    def non_production_plans(self, request, *args, **kwargs):
+        queryset = self.get_queryset().filter(
+            productionplan__isnull=True)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class SubWorkOrderViewSet(mixins.UpdateModelMixin,

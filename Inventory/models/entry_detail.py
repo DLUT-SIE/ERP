@@ -31,7 +31,8 @@ class WeldingMaterialEntryDetail(AbstractEntryDetail):
     entry = models.ForeignKey('WeldingMaterialEntry', verbose_name='入库单',
                               related_name='details',
                               on_delete=models.CASCADE)
-    production_dt = models.DateTimeField(verbose_name='出厂日期')
+    production_dt = models.DateTimeField(verbose_name='出厂日期',
+                                         blank=True, null=True)
 
     class Meta:
         verbose_name = '焊材入库单明细'
@@ -45,7 +46,7 @@ class SteelMaterialEntryDetail(AbstractEntryDetail):
     entry = models.ForeignKey('SteelMaterialEntry', verbose_name='入库单',
                               related_name='details',
                               on_delete=models.CASCADE)
-    length = models.FloatField(verbose_name='长度')
+    length = models.FloatField(verbose_name='长度', blank=True, null=True)
 
     class Meta:
         verbose_name = '钢材入库单明细'

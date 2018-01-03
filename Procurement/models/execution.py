@@ -36,6 +36,7 @@ class MaterialExecutionDetail(models.Model):
                                            related_name='materialexecution',
                                            on_delete=models.SET_NULL)
     material = models.ForeignKey('ProcurementMaterial', verbose_name='物料',
+                                 related_name='material',
                                  on_delete=models.CASCADE)
     batch_number = models.CharField(verbose_name='出厂批号', max_length=50,
                                     null=True, blank=True)

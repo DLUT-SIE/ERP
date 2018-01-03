@@ -3,11 +3,15 @@ from .process import (
     CirculationRouteFilter, ProcessRouteFilter, TransferCardProcessFilter,
     BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
     PrincipalQuotaItemFilter, QuotaListFilter, WeldingQuotaItemFilter,
-    MaterialFilter)
+    MaterialFilter, AuxiliaryQuotaItemFilter, WeldingSeamFilter,
+    TotalWeldingMaterialFilter, WeldingMaterialFilter, FluxMaterialFilter)
 
 __all__ = ['ProcessLibraryFilter', 'ProcessMaterialFilter', 'QuotaListFilter',
            'TransferCardFilter', 'CirculationRouteFilter',
            'ProcessRouteFilter', 'TransferCardProcessFilter',
            'BoughtInItemFilter', 'FirstFeedingItemFilter',
            'CooperantItemFilter', 'PrincipalQuotaItemFilter',
-           'WeldingQuotaItemFilter', 'MaterialFilter']
+           'WeldingQuotaItemFilter', 'MaterialFilter',
+           'AuxiliaryQuotaItemFilter', 'WeldingSeamFilter',
+           'TotalWeldingMaterialFilter', 'WeldingMaterialFilter',
+           'FluxMaterialFilter']

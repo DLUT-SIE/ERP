@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from Process import QUOTA_LIST_CATEGORY_CHOICES
-from Process.models import Material, ProcessLibrary, ProcessMaterial
+from Process.models import (
+    Material, ProcessLibrary, ProcessMaterial, TotalWeldingMaterial)
 
 
 class QuotaList(models.Model):
@@ -63,8 +64,9 @@ class AuxiliaryQuotaItem(AbstractQuotaItem):
                                             verbose_name='工艺物料',
                                             related_name='%(class)s',
                                             on_delete=models.CASCADE)
-    quota_coef = models.FloatField(verbose_name='定额系数')
-    quota = models.FloatField(verbose_name='定额')
+    quota_coef = models.FloatField(verbose_name='定额系数', blank=True,
+                                   null=True)
+    quota = models.FloatField(verbose_name='定额', blank=True, null=True)
     stardard_code = models.CharField(verbose_name='标准代码', max_length=50,
                                      blank=True, default='')
     # TODO: choices?
@@ -136,7 +138,8 @@ class WeldingQuotaItem(models.Model):
 
     quota_list = models.ForeignKey(QuotaList, verbose_name='定额明细表',
                                    on_delete=models.CASCADE)
-    material = models.ForeignKey(Material, verbose_name='材质',
+    material = models.ForeignKey(TotalWeldingMaterial,
+                                 verbose_name='材质',
                                  on_delete=models.PROTECT)
     size = models.CharField(verbose_name='规格', max_length=50,
                             blank=True, default='')

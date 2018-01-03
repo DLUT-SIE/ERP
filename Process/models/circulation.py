@@ -78,9 +78,10 @@ class TransferCard(models.Model):
     流转卡
     """
     file_index = models.IntegerField(verbose_name='文件编号')
-    process_material = models.ForeignKey(ProcessMaterial,
-                                         verbose_name='工艺物料',
-                                         on_delete=models.CASCADE)
+    process_material = models.OneToOneField(ProcessMaterial,
+                                            verbose_name='工艺物料',
+                                            on_delete=models.CASCADE,
+                                            related_name='transfer_card')
     category = models.IntegerField(verbose_name='流转卡类型',
                                    choices=TRANSFER_CARD_CATEGORY_CHOICES)
     container_category = models.CharField(verbose_name='容器类别',

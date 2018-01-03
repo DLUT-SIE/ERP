@@ -2,9 +2,11 @@ from rest_framework import serializers
 from django.db import transaction
 
 from Procurement.models import MaterialExecution, MaterialExecutionDetail
+from Procurement.serializers import ProcurementMaterialReadSerializer
 
 
 class MaterialExecutionDetailSerializer(serializers.ModelSerializer):
+    material = ProcurementMaterialReadSerializer(read_only=True)
 
     class Meta:
         model = MaterialExecutionDetail
@@ -12,10 +14,7 @@ class MaterialExecutionDetailSerializer(serializers.ModelSerializer):
 
 
 class MaterialExecutionSerializer(serializers.ModelSerializer):
-
     materialexecution = MaterialExecutionDetailSerializer(many=True)
-
-    # TODO: 此处是物料的外接显示，等待武指导写完物料的序列化器引入即可
 
     class Meta:
         model = MaterialExecution
@@ -23,7 +22,6 @@ class MaterialExecutionSerializer(serializers.ModelSerializer):
 
 
 class MaterialExecutionCreateSerializer(serializers.ModelSerializer):
-
     details = serializers.ListField(
         child=serializers.IntegerField(), write_only=True)
 
