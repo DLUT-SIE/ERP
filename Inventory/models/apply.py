@@ -8,9 +8,14 @@ from Inventory import (
     APPLYCARD_STATUS_CHOICES, APPLYCARD_STATUS_APPLICANT,
     APPLYCARD_STATUS_AUDITOR, APPLYCARD_STATUS_INSPECTOR,
     APPLYCARD_STATUS_KEEPER, APPLYCARD_STATUS_END)
+from Inventory.models import (
+    SteelMaterialApplyDetail,
+    BoughtInComponentApplyDetail,
+)
 
 
 class AbstractApplyCard(models.Model, metaclass=TransitionMeta):
+    # TODO: Auto-generated?
     uid = models.CharField(verbose_name='编号', max_length=20, unique=True)
     sub_order = models.ForeignKey(SubWorkOrder, verbose_name='子工作令',
                                   on_delete=models.CASCADE)
@@ -47,6 +52,21 @@ class AbstractApplyCard(models.Model, metaclass=TransitionMeta):
     def __str__(self):
         return self.uid
 
+    @classmethod
+    def gen_uid_index(cls):
+        """
+        返回下一个自增主键
+        """
+        last = cls.objects.last()
+        if not last:
+            return 1
+        else:
+            last.id + 1
+
+    @classmethod
+    def create_apply_cards(cls, sub_order, process_materials):
+        raise NotImplementedError('该方法未实现')
+
     @transition(field='status',
                 source=APPLYCARD_STATUS_APPLICANT,
                 target=APPLYCARD_STATUS_AUDITOR,
@@ -82,14 +102,18 @@ class WeldingMaterialApplyCard(AbstractApplyCard):
     """
     焊材领用单
     """
+    apply_detail_cls = None
     process_material = models.ForeignKey(
         ProcessMaterial, verbose_name='工艺物料', on_delete=models.CASCADE)
     inventory = models.ForeignKey('WeldingMaterialInventoryDetail',
                                   verbose_name='库存明细',
                                   blank=True, null=True,
                                   on_delete=models.SET_NULL)
-    apply_weight = models.FloatField(verbose_name='领用重量')
-    apply_count = models.FloatField(verbose_name='领用数量')
+    # TODO: valid check before applicant_confirm
+    apply_weight = models.FloatField(verbose_name='领用重量',
+                                     blank=True, null=True)
+    apply_count = models.FloatField(verbose_name='领用数量',
+                                    blank=True, null=True)
     actual_weight = models.FloatField(verbose_name='实发重量',
                                       blank=True, null=True)
     actual_count = models.FloatField(verbose_name='实发数量',
@@ -99,7 +123,19 @@ class WeldingMaterialApplyCard(AbstractApplyCard):
         verbose_name = '焊材领用单'
         verbose_name_plural = '焊材领用单'
 
-    def valid_inventory_assigned(self, request):
+    @classmethod
+    def create_apply_cards(cls, sub_order, process_materials):
+        apply_cards = []
+        for process_material in process_materials:
+            # TODO: uid?
+            apply_card = cls(
+                uid='WA-{}'.format(cls.gen_uid_index()),
+                sub_order=sub_order,
+                process_material=process_material)
+            apply_cards.append(apply_card)
+        cls.objects.bulk_create(apply_cards)
+
+    def valid_keeper_confirm(self, request):
         """
         领用确认先验条件, 库管已完成相关分配, 且符合条件
         """
@@ -114,8 +150,7 @@ class WeldingMaterialApplyCard(AbstractApplyCard):
     @transition(field='status',
                 source=APPLYCARD_STATUS_KEEPER,
                 target=APPLYCARD_STATUS_END,
-                name='库管确认',
-                conditions=valid_inventory_assigned)
+                name='库管确认')
     def keeper_confirm(self, request):
         """
         库管确认
@@ -130,11 +165,26 @@ class SteelMaterialApplyCard(AbstractApplyCard):
     """
     钢材领用单
     """
+    apply_detail_cls = SteelMaterialApplyDetail
+
     class Meta:
         verbose_name = '钢材领用单'
         verbose_name_plural = '钢材领用单'
 
-    def valid_inventory_assigned(self, request):
+    @classmethod
+    def create_apply_cards(cls, sub_order, process_materials):
+        apply_card = cls.objects.create(
+            uid='SA-{}'.format(cls.gen_uid_index()),
+            sub_order=sub_order)
+        details = []
+        for process_material in process_materials:
+            detail = cls.apply_detail_cls(
+                process_material=process_material,
+                apply_card=apply_card)
+            details.append(detail)
+        cls.apply_detail_cls.objects.bulk_create(details)
+
+    def valid_keeper_confirm(self, request):
         """
         领用确认先验条件, 库管已完成相关分配, 且符合条件
         """
@@ -149,8 +199,7 @@ class SteelMaterialApplyCard(AbstractApplyCard):
     @transition(field='status',
                 source=APPLYCARD_STATUS_KEEPER,
                 target=APPLYCARD_STATUS_END,
-                name='库管确认',
-                conditions=valid_inventory_assigned)
+                name='库管确认')
     def keeper_confirm(self, request):
         """
         库管确认
@@ -169,8 +218,10 @@ class AuxiliaryMaterialApplyCard(AbstractApplyCard):
     apply_inventory = models.ForeignKey('AuxiliaryMaterialInventoryDetail',
                                         verbose_name='库存明细',
                                         related_name='apply_inventory',
+                                        blank=True, null=True,
                                         on_delete=models.CASCADE)
-    apply_count = models.IntegerField(verbose_name='申请数量')
+    apply_count = models.IntegerField(verbose_name='申请数量',
+                                      blank=True, null=True)
     actual_inventory = models.ForeignKey('AuxiliaryMaterialInventoryDetail',
                                          verbose_name='实发材料',
                                          null=True, blank=True,
@@ -183,7 +234,18 @@ class AuxiliaryMaterialApplyCard(AbstractApplyCard):
         verbose_name = '辅材领用单'
         verbose_name_plural = '辅材领用单'
 
-    def valid_inventory_assigned(self, request):
+    @classmethod
+    def create_apply_cards(cls, sub_order, process_materials):
+        apply_cards = []
+        for process_material in process_materials:
+            # TODO: uid?
+            apply_card = cls(
+                uid='AA-{}'.format(cls.gen_uid_index()),
+                sub_order=sub_order)
+            apply_cards.append(apply_card)
+        cls.objects.bulk_create(apply_cards)
+
+    def valid_keeper_confirm(self, request):
         """
         领用确认先验条件, 库管已完成相关分配, 且符合条件
         """
@@ -196,8 +258,7 @@ class AuxiliaryMaterialApplyCard(AbstractApplyCard):
     @transition(field='status',
                 source=APPLYCARD_STATUS_KEEPER,
                 target=APPLYCARD_STATUS_END,
-                name='库管确认',
-                conditions=valid_inventory_assigned)
+                name='库管确认')
     def keeper_confirm(self, request):
         """
         库管确认
@@ -211,6 +272,8 @@ class BoughtInComponentApplyCard(AbstractApplyCard):
     """
     外购件领用单
     """
+    apply_detail_cls = BoughtInComponentApplyDetail
+
     revised_number = models.CharField(verbose_name='修订号', max_length=50,
                                       blank=True, default='')
     # TODO: Review these fields
@@ -221,7 +284,20 @@ class BoughtInComponentApplyCard(AbstractApplyCard):
         verbose_name = '外购件领用单'
         verbose_name_plural = '外购件领用单'
 
-    def valid_inventory_assigned(self, request):
+    @classmethod
+    def create_apply_cards(cls, sub_order, process_materials):
+        apply_card = cls.objects.create(
+            uid='BA-{}'.format(cls.gen_uid_index()),
+            sub_order=sub_order)
+        details = []
+        for process_material in process_materials:
+            detail = cls.apply_detail_cls(
+                process_material=process_material,
+                apply_card=apply_card)
+            details.append(detail)
+        cls.apply_detail_cls.objects.bulk_create(details)
+
+    def valid_keeper_confirm(self, request):
         """
         领用确认先验条件, 库管已完成相关分配, 且符合条件
         """
@@ -236,8 +312,7 @@ class BoughtInComponentApplyCard(AbstractApplyCard):
     @transition(field='status',
                 source=APPLYCARD_STATUS_KEEPER,
                 target=APPLYCARD_STATUS_END,
-                name='库管确认',
-                conditions=valid_inventory_assigned)
+                name='库管确认')
     def keeper_confirm(self, request):
         """
         库管确认

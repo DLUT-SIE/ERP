@@ -18,6 +18,8 @@ class WeldingMaterialApplyCardViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.WeldingMaterialApplyCardListSerializer
+        elif self.action == 'create':
+            return serializers.WeldingMaterialApplyCardCreateSerializer
         else:
             return serializers.WeldingMaterialApplyCardSerializer
 
@@ -30,6 +32,8 @@ class SteelMaterialApplyCardViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.SteelMaterialApplyCardListSerializer
+        elif self.action == 'create':
+            return serializers.SteelMaterialApplyCardCreateSerializer
         else:
             return serializers.SteelMaterialApplyCardSerializer
 
@@ -42,6 +46,8 @@ class AuxiliaryMaterialApplyCardViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.AuxiliaryMaterialApplyCardListSerializer
+        elif self.action == 'create':
+            return serializers.AuxiliaryMaterialApplyCardCreateSerializer
         else:
             return serializers.AuxiliaryMaterialApplyCardSerializer
 
@@ -54,5 +60,7 @@ class BoughtInComponentApplyCardViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'list':
             return serializers.BoughtInComponentApplyCardListSerializer
+        elif self.action == 'create':
+            return serializers.BoughtInComponentApplyCardCreateSerializer
         else:
             return serializers.BoughtInComponentApplyCardSerializer

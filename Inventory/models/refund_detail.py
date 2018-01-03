@@ -7,7 +7,9 @@ class AbstractSteelMaterialRefundDetail(models.Model):
     apply_detail = models.ForeignKey('SteelMaterialApplyDetail',
                                      verbose_name='领用明细',
                                      on_delete=models.CASCADE)
-    status = models.CharField(verbose_name='状态', max_length=20)
+    # TODO: necessary?
+    status = models.CharField(verbose_name='状态', max_length=20,
+                              blank=True, default='')
     # TODO: Duplicate? Where are these fields?
     specification = models.CharField(verbose_name='规格', max_length=50,
                                      blank=True, default='')

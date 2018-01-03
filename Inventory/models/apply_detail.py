@@ -26,7 +26,8 @@ class SteelMaterialApplyDetail(AbstractApplyDetail):
                                          verbose_name='库存明细',
                                          blank=True, null=True,
                                          on_delete=models.SET_NULL)
-    count = models.IntegerField(verbose_name='申请数量')
+    count = models.IntegerField(verbose_name='申请数量',
+                                blank=True, null=True)
     component = models.CharField(verbose_name='零件编号', max_length=100,
                                  blank=True, default='')
 
@@ -47,7 +48,8 @@ class BoughtInComponentApplyDetail(AbstractApplyDetail):
                                          verbose_name='库存明细',
                                          blank=True, null=True,
                                          on_delete=models.SET_NULL)
-    count = models.IntegerField(verbose_name='数量', default=0)
+    count = models.IntegerField(verbose_name='数量',
+                                blank=True, null=True)
     remark = models.CharField(verbose_name='备注', max_length=100,
                               blank=True, default='')
 

@@ -109,7 +109,7 @@ class AbstractEntry(models.Model, metaclass=TransitionMeta):
                 count=procurement_material.count)
             details.append(detail)
             inspection.entry_confirm()
-        WeldingMaterialEntryDetail.objects.bulk_create(details)
+        cls.entry_detail_cls.objects.bulk_create(details)
 
 
 class WeldingMaterialEntry(AbstractEntry):
