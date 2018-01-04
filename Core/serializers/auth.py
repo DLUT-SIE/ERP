@@ -9,7 +9,7 @@ from Core.models import UserInfo, Department
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
-        fields = ('phone', 'mobile', 'gender')
+        fields = ('id', 'phone', 'mobile', 'gender')
 
 
 class UserSerializer(serializers.ModelSerializer):

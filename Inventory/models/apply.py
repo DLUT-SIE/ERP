@@ -135,9 +135,15 @@ class WeldingMaterialApplyCard(AbstractApplyCard):
             apply_cards.append(apply_card)
         cls.objects.bulk_create(apply_cards)
 
+    def valid_applicant_confirm(self, request):
+        """
+        领用确认条件: 完成重量和数量的设置
+        """
+        return not (self.apply_weight is None or self.apply_count is None)
+
     def valid_keeper_confirm(self, request):
         """
-        领用确认先验条件, 库管已完成相关分配, 且符合条件
+        库管确认条件: 库管已完成相关分配, 且符合条件
         """
         if (self.actual_weight is None or self.actual_count is None
                 or self.inventory is None):
@@ -184,10 +190,10 @@ class SteelMaterialApplyCard(AbstractApplyCard):
             details.append(detail)
         cls.apply_detail_cls.objects.bulk_create(details)
 
+    def valid_applicant_confirm(self, request):
+        return not any(detail.count is None for detail in self.details.all())
+
     def valid_keeper_confirm(self, request):
-        """
-        领用确认先验条件, 库管已完成相关分配, 且符合条件
-        """
         details = self.details.all().select_related('inventory_detail')
         for detail in details:
             if not detail.inventory_detail:
@@ -245,10 +251,10 @@ class AuxiliaryMaterialApplyCard(AbstractApplyCard):
             apply_cards.append(apply_card)
         cls.objects.bulk_create(apply_cards)
 
+    def valid_applicant_confirm(self, request):
+        return not (self.apply_inventory is None or self.apply_count is None)
+
     def valid_keeper_confirm(self, request):
-        """
-        领用确认先验条件, 库管已完成相关分配, 且符合条件
-        """
         if self.actual_inventory is None or self.actual_count is None:
             return False
         if self.actual_inventory.count < self.actual_count:
@@ -297,10 +303,10 @@ class BoughtInComponentApplyCard(AbstractApplyCard):
             details.append(detail)
         cls.apply_detail_cls.objects.bulk_create(details)
 
+    def valid_applicant_confirm(self, request):
+        return not any(detail.count is None for detail in self.details.all())
+
     def valid_keeper_confirm(self, request):
-        """
-        领用确认先验条件, 库管已完成相关分配, 且符合条件
-        """
         details = self.details.all().select_related('inventory_detail')
         for detail in details:
             if not detail.inventory_detail:

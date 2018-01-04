@@ -30,7 +30,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def non_production_users(self, request, *args, **kwargs):
-        queryset = self.get_queryset().filter(info__isnull=True)
+        queryset = self.get_queryset().filter(info__isnull=False)
         queryset = queryset.filter(info__productionuser__isnull=True)
         page = self.paginate_queryset(queryset)
         if page is not None:
