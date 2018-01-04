@@ -18,7 +18,9 @@ class ProductionWorkGroupFilter(filters.FilterSet):
 class ProductionUserFilter(filters.FilterSet):
     work_group = filters.CharFilter(name='work_group__name',
                                     lookup_expr='icontains')
+    name = filters.CharFilter(name='user_info__user__first_name',
+                              lookup_expr='icontains')
 
     class Meta:
         model = ProductionUser
-        fields = ('work_group',)
+        fields = ('work_group', 'name')
