@@ -26,8 +26,10 @@ class UserListSerializer(UserSerializer):
 
 
 class UserCreateSerializer(UserSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta(UserSerializer.Meta):
-        fields = ('username', 'password', 'email', 'first_name',
+        fields = ('id', 'username', 'password', 'email', 'first_name',
                   'last_name', 'info')
 
     def create(self, validated_data):

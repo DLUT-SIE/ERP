@@ -24,6 +24,8 @@ class LoginView(views.LoginView):
     """
     用于处理用户登录的视图
     """
+    http_method_names = ['post']
+
     def dispatch(self, request, *args, **kwargs):
         if request.method.lower() in self.http_method_names:
             handler = getattr(self, request.method.lower(),

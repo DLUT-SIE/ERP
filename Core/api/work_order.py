@@ -1,6 +1,5 @@
 from rest_framework import viewsets, mixins
 from rest_framework.decorators import list_route
-from rest_framework.response import Response
 
 from Core.models import WorkOrder, SubWorkOrder
 from Core.filters import SubWorkOrderFilter
@@ -28,8 +27,6 @@ class WorkOrderViewSet(mixins.CreateModelMixin,
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
 
 
 class SubWorkOrderViewSet(mixins.UpdateModelMixin,

@@ -9,9 +9,10 @@ from django.core import exceptions
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils import timezone
 from django.contrib.auth.models import User
+from rest_framework import serializers
 
-from Core.utils import gen_uuid, DynamicHashPath
-from Core.utils.fsm import Transition
+from Core.utils import gen_uuid, DynamicHashPath, DynamicFieldSerializerMixin
+from Core.utils.fsm import Transition, TransitionSerializerMixin
 
 
 class GenUUIDTest(TestCase):
@@ -59,8 +60,6 @@ class DynamicHashPathTest(TestCase):
 
 class TransitionTest(TestCase):
     def setUp(self):
-        User.objects.create_user(
-            username='user', password='123456')
         self.request = Mock()
         self.request.user = Mock(spec=User)
         self.request.user.has_perm.return_value = False
@@ -118,6 +117,11 @@ class TransitionTest(TestCase):
         trans = Transition(method, 'field', None, None, conditions=False)
         self.assertIs(trans._match_conds(self.inst, self.request), False)
 
+        # str
+        trans = Transition(method, 'field', None, None,
+                           conditions='valid_method')
+        self.assertIs(trans._match_conds(self.inst, self.request), True)
+
         # callable
         fake_cond_func = Mock()
         fake_cond_func.return_value = False
@@ -156,3 +160,64 @@ class TransitionTest(TestCase):
         trans = Transition(None, 'field', '*', None, conditions=False)
         with self.assertRaises(exceptions.ValidationError):
             trans.check_validity(self.inst, self.request)
+
+
+class TransitionSerializerMixinTest(TestCase):
+    def setUp(self):
+        obj = Mock()
+        obj.actions.return_value = {'action': 1}
+        obj.status = 0
+        trans = Mock()
+        trans._match_source.return_value = False
+        trans.check_validity.side_effect = exceptions.ValidationError('error')
+        trans.field_name = 'status'
+        trans.method.__name__ = 'name'
+        obj.transitions.items.return_value = {'_': trans}.items()
+        self.obj = obj
+        self.trans = trans
+
+    def test_get_actions(self):
+        serializer = TransitionSerializerMixin()
+        serializer.context['request'] = Mock()
+        actions = serializer.get_actions(self.obj)
+        self.assertEqual({'action': 1}, actions)
+
+    def test_run_transition_validator_no_valid_trans_error(self):
+        serializer = TransitionSerializerMixin()
+        serializer.context['request'] = Mock()
+        serializer.instance = self.obj
+        with self.assertRaises(serializers.ValidationError):
+            serializer._run_transitions_validator({'status': 1})
+
+    def test_run_transition_validator_check_validity_error(self):
+        self.trans._match_source.return_value = True
+        self.trans.target = 1
+        serializer = TransitionSerializerMixin()
+        serializer.context['request'] = Mock()
+        serializer.instance = self.obj
+        with self.assertRaises(serializers.ValidationError):
+            serializer._run_transitions_validator({'status': 1})
+
+
+class DynamicFieldSerializerMixinTest(TestCase):
+    def setUp(self):
+        request = Mock()
+        request.query_params = {'fields': 'a,b,c'}
+        kwargs = {
+            'context': {
+                'request': request,
+            }
+        }
+        self.kwargs = kwargs
+        self.request = request
+
+    def test_pop_fields(self):
+        DynamicFieldSerializerMixin.fields = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+        serializer = DynamicFieldSerializerMixin(**self.kwargs)
+        self.assertEqual({'a', 'b', 'c'}, set(serializer.fields.keys()))
+
+    def test_invalid_query_params(self):
+        self.request.query_params['fields'] = 5  # Not really happens
+        DynamicFieldSerializerMixin.fields = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+        serializer = DynamicFieldSerializerMixin(**self.kwargs)
+        self.assertEqual(set(), set(serializer.fields.keys()))
