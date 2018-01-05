@@ -8,7 +8,9 @@ from Process.api import (
     BoughtInItemViewSet, FirstFeedingItemViewSet, CooperantItemViewSet,
     PrincipalQuotaItemViewSet, QuotaListViewSet, WeldingQuotaItemViewSet,
     MaterialViewSet, AuxiliaryQuotaItemViewSet, WeldingSeamViewSet,
-    TotalWeldingMaterialViewSet, WeldingMaterialViewSet, FluxMaterialViewSet)
+    TotalWeldingMaterialViewSet, WeldingMaterialViewSet, FluxMaterialViewSet,
+    WeldingProcessSpecificationViewSet, WeldingJointProcessAnalysisViewSet,
+    WeldingCertificationViewSet)
 from Process.views import FileUploadView
 
 router = routers.SimpleRouter()
@@ -30,6 +32,11 @@ router.register(r'welding_seams', WeldingSeamViewSet)
 router.register(r'total_welding_materials', TotalWeldingMaterialViewSet)
 router.register(r'welding_materials', WeldingMaterialViewSet)
 router.register(r'flux_materials', FluxMaterialViewSet)
+router.register(r'welding_process_specifications',
+                WeldingProcessSpecificationViewSet)
+router.register(r'welding_joint_process_analyses',
+                WeldingJointProcessAnalysisViewSet)
+router.register(r'welding_certifications', WeldingCertificationViewSet)
 
 urlpatterns = [
     url(r'^api/process_libraries/upload/', FileUploadView.as_view()),

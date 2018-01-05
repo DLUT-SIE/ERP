@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination
+from django.db import transaction
 
 from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
@@ -7,7 +8,8 @@ from Process.models import (
     ProcessRoute, TransferCard, TransferCardProcess, FirstFeedingItem,
     CooperantItem, PrincipalQuotaItem, WeldingQuotaItem, Material,
     AuxiliaryQuotaItem, WeldingSeam, TotalWeldingMaterial, WeldingMaterial,
-    FluxMaterial)
+    FluxMaterial, WeldingProcessSpecification, WeldingJointProcessAnalysis,
+    WeldingCertification)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
@@ -21,14 +23,19 @@ from Process.serializers import (
     AuxiliaryQuotaItemSerializer, AuxiliaryQuotaItemCreateSerializer,
     WeldingSeamSerializer, WeldingSeamListSerializer,
     TotalWeldingMaterialSerializer, WeldingMaterialSerializer,
-    FluxMaterialSerializer, TransferCardCreateSerializer)
+    FluxMaterialSerializer, TransferCardCreateSerializer,
+    WeldingProcessSpecificationSerializer, WeldingCertificationSerializer,
+    WeldingJointProcessAnalysisSerializer,
+    WeldingJointProcessAnalysisCreateSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
     BoughtInItemFilter, FirstFeedingItemFilter, CooperantItemFilter,
     PrincipalQuotaItemFilter, QuotaListFilter, WeldingQuotaItemFilter,
     MaterialFilter, AuxiliaryQuotaItemFilter, WeldingSeamFilter,
-    TotalWeldingMaterialFilter, WeldingMaterialFilter, FluxMaterialFilter)
+    TotalWeldingMaterialFilter, WeldingMaterialFilter, FluxMaterialFilter,
+    WeldingProcessSpecificationFilter, WeldingJointProcessAnalysisFilter,
+    WeldingCertificationFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -210,3 +217,34 @@ class FluxMaterialViewSet(viewsets.ModelViewSet):
     queryset = FluxMaterial.objects.all().order_by('-pk')
     filter_class = FluxMaterialFilter
     serializer_class = FluxMaterialSerializer
+
+
+class WeldingProcessSpecificationViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = WeldingProcessSpecification.objects.all().order_by('-pk')
+    filter_class = WeldingProcessSpecificationFilter
+    serializer_class = WeldingProcessSpecificationSerializer
+
+
+class WeldingJointProcessAnalysisViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = WeldingJointProcessAnalysis.objects.all().order_by('-pk')
+    filter_class = WeldingJointProcessAnalysisFilter
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return WeldingJointProcessAnalysisCreateSerializer
+        return WeldingJointProcessAnalysisSerializer
+
+    def perform_create(self, serializer):
+        with transaction.atomic():
+            welding_seams = serializer.validated_data.pop('welding_seams')
+            instance = serializer.save()
+            welding_seams.update(analysis=instance)
+
+
+class WeldingCertificationViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = WeldingCertification.objects.all().order_by('-pk')
+    filter_class = WeldingCertificationFilter
+    serializer_class = WeldingCertificationSerializer

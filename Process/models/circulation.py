@@ -151,7 +151,7 @@ class TransferCard(models.Model):
     def basic_file_name(self):
         header = TRANSFER_HEADER_MAP.get(self.category, 'RH05')
         return '{}-{}'.format(header,
-                              self.process_material.lib.work_order.uid)
+                              self.process_material.lib.work_order.uid[2:])
 
 
 class TransferCardProcess(models.Model):

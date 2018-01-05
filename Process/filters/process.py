@@ -7,7 +7,8 @@ from Process.models import (
     TransferCard, TransferCardProcess, BoughtInItem, FirstFeedingItem,
     CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem,
     AuxiliaryQuotaItem, WeldingSeam, TotalWeldingMaterial, WeldingMaterial,
-    FluxMaterial)
+    FluxMaterial, WeldingProcessSpecification, WeldingJointProcessAnalysis,
+    WeldingCertification)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -153,7 +154,7 @@ class WeldingSeamFilter(filters.FilterSet):
 class TotalWeldingMaterialFilter(filters.FilterSet):
     work_order_uid = filters.CharFilter(method='filter_work_order')
 
-    class Meta(AbstractQuotaFilter.Meta):
+    class Meta:
         model = TotalWeldingMaterial
         fields = ('work_order_uid',)
 
@@ -177,3 +178,27 @@ class FluxMaterialFilter(TotalWeldingMaterialFilter):
 
     class Meta(TotalWeldingMaterialFilter.Meta):
         model = FluxMaterial
+
+
+class WeldingProcessSpecificationFilter(filters.FilterSet):
+    work_order_uid = filters.CharFilter(name='work_order__uid')
+
+    class Meta:
+        model = WeldingProcessSpecification
+        fields = ('work_order_uid',)
+
+
+class WeldingJointProcessAnalysisFilter(filters.FilterSet):
+    spec = filters.CharFilter(name='spec')
+
+    class Meta:
+        model = WeldingJointProcessAnalysis
+        fields = ('spec',)
+
+
+class WeldingCertificationFilter(filters.FilterSet):
+    weld_method = filters.NumberFilter(name='weld_method')
+
+    class Meta:
+        model = WeldingCertification
+        fields = ('weld_method',)

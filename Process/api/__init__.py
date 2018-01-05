@@ -4,7 +4,9 @@ from .process import (
     BoughtInItemViewSet, FirstFeedingItemViewSet, CooperantItemViewSet,
     PrincipalQuotaItemViewSet, QuotaListViewSet, WeldingQuotaItemViewSet,
     MaterialViewSet, AuxiliaryQuotaItemViewSet, WeldingSeamViewSet,
-    TotalWeldingMaterialViewSet, WeldingMaterialViewSet, FluxMaterialViewSet)
+    TotalWeldingMaterialViewSet, WeldingMaterialViewSet, FluxMaterialViewSet,
+    WeldingProcessSpecificationViewSet, WeldingJointProcessAnalysisViewSet,
+    WeldingCertificationViewSet)
 
 
 __all__ = ['ProcessLibraryViewSet', 'ProcessMaterialViewSet',
@@ -15,4 +17,5 @@ __all__ = ['ProcessLibraryViewSet', 'ProcessMaterialViewSet',
            'QuotaListViewSet', 'WeldingQuotaItemViewSet', 'MaterialViewSet',
            'AuxiliaryQuotaItemViewSet', 'WeldingSeamViewSet',
            'TotalWeldingMaterialViewSet', 'WeldingMaterialViewSet',
-           'FluxMaterialViewSet']
+           'FluxMaterialViewSet', 'WeldingProcessSpecificationViewSet',
+           'WeldingJointProcessAnalysisViewSet', 'WeldingCertificationViewSet']

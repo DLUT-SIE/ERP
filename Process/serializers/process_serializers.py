@@ -7,7 +7,8 @@ from Process.models import (
     ProcessStep, TransferCard, TransferCardProcess, BoughtInItem, QuotaList,
     FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem,
     WeldingQuotaItem, Material, AuxiliaryQuotaItem, WeldingSeam,
-    TotalWeldingMaterial, WeldingMaterial, FluxMaterial)
+    TotalWeldingMaterial, WeldingMaterial, FluxMaterial, WeldingCertification,
+    WeldingProcessSpecification, WeldingJointProcessAnalysis)
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
@@ -422,26 +423,6 @@ class AuxiliaryQuotaItemCreateSerializer(AuxiliaryQuotaItemSerializer):
                             'category')
 
 
-class WeldingSeamListSerializer(serializers.ModelSerializer):
-    drawing_number = serializers.CharField(
-        source='process_material.drawing_number')
-    ticket_number = serializers.IntegerField(
-        source='process_material.ticket_number')
-    weld_method_1 = serializers.CharField(source='get_weld_method_1_display')
-    weld_method_2 = serializers.CharField(source='get_weld_method_2_display')
-    weld_position_name = serializers.CharField(
-        source='get_weld_position_display', read_only=True)
-    weld_method_1_name = serializers.CharField(
-        source='get_weld_method_1_display', read_only=True)
-    weld_method_2_name = serializers.CharField(
-        source='get_weld_method_2_display', read_only=True)
-    # TODO: 母材是否绑定材质表？
-
-    class Meta:
-        model = WeldingSeam
-        exclude = ('analysis',)
-
-
 class WeldingSeamSerializer(serializers.ModelSerializer):
     weld_position_name = serializers.CharField(
         source='get_weld_position_display', read_only=True)
@@ -449,10 +430,32 @@ class WeldingSeamSerializer(serializers.ModelSerializer):
         source='get_weld_method_1_display', read_only=True)
     weld_method_2_name = serializers.CharField(
         source='get_weld_method_2_display', read_only=True)
+    added_welding_joint = serializers.SerializerMethodField()
+
+    def get_added_welding_joint(self, obj):
+        return obj.analysis is not None
 
     class Meta:
         model = WeldingSeam
-        fields = '__all__'
+        exclude = ('analysis', )
+
+
+class WeldingSeamListSerializer(WeldingSeamSerializer):
+    drawing_number = serializers.CharField(
+        source='process_material.drawing_number')
+    ticket_number = serializers.IntegerField(
+        source='process_material.ticket_number')
+
+    # TODO: 母材是否绑定材质表？
+
+    class Meta:
+        model = WeldingSeam
+        fields = ('id', 'added_welding_joint', 'drawing_number',
+                  'ticket_number', 'uid', 'seam_type', 'weld_position_name',
+                  'weld_method_1_name', 'weld_method_2_name', 'bm_1',
+                  'bm_thick_1', 'bm_2', 'bm_thick_2', 'length', 'wm_1', 'wf_1',
+                  'wt_1', 'ws_1', 'weight_1', 'wf_weight_1', 'wm_2', 'wf_2',
+                  'wt_2', 'ws_2', 'weight_2', 'wf_weight_2', 'remark')
 
 
 class TotalWeldingMaterialSerializer(serializers.ModelSerializer):
@@ -473,4 +476,79 @@ class FluxMaterialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FluxMaterial
+        fields = '__all__'
+
+
+class WeldingProcessSpecificationSerializer(serializers.ModelSerializer):
+    uid = serializers.SerializerMethodField(read_only=True)
+    product = serializers.CharField(source='work_order.product.name',
+                                    read_only=True)
+    project = serializers.CharField(source='work_order.project',
+                                    read_only=True)
+    drawing_number = serializers.SerializerMethodField(read_only=True)
+
+    def get_drawing_number(self, obj):
+        lib = obj.work_order.process_library
+        process_material = ProcessMaterial.objects.filter(lib=lib)\
+            .order_by('pk')
+        if process_material.exists():
+            return process_material[0].drawing_number
+        return ''
+
+    def get_uid(self, obj):
+            header = 'RH09'
+            return '{}-{}'.format(header,
+                                  obj.work_order.uid[2:])
+
+    class Meta:
+        model = WeldingProcessSpecification
+        fields = '__all__'
+        read_only_fields = ('id', 'work_order',)
+
+
+class WeldingJointProcessAnalysisCreateSerializer(serializers.ModelSerializer):
+    welding_seams = serializers.ListField(child=serializers.IntegerField(),
+                                          write_only=True)
+
+    def validate_welding_seams(self, welding_seam_ids):
+        # 检查传入焊缝是否存在
+        welding_seams = WeldingSeam.objects.filter(id__in=welding_seam_ids)
+        if welding_seams.count() != len(welding_seam_ids):
+            raise serializers.ValidationError("请检查传入焊缝ID")
+        return welding_seams
+
+    class Meta:
+        model = WeldingJointProcessAnalysis
+        fields = '__all__'
+
+
+class WeldingJointProcessAnalysisSerializer(serializers.ModelSerializer):
+    wm_1 = serializers.SerializerMethodField(read_only=True)
+    wm_2 = serializers.SerializerMethodField(read_only=True)
+    ws_1 = serializers.SerializerMethodField(read_only=True)
+    ws_2 = serializers.SerializerMethodField(read_only=True)
+
+    def get_wm_1(self, obj):
+        return obj.weldingseam_set.first().wm_1.name
+
+    def get_wm_2(self, obj):
+        return obj.weldingseam_set.first().wm_2.name
+
+    def get_ws_1(self, obj):
+        return obj.weldingseam_set.first().ws_1
+
+    def get_ws_2(self, obj):
+        return obj.weldingseam_set.first().ws_2
+
+    class Meta:
+        model = WeldingJointProcessAnalysis
+        fields = '__all__'
+
+
+class WeldingCertificationSerializer(serializers.ModelSerializer):
+    weld_method_name = serializers.CharField(
+        source='get_weld_method_display', read_only=True)
+
+    class Meta:
+        model = WeldingCertification
         fields = '__all__'
