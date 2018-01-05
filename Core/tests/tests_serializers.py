@@ -16,8 +16,7 @@ def return_none_instance(model):
 
 class UserSerializerTest(TestCase):
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpTestData(cls):
         user = Mock(spec=User)
         user.id = 1
         user_info = Mock(spec=models.UserInfo)
@@ -78,8 +77,7 @@ class GroupSerializerTest(TestCase):
 
 class DepartmentSerializerTest(TestCase):
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpTestData(cls):
         group = Mock(spec=Group)
         group.name = 'group'
         department = Mock(spec=models.Department)
@@ -119,8 +117,7 @@ class DepartmentSerializerTest(TestCase):
 
 class WorkOrderSerializerTest(TestCase):
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpTestData(cls):
         work_order = Mock(spec=models.WorkOrder)
         work_order.id = 1
         work_order.count = 0
@@ -136,8 +133,7 @@ class WorkOrderSerializerTest(TestCase):
 
 class SubWorkOrderSerializerTest(TestCase):
     @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUpTestData(cls):
         sub_order = Mock(spec=models.SubWorkOrder)
         sub_order.id = 1
         sub_order.index = 1

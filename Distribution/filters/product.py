@@ -9,13 +9,14 @@ class ProductFilter(filters.FilterSet):
     """
     用于支持前端请求对产品queryset进行筛选的过滤器
     """
-    related = filters.CharFilter(label='相关产品', method='related_filter')
+    department = filters.CharFilter(label='部门相关产品',
+                                    method='filter_by_department')
 
     class Meta:
         model = Product
-        fields = ('related',)
+        fields = ('department',)
 
-    def related_filter(self, queryset, name, value):
+    def filter_by_department(self, queryset, name, value):
         queryset = queryset.filter(
            Q(documents__src__id=value) | Q(documents__dst__id=value))
         return queryset.distinct()

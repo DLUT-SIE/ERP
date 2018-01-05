@@ -50,6 +50,16 @@ class DepartmentTest(TestCase):
             self.assertIn(key, departments)
             self.assertEqual(val, departments[key])
 
+    @patch('django.db.models.Manager.get_queryset')
+    def test_special_department(self, mocked_queryset):
+        mocked_queryset.return_value = mocked_queryset
+        mocked_queryset.filter.return_value = mocked_queryset
+        mocked_queryset.get.return_value = None
+        self.assertEqual(Department.distribution.get(), None)
+        self.assertEqual(Department.process.get(), None)
+        self.assertEqual(Department.procurement.get(), None)
+        self.assertEqual(Department.production.get(), None)
+
 
 class WorkOrderTest(TestCase):
     def test_str(self):

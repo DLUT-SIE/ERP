@@ -20,14 +20,9 @@ class BiddingDocumentSerializer(TransitionSerializerMixin,
 
     def create(self, validated_data):
         with transaction.atomic():
-            product = validated_data['product']
-            src = validated_data['src']
-            dst = validated_data['dst']
-            path = validated_data['path']
+            path = validated_data.pop('path')
             doc, created = BiddingDocument.objects.get_or_create(
-                product=product,
-                src=src,
-                dst=dst)
+                **validated_data)
             if not created:
                 doc.path.delete(save=False)
             doc.path = path
@@ -105,14 +100,12 @@ class ProductListSerializer(ProductSerializer):
 
 class ProductSimpleSerializer(ProductListSerializer):
     def get_documents_from_distribution(self, product):
-        related_id = self.context['request'].GET['related']
-        dep = Department.objects.get(id=related_id)
+        dep = self.context['department']
         return self._get_documents(product, deps=[dep],
                                    from_distribution=True)
 
     def get_documents_to_distribution(self, product):
-        related_id = self.context['request'].GET['related']
-        dep = Department.objects.get(id=related_id)
+        dep = self.context['department']
         return self._get_documents(product, deps=[dep],
                                    from_distribution=False)
 

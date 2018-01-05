@@ -1,6 +1,8 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, mixins
 from rest_framework.exceptions import MethodNotAllowed
 
+from Core.models import Department
 from Core.utils.pagination import SmallResultsSetPagination
 from Distribution import serializers
 from Distribution.filters import ProductFilter
@@ -13,21 +15,24 @@ class ProductViewSet(viewsets.ModelViewSet):
     filter_class = ProductFilter
 
     def get_serializer_class(self):
-        # TODO: Why crash on /api?
-        args = set(self.request.GET.keys()) if self.request else set()
-        pagination_args = {'page', 'limit'}
-        extra_args = args - pagination_args
         if self.action == 'create':
             return serializers.ProductCreateSerializer
         elif self.action == 'list':
-            if not extra_args:
-                return serializers.ProductListSerializer
-            else:
+            if 'department' in self.request.GET:
                 return serializers.ProductSimpleSerializer
-        elif self.action == 'partial_update' or self.action == 'update':
+            else:
+                return serializers.ProductListSerializer
+        elif self.action in ('partial_update', 'update'):
             return serializers.ProductUpdateSerializer
         else:
             return serializers.ProductSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        if 'department' in self.request.GET:
+            dep_id = self.request.GET['department']
+            context['department'] = get_object_or_404(Department, id=dep_id)
+        return context
 
     def destroy(self, request, pk=None):
         raise MethodNotAllowed(request.method)

@@ -2,7 +2,7 @@ import uuid
 import os.path as osp
 import hashlib
 
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock, MagicMock, patch
 
 from django.test import TestCase
 from django.core import exceptions
@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from Core.utils import gen_uuid, DynamicHashPath, DynamicFieldSerializerMixin
-from Core.utils.fsm import Transition, TransitionSerializerMixin
+from Core.utils.fsm import Transition, TransitionSerializerMixin, valid_actions
 
 
 class GenUUIDTest(TestCase):
@@ -66,6 +66,15 @@ class TransitionTest(TestCase):
         self.inst = MagicMock()
         self.inst.valid_method.return_value = True
         self.inst.field = 0
+
+    def test_name(self):
+        trans = Transition(None, 'field', None, None, name='trans_name')
+        self.assertEqual('trans_name', trans.name)
+
+        method = Mock()
+        method.__name__ = 'method'
+        trans = Transition(method, 'field', None, None)
+        self.assertEqual('method', trans.name)
 
     def test_has_perm(self):
         # default
@@ -161,6 +170,39 @@ class TransitionTest(TestCase):
         with self.assertRaises(exceptions.ValidationError):
             trans.check_validity(self.inst, self.request)
 
+        with patch('Core.utils.fsm.Transition._match_source') as mocked:
+            mocked.return_value = False
+            trans = Transition(None, 'field', '*', None, permission=True)
+            ret = trans.check_validity(self.inst, self.request,
+                                       raise_exception=False)
+            self.assertIs(ret, False)
+        with patch('Core.utils.fsm.Transition._match_conds') as mocked:
+            mocked.return_value = True
+            trans = Transition(None, 'field', '*', None,
+                               conditions=True, permission=True)
+            ret = trans.check_validity(self.inst, self.request)
+            self.assertIs(ret, True)
+
+    def test_valid_actions(self):
+        inst = Mock()
+        trans1 = Mock()
+        trans1.field_name = 'status1'
+        trans1.name = 'trans1'
+        trans1.check_validity.return_value = True
+        trans1.target = 1
+        trans2 = Mock()
+        trans2.field_name = 'status2'
+        trans2.name = 'trans2'
+        trans2.target = 2
+        trans2.check_validity.return_value = True
+        inst.transitions.items.return_value = {
+            'name': trans1,
+            'name2': trans2,
+        }.items()
+        actions = valid_actions(inst)
+        self.assertEqual({'status1': {'trans1': 1}, 'status2': {'trans2': 2}},
+                         actions)
+
 
 class TransitionSerializerMixinTest(TestCase):
     def setUp(self):
@@ -197,6 +239,29 @@ class TransitionSerializerMixinTest(TestCase):
         serializer.instance = self.obj
         with self.assertRaises(serializers.ValidationError):
             serializer._run_transitions_validator({'status': 1})
+
+    @patch('rest_framework.serializers.Serializer.run_validators',
+           lambda *args: None)
+    def test_run_validators(self):
+        serializer = TransitionSerializerMixin()
+        serializer.context['request'] = Mock()
+        serializer.instance = self.obj
+        with self.assertRaises(serializers.ValidationError):
+            serializer.run_validators({'status': 1})
+        serializer.instance = None
+        self.assertEqual(serializer.run_validators({'status': 1}),
+                         {'status': 1})
+
+    @patch('rest_framework.serializers.Serializer.update')
+    def test_update(self, mocked_update):
+        serializer = TransitionSerializerMixin()
+        serializer.context['request'] = Mock()
+        items = {
+            'status': 'trans',
+        }
+        serializer._TransitionSerializerMixin__attr_trans = items
+        serializer.update(self.obj, {'status': 1})
+        mocked_update.assert_called()
 
 
 class DynamicFieldSerializerMixinTest(TestCase):
