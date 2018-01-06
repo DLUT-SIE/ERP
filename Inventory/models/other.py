@@ -86,7 +86,7 @@ class WeldingMaterialBakeRecord(models.Model):
                               blank=True, default='')
 
     def __str__(self):
-        return self.uid
+        return str(self.create_dt)
 
     class Meta:
         verbose_name = '焊材烘焙记录卡'

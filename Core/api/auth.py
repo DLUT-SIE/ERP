@@ -5,7 +5,7 @@ from rest_framework.exceptions import MethodNotAllowed
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 
-from Core import serializers
+from Core import serializers, filters
 from Core.models import Department
 from Core.utils.pagination import SmallResultsSetPagination
 
@@ -16,6 +16,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     pagination_class = SmallResultsSetPagination
     queryset = User.objects.exclude(is_staff=True).order_by('pk')
+    filter_class = filters.UserFilter
 
     def destroy(self, request, pk=None):
         raise MethodNotAllowed(request.method)
@@ -30,7 +31,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def non_production_users(self, request, *args, **kwargs):
-        queryset = self.get_queryset().filter(info__isnull=False)
+        queryset = self.filter_queryset(self.get_queryset())
+        queryset = queryset.filter(info__isnull=False)
         queryset = queryset.filter(info__productionuser__isnull=True)
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(page, many=True)

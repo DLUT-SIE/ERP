@@ -58,14 +58,7 @@ class AbstractApplyCard(models.Model, metaclass=TransitionMeta):
         返回下一个自增主键
         """
         last = cls.objects.last()
-        if not last:
-            return 1
-        else:
-            last.id + 1
-
-    @classmethod
-    def create_apply_cards(cls, sub_order, process_materials):
-        raise NotImplementedError('该方法未实现')
+        return 1 if not last else last.id + 1
 
     @transition(field='status',
                 source=APPLYCARD_STATUS_APPLICANT,

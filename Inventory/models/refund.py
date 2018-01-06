@@ -55,38 +55,19 @@ class AbstractRefundCard(models.Model, metaclass=TransitionMeta):
         else:
             return last.id + 1
 
-    @classmethod
-    def create_refund_cards(cls, apply_card, details_dict):
-        """
-        创建退库单
-
-        Parameters
-        -----------
-        apply_card
-            领用单
-        details_dict: dict
-            key为领用明细, value为退库数量
-        """
-        raise NotImplementedError()
-
-    def valid_refund_params(self, request):
-        return True
-
     @transition(field='status',
                 source=REFUNDSTATUS_REFUNDER,
                 target=REFUNDSTATUS_INSPECTOR,
-                name='退库确认',
-                conditions='valid_refund_params')
+                name='退库确认')
     def refunder_confirm(self, request):
         self.refunder = request.user
 
     @transition(field='status',
                 source=REFUNDSTATUS_INSPECTOR,
                 target=REFUNDSTATUS_KEEPER,
-                name='检查确认',
-                conditions='valid_refund_params')
+                name='检查确认')
     def inspector_confirm(self, request):
-        self.inspector_confirm = request.user
+        self.inspector = request.user
 
 
 class WeldingMaterialRefundCard(AbstractRefundCard):
@@ -112,13 +93,13 @@ class WeldingMaterialRefundCard(AbstractRefundCard):
 
     @classmethod
     def create_refund_cards(cls, apply_card, details_dict):
-        count = details_dict.values()[0]
+        count = list(details_dict.values())[0]
         cls.objects.create(
             uid='WR-{}'.format(cls.gen_uid_index()),
             apply_card=apply_card,
             count=count)
 
-    def valid_refund_params(self, request):
+    def valid_refunder_confirm(self, request):
         """
         退库确认先验条件, 退库数量不能大于领用数量
         """
@@ -130,8 +111,7 @@ class WeldingMaterialRefundCard(AbstractRefundCard):
     @transition(field='status',
                 source=REFUNDSTATUS_KEEPER,
                 target=REFUNDSTATUS_END,
-                name='库管确认',
-                conditions='valid_refund_params')
+                name='库管确认')
     def keeper_confirm(self, request):
         self.keeper = request.user
         inventory_detail = self.apply_card.inventory
@@ -179,7 +159,7 @@ class SteelMaterialRefundCard(AbstractRefundCard):
         for steel_type, details in refund_details.items():
             cls.detail_cls[steel_type].objects.bulk_create(details)
 
-    def valid_refund_params(self, request):
+    def valid_refunder_confirm(self, request):
         for refund_detail in self.board_details.select_related('apply_detail'):
             if refund_detail.count > refund_detail.apply_detail.count:
                 return False
@@ -194,8 +174,7 @@ class SteelMaterialRefundCard(AbstractRefundCard):
     @transition(field='status',
                 source=REFUNDSTATUS_KEEPER,
                 target=REFUNDSTATUS_END,
-                name='库管确认',
-                conditions='valid_refund_params')
+                name='库管确认')
     def keeper_confirm(self, request):
         """
         根据退库明细创建新的库存明细
@@ -245,7 +224,7 @@ class BoughtInComponentRefundCard(AbstractRefundCard):
             refund_details.append(refund_detail)
         cls.detail_cls.objects.bulk_create(refund_details)
 
-    def valid_refund_params(self, request):
+    def valid_refunder_confirm(self, request):
         for refund_detail in self.details.select_related('apply_detail'):
             if refund_detail.count > refund_detail.apply_detail.count:
                 return False
@@ -254,8 +233,7 @@ class BoughtInComponentRefundCard(AbstractRefundCard):
     @transition(field='status',
                 source=REFUNDSTATUS_KEEPER,
                 target=REFUNDSTATUS_END,
-                name='库管确认',
-                conditions='valid_refund_params')
+                name='库管确认')
     def keeper_confirm(self, request):
         self.keeper = request.user
         for refund_detail in self.details.select_related('apply_detail'):
