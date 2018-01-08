@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from django.db import transaction
+from django.db.models import F
 
 from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
@@ -98,6 +99,15 @@ class TransferCardProcessViewSet(viewsets.ModelViewSet):
     queryset = TransferCardProcess.objects.all().order_by('index')
     filter_class = TransferCardProcessFilter
     serializer_class = TransferCardProcessSerializer
+
+    def perform_destroy(self, instance):
+        transfer_card = instance.transfer_card
+        index = instance.index
+        transfer_card_processes = TransferCardProcess.objects.filter(
+            index__gte=index, transfer_card=transfer_card)
+        with transaction.atomic():
+            transfer_card_processes.update(index=F('index') - 1)
+            instance.delete()
 
 
 class BoughtInItemViewSet(viewsets.ModelViewSet):

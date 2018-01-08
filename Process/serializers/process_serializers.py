@@ -1,5 +1,7 @@
 import ast
 
+from django.db import transaction
+from django.db.models import F
 from rest_framework import serializers
 
 from Process.models import (
@@ -207,6 +209,15 @@ class TransferCardProcessSerializer(serializers.ModelSerializer):
     class Meta:
         model = TransferCardProcess
         fields = '__all__'
+
+    def create(self, validated_data):
+        transfer_card = validated_data['transfer_card']
+        index = validated_data['index']
+        transfer_card_processes = TransferCardProcess.objects.filter(
+            index__gte=index, transfer_card=transfer_card)
+        with transaction.atomic():
+            transfer_card_processes.update(index=F('index')+1)
+            return TransferCardProcess.objects.create(**validated_data)
 
 
 class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
