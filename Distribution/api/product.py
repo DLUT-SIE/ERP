@@ -29,7 +29,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
-        if 'department' in self.request.GET:
+        if self.request and 'department' in self.request.GET:
             dep_id = self.request.GET['department']
             context['department'] = get_object_or_404(Department, id=dep_id)
         return context

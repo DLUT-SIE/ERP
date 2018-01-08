@@ -28,8 +28,8 @@ class AbstractEntryCreateSerializerMixin(serializers.Serializer):
     def validate_inspections(self, inspection_ids):
         inspections = ArrivalInspection.objects.filter(id__in=inspection_ids)
         # TODO: Should we check the inspections are from the same biddingsheet?
-        if not inspections:
-            raise serializers.ValidationError('请至少选中一项')
+        if not inspections or inspections.count() != len(inspection_ids):
+            raise serializers.ValidationError('到货检验选项数据有误')
         return inspections
 
     def validate_bidding_sheet(self, bidding_sheet_id):

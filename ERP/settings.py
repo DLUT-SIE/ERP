@@ -121,6 +121,3 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'PAGE_SIZE': 100,
 }
-
-# Tests
-# TEST_RUNNER = 'Core.utils.test_runner.NoDatabaseTestRunner'

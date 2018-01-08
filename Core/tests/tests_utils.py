@@ -2,7 +2,7 @@ import uuid
 import os.path as osp
 import hashlib
 
-from unittest.mock import Mock, MagicMock, patch
+from unittest.mock import Mock, MagicMock, patch, PropertyMock
 
 from django.test import TestCase
 from django.core import exceptions
@@ -276,13 +276,17 @@ class DynamicFieldSerializerMixinTest(TestCase):
         self.kwargs = kwargs
         self.request = request
 
-    def test_pop_fields(self):
-        DynamicFieldSerializerMixin.fields = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+    @patch('Core.utils.DynamicFieldSerializerMixin.fields',
+           new_callable=PropertyMock)
+    def test_pop_fields(self, mocked_fields):
+        mocked_fields.return_value = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
         serializer = DynamicFieldSerializerMixin(**self.kwargs)
         self.assertEqual({'a', 'b', 'c'}, set(serializer.fields.keys()))
 
-    def test_invalid_query_params(self):
+    @patch('Core.utils.DynamicFieldSerializerMixin.fields',
+           new_callable=PropertyMock)
+    def test_invalid_query_params(self, mocked_fields):
         self.request.query_params['fields'] = 5  # Not really happens
-        DynamicFieldSerializerMixin.fields = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+        mocked_fields.return_value = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
         serializer = DynamicFieldSerializerMixin(**self.kwargs)
         self.assertEqual(set(), set(serializer.fields.keys()))
