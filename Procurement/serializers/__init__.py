@@ -1,3 +1,4 @@
+from .base import (BaseDynamicFieldSerializer, BaseTransitionSerializer)
 from .materialsub import (
     MaterialSubApplySerializer, MaterialSubApplyListSerializer,
     MaterialSubApplyItemsSerializer, MaterialSubApplyItemsUpdateSerializer,
@@ -35,6 +36,7 @@ from .other import (
 
 from .comment import (BaseBiddingCommentSerializer,)
 
+
 __all__ = [
     'MaterialSubApplySerializer', 'MaterialSubApplyListSerializer',
     'MaterialSubApplyItemsSerializer',
@@ -56,5 +58,6 @@ __all__ = [
     'BaseSupplyRelationshipSerializer', 'BaseBiddingAcceptanceSerializer',
     'BaseSupplierCheckSerializer', 'BaseProcessFollowingInfoSerializer',
     'BaseArrivalInspectionSerializer', 'BaseParityRatioCardSerializer',
-    'BaseBiddingCommentSerializer',
+    'BaseBiddingCommentSerializer', 'BaseDynamicFieldSerializer',
+    'BaseTransitionSerializer',
 ]

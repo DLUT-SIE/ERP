@@ -2,6 +2,15 @@ from django.db import models
 
 from Core.utils import DynamicHashPath
 from Procurement import COMMENT_STATUS_CHOICES, SUPPLIER_REL_C_CHOICES
+from Core.utils.fsm import transition, TransitionMeta
+from Procurement import (
+    COMMENT_STATUS_CHECK_FILL,
+    COMMENT_STATUS_CHECK_OPERATOR_COMMENT,
+    COMMENT_STATUS_CHECK_LEAD_COMMENT,
+    COMMENT_STATUS_CHECK_QUALITY_COMMENT,
+    COMMENT_STATUS_CHECK_ECONOMIC_COMMENT,
+    COMMENT_STATUS_CHECK_COMPREHENSIVE_COMMENT,
+    )
 
 
 class Supplier(models.Model):
@@ -23,7 +32,7 @@ class Supplier(models.Model):
         return self.name
 
 
-class SupplierCheck(models.Model):
+class SupplierCheck(models.Model, metaclass=TransitionMeta):
     """
     供应商审核
     """
@@ -46,6 +55,41 @@ class SupplierCheck(models.Model):
 
     def __str__(self):
         return str(self.bidding_sheet)
+
+    @transition(
+        field='status', source=COMMENT_STATUS_CHECK_FILL,
+        target=COMMENT_STATUS_CHECK_OPERATOR_COMMENT)
+    def operator_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_CHECK_OPERATOR_COMMENT,
+        target=COMMENT_STATUS_CHECK_LEAD_COMMENT)
+    def lead_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_CHECK_LEAD_COMMENT,
+        target=COMMENT_STATUS_CHECK_QUALITY_COMMENT)
+    def quality_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_CHECK_QUALITY_COMMENT,
+        target=COMMENT_STATUS_CHECK_ECONOMIC_COMMENT)
+    def economic_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_CHECK_ECONOMIC_COMMENT,
+        target=COMMENT_STATUS_CHECK_COMPREHENSIVE_COMMENT)
+    def comprehensive_comment():
+        # TODO
+        pass
 
 
 class SupplierDocument(models.Model):

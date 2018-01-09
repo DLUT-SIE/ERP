@@ -5,9 +5,14 @@ from Core.models import WorkOrder, SubWorkOrder
 from Process.models import ProcessMaterial
 from Procurement import (INVENTORY_TYPE, INVENTORY_TYPE_NOTSET,
                          PURCHASE_ORDER_STATUS_CHOICES)
+from Procurement import (
+    PURCHASE_ORDER_STATUS_BEGIN, PURCHASE_ORDER_STATUS_ESTABLISHMENT,
+    PURCHASE_ORDER_STATUS_AUDIT, PURCHASE_ORDER_STATUS_APPROVED,
+    PURCHASE_ORDER_STATUS_FINISH)
+from Core.utils.fsm import transition, TransitionMeta
 
 
-class PurchaseOrder(models.Model):
+class PurchaseOrder(models.Model, metaclass=TransitionMeta):
     """
     订购单
     """
@@ -46,6 +51,34 @@ class PurchaseOrder(models.Model):
     class Meta:
         verbose_name = '订购单'
         verbose_name_plural = '订购单'
+
+    @transition(
+        field='status', source=PURCHASE_ORDER_STATUS_BEGIN,
+        target=PURCHASE_ORDER_STATUS_ESTABLISHMENT, name='订单创建完成')
+    def purchase_order_established(self, request):
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=PURCHASE_ORDER_STATUS_ESTABLISHMENT,
+        target=PURCHASE_ORDER_STATUS_AUDIT, name='订单审核通过')
+    def purchase_order_audited(self, request):
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=PURCHASE_ORDER_STATUS_AUDIT,
+        target=PURCHASE_ORDER_STATUS_APPROVED, name='订单批准通过')
+    def purchase_order_approved(self, request):
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=PURCHASE_ORDER_STATUS_APPROVED,
+        target=PURCHASE_ORDER_STATUS_FINISH, name='订单完成')
+    def purchase_order_finished(self, request):
+        # TODO
+        pass
 
     def __str__(self):
         return self.uid

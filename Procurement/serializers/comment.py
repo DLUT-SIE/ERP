@@ -1,8 +1,8 @@
-from rest_framework import serializers
 from Procurement import models
+from Procurement.serializers import (BaseDynamicFieldSerializer,)
 
 
-class BaseBiddingCommentSerializer(serializers.ModelSerializer):
+class BaseBiddingCommentSerializer(BaseDynamicFieldSerializer):
     class Meta:
         model = models.BiddingComment
         fields = ('id', 'user', 'comment', 'submit_dt', 'bidding_sheet',

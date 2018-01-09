@@ -2,6 +2,8 @@ from rest_framework import serializers
 
 from Procurement.models import (Supplier, SupplierDocument, Quotation,
                                 SupplyRelationship, SupplierCheck)
+from Procurement.serializers import (BaseTransitionSerializer,
+                                     BaseDynamicFieldSerializer)
 
 
 class SupplierSerializer(serializers.ModelSerializer):
@@ -41,7 +43,7 @@ class SupplierDetailSerializer(SupplierSerializer):
 
 
 # 供应商关系
-class BaseSupplyRelationshipSerializer(serializers.ModelSerializer):
+class BaseSupplyRelationshipSerializer(BaseDynamicFieldSerializer):
 
     class Meta:
         model = SupplyRelationship
@@ -51,7 +53,7 @@ class BaseSupplyRelationshipSerializer(serializers.ModelSerializer):
 
 
 # 供应商审核
-class BaseSupplierCheckSerializer(serializers.ModelSerializer):
+class BaseSupplierCheckSerializer(BaseTransitionSerializer):
 
     class Meta:
         model = SupplierCheck

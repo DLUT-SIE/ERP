@@ -1,4 +1,4 @@
-from .procurement import PurchaseOrderFilter
+from .procurement import (PurchaseOrderFilter, ProcurementMaterialFilter)
 
 from .bidding import (BiddingSheetFilter, BiddingApplicationFilter)
 
@@ -8,4 +8,4 @@ from .status_change import (StatusChangeFilter, )
 
 __all__ = ['PurchaseOrderFilter', 'BiddingSheetFilter',
            'BiddingApplicationFilter', 'SupplyRelationshipFilter',
-           'StatusChangeFilter']
+           'StatusChangeFilter', 'ProcurementMaterialFilter']

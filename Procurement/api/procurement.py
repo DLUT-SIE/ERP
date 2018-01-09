@@ -2,7 +2,8 @@ from rest_framework import viewsets
 from Core.utils.pagination import SmallResultsSetPagination
 from Procurement.models import PurchaseOrder, ProcurementMaterial
 from Procurement import serializers
-from Procurement.filters import PurchaseOrderFilter
+from Procurement.filters import (PurchaseOrderFilter,
+                                 ProcurementMaterialFilter)
 
 
 # 采购单
@@ -24,6 +25,7 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
 class ProcurementMaterialViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = ProcurementMaterial.objects.all().order_by('-pk')
+    filter_class = ProcurementMaterialFilter
 
     def get_serializer_class(self):
         if self.action == 'list':

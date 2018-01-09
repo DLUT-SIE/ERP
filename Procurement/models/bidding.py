@@ -3,9 +3,36 @@ from django.db import models
 from Core.utils import gen_uuid
 from Procurement import (BIDDING_SHEET_STATUS_CHOICES, COMMENT_STATUS_CHOICES,
                          IMPLEMENT_CLASS_CHOICES)
+from Core.utils.fsm import transition, TransitionMeta
+from Procurement import (
+    BIDDING_SHEET_STATUS_CREATE, BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED,
+    BIDDING_SHEET_STATUS_INVITE_BID_APPLY_SELECT,
+    BIDDING_SHEET_STATUS_INVITE_BID_FILL,
+    BIDDING_SHEET_STATUS_INVITE_BID_CARRY,
+    BIDDING_SHEET_STATUS_INVITE_BID_COMPLETE,
+    BIDDING_SHEET_STATUS_PROCESS_FOLLOW, BIDDING_SHEET_STATUS_CHECK,
+    BIDDING_SHEET_STATUS_STORE, BIDDING_SHEET_STATUS_COMPLETE,
+    BIDDING_SHEET_STATUS_STOP)
+
+from Procurement import (
+    COMMENT_STATUS_APPLY_FILL,
+    COMMENT_STATUS_APPLY_OPERATOR_COMMENT,
+    COMMENT_STATUS_APPLY_LEAD_COMMENT,
+    COMMENT_STATUS_APPLY_NEED_COMMENT,
+    COMMENT_STATUS_APPLY_CENTRALIZE_COMMENT,
+    COMMENT_STATUS_APPLY_LOGISTICAL_COMMENT,
+    COMMENT_STATUS_APPLY_COMPANY_COMMENT,
+    COMMENT_STATUS_QUALITY_FILL,
+    COMMENT_STATUS_QUALITY_OPERATOR_COMMENT,
+    COMMENT_STATUS_QUALITY_NEED_TECH_COMMENT,
+    COMMENT_STATUS_QUALITY_NEED_LEAD_COMMENT,
+    COMMENT_STATUS_QUALITY_COMPREHENSIVE_COMMENT,
+    COMMENT_STATUS_QUALITY_COMPANY_COMMENT,
+    COMMENT_STATUS_APPLY_FINISH,
+)
 
 
-class BiddingSheet(models.Model):
+class BiddingSheet(models.Model, metaclass=TransitionMeta):
     """
     标单
     """
@@ -32,9 +59,138 @@ class BiddingSheet(models.Model):
     def __str__(self):
         return self.uid
 
+    @transition(field='status', source=BIDDING_SHEET_STATUS_CREATE,
+                target=BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED)
+    def select_supplier_approved():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED,
+        target=BIDDING_SHEET_STATUS_INVITE_BID_APPLY_SELECT)
+    def invite_bid_apply_selected():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_APPLY_SELECT,
+        target=BIDDING_SHEET_STATUS_INVITE_BID_FILL)
+    def invite_bid_filled():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_FILL,
+                target=BIDDING_SHEET_STATUS_INVITE_BID_CARRY)
+    def invite_bid_carried():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_CARRY,
+                target=BIDDING_SHEET_STATUS_INVITE_BID_COMPLETE)
+    def invite_bid_completed():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_COMPLETE,
+        target=BIDDING_SHEET_STATUS_PROCESS_FOLLOW)
+    def process_followed():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_PROCESS_FOLLOW,
+                target=BIDDING_SHEET_STATUS_CHECK)
+    def checked():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_CHECK,
+                target=BIDDING_SHEET_STATUS_STORE)
+    def stored():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_STORE,
+                target=BIDDING_SHEET_STATUS_COMPLETE)
+    def completed():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_COMPLETE,
+                target=BIDDING_SHEET_STATUS_STOP)
+    def stopped():
+        # TODO
+        pass
+
+    # 状态回溯
+    @transition(field='status', source=BIDDING_SHEET_STATUS_STOP,
+                target=BIDDING_SHEET_STATUS_COMPLETE)
+    def completed_rollback():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=BIDDING_SHEET_STATUS_COMPLETE,
+        target=BIDDING_SHEET_STATUS_STORE)
+    def stored_rollback():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=BIDDING_SHEET_STATUS_STORE,
+        target=BIDDING_SHEET_STATUS_CHECK)
+    def checked_rollback():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_CHECK,
+                target=BIDDING_SHEET_STATUS_PROCESS_FOLLOW)
+    def process_follow_rollbacked():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_PROCESS_FOLLOW,
+                target=BIDDING_SHEET_STATUS_INVITE_BID_COMPLETE)
+    def invite_bid_completed_rollback():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_COMPLETE,
+        target=BIDDING_SHEET_STATUS_INVITE_BID_CARRY)
+    def invite_bid_carried_rollback():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_CARRY,
+                target=BIDDING_SHEET_STATUS_INVITE_BID_FILL)
+    def invite_bid_filled_rollback():
+        # TODO
+        pass
+
+    @transition(field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_FILL,
+                target=BIDDING_SHEET_STATUS_INVITE_BID_APPLY_SELECT)
+    def invite_bid_apply_selected_rollback():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_APPLY_SELECT,
+        target=BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED)
+    def select_supplier_approved_rollback():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED,
+        target=BIDDING_SHEET_STATUS_CREATE)
+    def created_rollback():
+        # TODO
+        pass
+
 
 # TODO: Require all fields when necessary
-class BiddingApplication(models.Model):
+class BiddingApplication(models.Model, metaclass=TransitionMeta):
     """
     标单申请表
     """
@@ -76,8 +232,57 @@ class BiddingApplication(models.Model):
     def __str__(self):
         return str(self.bidding_sheet)
 
+    @transition(
+        field='status', source=COMMENT_STATUS_APPLY_FILL,
+        target=COMMENT_STATUS_APPLY_OPERATOR_COMMENT)
+    def operator_comment():
+        # TODO
+        pass
 
-class ParityRatioCard(models.Model):
+    @transition(
+        field='status', source=COMMENT_STATUS_APPLY_OPERATOR_COMMENT,
+        target=COMMENT_STATUS_APPLY_LEAD_COMMENT)
+    def lead_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_APPLY_LEAD_COMMENT,
+        target=COMMENT_STATUS_APPLY_NEED_COMMENT)
+    def need_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_APPLY_NEED_COMMENT,
+        target=COMMENT_STATUS_APPLY_CENTRALIZE_COMMENT)
+    def centralize_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_APPLY_CENTRALIZE_COMMENT,
+        target=COMMENT_STATUS_APPLY_LOGISTICAL_COMMENT)
+    def logistical_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_APPLY_LOGISTICAL_COMMENT,
+        target=COMMENT_STATUS_APPLY_COMPANY_COMMENT)
+    def company_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_APPLY_COMPANY_COMMENT,
+        target=COMMENT_STATUS_APPLY_FINISH)
+    def finish():
+        # TODO
+        pass
+
+
+class ParityRatioCard(models.Model, metaclass=TransitionMeta):
     """
     比质比价卡
     """
@@ -107,6 +312,41 @@ class ParityRatioCard(models.Model):
 
     def __str__(self):
         return str(self.bidding_sheet)
+
+    @transition(
+        field='status', source=COMMENT_STATUS_QUALITY_FILL,
+        target=COMMENT_STATUS_QUALITY_OPERATOR_COMMENT)
+    def operator_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_QUALITY_OPERATOR_COMMENT,
+        target=COMMENT_STATUS_QUALITY_NEED_TECH_COMMENT)
+    def need_tech_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_QUALITY_NEED_TECH_COMMENT,
+        target=COMMENT_STATUS_QUALITY_NEED_LEAD_COMMENT)
+    def need_lead_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_QUALITY_NEED_LEAD_COMMENT,
+        target=COMMENT_STATUS_QUALITY_COMPREHENSIVE_COMMENT)
+    def comprehensive_comment():
+        # TODO
+        pass
+
+    @transition(
+        field='status', source=COMMENT_STATUS_QUALITY_COMPREHENSIVE_COMMENT,
+        target=COMMENT_STATUS_QUALITY_COMPANY_COMMENT)
+    def company_comment():
+        # TODO
+        pass
 
 
 class BiddingAcceptance(models.Model):

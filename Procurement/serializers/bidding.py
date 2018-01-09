@@ -1,9 +1,11 @@
 from rest_framework import serializers
 from Procurement import models
+from Procurement.serializers import (BaseTransitionSerializer,
+                                     BaseDynamicFieldSerializer)
 
 
 # 标单
-class BaseBiddingSheetSerializer(serializers.ModelSerializer):
+class BaseBiddingSheetSerializer(BaseTransitionSerializer):
 
     purchase_order_uid = serializers.CharField(source='purchase_order.uid',
                                                read_only=True)
@@ -23,7 +25,7 @@ class BiddingSheetListSerializer(BaseBiddingSheetSerializer):
 
 
 # 标单申请表
-class BaseBiddingApplicationSerializer(serializers.ModelSerializer):
+class BaseBiddingApplicationSerializer(BaseTransitionSerializer):
     work_order_uid = serializers.CharField(source='work_order.uid',
                                            read_only=True)
     bidding_sheet_uid = serializers.CharField(source='bidding_sheet.uid',
@@ -53,7 +55,7 @@ class BiddingApplicationListSerializer(BaseBiddingApplicationSerializer):
 
 
 # 中标通知书
-class BaseBiddingAcceptanceSerializer(serializers.ModelSerializer):
+class BaseBiddingAcceptanceSerializer(BaseDynamicFieldSerializer):
     class Meta:
         model = models.BiddingAcceptance
         fields = ('id', 'uid', 'bidding_sheet', 'requestor', 'content',
@@ -62,7 +64,7 @@ class BaseBiddingAcceptanceSerializer(serializers.ModelSerializer):
 
 
 # 比质比价卡
-class BaseParityRatioCardSerializer(serializers.ModelSerializer):
+class BaseParityRatioCardSerializer(BaseTransitionSerializer):
     class Meta:
         model = models.ParityRatioCard
         fields = ('id', 'bidding_sheet', 'apply_id', 'applicant', 'requestor',

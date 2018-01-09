@@ -1,8 +1,8 @@
-from rest_framework import serializers
 from Procurement import models
+from Procurement.serializers import (BaseDynamicFieldSerializer,)
 
 
-class BaseProcessFollowingInfoSerializer(serializers.ModelSerializer):
+class BaseProcessFollowingInfoSerializer(BaseDynamicFieldSerializer):
 
     class Meta:
         model = models.ProcessFollowingInfo
@@ -10,7 +10,7 @@ class BaseProcessFollowingInfoSerializer(serializers.ModelSerializer):
                   'following_feedback', 'path', 'executor', 'inform_process')
 
 
-class BaseArrivalInspectionSerializer(serializers.ModelSerializer):
+class BaseArrivalInspectionSerializer(BaseDynamicFieldSerializer):
 
     class Meta:
         model = models.ArrivalInspection
