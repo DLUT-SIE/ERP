@@ -13,7 +13,7 @@ from .process_serializers import (
     TotalWeldingMaterialSerializer, WeldingMaterialSerializer,
     FluxMaterialSerializer, TransferCardCreateSerializer,
     WeldingProcessSpecificationSerializer, WeldingCertificationSerializer,
-    WeldingJointProcessAnalysisSerializer,
+    WeldingJointProcessAnalysisSerializer, WeldingWorkInstructionSerializer,
     WeldingJointProcessAnalysisCreateSerializer)
 
 
@@ -35,4 +35,5 @@ __all__ = ['ProcessLibrarySerializer', 'ProcessMaterialSerializer',
            'WeldingProcessSpecificationSerializer',
            'WeldingJointProcessAnalysisSerializer',
            'WeldingCertificationSerializer',
+           'WeldingWorkInstructionSerializer',
            'WeldingJointProcessAnalysisCreateSerializer']

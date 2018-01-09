@@ -8,7 +8,7 @@ from Process.models import (
     CooperantItem, PrincipalQuotaItem, QuotaList, WeldingQuotaItem,
     AuxiliaryQuotaItem, WeldingSeam, TotalWeldingMaterial, WeldingMaterial,
     FluxMaterial, WeldingProcessSpecification, WeldingJointProcessAnalysis,
-    WeldingCertification)
+    WeldingCertification, WeldingWorkInstruction)
 
 
 class ProcessLibraryFilter(filters.FilterSet):
@@ -202,3 +202,11 @@ class WeldingCertificationFilter(filters.FilterSet):
     class Meta:
         model = WeldingCertification
         fields = ('weld_method',)
+
+
+class WeldingWorkInstructionFilter(filters.FilterSet):
+    work_order_uid = filters.CharFilter(name='detail__spec__work_order__uid')
+
+    class Meta:
+        model = WeldingWorkInstruction
+        fields = ('work_order_uid',)

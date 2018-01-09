@@ -6,7 +6,7 @@ from .process import (
     MaterialFilter, AuxiliaryQuotaItemFilter, WeldingSeamFilter,
     TotalWeldingMaterialFilter, WeldingMaterialFilter, FluxMaterialFilter,
     WeldingProcessSpecificationFilter, WeldingJointProcessAnalysisFilter,
-    WeldingCertificationFilter)
+    WeldingCertificationFilter, WeldingWorkInstructionFilter)
 
 __all__ = ['ProcessLibraryFilter', 'ProcessMaterialFilter', 'QuotaListFilter',
            'TransferCardFilter', 'CirculationRouteFilter',
@@ -17,4 +17,5 @@ __all__ = ['ProcessLibraryFilter', 'ProcessMaterialFilter', 'QuotaListFilter',
            'AuxiliaryQuotaItemFilter', 'WeldingSeamFilter',
            'TotalWeldingMaterialFilter', 'WeldingMaterialFilter',
            'FluxMaterialFilter', 'WeldingProcessSpecificationFilter',
-           'WeldingJointProcessAnalysisFilter', 'WeldingCertificationFilter']
+           'WeldingJointProcessAnalysisFilter', 'WeldingCertificationFilter',
+           'WeldingWorkInstructionFilter']

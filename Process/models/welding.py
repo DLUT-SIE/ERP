@@ -205,7 +205,8 @@ class WeldingWorkInstruction(models.Model):
         verbose_name_plural = '焊接作业指导书'
 
     def __str__(self):
-        return 'RH20-{}-{}'.format(self.detail.spec.work_order, self.id)
+        return 'RH20-{}-{}'.format(str(self.detail.spec.work_order)[2:],
+                                   self.id)
 
 
 class WeldingWorkInstructionProcess(models.Model):

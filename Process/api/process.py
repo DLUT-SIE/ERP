@@ -3,6 +3,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from django.db import transaction
 from django.db.models import F
 
+
 from Core.utils.pagination import SmallResultsSetPagination
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, BoughtInItem, QuotaList,
@@ -10,7 +11,7 @@ from Process.models import (
     CooperantItem, PrincipalQuotaItem, WeldingQuotaItem, Material,
     AuxiliaryQuotaItem, WeldingSeam, TotalWeldingMaterial, WeldingMaterial,
     FluxMaterial, WeldingProcessSpecification, WeldingJointProcessAnalysis,
-    WeldingCertification)
+    WeldingCertification, WeldingWorkInstruction)
 from Process.serializers import (
     ProcessLibrarySerializer, ProcessMaterialSerializer,
     TransferCardSerializer, CirculationRouteSerializer, ProcessRouteSerializer,
@@ -26,7 +27,7 @@ from Process.serializers import (
     TotalWeldingMaterialSerializer, WeldingMaterialSerializer,
     FluxMaterialSerializer, TransferCardCreateSerializer,
     WeldingProcessSpecificationSerializer, WeldingCertificationSerializer,
-    WeldingJointProcessAnalysisSerializer,
+    WeldingJointProcessAnalysisSerializer, WeldingWorkInstructionSerializer,
     WeldingJointProcessAnalysisCreateSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
@@ -36,7 +37,7 @@ from Process.filters import (
     MaterialFilter, AuxiliaryQuotaItemFilter, WeldingSeamFilter,
     TotalWeldingMaterialFilter, WeldingMaterialFilter, FluxMaterialFilter,
     WeldingProcessSpecificationFilter, WeldingJointProcessAnalysisFilter,
-    WeldingCertificationFilter)
+    WeldingCertificationFilter, WeldingWorkInstructionFilter)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -251,6 +252,7 @@ class WeldingJointProcessAnalysisViewSet(viewsets.ModelViewSet):
             welding_seams = serializer.validated_data.pop('welding_seams')
             instance = serializer.save()
             welding_seams.update(analysis=instance)
+            WeldingWorkInstruction.objects.create(detail=instance)
 
 
 class WeldingCertificationViewSet(viewsets.ModelViewSet):
@@ -258,3 +260,10 @@ class WeldingCertificationViewSet(viewsets.ModelViewSet):
     queryset = WeldingCertification.objects.all().order_by('-pk')
     filter_class = WeldingCertificationFilter
     serializer_class = WeldingCertificationSerializer
+
+
+class WeldingWorkInstructionViewSet(viewsets.ModelViewSet):
+    pagination_class = SmallResultsSetPagination
+    queryset = WeldingWorkInstruction.objects.all().order_by('-pk')
+    filter_class = WeldingWorkInstructionFilter
+    serializer_class = WeldingWorkInstructionSerializer

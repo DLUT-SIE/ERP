@@ -3,18 +3,18 @@ import ast
 from django.db import transaction
 from django.db.models import F
 from rest_framework import serializers
-
 from Process.models import (
     ProcessLibrary, ProcessMaterial, CirculationRoute, ProcessRoute,
     ProcessStep, TransferCard, TransferCardProcess, BoughtInItem, QuotaList,
     FirstFeedingItem, CooperantItem, AbstractQuotaItem, PrincipalQuotaItem,
     WeldingQuotaItem, Material, AuxiliaryQuotaItem, WeldingSeam,
     TotalWeldingMaterial, WeldingMaterial, FluxMaterial, WeldingCertification,
-    WeldingProcessSpecification, WeldingJointProcessAnalysis)
+    WeldingProcessSpecification, WeldingJointProcessAnalysis,
+    WeldingWorkInstruction)
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
-    circulation_routes = serializers.SerializerMethodField(read_only=True)
+    circulation_routes = serializers.SerializerMethodField()
 
     def get_circulation_routes(self, obj):
         circulation_routes = []
@@ -163,8 +163,8 @@ class TransferCardListSerializer(serializers.ModelSerializer):
         source='process_material.ticket_number', read_only=True)
     name = serializers.CharField(source='process_material.name',
                                  read_only=True)
-    status = serializers.SerializerMethodField(read_only=True)
-    file_index = serializers.SerializerMethodField(read_only=True)
+    status = serializers.SerializerMethodField()
+    file_index = serializers.SerializerMethodField()
     category = serializers.CharField(source='get_category_display')
 
     class Meta:
@@ -198,7 +198,7 @@ class TransferCardSerializer(GetCirculationRoutesMixin,
                                      read_only=True)
     drawing_number = serializers.CharField(
         source='process_material.drawing_number', read_only=True)
-    circulation_routes = serializers.SerializerMethodField(read_only=True)
+    circulation_routes = serializers.SerializerMethodField()
 
     class Meta(TransferCardListSerializer.Meta):
         fields = '__all__'
@@ -327,7 +327,9 @@ class PrincipalQuotaItemSerializer(serializers.ModelSerializer):
                   'weight', 'operative_norm', 'status', 'remark', 'material')
 
     def get_total_weight(self, obj):
-        return obj.count * obj.weight
+        if obj.weight:
+            return obj.count * obj.weight
+        return 0
 
 
 class QuotaListSerializer(serializers.ModelSerializer):
@@ -391,7 +393,7 @@ class AuxiliaryQuotaItemListSerializer(AbstractQuotaItemSerializer):
                                  read_only=True)
     press_mark = serializers.CharField(source='process_material.remark',
                                        read_only=True)
-    use_ratio = serializers.SerializerMethodField(read_only=True)
+    use_ratio = serializers.SerializerMethodField()
 
     def get_use_ratio(self, obj):
         if obj.process_material.piece_weight and obj.quota:
@@ -456,8 +458,32 @@ class WeldingSeamListSerializer(WeldingSeamSerializer):
         source='process_material.drawing_number')
     ticket_number = serializers.IntegerField(
         source='process_material.ticket_number')
+    wm_1_name = serializers.SerializerMethodField()
+    wm_2_name = serializers.SerializerMethodField()
+    wf_1_name = serializers.SerializerMethodField()
+    wf_2_name = serializers.SerializerMethodField()
 
     # TODO: 母材是否绑定材质表？
+
+    def get_wm_1_name(self, obj):
+        if obj.wm_1:
+            return obj.wm_1.name
+        return None
+
+    def get_wm_2_name(self, obj):
+        if obj.wm_2:
+            return obj.wm_2.name
+        return None
+
+    def get_wf_1_name(self, obj):
+        if obj.wf_1:
+            return obj.wf_1.name
+        return None
+
+    def get_wf_2_name(self, obj):
+        if obj.wf_2:
+            return obj.wf_2.name
+        return None
 
     class Meta:
         model = WeldingSeam
@@ -466,7 +492,8 @@ class WeldingSeamListSerializer(WeldingSeamSerializer):
                   'weld_method_1_name', 'weld_method_2_name', 'bm_1',
                   'bm_thick_1', 'bm_2', 'bm_thick_2', 'length', 'wm_1', 'wf_1',
                   'wt_1', 'ws_1', 'weight_1', 'wf_weight_1', 'wm_2', 'wf_2',
-                  'wt_2', 'ws_2', 'weight_2', 'wf_weight_2', 'remark')
+                  'wt_2', 'ws_2', 'weight_2', 'wf_weight_2', 'remark',
+                  'wm_1_name', 'wm_2_name', 'wf_1_name', 'wf_2_name')
 
 
 class TotalWeldingMaterialSerializer(serializers.ModelSerializer):
@@ -491,12 +518,12 @@ class FluxMaterialSerializer(serializers.ModelSerializer):
 
 
 class WeldingProcessSpecificationSerializer(serializers.ModelSerializer):
-    uid = serializers.SerializerMethodField(read_only=True)
+    uid = serializers.SerializerMethodField()
     product = serializers.CharField(source='work_order.product.name',
                                     read_only=True)
     project = serializers.CharField(source='work_order.project',
                                     read_only=True)
-    drawing_number = serializers.SerializerMethodField(read_only=True)
+    drawing_number = serializers.SerializerMethodField()
 
     def get_drawing_number(self, obj):
         lib = obj.work_order.process_library
@@ -534,22 +561,40 @@ class WeldingJointProcessAnalysisCreateSerializer(serializers.ModelSerializer):
 
 
 class WeldingJointProcessAnalysisSerializer(serializers.ModelSerializer):
-    wm_1 = serializers.SerializerMethodField(read_only=True)
-    wm_2 = serializers.SerializerMethodField(read_only=True)
-    ws_1 = serializers.SerializerMethodField(read_only=True)
-    ws_2 = serializers.SerializerMethodField(read_only=True)
+    bm_1 = serializers.SerializerMethodField()
+    bm_2 = serializers.SerializerMethodField()
+    bm_thick_1 = serializers.SerializerMethodField()
+    bm_thick_2 = serializers.SerializerMethodField()
+    welding_work_instruction_index = serializers.SerializerMethodField(
+        read_only=True)
+    welding_work_instruction_id = serializers.SerializerMethodField(
+        read_only=True)
 
-    def get_wm_1(self, obj):
-        return obj.weldingseam_set.first().wm_1.name
+    def get_welding_work_instruction_id(self, obj):
+        return obj.weldingworkinstruction.id
 
-    def get_wm_2(self, obj):
-        return obj.weldingseam_set.first().wm_2.name
+    def get_welding_work_instruction_index(self, obj):
+        return str(obj.weldingworkinstruction)
 
-    def get_ws_1(self, obj):
-        return obj.weldingseam_set.first().ws_1
+    def get_bm_1(self, obj):
+        if obj.weldingseam_set.count() > 0:
+            return obj.weldingseam_set.first().bm_1
+        return None
 
-    def get_ws_2(self, obj):
-        return obj.weldingseam_set.first().ws_2
+    def get_bm_2(self, obj):
+        if obj.weldingseam_set.count() > 0:
+            return obj.weldingseam_set.first().bm_2
+        return None
+
+    def get_bm_thick_1(self, obj):
+        if obj.weldingseam_set.count() > 0:
+            return obj.weldingseam_set.first().bm_thick_1
+        return None
+
+    def get_bm_thick_2(self, obj):
+        if obj.weldingseam_set.count() > 0:
+            return obj.weldingseam_set.first().bm_thick_2
+        return None
 
     class Meta:
         model = WeldingJointProcessAnalysis
@@ -562,4 +607,64 @@ class WeldingCertificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WeldingCertification
+        fields = '__all__'
+
+
+class WeldingWorkInstructionSerializer(serializers.ModelSerializer):
+    bm_1 = serializers.SerializerMethodField()
+    bm_2 = serializers.SerializerMethodField()
+    bm_thick_1 = serializers.SerializerMethodField()
+    bm_thick_2 = serializers.SerializerMethodField()
+    wt_1 = serializers.SerializerMethodField()
+    wt_2 = serializers.SerializerMethodField()
+    work_order_uid = serializers.SerializerMethodField()
+    uid = serializers.SerializerMethodField()
+    weld_position = serializers.SerializerMethodField()
+    welding_work_instruction_index = serializers.SerializerMethodField(
+        read_only=True)
+
+    def get_welding_work_instruction_index(self, obj):
+        return str(obj)
+
+    def get_weld_position(self, obj):
+        return obj.detail.weldingseam_set.first().weld_position
+
+    def get_uid(self, obj):
+        return obj.detail.joint_index
+
+    def get_work_order_uid(self, obj):
+        return obj.detail.spec.work_order.uid
+
+    def get_bm_1(self, obj):
+        if obj.detail.weldingseam_set.count() > 0:
+            return obj.detail.weldingseam_set.first().bm_1
+        return None
+
+    def get_bm_2(self, obj):
+        if obj.detail.weldingseam_set.count() > 0:
+            return obj.detail.weldingseam_set.first().bm_2
+        return None
+
+    def get_bm_thick_1(self, obj):
+        if obj.detail.weldingseam_set.count() > 0:
+            return obj.detail.weldingseam_set.first().bm_thick_1
+        return None
+
+    def get_bm_thick_2(self, obj):
+        if obj.detail.weldingseam_set.count() > 0:
+            return obj.detail.weldingseam_set.first().bm_thick_1
+        return None
+
+    def get_wt_1(self, obj):
+        if obj.detail.weldingseam_set.count() > 0:
+            return obj.detail.weldingseam_set.first().wt_1
+        return None
+
+    def get_wt_2(self, obj):
+        if obj.detail.weldingseam_set.count() > 0:
+            return obj.detail.weldingseam_set.first().wt_2
+        return None
+
+    class Meta:
+        model = WeldingWorkInstruction
         fields = '__all__'
