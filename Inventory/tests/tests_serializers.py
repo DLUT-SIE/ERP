@@ -1,15 +1,23 @@
-from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock, MagicMock
 
 from django.test import TestCase
 from django.utils.timezone import now
 from rest_framework import serializers
 from model_mommy import mommy
 
+from Inventory import APPLYCARD_STATUS_END, APPLYCARD_STATUS_KEEPER
+
 import Inventory.serializers.entry as entry_serializers
 import Inventory.serializers.entry_detail as entry_detail_serializers
-import Inventory.serializers.entry_ledger as ledger_serializers
+import Inventory.serializers.entry_ledger as entry_ledger_serializers
 import Inventory.serializers.inventory_detail as in_detail_serializers
 import Inventory.serializers.inventory_ledger as in_ledger_serializers
+import Inventory.serializers.apply as apply_serializers
+import Inventory.serializers.apply_detail as apply_detail_serializers
+import Inventory.serializers.apply_ledger as apply_ledger_serializers
+import Inventory.serializers.refund as refund_serializers
+import Inventory.serializers.refund_detail as re_detail_serializers
+import Inventory.serializers.other as other_serializers
 
 
 class WeldingMaterialEntrySerializerTest(TestCase):
@@ -21,7 +29,6 @@ class WeldingMaterialEntrySerializerTest(TestCase):
            '.get_actions')
     def test_welding_material_entry_serializer_fields(self,
                                                       mocked_get_actions):
-        mocked_get_actions.return_value = {}
         data = entry_serializers.WeldingMaterialEntrySerializer(
             self.entry).data
         expected_keys = {'id', 'uid', 'bidding_sheet', 'source', 'create_dt',
@@ -87,7 +94,6 @@ class SteelMaterialEntrySerializerTest(TestCase):
     @patch('Inventory.serializers.entry.SteelMaterialEntrySerializer'
            '.get_actions')
     def test_steel_material_entry_serializer_fields(self, mocked_get_actions):
-        mocked_get_actions.return_value = {}
         data = entry_serializers.SteelMaterialEntrySerializer(self.entry).data
         expected_keys = {'id', 'uid', 'bidding_sheet', 'source', 'create_dt',
                          'purchaser', 'inspector', 'keeper', 'status',
@@ -112,7 +118,6 @@ class AuxiliaryMaterialEntrySerializerTest(TestCase):
            '.get_actions')
     def test_auxiliary_material_entry_serializer_fields(self,
                                                         mocked_get_actions):
-        mocked_get_actions.return_value = {}
         data = entry_serializers.AuxiliaryMaterialEntrySerializer(
             self.entry).data
         expected_keys = {'id', 'uid', 'bidding_sheet', 'source', 'create_dt',
@@ -137,7 +142,6 @@ class BoughtInComponentEntrySerializerTest(TestCase):
            '.get_actions')
     def test_bought_in_component_entry_serializer_fields(self,
                                                          mocked_get_actions):
-        mocked_get_actions.return_value = {}
         data = entry_serializers.BoughtInComponentEntrySerializer(
             self.entry).data
         expected_keys = {'id', 'uid', 'bidding_sheet', 'source', 'create_dt',
@@ -222,7 +226,7 @@ class WeldingMaterialEntryLedgerSerializerTest(TestCase):
             procurement_material__process_material__material__uid=123)
 
     def test_ledger_serializer_fields(self):
-        data = ledger_serializers.WeldingMaterialEntryLedgerSerializer(
+        data = entry_ledger_serializers.WeldingMaterialEntryLedgerSerializer(
             self.entry_detail).data
         expected_keys = {
             'id', 'material_mark', 'specification', 'entry_dt',
@@ -240,7 +244,7 @@ class SteelMaterialEntryLedgerSerializerTest(TestCase):
             entry__bidding_sheet__purchase_order__work_order__uid=123)
 
     def test_ledger_serializer_fields(self):
-        data = ledger_serializers.SteelMaterialEntryLedgerSerializer(
+        data = entry_ledger_serializers.SteelMaterialEntryLedgerSerializer(
             self.entry_detail).data
         expected_keys = {
             'id', 'material', 'specification', 'entry_dt',
@@ -258,7 +262,7 @@ class AuxiliaryMaterialEntryLedgerSerializerTest(TestCase):
             entry__create_dt=now())
 
     def test_ledger_serializer_fields(self):
-        data = ledger_serializers.AuxiliaryMaterialEntryLedgerSerializer(
+        data = entry_ledger_serializers.AuxiliaryMaterialEntryLedgerSerializer(
             self.entry_detail).data
         expected_keys = {
             'id', 'specification', 'entry_dt',
@@ -276,7 +280,7 @@ class BoughtInComponentEntryLedgerSerializerTest(TestCase):
             entry__bidding_sheet__purchase_order__work_order__uid=123)
 
     def test_ledger_serializer_fields(self):
-        data = ledger_serializers.BoughtInComponentEntryLedgerSerializer(
+        data = entry_ledger_serializers.BoughtInComponentEntryLedgerSerializer(
             self.entry_detail).data
         expected_keys = {
             'id', 'work_order_uid', 'specification', 'material',
@@ -448,5 +452,537 @@ class BoughtInComponentInventoryLedgerSerializerTest(TestCase):
         expected_keys = {
             'id', 'work_order_uid', 'specification', 'material',
             'entry_dt', 'material_number', 'entry_uid', 'category', 'count',
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class WeldingMaterialApplyCardSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.apply_card = mommy.prepare('WeldingMaterialApplyCard')
+
+    @patch('Inventory.serializers.apply.WeldingMaterialApplyCardSerializer'
+           '.get_actions')
+    def test_fields(self, mocked_get_actions):
+        cls = apply_serializers.WeldingMaterialApplyCardSerializer
+        data = cls(self.apply_card).data
+        expected_keys = {
+            'id', 'department', 'create_dt', 'uid', 'sub_order_uid',
+            'welding_seam_uid', 'material_mark', 'model',
+            'specification', 'apply_weight', 'apply_count',
+            'material_code', 'actual_weight', 'actual_count',
+            'applicant', 'auditor', 'inspector', 'keeper',
+            'status', 'pretty_status', 'actions'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    @patch('Inventory.serializers.apply.WeldingMaterialApplyCardListSerializer'
+           '.get_actions')
+    def test_list_fields(self, mocked_get_actions):
+        cls = apply_serializers.WeldingMaterialApplyCardListSerializer
+        data = cls(self.apply_card).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'welding_seam_uid', 'material_mark',
+            'model', 'specification', 'department', 'create_dt',
+            'uid', 'status', 'pretty_status'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    @patch('Process.models.ProcessMaterial.objects.filter')
+    def test_create_validate_process_materials(self, mocked_filter):
+        cls = apply_serializers.WeldingMaterialApplyCardCreateSerializer
+        serializer = cls()
+
+        material_ids = []
+        with self.assertRaises(serializers.ValidationError):
+            serializer.validate_process_materials(material_ids)
+
+        material_ids = [1, 2, 3]
+        mocked_queryset = Mock()
+        mocked_filter.return_value = mocked_queryset
+        mocked_queryset.count.return_value = 2
+        with self.assertRaises(serializers.ValidationError):
+            serializer.validate_process_materials(material_ids)
+
+        mocked_queryset.count.return_value = 3
+        self.assertIs(serializer.validate_process_materials(material_ids),
+                      mocked_queryset)
+
+    @patch('Core.models.SubWorkOrder.objects.filter')
+    def test_create_validate_sub_order(self, mocked_filter):
+        cls = apply_serializers.WeldingMaterialApplyCardCreateSerializer
+        serializer = cls()
+
+        sub_order_id = 1
+        mocked_queryset = Mock()
+        mocked_filter.return_value = []
+        with self.assertRaises(serializers.ValidationError):
+            serializer.validate_sub_order(sub_order_id)
+
+        mocked_filter.return_value = [mocked_queryset]
+        self.assertIs(serializer.validate_sub_order(sub_order_id),
+                      mocked_queryset)
+
+    @patch('Inventory.models.WeldingMaterialApplyCard.create_apply_cards')
+    def test_create(self, mocked_create_apply_cards):
+        cls = apply_serializers.WeldingMaterialApplyCardCreateSerializer
+        serializer = cls()
+        serializer.create({})
+        mocked_create_apply_cards.assert_called()
+
+
+class SteelMaterialApplyCardSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.apply_card = mommy.prepare('SteelMaterialApplyCard')
+
+    @patch('Inventory.serializers.apply.SteelMaterialApplyCardSerializer'
+           '.get_actions')
+    def test_fields(self, mocked_get_actions):
+        cls = apply_serializers.SteelMaterialApplyCardSerializer
+        data = cls(self.apply_card).data
+        expected_keys = {
+            'id', 'department', 'create_dt', 'uid', 'applicant',
+            'auditor', 'inspector', 'keeper', 'details', 'status',
+            'actions'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    @patch('Inventory.serializers.apply.SteelMaterialApplyCardListSerializer'
+           '.get_actions')
+    def test_list_fields(self, mocked_get_actions):
+        cls = apply_serializers.SteelMaterialApplyCardListSerializer
+        data = cls(self.apply_card).data
+        expected_keys = {
+            'id', 'create_dt', 'uid', 'applicant', 'department',
+            'status', 'pretty_status'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class AuxiliaryMaterialApplyCardSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.apply_card = mommy.prepare('AuxiliaryMaterialApplyCard')
+
+    @patch('Inventory.serializers.apply.AuxiliaryMaterialApplyCardSerializer'
+           '.get_actions')
+    def test_fields(self, mocked_get_actions):
+        cls = apply_serializers.AuxiliaryMaterialApplyCardSerializer
+        data = cls(self.apply_card).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'department', 'uid', 'create_dt',
+            'applicant', 'auditor', 'inspector', 'keeper',
+            'status', 'pretty_status', 'apply_inventory',
+            'apply_inventory_name', 'apply_count',
+            'actual_inventory_name', 'actual_inventory',
+            'actual_count', 'remark', 'actions'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    @patch('Inventory.serializers.apply'
+           '.AuxiliaryMaterialApplyCardListSerializer.get_actions')
+    def test_list_fields(self, mocked_get_actions):
+        cls = apply_serializers.AuxiliaryMaterialApplyCardListSerializer
+        data = cls(self.apply_card).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'uid', 'create_dt',
+            'apply_inventory_name', 'apply_count', 'applicant',
+            'department', 'status', 'pretty_status'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class BoughtInComponentApplyCardSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.apply_card = mommy.prepare('BoughtInComponentApplyCard')
+
+    @patch('Inventory.serializers.apply.BoughtInComponentApplyCardSerializer'
+           '.get_actions')
+    def test_fields(self, mocked_get_actions):
+        cls = apply_serializers.BoughtInComponentApplyCardSerializer
+        data = cls(self.apply_card).data
+        expected_keys = {
+            'id', 'revised_number', 'sample_report', 'sub_order_uid',
+            'department', 'create_dt', 'uid', 'applicant', 'auditor',
+            'inspector', 'keeper', 'status', 'pretty_status', 'details',
+            'actions'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    @patch('Inventory.serializers.apply'
+           '.BoughtInComponentApplyCardListSerializer.get_actions')
+    def test_list_fields(self, mocked_get_actions):
+        cls = apply_serializers.BoughtInComponentApplyCardListSerializer
+        data = cls(self.apply_card).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'uid', 'create_dt', 'applicant',
+            'department', 'status', 'pretty_status'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class SteelMaterialApplyDetailSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.apply_detail = mommy.prepare('SteelMaterialApplyDetail')
+
+    def test_fields(self):
+        cls = apply_detail_serializers.SteelMaterialApplyDetailSerializer
+        data = cls(self.apply_detail).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'material_mark', 'material_code',
+            'specification', 'count', 'component'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class BoughtInComponentApplyDetailSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.apply_detail = mommy.prepare('BoughtInComponentApplyDetail')
+
+    def test_fields(self):
+        cls = apply_detail_serializers.BoughtInComponentApplyDetailSerializer
+        data = cls(self.apply_detail).data
+        expected_keys = {
+            'id', 'drawing_number', 'specification', 'name', 'count',
+            'material_number', 'remark'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class WeldingMaterialApplyLedgerSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.apply_card = mommy.prepare(
+            'WeldingMaterialApplyCard',
+            applicant__first_name='name')
+
+    def test_ledger_serializer_fields(self):
+        data = apply_ledger_serializers.WeldingMaterialApplyLedgerSerializer(
+            self.apply_card).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'welding_seam_uid', 'apply_dt',
+            'applicant', 'department', 'apply_card_uid', 'actual_weight',
+            'actual_count'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class SteelMaterialApplyLedgerSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.apply_detail = mommy.prepare(
+            'SteelMaterialApplyDetail',
+            process_material__material__name='name')
+
+    def test_ledger_serializer_fields(self):
+        data = apply_ledger_serializers.SteelMaterialApplyLedgerSerializer(
+            self.apply_detail).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'material', 'specification',
+            'apply_dt', 'material_number', 'apply_count'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class AuxiliaryMaterialApplyLedgerSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        kwargs = {
+            ('apply_inventory__entry_detail'
+             '__procurement_material__process_material__name'): 'name',
+            ('actual_inventory__entry_detail'
+             '__procurement_material__process_material__spec'): 'spec',
+        }
+        cls.apply_card = mommy.prepare(
+            'AuxiliaryMaterialApplyCard', **kwargs)
+
+    def test_ledger_serializer_fields(self):
+        data = apply_ledger_serializers.AuxiliaryMaterialApplyLedgerSerializer(
+            self.apply_card).data
+        expected_keys = {
+            'id', 'department', 'apply_name', 'apply_specification',
+            'apply_count', 'apply_card_uid', 'apply_dt',
+            'actual_specification', 'actual_count'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class BoughtInComponentApplyLedgerSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.apply_detail = mommy.prepare(
+            'BoughtInComponentApplyDetail',
+            process_material__material__name='name')
+
+    def test_ledger_serializer_fields(self):
+        data = apply_ledger_serializers.BoughtInComponentApplyLedgerSerializer(
+            self.apply_detail).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'specification', 'material',
+            'apply_dt', 'material_number', 'apply_card_uid',
+            'apply_count'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class WeldingMaterialRefundCardSerializer(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.refund_card = mommy.prepare(
+            'WeldingMaterialRefundCard',
+            apply_card__process_material__spec='spec')
+
+    @patch('Inventory.serializers.refund'
+           '.WeldingMaterialRefundCardSerializer.get_actions')
+    def test_fields(self, mocked_get_actions):
+        cls = refund_serializers.WeldingMaterialRefundCardSerializer
+        data = cls(self.refund_card).data
+        expected_keys = {
+            'id', 'department', 'create_dt', 'uid', 'sub_order_uid',
+            'apply_card_create_dt', 'apply_card_uid', 'model',
+            'specification', 'weight', 'count', 'refunder', 'keeper',
+            'status', 'pretty_status', 'actions'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    @patch('Inventory.serializers.refund'
+           '.WeldingMaterialRefundCardListSerializer.get_actions')
+    def test_list_fields(self, mocked_get_actions):
+        cls = refund_serializers.WeldingMaterialRefundCardListSerializer
+        data = cls(self.refund_card).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'department', 'create_dt', 'uid',
+            'welding_seam_uid', 'status', 'pretty_status',
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    @patch('Inventory.models.apply.WeldingMaterialApplyCard.objects.filter')
+    def test_create_validate_details_dict(self, mocked_filter):
+        cls = refund_serializers.WeldingMaterialRefundCardCreateSerializer
+        serializer = cls()
+        details_dict = {'1': 1, '2': 2, '3': 3}
+        apply_details = MagicMock()
+        mocked_filter.return_value = apply_details
+
+        details = []
+        apply_details.__iter__.return_value = details
+        apply_details.count.return_value = 0
+        with self.assertRaises(serializers.ValidationError):
+            serializer.validate_details_dict(details_dict)
+
+        details = [Mock(id=str(i+1)) for i in range(3)]
+        apply_details.__iter__.return_value = details
+        apply_details.count.return_value = 3
+        ret = serializer.validate_details_dict(details_dict)
+
+        mocked_filter.assert_called()
+        apply_details.count.assert_called()
+        for detail in details:
+            self.assertIn(detail, ret)
+            self.assertEqual(ret[detail], details_dict[detail.id])
+
+    @patch('Inventory.models.apply.WeldingMaterialApplyCard.objects.filter')
+    def test_create_validate_apply_Card(self, mocked_filter):
+        cls = refund_serializers.WeldingMaterialRefundCardCreateSerializer
+        serializer = cls()
+        apply_card_id = 1
+
+        mocked_filter.return_value = []
+        with self.assertRaises(serializers.ValidationError):
+            serializer.validate_apply_card(apply_card_id)
+
+        apply_card = Mock()
+        apply_card.status = APPLYCARD_STATUS_KEEPER
+        mocked_filter.return_value = [apply_card]
+        with self.assertRaises(serializers.ValidationError):
+            serializer.validate_apply_card(apply_card_id)
+
+        apply_card.status = APPLYCARD_STATUS_END
+        ret = serializer.validate_apply_card(apply_card_id)
+        mocked_filter.assert_called()
+        self.assertEqual(ret, apply_card)
+
+    def test_create_validate(self):
+        cls = refund_serializers.WeldingMaterialRefundCardCreateSerializer
+        serializer = cls()
+        # TODO: 待序列化器更新后更新测试用例
+        self.assertEqual(serializer.validate({}), {})
+
+    @patch('Inventory.models.refund.WeldingMaterialRefundCard'
+           '.create_refund_cards')
+    def test_create(self, mocked_create_refund_cards):
+        cls = refund_serializers.WeldingMaterialRefundCardCreateSerializer
+        serializer = cls()
+        serializer.create({})
+        mocked_create_refund_cards.assert_called()
+
+
+class SteelMaterialRefundCardSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.refund_card = mommy.prepare(
+            'SteelMaterialRefundCard',
+            apply_card__sub_order__id=1)
+
+    @patch('Inventory.serializers.refund'
+           '.SteelMaterialRefundCardSerializer.get_actions')
+    def test_fields(self, mocked_get_actions):
+        cls = refund_serializers.SteelMaterialRefundCardSerializer
+        data = cls(self.refund_card).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'create_dt', 'uid', 'steel_type',
+            'refunder', 'inspector', 'keeper', 'status', 'pretty_status',
+            'board_details', 'bar_details', 'actions'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    @patch('Inventory.serializers.refund'
+           '.SteelMaterialRefundCardListSerializer.get_actions')
+    def test_list_fields(self, mocked_get_actions):
+        cls = refund_serializers.SteelMaterialRefundCardListSerializer
+        data = cls(self.refund_card).data
+        expected_keys = {
+            'id', 'create_dt', 'uid', 'sub_order_uid', 'steel_type',
+            'refunder', 'status', 'pretty_status'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class BoughtInComponentRefundCardSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.refund_card = mommy.prepare(
+            'BoughtInComponentRefundCard',
+            apply_card__sub_order__id=1)
+
+    @patch('Inventory.serializers.refund'
+           '.BoughtInComponentRefundCardSerializer.get_actions')
+    def test_fields(self, mocked_get_actions):
+        cls = refund_serializers.BoughtInComponentRefundCardSerializer
+        data = cls(self.refund_card).data
+        expected_keys = {
+            'id', 'sub_order_uid', 'department', 'uid', 'refunder',
+            'keeper', 'status', 'pretty_status', 'details', 'actions'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    @patch('Inventory.serializers.refund'
+           '.BoughtInComponentRefundCardListSerializer.get_actions')
+    def test_list_fields(self, mocked_get_actions):
+        cls = refund_serializers.BoughtInComponentRefundCardListSerializer
+        data = cls(self.refund_card).data
+        expected_keys = {
+            'id', 'uid', 'create_dt', 'refunder', 'status', 'pretty_status'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class BoardSteelMaterialRefundDetailSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.refund_detail = mommy.prepare(
+            'BoardSteelMaterialRefundDetail',
+            apply_detail__process_material__material__id=1,
+            refund_card__apply_card__uid='uid')
+
+    def test_fields(self):
+        cls = re_detail_serializers.BoardSteelMaterialRefundDetailSerializer
+        data = cls(self.refund_detail).data
+        expected_keys = {
+            'id', 'name', 'material', 'specification', 'material_code',
+            'status', 'count', 'weight', 'apply_card_uid'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class BarSteelMaterialRefundDetailSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.refund_detail = mommy.prepare(
+            'BarSteelMaterialRefundDetail',
+            apply_detail__process_material__material__id=1,
+            refund_card__apply_card__uid='uid')
+
+    def test_fields(self):
+        cls = re_detail_serializers.BarSteelMaterialRefundDetailSerializer
+        data = cls(self.refund_detail).data
+        expected_keys = {
+            'id', 'name', 'material', 'specification', 'material_code',
+            'status', 'count', 'weight', 'apply_card_uid'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class BoughtInComponentRefundDetailSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.refund_detail = mommy.prepare(
+            'BoughtInComponentRefundDetail',
+            apply_detail__process_material__drawing_number='number',
+            apply_detail__inventory_detail__entry_detail__unit='unit')
+
+    def test_fields(self):
+        cls = re_detail_serializers.BoughtInComponentRefundDetailSerializer
+        data = cls(self.refund_detail).data
+        expected_keys = {
+            'id', 'drawing_number', 'specification', 'name', 'unit',
+            'count', 'material_number', 'remark'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class WarehouseSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.warehourse = mommy.prepare('Warehouse')
+
+    def test_fields(self):
+        cls = other_serializers.WarehouseSerializer
+        data = cls(self.warehourse).data
+        expected_keys = {
+            'id', 'name', 'location', 'category', 'pretty_category'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class WeldingMaterialHumitureRecordSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.warehourse = mommy.prepare('WeldingMaterialHumitureRecord')
+
+    def test_fields(self):
+        cls = other_serializers.WeldingMaterialHumitureRecordSerializer
+        data = cls(self.warehourse).data
+        expected_keys = {
+            'id', 'create_dt', 'keeper', 'actual_temp_1',
+            'actual_humid_1', 'actual_temp_2', 'actual_humid_2',
+            'remark'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    def test_list_fields(self):
+        cls = other_serializers.WeldingMaterialHumitureRecordListSerializer
+        data = cls(self.warehourse).data
+        expected_keys = {'id', 'create_dt', 'keeper'}
+        self.assertEqual(set(data.keys()), expected_keys)
+
+
+class WeldingMaterialBakeRecordSerializerTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.warehourse = mommy.prepare('WeldingMaterialBakeRecord')
+
+    def test_fields(self):
+        cls = other_serializers.WeldingMaterialBakeRecordSerializer
+        data = cls(self.warehourse).data
+        expected_keys = {
+            'id', 'create_dt', 'standard_num', 'size', 'class_num',
+            'heat_num', 'codedmark', 'quantity', 'furnace_time',
+            'baking_temp', 'heating_time', 'cooling_time',
+            'holding_time', 'holding_temp', 'apply_time', 'keeper',
+            'welding_engineer', 'remark'
+        }
+        self.assertEqual(set(data.keys()), expected_keys)
+
+    def test_list_fields(self):
+        cls = other_serializers.WeldingMaterialBakeRecordListSerializer
+        data = cls(self.warehourse).data
+        expected_keys = {
+            'id', 'create_dt', 'standard_num', 'size', 'heat_num',
+            'codedmark', 'keeper', 'welding_engineer'
         }
         self.assertEqual(set(data.keys()), expected_keys)

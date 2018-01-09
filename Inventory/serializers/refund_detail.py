@@ -14,7 +14,7 @@ class BoardSteelMaterialRefundDetailSerializer(serializers.ModelSerializer):
         read_only=True)
     # TODO: Review this field
     material_code = serializers.CharField(default='', read_only=True)
-    apply_card_uid = serializers.CharField(source='apply_card.uid',
+    apply_card_uid = serializers.CharField(source='refund_card.apply_card.uid',
                                            read_only=True)
 
     class Meta:
@@ -30,7 +30,7 @@ class BarSteelMaterialRefundDetailSerializer(serializers.ModelSerializer):
         read_only=True)
     # TODO: Review this field
     material_code = serializers.CharField(default='', read_only=True)
-    apply_card_uid = serializers.CharField(source='apply_card.uid',
+    apply_card_uid = serializers.CharField(source='refund_card.apply_card.uid',
                                            read_only=True)
 
     class Meta:

@@ -10,7 +10,7 @@ class SteelMaterialApplyDetailSerializer(serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(source='sub_order.uid',
                                           read_only=True, default='')
     material_mark = serializers.CharField(
-        source='process_material.name', read_only=True)
+        source='process_material.name', read_only=True, default='')
     # TODO: Review this field
     material_code = serializers.CharField(default='', read_only=True)
     specification = serializers.CharField(source='process_material.spec',
@@ -25,11 +25,11 @@ class SteelMaterialApplyDetailSerializer(serializers.ModelSerializer):
 class BoughtInComponentApplyDetailSerializer(serializers.ModelSerializer):
     drawing_number = serializers.CharField(
         source='process_material.drawing_number',
-        read_only=True)
+        read_only=True, default='')
     specification = serializers.CharField(source='process_material.spec',
                                           read_only=True, default='')
     name = serializers.CharField(
-        source='process_material.name', read_only=True)
+        source='process_material.name', read_only=True, default='')
     # TODO: Review this field
     material_number = serializers.CharField(default='', read_only=True)
 

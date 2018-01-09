@@ -54,7 +54,7 @@ class WeldingMaterialApplyCardSerializer(TransitionSerializerMixin,
     material_mark = serializers.CharField(
         source='process_material.name', read_only=True)
     material_code = serializers.CharField(
-        source='material_number', read_only=True)
+        source='material_number', default='', read_only=True)
     model = serializers.CharField(default='', read_only=True)
     specification = serializers.CharField(source='process_material.spec',
                                           read_only=True)
@@ -123,10 +123,10 @@ class AuxiliaryMaterialApplyCardSerializer(TransitionSerializerMixin,
                                           read_only=True)
     apply_inventory_name = serializers.CharField(
         source='apply_inventory.entry_detail.procurement_material',
-        read_only=True)
+        read_only=True, default='')
     actual_inventory_name = serializers.CharField(
         source='actual_inventory.entry_detail.procurement_material',
-        read_only=True, allow_null=True)
+        read_only=True, default='')
 
     class Meta:
         model = AuxiliaryMaterialApplyCard

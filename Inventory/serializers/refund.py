@@ -28,7 +28,7 @@ class AbstractRefundCardCreateSerializerMixin(serializers.Serializer):
 
     def validate_details_dict(self, details_dict):
         """
-        将 {'apply_detail_id': count} 转化为 [(apply_detail, count)]
+        将 {'apply_detail_id': count} 转化为 {apply_detail: count}
         """
         details = []
         ids = [int(id) for id in details_dict.keys()]
@@ -52,7 +52,6 @@ class AbstractRefundCardCreateSerializerMixin(serializers.Serializer):
 
     def validate(self, attrs):
         # TODO: 领用明细应与领用卡关联
-        print('validate', attrs)
         return attrs
 
     def create(self, validated_data):

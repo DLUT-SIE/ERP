@@ -10,7 +10,7 @@ from Inventory.models import (
 
 class WeldingMaterialApplyLedgerSerializer(serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(
-        source='sub_order.uid')
+        source='sub_order.uid', default='')
     # TODO: Replace with true field
     welding_seam_uid = serializers.CharField(default='')
     apply_dt = serializers.DateTimeField(source='create_dt')
