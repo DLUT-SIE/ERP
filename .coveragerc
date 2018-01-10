@@ -3,5 +3,7 @@ source = .
 omit = 
     ERP/*,
     manage.py,
-    migrations/*,
+    */migrations/*,
     tmp/*,
+    */apps.py,
+    */filters/*,

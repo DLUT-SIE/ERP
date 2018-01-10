@@ -67,31 +67,43 @@ router.register(r'welding_material_bake_records',
                 api.WeldingMaterialBakeRecordViewSet)
 
 router.register(r'welding_material_entry_ledgers',
-                api.WeldingMaterialEntryLedgerViewSet)
+                api.WeldingMaterialEntryLedgerViewSet,
+                base_name='weldingmaterialentryledger')
 router.register(r'steel_material_entry_ledgers',
-                api.SteelMaterialEntryLedgerViewSet)
+                api.SteelMaterialEntryLedgerViewSet,
+                base_name='steelmaterialentryledger')
 router.register(r'auxiliary_material_entry_ledgers',
-                api.AuxiliaryMaterialEntryLedgerViewSet)
+                api.AuxiliaryMaterialEntryLedgerViewSet,
+                base_name='auxiliarymaterialentryledger')
 router.register(r'bought_in_component_entry_ledgers',
-                api.BoughtInComponentEntryLedgerViewSet)
+                api.BoughtInComponentEntryLedgerViewSet,
+                base_name='boughtincomponententryledger')
 
 router.register(r'welding_material_inventory_ledgers',
-                api.WeldingMaterialInventoryLedgerViewSet)
+                api.WeldingMaterialInventoryLedgerViewSet,
+                base_name='weldingmaterialinventoryledger')
 router.register(r'steel_material_inventory_ledgers',
-                api.SteelMaterialInventoryLedgerViewSet)
+                api.SteelMaterialInventoryLedgerViewSet,
+                base_name='steelmaterialinventoryledger')
 router.register(r'auxiliary_material_inventory_ledgers',
-                api.AuxiliaryMaterialInventoryLedgerViewSet)
+                api.AuxiliaryMaterialInventoryLedgerViewSet,
+                base_name='auxiliarymaterialinventoryledger')
 router.register(r'bought_in_component_inventory_ledgers',
-                api.BoughtInComponentInventoryLedgerViewSet)
+                api.BoughtInComponentInventoryLedgerViewSet,
+                base_name='boughtincomponentinventoryledger')
 
 router.register(r'welding_material_apply_ledgers',
-                api.WeldingMaterialApplyLedgerViewSet)
+                api.WeldingMaterialApplyLedgerViewSet,
+                base_name='weldingmaterialapplyledger')
 router.register(r'steel_material_apply_ledgers',
-                api.SteelMaterialApplyLedgerViewSet)
+                api.SteelMaterialApplyLedgerViewSet,
+                base_name='steelmaterialapplyledger')
 router.register(r'auxiliary_material_apply_ledgers',
-                api.AuxiliaryMaterialApplyLedgerViewSet)
+                api.AuxiliaryMaterialApplyLedgerViewSet,
+                base_name='auxiliarymaterialapplyledger')
 router.register(r'bought_in_component_apply_ledgers',
-                api.BoughtInComponentApplyLedgerViewSet)
+                api.BoughtInComponentApplyLedgerViewSet,
+                base_name='boughtincomponentapplyledger')
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),

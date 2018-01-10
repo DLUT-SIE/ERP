@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 
 from Inventory.models import (
     BoardSteelMaterialRefundDetail,
@@ -7,11 +7,17 @@ from Inventory.models import (
 from Inventory import serializers
 
 
-class BoardSteelMaterialRefundDetailViewSet(viewsets.ModelViewSet):
+class BoardSteelMaterialRefundDetailViewSet(mixins.RetrieveModelMixin,
+                                            mixins.UpdateModelMixin,
+                                            mixins.ListModelMixin,
+                                            viewsets.GenericViewSet):
     queryset = BoardSteelMaterialRefundDetail.objects.all().order_by('-pk')
     serializer_class = serializers.BoardSteelMaterialRefundDetailSerializer
 
 
-class BarSteelMaterialRefundDetailViewSet(viewsets.ModelViewSet):
+class BarSteelMaterialRefundDetailViewSet(mixins.RetrieveModelMixin,
+                                          mixins.UpdateModelMixin,
+                                          mixins.ListModelMixin,
+                                          viewsets.GenericViewSet):
     queryset = BarSteelMaterialRefundDetail.objects.all().order_by('-pk')
     serializer_class = serializers.BarSteelMaterialRefundDetailSerializer

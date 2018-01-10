@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import patch, PropertyMock
 
 from django.urls import reverse
 from rest_framework import status
@@ -7,16 +7,23 @@ from model_mommy import mommy
 
 
 class UserAPITest(APITestCase):
-    def test_create_400(self):
-        # TODO: Should test creation while creation has been tested on
-        # serializers.
+    @patch.multiple('Core.serializers.auth.UserCreateSerializer',
+                    is_valid=lambda *args, **kwargs: True,
+                    save=lambda *args, **kwargs: None)
+    @patch('Core.serializers.auth.UserCreateSerializer.data',
+           new_callable=PropertyMock)
+    def test_create_201(self, mocked_data):
+        mocked_data.return_value = {}
         url = reverse('user-list')
-        response = self.client.post(url, {}, format='json')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        data = {}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_create_403(self):
-        # TODO: authenticated create
-        pass
+    def test_create_400(self):
+        url = reverse('user-list')
+        data = {}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_list(self):
         url = reverse('user-list')
@@ -42,7 +49,21 @@ class UserAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class DepartmentAPItest(APITestCase):
+class DepartmentAPITest(APITestCase):
+    @patch.multiple('Core.serializers.auth.DepartmentSerializer',
+                    is_valid=lambda *args, **kwargs: True,
+                    save=lambda *args, **kwargs: None)
+    @patch('Core.serializers.auth.DepartmentSerializer.data',
+           new_callable=PropertyMock)
+    def test_create_201(self, mocked_data):
+        # TODO: Should test creation while creation has been tested on
+        # serializers.
+        mocked_data.return_value = {}
+        url = reverse('department-list')
+        data = {}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
     def test_create_400(self):
         url = reverse('department-list')
         response = self.client.post(url, {}, format='json')
