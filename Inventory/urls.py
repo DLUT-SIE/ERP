@@ -51,6 +51,8 @@ router.register(r'board_steel_material_refund_details',
                 api.BoardSteelMaterialRefundDetailViewSet)
 router.register(r'bar_steel_material_refund_details',
                 api.BarSteelMaterialRefundDetailViewSet)
+router.register(r'bought_in_component_refund_details',
+                api.BoughtInComponentRefundDetailViewSet)
 
 router.register(r'welding_material_refund_cards',
                 api.WeldingMaterialRefundCardViewSet)

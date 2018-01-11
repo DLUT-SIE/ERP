@@ -17,7 +17,7 @@ class AbstractInventoryDetail(models.Model):
         abstract = True
 
     def __str__(self):
-        return str(self.entry_detail)
+        return str(self.entry_detail_id)
 
 
 class WeldingInventoryManager(models.Manager):

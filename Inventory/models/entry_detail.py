@@ -21,7 +21,7 @@ class AbstractEntryDetail(models.Model):
         abstract = True
 
     def __str__(self):
-        return '{}-{}'.format(self.entry, self.procurement_material)
+        return '{}-{}'.format(self.entry_id, self.procurement_material_id)
 
 
 class WeldingMaterialEntryDetail(AbstractEntryDetail):

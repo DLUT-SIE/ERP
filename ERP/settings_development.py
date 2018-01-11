@@ -28,3 +28,6 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = []
+
+
+INTERNAL_IPS = ['127.0.0.1']

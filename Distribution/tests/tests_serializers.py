@@ -30,7 +30,8 @@ class ProductSerializerTest(TestCase):
         mocked_filter.filter.return_value = mommy.prepare('BiddingDocument')
         serializer = product_serializers.ProductSerializer()
         serializer.context['request'] = Mock()
-        documents = serializer.get_documents_from_distribution(None)
+        product = mommy.prepare('Product')
+        documents = serializer.get_documents_from_distribution(product)
         self.assertEqual(len(documents), 3)
 
     @patch('Distribution.serializers.product.BiddingDocumentSimpleSerializer')
@@ -42,7 +43,8 @@ class ProductSerializerTest(TestCase):
         _mocked_filter.filter.return_value = []
         mocked_filter.return_value = _mocked_filter
         serializer = product_serializers.ProductSerializer()
-        documents = serializer.get_documents_to_distribution(None)
+        product = mommy.prepare('Product')
+        documents = serializer.get_documents_to_distribution(product)
         self.assertEqual(len(documents), 3)
 
     def test_product_serializer_fields(self):
@@ -68,9 +70,10 @@ class ProductSerializerTest(TestCase):
         mocked_filter.return_value = _mocked_filter
         serializer = product_serializers.ProductSimpleSerializer()
         serializer.context['department'] = Mock()
-        documents = serializer.get_documents_from_distribution(None)
+        product = mommy.prepare('Product')
+        documents = serializer.get_documents_from_distribution(product)
         self.assertEqual(len(documents), 1)
-        documents = serializer.get_documents_to_distribution(None)
+        documents = serializer.get_documents_to_distribution(product)
         self.assertEqual(len(documents), 1)
 
     def test_product_update_serializer_fields(self):

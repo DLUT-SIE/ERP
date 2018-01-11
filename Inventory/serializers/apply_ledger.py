@@ -14,7 +14,9 @@ class WeldingMaterialApplyLedgerSerializer(serializers.ModelSerializer):
     # TODO: Replace with true field
     welding_seam_uid = serializers.CharField(default='')
     apply_dt = serializers.DateTimeField(source='create_dt')
-    applicant = serializers.CharField(source='applicant.first_name')
+    applicant = serializers.CharField(
+        source='applicant.first_name',
+        allow_null=True)
     apply_card_uid = serializers.CharField(source='uid')
 
     class Meta:

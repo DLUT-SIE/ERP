@@ -1424,16 +1424,6 @@ class SteelMaterialRefundDetailAPITest(APITestCase):
         self.assertEqual(response.status_code,
                          status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_board_list(self):
-        url = reverse('boardsteelmaterialrefunddetail-list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_bar_list(self):
-        url = reverse('barsteelmaterialrefunddetail-list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
     @patch('Inventory.api.refund_detail.BoardSteelMaterialRefundDetailViewSet'
            '.get_object')
     def test_board_detail(self, mocked_get_object):

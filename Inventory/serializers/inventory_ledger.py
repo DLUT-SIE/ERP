@@ -7,15 +7,18 @@ from Inventory.models import (
 
 class WeldingMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
     material_mark = serializers.CharField(
-        source='entry_detail.procurement_material.process_material.name')
+        source='entry_detail.procurement_material.process_material.name',
+        allow_null=True, read_only=True)
     specification = serializers.CharField(
-        source='entry_detail.procurement_material.process_material.spec')
+        source='entry_detail.procurement_material.process_material.spec',
+        allow_null=True, read_only=True)
     entry_count = serializers.FloatField(source='entry_detail.count')
     entry_dt = serializers.DateTimeField(
         source='entry_detail.entry.create_dt')
     material_number = serializers.CharField(
         source=('entry_detail.procurement_material.'
-                'process_material.material.uid'))
+                'process_material.material.uid'),
+        allow_null=True, read_only=True)
     factory = serializers.CharField(source='entry_detail.factory')
     pretty_status = serializers.CharField(source='get_status_display')
 
@@ -29,16 +32,20 @@ class WeldingMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
 class SteelMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
     material = serializers.CharField(
         source=('entry_detail.procurement_material'
-                '.process_material.material.name'))
+                '.process_material.material.name'),
+        allow_null=True, read_only=True)
     batch_number = serializers.CharField(
-        source='entry_detail.procurement_material.batch_number')
+        source='entry_detail.procurement_material.batch_number',
+        allow_null=True, read_only=True)
     specification = serializers.CharField(
-        source='entry_detail.procurement_material.process_material.spec')
+        source='entry_detail.procurement_material.process_material.spec',
+        allow_null=True, read_only=True)
     entry_dt = serializers.DateTimeField(
         source='entry_detail.entry.create_dt')
     material_number = serializers.CharField(
         source=('entry_detail.procurement_material.'
-                'process_material.material.uid'))
+                'process_material.material.uid'),
+        allow_null=True, read_only=True)
     work_order_uid = serializers.CharField(
         source=('entry_detail.entry.bidding_sheet'
                 '.purchase_order.work_order.uid'))
@@ -53,7 +60,8 @@ class SteelMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
 
 class AuxiliaryMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
     specification = serializers.CharField(
-        source='entry_detail.procurement_material.process_material.spec')
+        source='entry_detail.procurement_material.process_material.spec',
+        allow_null=True, read_only=True)
     entry_dt = serializers.DateTimeField(
         source='entry_detail.entry.create_dt')
     factory = serializers.CharField(source='entry_detail.factory')
@@ -71,9 +79,11 @@ class AuxiliaryMaterialInventoryLedgerSerializer(serializers.ModelSerializer):
 class BoughtInComponentInventoryLedgerSerializer(serializers.ModelSerializer):
     material = serializers.CharField(
         source=('entry_detail.procurement_material'
-                '.process_material.material.name'))
+                '.process_material.material.name'),
+        allow_null=True, read_only=True)
     specification = serializers.CharField(
-        source='entry_detail.procurement_material.process_material.spec')
+        source='entry_detail.procurement_material.process_material.spec',
+        allow_null=True, read_only=True)
     entry_dt = serializers.DateTimeField(
         source='entry_detail.entry.create_dt')
     work_order_uid = serializers.CharField(
@@ -81,7 +91,8 @@ class BoughtInComponentInventoryLedgerSerializer(serializers.ModelSerializer):
                 '.purchase_order.work_order.uid'))
     material_number = serializers.CharField(
         source=('entry_detail.procurement_material'
-                '.process_material.material.uid'))
+                '.process_material.material.uid'),
+        allow_null=True, read_only=True)
     entry_uid = serializers.CharField(source='entry_detail.entry.uid')
     category = serializers.CharField(
         source='entry_detail.entry.get_category_display')

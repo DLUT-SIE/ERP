@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User, Group
 
 from Core import GENDER_CHOICES, GENDER_MALE
@@ -26,32 +27,43 @@ class UserInfo(models.Model):
         verbose_name_plural = '个人信息'
 
     def __str__(self):
-        return '{1}(用户名:{0})'.format(
-            self.user.username, self.user.first_name)
+        return '{}(用户名:{})'.format(
+            self.user.first_name, self.user.username)
 
 
 class DistributionDepartmentManager(models.Manager):
     def get_queryset(self):
         # TODO: To real
-        return super().get_queryset().filter(id=1)
+        return (super().get_queryset()
+                .filter(
+                    id=settings.ERP_CONTEXT['DEPARTMENT']['DISTRIBUTION_ID'])
+                .select_related('group'))
 
 
 class ProcessDepartmentManager(models.Manager):
     def get_queryset(self):
         # TODO: To real
-        return super().get_queryset().filter(id=2)
+        return (super().get_queryset()
+                .filter(id=settings.ERP_CONTEXT['DEPARTMENT']['PROCESS_ID'])
+                .select_related('group'))
 
 
 class ProcurementDepartmentManager(models.Manager):
     def get_queryset(self):
         # TODO: To real
-        return super().get_queryset().filter(id=3)
+        return (super().get_queryset()
+                .filter(
+                    id=settings.ERP_CONTEXT['DEPARTMENT']['PROCUREMENT_ID'])
+                .select_related('group'))
 
 
 class ProductionDepartmentManager(models.Manager):
     def get_queryset(self):
         # TODO: To real
-        return super().get_queryset().filter(id=4)
+        return (super().get_queryset()
+                .filter(
+                    id=settings.ERP_CONTEXT['DEPARTMENT']['PRODUCTION_ID'])
+                .select_related('group'))
 
 
 class Department(models.Model):
@@ -72,6 +84,7 @@ class Department(models.Model):
 
     # Custom managers
     objects = models.Manager()
+    # TODO: Optimization
     distribution = DistributionDepartmentManager()
     process = ProcessDepartmentManager()
     procurement = ProcurementDepartmentManager()
@@ -86,5 +99,7 @@ class Department(models.Model):
 
     @classmethod
     def get_departments_dict(cls):
-        departments = {d.group.name: d.id for d in cls.objects.all()}
+        departments = {
+            d.group.name: d.id
+            for d in cls.objects.all().select_related('group')}
         return departments

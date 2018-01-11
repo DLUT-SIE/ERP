@@ -15,18 +15,29 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls import url, include
-from django.conf.urls.static import static
-from django.contrib import admin
-from rest_framework.documentation import include_docs_urls
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^api/', include_docs_urls(title='ERP APIs')),
     url(r'^', include('Core.urls')),
     url(r'^', include('Distribution.urls')),
     url(r'^', include('Process.urls')),
     url(r'^', include('Procurement.urls')),
     url(r'^', include('Inventory.urls')),
     url(r'^', include('Production.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    import debug_toolbar
+    from django.conf.urls.static import static
+    from django.contrib import admin
+    from rest_framework.documentation import include_docs_urls
+
+    debug_urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+        url(r'^admin/', admin.site.urls),
+        url(r'^api/', include_docs_urls(title='ERP APIs')),
+    ]
+    media_patterns = static(settings.MEDIA_URL,
+                            document_root=settings.MEDIA_ROOT)
+    urlpatterns.extend(debug_urlpatterns)
+    urlpatterns.extend(media_patterns)

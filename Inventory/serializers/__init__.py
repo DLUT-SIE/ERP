@@ -44,6 +44,7 @@ from .apply import (
 from .refund_detail import (
     BoardSteelMaterialRefundDetailSerializer,
     BarSteelMaterialRefundDetailSerializer,
+    BoughtInComponentRefundDetailSerializer,
 )
 from .refund import (
     WeldingMaterialRefundCardSerializer,
@@ -125,6 +126,7 @@ __all__ = [
 
     'BoardSteelMaterialRefundDetailSerializer',
     'BarSteelMaterialRefundDetailSerializer',
+    'BoughtInComponentRefundDetailSerializer',
 
     'WeldingMaterialRefundCardSerializer',
     'WeldingMaterialRefundCardListSerializer',

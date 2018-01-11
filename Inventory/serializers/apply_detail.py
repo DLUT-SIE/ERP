@@ -7,7 +7,7 @@ from Inventory.models import (
 
 
 class SteelMaterialApplyDetailSerializer(serializers.ModelSerializer):
-    sub_order_uid = serializers.CharField(source='sub_order.uid',
+    sub_order_uid = serializers.CharField(source='apply_card.sub_order.uid',
                                           read_only=True, default='')
     material_mark = serializers.CharField(
         source='process_material.name', read_only=True, default='')

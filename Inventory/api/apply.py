@@ -12,7 +12,8 @@ from Inventory import serializers, filters
 
 class WeldingMaterialApplyCardViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = WeldingMaterialApplyCard.objects.all().order_by('-pk')
+    queryset = (WeldingMaterialApplyCard.objects.all().order_by('-pk')
+                .select_related('sub_order', 'process_material'))
     filter_class = filters.WeldingMaterialApplyCardFilter
 
     def get_serializer_class(self):
@@ -26,7 +27,8 @@ class WeldingMaterialApplyCardViewSet(viewsets.ModelViewSet):
 
 class SteelMaterialApplyCardViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = SteelMaterialApplyCard.objects.all().order_by('-pk')
+    queryset = (SteelMaterialApplyCard.objects.all().order_by('-pk')
+                .prefetch_related('details', 'details__process_material'))
     filter_class = filters.SteelMaterialApplyCardFilter
 
     def get_serializer_class(self):
@@ -40,7 +42,11 @@ class SteelMaterialApplyCardViewSet(viewsets.ModelViewSet):
 
 class AuxiliaryMaterialApplyCardViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = AuxiliaryMaterialApplyCard.objects.all().order_by('-pk')
+    queryset = (AuxiliaryMaterialApplyCard.objects.all().order_by('-pk')
+                .select_related(
+                    'apply_inventory__entry_detail__procurement_material',
+                    'actual_inventory__entry_detail__procurement_material',
+                    'sub_order'))
     filter_class = filters.AuxiliaryMaterialApplyCardFilter
 
     def get_serializer_class(self):
@@ -54,7 +60,9 @@ class AuxiliaryMaterialApplyCardViewSet(viewsets.ModelViewSet):
 
 class BoughtInComponentApplyCardViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = BoughtInComponentApplyCard.objects.all().order_by('-pk')
+    queryset = (BoughtInComponentApplyCard.objects.all().order_by('-pk')
+                .prefetch_related('details__process_material')
+                .select_related('sub_order'))
     filter_class = filters.BoughtInComponentApplyCardFilter
 
     def get_serializer_class(self):

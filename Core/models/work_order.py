@@ -46,7 +46,10 @@ class SubWorkOrder(models.Model):
 
     @property
     def uid(self):
+        # TODO: Optimization
+        # May be a bottleneck for all using this strategy
+        # cascade sql calls
         return '{}-{}'.format(self.work_order, self.index)
 
     def __str__(self):
-        return self.uid
+        return '{}-{}'.format(self.work_order_id, self.index)

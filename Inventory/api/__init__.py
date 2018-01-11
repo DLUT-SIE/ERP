@@ -27,6 +27,7 @@ from .apply import (
 from .refund_detail import (
     BoardSteelMaterialRefundDetailViewSet,
     BarSteelMaterialRefundDetailViewSet,
+    BoughtInComponentRefundDetailViewSet,
 )
 from .refund import (
     WeldingMaterialRefundCardViewSet,
@@ -84,6 +85,7 @@ __all__ = [
 
     'BoardSteelMaterialRefundDetailViewSet',
     'BarSteelMaterialRefundDetailViewSet',
+    'BoughtInComponentRefundDetailViewSet',
 
     'WeldingMaterialRefundCardViewSet',
     'SteelMaterialRefundCardViewSet',

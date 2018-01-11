@@ -125,4 +125,4 @@ class ProcurementMaterial(models.Model):
         verbose_name_plural = '采购物料'
 
     def __str__(self):
-        return '{} {}'.format(self.sub_order, self.process_material)
+        return '{} {}'.format(self.sub_order_id, self.process_material_id)

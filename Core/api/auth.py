@@ -15,7 +15,8 @@ class UserViewSet(viewsets.ModelViewSet):
     用户信息API
     """
     pagination_class = SmallResultsSetPagination
-    queryset = User.objects.exclude(is_staff=True).order_by('pk')
+    queryset = (User.objects.exclude(is_staff=True)
+                .prefetch_related('info').order_by('pk'))
     filter_class = filters.UserFilter
 
     def destroy(self, request, pk=None):

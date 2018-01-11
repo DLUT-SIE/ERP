@@ -9,10 +9,11 @@ class WorkOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkOrder
-        fields = '__all__'
+        fields = ('id', 'uid', 'sell_type', 'pretty_sell_type',
+                  'client', 'project', 'product', 'count', 'finished')
 
 
 class SubWorkOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubWorkOrder
-        fields = '__all__'
+        fields = ('id', 'work_order', 'index', 'finished')

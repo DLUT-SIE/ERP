@@ -7,12 +7,15 @@ from Inventory.models import (
 
 class WeldingMaterialEntryLedgerSerializer(serializers.ModelSerializer):
     material_mark = serializers.CharField(
-        source='procurement_material.process_material.name')
+        source='procurement_material.process_material.name',
+        allow_null=True, read_only=True)
     specification = serializers.CharField(
-        source='procurement_material.process_material.spec')
+        source='procurement_material.process_material.spec',
+        allow_null=True, read_only=True)
     entry_dt = serializers.DateTimeField(source='entry.create_dt')
     material_number = serializers.CharField(
-        source='procurement_material.process_material.material.uid')
+        source='procurement_material.process_material.material.uid',
+        allow_null=True, read_only=True)
 
     class Meta:
         model = WeldingMaterialEntryDetail
@@ -22,14 +25,18 @@ class WeldingMaterialEntryLedgerSerializer(serializers.ModelSerializer):
 
 class SteelMaterialEntryLedgerSerializer(serializers.ModelSerializer):
     material = serializers.CharField(
-        source='procurement_material.process_material.material.name')
+        source='procurement_material.process_material.material.name',
+        allow_null=True, read_only=True)
     specification = serializers.CharField(
-        source='procurement_material.process_material.spec')
+        source='procurement_material.process_material.spec',
+        allow_null=True, read_only=True)
     entry_dt = serializers.DateTimeField(source='entry.create_dt')
     material_number = serializers.CharField(
-        source='procurement_material.process_material.material.uid')
+        source='procurement_material.process_material.material.uid',
+        allow_null=True, read_only=True)
     work_order_uid = serializers.CharField(
-        source=('entry.bidding_sheet.purchase_order.work_order.uid'))
+        source='entry.bidding_sheet.purchase_order.work_order.uid',
+        allow_null=True, read_only=True)
 
     class Meta:
         model = SteelMaterialEntryDetail

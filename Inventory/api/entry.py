@@ -9,7 +9,9 @@ from Inventory import serializers, filters
 
 class WeldingMaterialEntryViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = WeldingMaterialEntry.objects.all().order_by('-pk')
+    queryset = (WeldingMaterialEntry.objects.all().order_by('-pk')
+                .prefetch_related('details')
+                .select_related('purchaser', 'inspector', 'keeper'))
     filter_class = filters.WeldingMaterialEntryFilter
 
     def get_serializer_class(self):
@@ -23,7 +25,9 @@ class WeldingMaterialEntryViewSet(viewsets.ModelViewSet):
 
 class SteelMaterialEntryViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = SteelMaterialEntry.objects.all().order_by('-pk')
+    queryset = (SteelMaterialEntry.objects.all().order_by('-pk')
+                .prefetch_related('details')
+                .select_related('purchaser', 'inspector', 'keeper'))
     filter_class = filters.SteelMaterialEntryFilter
 
     def get_serializer_class(self):
@@ -37,7 +41,9 @@ class SteelMaterialEntryViewSet(viewsets.ModelViewSet):
 
 class AuxiliaryMaterialEntryViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = AuxiliaryMaterialEntry.objects.all().order_by('-pk')
+    queryset = (AuxiliaryMaterialEntry.objects.all().order_by('-pk')
+                .prefetch_related('details')
+                .select_related('purchaser', 'inspector', 'keeper'))
     filter_class = filters.AuxiliaryMaterialEntryFilter
 
     def get_serializer_class(self):
@@ -51,7 +57,9 @@ class AuxiliaryMaterialEntryViewSet(viewsets.ModelViewSet):
 
 class BoughtInComponentEntryViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = BoughtInComponentEntry.objects.all().order_by('-pk')
+    queryset = (BoughtInComponentEntry.objects.all().order_by('-pk')
+                .prefetch_related('details')
+                .select_related('purchaser', 'inspector', 'keeper'))
     filter_class = filters.BoughtInComponentEntryFilter
 
     def get_serializer_class(self):

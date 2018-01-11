@@ -11,7 +11,8 @@ from Distribution.models import Product, BiddingDocument
 
 class ProductViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = Product.objects.all().order_by('-pk')
+    queryset = (Product.objects.all().order_by('-pk')
+                .prefetch_related('documents'))
     filter_class = ProductFilter
 
     def get_serializer_class(self):

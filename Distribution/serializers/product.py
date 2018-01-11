@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from django.db import transaction
+from django.core.cache import cache
 
 from Core.models import Department
 from Core.utils.fsm import TransitionSerializerMixin
@@ -54,31 +55,34 @@ class ProductSerializer(TransitionSerializerMixin,
 
     @staticmethod
     def get_departments():
-        dep_distribution = Department.distribution.get()
-        dep_process = Department.process.get()
-        dep_procurement = Department.procurement.get()
-        dep_production = Department.production.get()
-        return dep_distribution, dep_process, dep_procurement, dep_production
+        departments = cache.get('ProductSerializer_get_departments')
+        if departments is None:
+            departments = (
+                Department.distribution.get(), Department.process.get(),
+                Department.procurement.get(), Department.production.get())
+            cache.set('ProductSerializer_get_departments', departments)
+        return departments
 
     def _get_documents(self, product, deps=None, from_distribution=True):
         documents = {}
         dep_distribution, *_deps = self.get_departments()
         if deps is None:
             deps = _deps
-        candidates = BiddingDocument.objects.filter(product=product)
         if from_distribution:
             src = dep_distribution
         else:
             dst = dep_distribution
+        candidates = product.documents.all()
         for dep in deps:
             if from_distribution:
                 dst = dep
             else:
                 src = dep
-            doc = candidates.filter(src=src, dst=dst)
+            doc = [_doc for _doc in candidates
+                   if _doc.src_id == src.id and _doc.dst_id == dst.id]
             if doc:
                 doc = BiddingDocumentSimpleSerializer(
-                    doc.get(),
+                    doc[0],
                     context={'request': self.context['request']}).data
             else:
                 doc = None

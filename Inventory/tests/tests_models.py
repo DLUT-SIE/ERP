@@ -138,7 +138,7 @@ class WeldingMaterialEntryDetailTest(TestCase):
 
     def test_str(self):
         detail = self.detail
-        expected_str = '{}-{}'.format(detail.entry,
+        expected_str = '{}-{}'.format(detail.entry_id,
                                       detail.procurement_material)
         self.assertEqual(str(detail), expected_str)
 
@@ -149,7 +149,7 @@ class WeldingMaterialInventoryDetailTest(TestCase):
 
     def test_str(self):
         detail = self.detail
-        expected_str = str(detail.entry_detail)
+        expected_str = str(detail.entry_detail_id)
         self.assertEqual(str(detail), expected_str)
 
 
