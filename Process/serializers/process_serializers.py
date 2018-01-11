@@ -529,9 +529,9 @@ class WeldingProcessSpecificationSerializer(serializers.ModelSerializer):
         lib = obj.work_order.process_library
         process_material = ProcessMaterial.objects.filter(lib=lib)\
             .order_by('pk')
-        if process_material.exists():
-            return process_material[0].drawing_number
-        return ''
+        if not process_material:
+            return ''
+        return process_material[0].drawing_number
 
     def get_uid(self, obj):
             header = 'RH09'
@@ -577,22 +577,22 @@ class WeldingJointProcessAnalysisSerializer(serializers.ModelSerializer):
         return str(obj.weldingworkinstruction)
 
     def get_bm_1(self, obj):
-        if obj.weldingseam_set.count() > 0:
+        if obj.weldingseam_set > 0:
             return obj.weldingseam_set.first().bm_1
         return None
 
     def get_bm_2(self, obj):
-        if obj.weldingseam_set.count() > 0:
+        if obj.weldingseam_set > 0:
             return obj.weldingseam_set.first().bm_2
         return None
 
     def get_bm_thick_1(self, obj):
-        if obj.weldingseam_set.count() > 0:
+        if obj.weldingseam_set > 0:
             return obj.weldingseam_set.first().bm_thick_1
         return None
 
     def get_bm_thick_2(self, obj):
-        if obj.weldingseam_set.count() > 0:
+        if obj.weldingseam_set > 0:
             return obj.weldingseam_set.first().bm_thick_2
         return None
 
@@ -636,35 +636,101 @@ class WeldingWorkInstructionSerializer(serializers.ModelSerializer):
         return obj.detail.spec.work_order.uid
 
     def get_bm_1(self, obj):
-        if obj.detail.weldingseam_set.count() > 0:
+        if obj.detail.weldingseam_set > 0:
             return obj.detail.weldingseam_set.first().bm_1
         return None
 
     def get_bm_2(self, obj):
-        if obj.detail.weldingseam_set.count() > 0:
+        if obj.detail.weldingseam_set > 0:
             return obj.detail.weldingseam_set.first().bm_2
         return None
 
     def get_bm_thick_1(self, obj):
-        if obj.detail.weldingseam_set.count() > 0:
+        if obj.detail.weldingseam_set > 0:
             return obj.detail.weldingseam_set.first().bm_thick_1
         return None
 
     def get_bm_thick_2(self, obj):
-        if obj.detail.weldingseam_set.count() > 0:
+        if obj.detail.weldingseam_set > 0:
             return obj.detail.weldingseam_set.first().bm_thick_1
         return None
 
     def get_wt_1(self, obj):
-        if obj.detail.weldingseam_set.count() > 0:
+        if obj.detail.weldingseam_set > 0:
             return obj.detail.weldingseam_set.first().wt_1
         return None
 
     def get_wt_2(self, obj):
-        if obj.detail.weldingseam_set.count() > 0:
+        if obj.detail.weldingseam_set > 0:
             return obj.detail.weldingseam_set.first().wt_2
         return None
 
     class Meta:
         model = WeldingWorkInstruction
         fields = '__all__'
+
+
+class AbstractQuotaItem4ProductionSerializer(serializers.ModelSerializer):
+    count = serializers.IntegerField(source='process_material.count',
+                                     read_only=True)
+    material = serializers.CharField(source='process_material.material.name',
+                                     read_only=True)
+    name = serializers.CharField(source='process_material.name')
+
+    spec = serializers.CharField(source='process_material.spec')
+
+    count = serializers.IntegerField(source='process_material.count')
+    work_order_uid = serializers.CharField(
+        source='process_material.lib.work_order.uid')
+
+    class Meta:
+        model = AbstractQuotaItem
+        fields = ('id', 'work_order_uid', 'name', 'spec', 'material', 'count')
+
+
+class CooperantItem4ProductionSerializer(
+        AbstractQuotaItem4ProductionSerializer):
+
+    class Meta(AbstractQuotaItem4ProductionSerializer.Meta):
+        model = CooperantItem
+
+
+class FirstFeedingItem4ProductionSerializer(
+        AbstractQuotaItem4ProductionSerializer):
+
+    class Meta(AbstractQuotaItem4ProductionSerializer.Meta):
+        model = FirstFeedingItem
+
+
+class BoughtInItem4ProductionSerializer(
+        AbstractQuotaItem4ProductionSerializer):
+
+    class Meta(AbstractQuotaItem4ProductionSerializer.Meta):
+        model = BoughtInItem
+
+
+class PrincipalQuotaItem4ProductionSerializer(serializers.ModelSerializer):
+    work_order_uid = serializers.CharField(
+        source='quota_list.lib.work_order.uid')
+    material = serializers.CharField(source='material.name')
+
+    class Meta:
+        model = PrincipalQuotaItem
+        fields = ('id', 'work_order_uid', 'size', 'material', 'count')
+
+
+class WeldingQuotaItem4ProductionSerializer(serializers.ModelSerializer):
+    work_order_uid = serializers.CharField(
+        source='quota_list.lib.work_order.uid')
+    material = serializers.CharField(source='material.name')
+
+    class Meta:
+        model = WeldingQuotaItem
+        fields = ('id', 'work_order_uid', 'size', 'material', 'quota')
+
+
+class AuxiliaryQuotaItem4ProductionSerializer(
+        AbstractQuotaItem4ProductionSerializer):
+
+    class Meta(AbstractQuotaItem4ProductionSerializer.Meta):
+        model = AuxiliaryQuotaItem

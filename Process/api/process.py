@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.decorators import list_route
 from django.db import transaction
 from django.db.models import F
 
@@ -28,7 +29,11 @@ from Process.serializers import (
     FluxMaterialSerializer, TransferCardCreateSerializer,
     WeldingProcessSpecificationSerializer, WeldingCertificationSerializer,
     WeldingJointProcessAnalysisSerializer, WeldingWorkInstructionSerializer,
-    WeldingJointProcessAnalysisCreateSerializer)
+    WeldingJointProcessAnalysisCreateSerializer,
+    CooperantItem4ProductionSerializer, FirstFeedingItem4ProductionSerializer,
+    BoughtInItem4ProductionSerializer, PrincipalQuotaItem4ProductionSerializer,
+    WeldingQuotaItem4ProductionSerializer,
+    AuxiliaryQuotaItem4ProductionSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
     ProcessRouteFilter, TransferCardFilter, TransferCardProcessFilter,
@@ -38,6 +43,17 @@ from Process.filters import (
     TotalWeldingMaterialFilter, WeldingMaterialFilter, FluxMaterialFilter,
     WeldingProcessSpecificationFilter, WeldingJointProcessAnalysisFilter,
     WeldingCertificationFilter, WeldingWorkInstructionFilter)
+
+
+class ProductionShowMixin:
+    @list_route()
+    def production(self, request):
+        queryset = self.filter_queryset(self.get_queryset())
+        context = self.get_serializer_context()
+        page = self.paginate_queryset(queryset)
+        serializer_class = self.production_serializer_class
+        serializer = serializer_class(page, many=True, context=context)
+        return self.get_paginated_response(serializer.data)
 
 
 class ProcessLibraryViewSet(viewsets.ModelViewSet):
@@ -111,10 +127,11 @@ class TransferCardProcessViewSet(viewsets.ModelViewSet):
             instance.delete()
 
 
-class BoughtInItemViewSet(viewsets.ModelViewSet):
+class BoughtInItemViewSet(ProductionShowMixin, viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = BoughtInItem.objects.all().order_by('-pk')
     filter_class = BoughtInItemFilter
+    production_serializer_class = BoughtInItem4ProductionSerializer
 
     def get_serializer_class(self):
         if self.action in ['update', 'partial_update']:
@@ -123,10 +140,11 @@ class BoughtInItemViewSet(viewsets.ModelViewSet):
             return BoughtInItemSerializer
 
 
-class FirstFeedingItemViewSet(viewsets.ModelViewSet):
+class FirstFeedingItemViewSet(ProductionShowMixin, viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = FirstFeedingItem.objects.all().order_by('-pk')
     filter_class = FirstFeedingItemFilter
+    production_serializer_class = FirstFeedingItem4ProductionSerializer
 
     def get_serializer_class(self):
         if self.action in ['update', 'partial_update']:
@@ -135,10 +153,11 @@ class FirstFeedingItemViewSet(viewsets.ModelViewSet):
             return FirstFeedingItemSerializer
 
 
-class CooperantItemViewSet(viewsets.ModelViewSet):
+class CooperantItemViewSet(ProductionShowMixin, viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = CooperantItem.objects.all().order_by('-pk')
     filter_class = CooperantItemFilter
+    production_serializer_class = CooperantItem4ProductionSerializer
 
     def get_serializer_class(self):
         if self.action in ['update', 'partial_update']:
@@ -147,10 +166,11 @@ class CooperantItemViewSet(viewsets.ModelViewSet):
             return CooperantItemSerializer
 
 
-class PrincipalQuotaItemViewSet(viewsets.ModelViewSet):
+class PrincipalQuotaItemViewSet(ProductionShowMixin, viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = PrincipalQuotaItem.objects.all().order_by('-pk')
     filter_class = PrincipalQuotaItemFilter
+    production_serializer_class = PrincipalQuotaItem4ProductionSerializer
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -166,10 +186,11 @@ class QuotaListViewSet(viewsets.ModelViewSet):
     serializer_class = QuotaListSerializer
 
 
-class WeldingQuotaItemViewSet(viewsets.ModelViewSet):
+class WeldingQuotaItemViewSet(ProductionShowMixin, viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = WeldingQuotaItem.objects.all().order_by('-pk')
     filter_class = WeldingQuotaItemFilter
+    production_serializer_class = WeldingQuotaItem4ProductionSerializer
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -185,10 +206,11 @@ class MaterialViewSet(viewsets.ModelViewSet):
     serializer_class = MaterialSerializer
 
 
-class AuxiliaryQuotaItemViewSet(viewsets.ModelViewSet):
+class AuxiliaryQuotaItemViewSet(ProductionShowMixin, viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = AuxiliaryQuotaItem.objects.all().order_by('-pk')
     filter_class = AuxiliaryQuotaItemFilter
+    production_serializer_class = AuxiliaryQuotaItem4ProductionSerializer
 
     def get_serializer_class(self):
         if self.action == 'list':
