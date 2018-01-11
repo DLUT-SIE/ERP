@@ -3,12 +3,14 @@ from rest_framework import viewsets
 from Core.utils.pagination import SmallResultsSetPagination
 from Procurement.models import MaterialExecution, MaterialExecutionDetail
 from Procurement import serializers
+from Procurement import filters
 
 
 #  材料执行表
 class MaterialExecutionViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = MaterialExecution.objects.all().order_by('-pk')
+    filter_class = filters.MaterialExcutionFilter
 
     def get_serializer_class(self):
         if self.action == 'create':

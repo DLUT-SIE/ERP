@@ -6,6 +6,11 @@ from .supplier import (SupplyRelationshipFilter, )
 
 from .status_change import (StatusChangeFilter, )
 
+from .materialsub import (MaterialSubApplyFilter, )
+
+from .material_excution import (MaterialExcutionFilter, )
+
 __all__ = ['PurchaseOrderFilter', 'BiddingSheetFilter',
            'BiddingApplicationFilter', 'SupplyRelationshipFilter',
-           'StatusChangeFilter', 'ProcurementMaterialFilter']
+           'StatusChangeFilter', 'ProcurementMaterialFilter',
+           'MaterialSubApplyFilter', 'MaterialExcutionFilter']

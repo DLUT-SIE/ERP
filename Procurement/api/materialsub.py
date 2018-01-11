@@ -5,12 +5,14 @@ from Core.utils.pagination import SmallResultsSetPagination
 from Procurement.models import MaterialSubApply, MaterialSubApplyItems
 from Procurement.models import SubApplyComment
 from Procurement import serializers
+from Procurement import filters
 
 
 # 材料代用申请单
 class MaterialSubApplyViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = MaterialSubApply.objects.all().order_by('-pk')
+    filter_class = filters.MaterialSubApplyFilter
 
     def get_serializer_class(self):
         if self.action == 'list':
