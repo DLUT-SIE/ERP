@@ -14,6 +14,7 @@ class AbstractApplyCardFilter(filters.FilterSet):
     create_dt_end = filters.DateTimeFilter(
         name='create_dt', lookup_expr='lte')
     uid = filters.CharFilter(name='uid', lookup_expr='icontains')
+    apply_card_uid = filters.CharFilter(name='uid', lookup_expr='exact')
 
 
 class WeldingMaterialApplyCardFilter(AbstractApplyCardFilter):
@@ -29,7 +30,7 @@ class WeldingMaterialApplyCardFilter(AbstractApplyCardFilter):
     class Meta:
         model = WeldingMaterialApplyCard
         fields = ('create_dt_start', 'create_dt_end', 'uid', 'status',
-                  'sub_order_uid', 'material_mark', 'model')
+                  'sub_order_uid', 'material_mark', 'model', 'apply_card_uid')
 
 
 class SteelMaterialApplyCardFilter(AbstractApplyCardFilter):
@@ -57,4 +58,4 @@ class AuxiliaryMaterialApplyCardFilter(AbstractApplyCardFilter):
     class Meta:
         model = AuxiliaryMaterialApplyCard
         fields = ('create_dt_start', 'create_dt_end', 'uid', 'status',
-                  'apply_inventory', 'department')
+                  'apply_inventory', 'department', 'apply_card_uid')

@@ -3,6 +3,7 @@ from django.db import transaction
 from rest_framework import serializers
 
 from Core.models import SubWorkOrder
+from Core.utils.serializers import DynamicFieldSerializerMixin
 from Core.utils.fsm import TransitionSerializerMixin
 from Process.models import ProcessMaterial
 from Inventory.models import (
@@ -47,6 +48,7 @@ class AbstractApplyCardCreateSerializerMixin(serializers.Serializer):
 
 
 class WeldingMaterialApplyCardSerializer(TransitionSerializerMixin,
+                                         DynamicFieldSerializerMixin,
                                          serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(source='sub_order.uid',
                                           read_only=True)
@@ -116,6 +118,7 @@ class SteelMaterialApplyCardCreateSerializer(
 
 
 class AuxiliaryMaterialApplyCardSerializer(TransitionSerializerMixin,
+                                           DynamicFieldSerializerMixin,
                                            serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(source='sub_order.uid',
                                           read_only=True, default='')

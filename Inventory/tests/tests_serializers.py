@@ -36,7 +36,10 @@ class WeldingMaterialEntrySerializerTest(TestCase):
                          'pretty_status', 'details', 'actions'}
         self.assertEqual(set(data.keys()), expected_keys)
 
-    def test_welding_material_entry_list_serializer_fields(self):
+    @patch('Inventory.serializers.entry.WeldingMaterialEntryListSerializer'
+           '.get_actions')
+    def test_welding_material_entry_list_serializer_fields(self,
+                                                           mocked_get_actions):
         data = entry_serializers.WeldingMaterialEntryListSerializer(
             self.entry).data
         expected_keys = {'id', 'uid', 'create_dt', 'purchaser', 'inspector',

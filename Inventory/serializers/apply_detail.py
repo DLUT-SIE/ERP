@@ -1,12 +1,14 @@
 from rest_framework import serializers
 
+from Core.utils.serializers import DynamicFieldSerializerMixin
 from Inventory.models import (
     SteelMaterialApplyDetail,
     BoughtInComponentApplyDetail,
 )
 
 
-class SteelMaterialApplyDetailSerializer(serializers.ModelSerializer):
+class SteelMaterialApplyDetailSerializer(DynamicFieldSerializerMixin,
+                                         serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(source='apply_card.sub_order.uid',
                                           read_only=True, default='')
     material_mark = serializers.CharField(
@@ -22,7 +24,8 @@ class SteelMaterialApplyDetailSerializer(serializers.ModelSerializer):
                   'specification', 'count', 'component')
 
 
-class BoughtInComponentApplyDetailSerializer(serializers.ModelSerializer):
+class BoughtInComponentApplyDetailSerializer(DynamicFieldSerializerMixin,
+                                             serializers.ModelSerializer):
     drawing_number = serializers.CharField(
         source='process_material.drawing_number',
         read_only=True, default='')

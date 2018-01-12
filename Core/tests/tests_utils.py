@@ -10,6 +10,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils import timezone
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework import exceptions as rest_exceptions
 
 from Core.utils import gen_uuid, DynamicHashPath, DynamicFieldSerializerMixin
 from Core.utils.fsm import Transition, TransitionSerializerMixin, valid_actions
@@ -276,17 +277,27 @@ class DynamicFieldSerializerMixinTest(TestCase):
         self.kwargs = kwargs
         self.request = request
 
-    @patch('Core.utils.DynamicFieldSerializerMixin.fields',
-           new_callable=PropertyMock)
-    def test_pop_fields(self, mocked_fields):
-        mocked_fields.return_value = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
-        serializer = DynamicFieldSerializerMixin(**self.kwargs)
-        self.assertEqual({'a', 'b', 'c'}, set(serializer.fields.keys()))
+    def test_pop_fields(self):
+        class FakeSerializer(DynamicFieldSerializerMixin):
+            class Meta:
+                fields = ('a', 'b', 'c', 'd')
+
+        with patch.object(FakeSerializer, 'fields',
+                          new_callable=PropertyMock) as mocked_fields:
+            mocked_fields.return_value = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+            serializer = FakeSerializer(**self.kwargs)
+            self.assertEqual({'a', 'b', 'c'}, set(serializer.fields.keys()))
 
     @patch('Core.utils.DynamicFieldSerializerMixin.fields',
            new_callable=PropertyMock)
     def test_invalid_query_params(self, mocked_fields):
-        self.request.query_params['fields'] = 5  # Not really happens
-        mocked_fields.return_value = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
-        serializer = DynamicFieldSerializerMixin(**self.kwargs)
-        self.assertEqual(set(), set(serializer.fields.keys()))
+        class FakeSerializer(DynamicFieldSerializerMixin):
+            class Meta:
+                fields = ('a', 'b', 'c', 'd')
+
+        self.request.query_params['fields'] = 'e'  # Not really happens
+        with patch.object(FakeSerializer, 'fields',
+                          new_callable=PropertyMock) as mocked_fields:
+            mocked_fields.return_value = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+            with self.assertRaises(rest_exceptions.ParseError):
+                FakeSerializer(**self.kwargs)
