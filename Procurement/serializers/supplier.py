@@ -28,18 +28,18 @@ class QuotationSerializer(serializers.ModelSerializer):
 
 
 class SupplierListSerializer(SupplierSerializer):
-    doc = SupplierDocumentSerializer(read_only=True, many=True)
+    docs = SupplierDocumentSerializer(read_only=True, many=True)
 
     class Meta(SupplierSerializer.Meta):
-        fields = '__all__'
+        fields = ('id', 'uid', 'name', 'docs')
 
 
 class SupplierDetailSerializer(SupplierSerializer):
-    doc = SupplierDocumentSerializer(read_only=True, many=True)
-    quotation = QuotationSerializer(read_only=True, many=True)
+    docs = SupplierDocumentSerializer(read_only=True, many=True)
+    quotations = QuotationSerializer(read_only=True, many=True)
 
     class Meta(SupplierSerializer.Meta):
-        fields = '__all__'
+        fields = ('id', 'uid', 'name', 'docs', 'quotations')
 
 
 # 供应商关系

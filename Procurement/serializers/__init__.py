@@ -21,9 +21,6 @@ from .supplier import (
     SupplierListSerializer, SupplierDetailSerializer,
     BaseSupplyRelationshipSerializer, BaseSupplierCheckSerializer)
 
-from .contact_detail import (
-    ContractDetailSerializer,)
-
 from .bidding import (
     BaseBiddingSheetSerializer, BiddingSheetListSerializer,
     BaseBiddingApplicationSerializer, BiddingApplicationListSerializer,
@@ -36,6 +33,7 @@ from .other import (
 
 from .comment import (BaseBiddingCommentSerializer,)
 
+from .contact_detail import (ContractDetailSerializer,)
 
 __all__ = [
     'MaterialSubApplySerializer', 'MaterialSubApplyListSerializer',
