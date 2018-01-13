@@ -220,6 +220,35 @@ class TransferCardProcessSerializer(serializers.ModelSerializer):
             return TransferCardProcess.objects.create(**validated_data)
 
 
+class TransferCardProcessUpdateSerializer(serializers.ModelSerializer):
+    direction = serializers.IntegerField(write_only=True)
+
+    class Meta:
+        model = TransferCardProcess
+        fields = '__all__'
+
+    def update(self, instance, validated_data):
+        direction = validated_data.get('direction')
+        with transaction.atomic():
+            if direction == 0:
+                pre = TransferCardProcess.objects\
+                    .filter(transfer_card=instance.transfer_card).filter(
+                        index=instance.index-1)
+                pre.update(index=F('index')+1)
+                validated_data['index'] = instance.index - 1
+
+            elif direction == 1:
+                next = TransferCardProcess.objects \
+                    .filter(transfer_card=instance.transfer_card).filter(
+                        index=instance.index+1)
+                next.update(index=F('index')-1)
+                validated_data['index'] = instance.index + 1
+            for key, value in validated_data.items():
+                setattr(instance, key, value)
+            instance.save()
+            return instance
+
+
 class AbstractQuotaItemSerializer(GetCirculationRoutesMixin,
                                   serializers.ModelSerializer):
     ticket_number = serializers.IntegerField(
@@ -671,6 +700,8 @@ class WeldingWorkInstructionSerializer(serializers.ModelSerializer):
 
 
 class AbstractQuotaItem4ProductionSerializer(serializers.ModelSerializer):
+    work_order_id = serializers.IntegerField(
+        source='process_material.lib.work_order.id')
     count = serializers.IntegerField(source='process_material.count',
                                      read_only=True)
     material = serializers.CharField(source='process_material.material.name',
@@ -685,7 +716,8 @@ class AbstractQuotaItem4ProductionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AbstractQuotaItem
-        fields = ('id', 'work_order_uid', 'name', 'spec', 'material', 'count')
+        fields = ('id', 'work_order_uid', 'name', 'spec', 'material', 'count',
+                  'work_order_id')
 
 
 class CooperantItem4ProductionSerializer(
@@ -710,23 +742,29 @@ class BoughtInItem4ProductionSerializer(
 
 
 class PrincipalQuotaItem4ProductionSerializer(serializers.ModelSerializer):
+    work_order_id = serializers.CharField(
+        source='quota_list.lib.work_order.id')
     work_order_uid = serializers.CharField(
         source='quota_list.lib.work_order.uid')
     material = serializers.CharField(source='material.name')
 
     class Meta:
         model = PrincipalQuotaItem
-        fields = ('id', 'work_order_uid', 'size', 'material', 'count')
+        fields = ('id', 'work_order_uid', 'size', 'material', 'count',
+                  'work_order_id')
 
 
 class WeldingQuotaItem4ProductionSerializer(serializers.ModelSerializer):
+    work_order_id = serializers.CharField(
+        source='quota_list.lib.work_order.id')
     work_order_uid = serializers.CharField(
         source='quota_list.lib.work_order.uid')
     material = serializers.CharField(source='material.name')
 
     class Meta:
         model = WeldingQuotaItem
-        fields = ('id', 'work_order_uid', 'size', 'material', 'quota')
+        fields = ('id', 'work_order_uid', 'size', 'material', 'quota',
+                  'work_order_id')
 
 
 class AuxiliaryQuotaItem4ProductionSerializer(

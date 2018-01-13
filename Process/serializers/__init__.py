@@ -17,7 +17,7 @@ from .process_serializers import (
     WeldingJointProcessAnalysisCreateSerializer,
     CooperantItem4ProductionSerializer, FirstFeedingItem4ProductionSerializer,
     BoughtInItem4ProductionSerializer, PrincipalQuotaItem4ProductionSerializer,
-    WeldingQuotaItem4ProductionSerializer,
+    WeldingQuotaItem4ProductionSerializer, TransferCardProcessUpdateSerializer,
     AuxiliaryQuotaItem4ProductionSerializer)
 
 
@@ -46,4 +46,5 @@ __all__ = ['ProcessLibrarySerializer', 'ProcessMaterialSerializer',
            'BoughtInItem4ProductionSerializer',
            'PrincipalQuotaItem4ProductionSerializer',
            'WeldingQuotaItem4ProductionSerializer',
-           'AuxiliaryQuotaItem4ProductionSerializer']
+           'AuxiliaryQuotaItem4ProductionSerializer',
+           'TransferCardProcessUpdateSerializer']

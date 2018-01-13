@@ -32,7 +32,7 @@ from Process.serializers import (
     WeldingJointProcessAnalysisCreateSerializer,
     CooperantItem4ProductionSerializer, FirstFeedingItem4ProductionSerializer,
     BoughtInItem4ProductionSerializer, PrincipalQuotaItem4ProductionSerializer,
-    WeldingQuotaItem4ProductionSerializer,
+    WeldingQuotaItem4ProductionSerializer, TransferCardProcessUpdateSerializer,
     AuxiliaryQuotaItem4ProductionSerializer)
 from Process.filters import (
     ProcessLibraryFilter, ProcessMaterialFilter, CirculationRouteFilter,
@@ -115,7 +115,12 @@ class TransferCardProcessViewSet(viewsets.ModelViewSet):
     pagination_class = LimitOffsetPagination
     queryset = TransferCardProcess.objects.all().order_by('index')
     filter_class = TransferCardProcessFilter
-    serializer_class = TransferCardProcessSerializer
+
+    def get_serializer_class(self):
+        if self.action in ['update', 'partial_update']:
+            return TransferCardProcessUpdateSerializer
+        else:
+            return TransferCardProcessSerializer
 
     def perform_destroy(self, instance):
         transfer_card = instance.transfer_card
