@@ -268,7 +268,7 @@ class TransitionSerializerMixinTest(TestCase):
 class DynamicFieldSerializerMixinTest(TestCase):
     def setUp(self):
         request = Mock()
-        request.query_params = {'fields': 'a,b,c'}
+        request.query_params = {}
         kwargs = {
             'context': {
                 'request': request,
@@ -277,16 +277,41 @@ class DynamicFieldSerializerMixinTest(TestCase):
         self.kwargs = kwargs
         self.request = request
 
-    def test_pop_fields(self):
+    def test_dynamic_fields(self):
         class FakeSerializer(DynamicFieldSerializerMixin):
             class Meta:
                 fields = ('a', 'b', 'c', 'd')
 
+        class SubFakeSerializer(FakeSerializer):
+            expose_all_possible_fields = True  # default
+
+            class Meta:
+                fields = ('a', 'b')
+
         with patch.object(FakeSerializer, 'fields',
                           new_callable=PropertyMock) as mocked_fields:
             mocked_fields.return_value = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
-            serializer = FakeSerializer(**self.kwargs)
-            self.assertEqual({'a', 'b', 'c'}, set(serializer.fields.keys()))
+            self.request.query_params['fields'] = 'c'
+            serializer = SubFakeSerializer(**self.kwargs)
+            self.assertEqual({'c'}, set(serializer.fields.keys()))
+
+    def test_dynamic_fields_without_expose_all(self):
+        class FakeSerializer(DynamicFieldSerializerMixin):
+            class Meta:
+                fields = ('a', 'b', 'c', 'd')
+
+        class SubFakeSerializer(FakeSerializer):
+            expose_all_possible_fields = False
+
+            class Meta:
+                fields = ('a', 'b')
+
+        with patch.object(FakeSerializer, 'fields',
+                          new_callable=PropertyMock) as mocked_fields:
+            mocked_fields.return_value = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+            self.request.query_params['fields'] = 'c'
+            with self.assertRaises(rest_exceptions.ParseError):
+                SubFakeSerializer(**self.kwargs)
 
     @patch('Core.utils.DynamicFieldSerializerMixin.fields',
            new_callable=PropertyMock)

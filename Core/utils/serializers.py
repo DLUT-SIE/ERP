@@ -5,15 +5,17 @@ class DynamicFieldSerializerMixin(serializers.Serializer):
     """
     动态指定保留字段
     """
+    expose_all_possible_fields = True
 
     def __init__(self, *args, **kwargs):
         # 获取暴露给外部的所有字段
-        fields = set()
         cls = type(self)
-        for _cls in cls.mro():
-            if hasattr(_cls, 'Meta') and hasattr(_cls.Meta, 'fields'):
-                _fields = _cls.Meta.fields
-                fields = fields | set(_fields)
+        fields = set(cls.Meta.fields)
+        if self.expose_all_possible_fields:
+            for _cls in cls.mro():
+                if hasattr(_cls, 'Meta') and hasattr(_cls.Meta, 'fields'):
+                    _fields = _cls.Meta.fields
+                    fields = fields | set(_fields)
         if 'default_fields' not in cls.Meta.__dict__:
             cls.Meta.default_fields = set(cls.Meta.fields)
         cls.Meta.fields = tuple(fields)
