@@ -1,5 +1,4 @@
 from rest_framework import viewsets
-from rest_framework.exceptions import MethodNotAllowed
 
 from Core.utils.pagination import SmallResultsSetPagination
 from Procurement.models import MaterialSubApply, MaterialSubApplyItems
@@ -21,9 +20,6 @@ class MaterialSubApplyViewSet(viewsets.ModelViewSet):
             return serializers.MaterialSubApplyUpdateSerializer
         else:
             return serializers.MaterialSubApplySerializer
-
-    def destroy(self, request, pk=None):
-        raise MethodNotAllowed(request.method)
 
 
 # 材料代用申请单明细
