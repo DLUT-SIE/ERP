@@ -1,5 +1,3 @@
-import ast
-
 from django.db import transaction
 from django.db.models import F
 from rest_framework import serializers
@@ -98,8 +96,7 @@ class CirculationRouteSerializer(serializers.ModelSerializer):
         data = self.context['request'].data
         if 'circulation_routes' not in data:
             raise serializers.ValidationError("流转路线为空")
-        attrs['circulation_routes'] = ast.literal_eval(
-            data['circulation_routes'])
+        attrs['circulation_routes'] = data['circulation_routes']
         return attrs
 
 
@@ -133,8 +130,7 @@ class ProcessRouteSerializer(serializers.ModelSerializer):
         data = self.context['request'].data
         if 'process_steps' not in data:
             raise serializers.ValidationError("工序路线为空")
-        attrs['process_steps'] = ast.literal_eval(
-            data['process_steps'])
+        attrs['process_steps'] = data['process_steps']
         return attrs
 
 
@@ -606,22 +602,22 @@ class WeldingJointProcessAnalysisSerializer(serializers.ModelSerializer):
         return str(obj.weldingworkinstruction)
 
     def get_bm_1(self, obj):
-        if obj.weldingseam_set > 0:
+        if obj.weldingseam_set.count() > 0:
             return obj.weldingseam_set.first().bm_1
         return None
 
     def get_bm_2(self, obj):
-        if obj.weldingseam_set > 0:
+        if obj.weldingseam_set.count() > 0:
             return obj.weldingseam_set.first().bm_2
         return None
 
     def get_bm_thick_1(self, obj):
-        if obj.weldingseam_set > 0:
+        if obj.weldingseam_set.count() > 0:
             return obj.weldingseam_set.first().bm_thick_1
         return None
 
     def get_bm_thick_2(self, obj):
-        if obj.weldingseam_set > 0:
+        if obj.weldingseam_set.count() > 0:
             return obj.weldingseam_set.first().bm_thick_2
         return None
 
@@ -665,32 +661,32 @@ class WeldingWorkInstructionSerializer(serializers.ModelSerializer):
         return obj.detail.spec.work_order.uid
 
     def get_bm_1(self, obj):
-        if obj.detail.weldingseam_set > 0:
+        if obj.detail.weldingseam_set.count() > 0 > 0:
             return obj.detail.weldingseam_set.first().bm_1
         return None
 
     def get_bm_2(self, obj):
-        if obj.detail.weldingseam_set > 0:
+        if obj.detail.weldingseam_set.count() > 0 > 0:
             return obj.detail.weldingseam_set.first().bm_2
         return None
 
     def get_bm_thick_1(self, obj):
-        if obj.detail.weldingseam_set > 0:
+        if obj.detail.weldingseam_set.count() > 0 > 0:
             return obj.detail.weldingseam_set.first().bm_thick_1
         return None
 
     def get_bm_thick_2(self, obj):
-        if obj.detail.weldingseam_set > 0:
+        if obj.detail.weldingseam_set.count() > 0 > 0:
             return obj.detail.weldingseam_set.first().bm_thick_1
         return None
 
     def get_wt_1(self, obj):
-        if obj.detail.weldingseam_set > 0:
+        if obj.detail.weldingseam_set.count() > 0 > 0:
             return obj.detail.weldingseam_set.first().wt_1
         return None
 
     def get_wt_2(self, obj):
-        if obj.detail.weldingseam_set > 0:
+        if obj.detail.weldingseam_set.count() > 0 > 0:
             return obj.detail.weldingseam_set.first().wt_2
         return None
 
