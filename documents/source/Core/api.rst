@@ -346,7 +346,7 @@ list(non_production_plans)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     返回所有无生产计划的工作令列表
 
-    :get:`GET` :code:`/api/work_orders/`
+    :get:`GET` :code:`/api/work_orders/non_production_plans/`
 
     =================== =========== ============================
     参数                参数类型    描述
