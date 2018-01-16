@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from Production.models import ProductionPlan
+from Core.models import WorkOrder
 
 
 class ProductionPlanListSerializer(serializers.ModelSerializer):
@@ -27,9 +28,27 @@ class ProductionPlanListSerializer(serializers.ModelSerializer):
 
 
 class ProductionPlanCreateSerializer(serializers.ModelSerializer):
+    work_order_ids = serializers.ListField(
+        child=serializers.IntegerField(),
+        write_only=True
+    )
+
     class Meta:
         model = ProductionPlan
-        fields = ('work_order', 'plan_dt', 'remark')
+        fields = ('work_order_ids',)
+
+    def validate_work_order_ids(self, value):
+        queryset = WorkOrder.objects.filter(id__in=value)
+        if len(queryset) == len(value):
+            return queryset
+        else:
+            raise serializers.ValidationError("id does not exist!")
+
+    def create(self, validated_data):
+        querysetlist = []
+        for instance in validated_data['work_order_ids']:
+            querysetlist.append(ProductionPlan(work_order=instance))
+        return self.Meta.model.objects.bulk_create(querysetlist)
 
 
 class ProductionPlanUpdateSerializer(ProductionPlanListSerializer):

@@ -203,7 +203,8 @@ class ProductionPlan(models.Model):
     status = models.IntegerField(verbose_name='生产计划状态',
                                  choices=PRODUCTION_PLAN_STATUS_CHOICES,
                                  default=PRODUCTION_PLAN_RELAX)
-    plan_dt = models.DateTimeField(verbose_name='计划年月')
+    plan_dt = models.DateTimeField(verbose_name='计划年月',
+                                   blank=True, null=True)
     remark = models.CharField(verbose_name='备注', blank=True,
                               default='', max_length=50)
 
