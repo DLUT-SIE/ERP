@@ -47,7 +47,7 @@ class ProcessLibrarySerializer(serializers.ModelSerializer):
 
 class ProcessMaterialSerializer(serializers.ModelSerializer):
     total_weight = serializers.SerializerMethodField()
-    material = serializers.CharField(source='material.name')
+    material = serializers.CharField(source='material.name', default='')
     transfer_card_id = serializers.IntegerField(source='transfer_card.id')
     transfer_card_name = serializers.CharField(
         source='transfer_card.get_category_display')
