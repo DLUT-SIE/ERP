@@ -53,11 +53,9 @@ class MaterialSubApplySerializer(serializers.ModelSerializer):
 
 
 class MaterialSubApplyUpdateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = MaterialSubApply
-        fields = '__all__'
-        read_only_fields = ('applicant',)
+        fields = ('figure_code', 'work_order', 'production', 'reason')
 
 
 class MaterialSubApplyListSerializer(MaterialSubApplySerializer):

@@ -6,6 +6,10 @@ from Procurement.models import BiddingSheet
 
 
 class StatusChangeSerializer(serializers.ModelSerializer):
+    pretty_original_status = serializers.CharField(
+        source='get_original_status_display')
+    pretty_new_status = serializers.CharField(
+        source='get_new_status_display')
 
     class Meta:
         model = StatusChange
