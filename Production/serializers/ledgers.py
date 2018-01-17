@@ -31,7 +31,7 @@ class SubMaterialLedgersUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubMaterial
-        fields = ('inspectors', 'process_material', 'circulation_route',
+        fields = ('id', 'inspectors', 'process_material', 'circulation_route',
                   'transfercards', 'process_route', 'sub_order',
                   'estimated_finish_dt', 'actual_finish_dt', 'material')
         read_only_fields = ('process_material', 'circulation_route',
