@@ -11,8 +11,11 @@ from .materialsub import (MaterialSubApplyFilter, )
 
 from .material_excution import (MaterialExcutionFilter, )
 
+from .contract_details import (ContractDetailFilter, )
+
 __all__ = ['PurchaseOrderFilter', 'BiddingSheetFilter',
            'BiddingApplicationFilter', 'SupplyRelationshipFilter',
            'StatusChangeFilter', 'ProcurementMaterialFilter',
            'MaterialSubApplyFilter', 'MaterialExcutionFilter',
-           'SupplyDocumentFilter', 'SupplyQuotationFilter']
+           'SupplyDocumentFilter', 'SupplyQuotationFilter',
+           'ContractDetailFilter']

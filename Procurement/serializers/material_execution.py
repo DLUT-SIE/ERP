@@ -11,6 +11,7 @@ class MaterialExecutionDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = MaterialExecutionDetail
         fields = '__all__'
+        read_only_fields = ('material_execution',)
 
 
 class MaterialExecutionSerializer(serializers.ModelSerializer):

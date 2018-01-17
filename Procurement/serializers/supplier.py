@@ -14,10 +14,19 @@ class SupplierSerializer(serializers.ModelSerializer):
 
 
 class SupplierDocumentSerializer(serializers.ModelSerializer):
+    doc_name = serializers.SerializerMethodField(read_only=True)
+    doc_size = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = SupplierDocument
         fields = '__all__'
+
+    def get_doc_name(self, obj):
+        name = obj.path.name.split('/')
+        return name[-1]
+
+    def get_doc_size(self, obj):
+        return obj.path.size
 
 
 class QuotationSerializer(serializers.ModelSerializer):
