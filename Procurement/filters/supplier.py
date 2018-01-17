@@ -13,3 +13,17 @@ class SupplyRelationshipFilter(filters.FilterSet):
     class Meta:
         model = models.SupplyRelationship
         fields = ('status', 'bidding_sheet', 'supplier', 'supplier_code')
+
+
+class SupplyDocumentFilter(filters.FilterSet):
+
+    class Meta:
+        model = models.SupplierDocument
+        fields = ('supplier',)
+
+
+class SupplyQuotationFilter(filters.FilterSet):
+
+    class Meta:
+        model = models.Quotation
+        fields = ('supplier',)
