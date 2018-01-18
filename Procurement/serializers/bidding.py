@@ -6,7 +6,6 @@ from Procurement.serializers import (BaseTransitionSerializer,
 
 # 标单
 class BaseBiddingSheetSerializer(BaseTransitionSerializer):
-
     purchase_order_uid = serializers.CharField(source='purchase_order.uid',
                                                read_only=True)
 
@@ -18,10 +17,11 @@ class BaseBiddingSheetSerializer(BaseTransitionSerializer):
 
 
 class BiddingSheetListSerializer(BaseBiddingSheetSerializer):
+    pretty_status = serializers.CharField(source='get_status_display')
 
     class Meta(BaseBiddingSheetSerializer.Meta):
         fields = ('id', 'uid', 'purchase_order', 'purchase_order_uid',
-                  'create_dt', 'status', 'category')
+                  'create_dt', 'status', 'category', 'pretty_status')
 
 
 # 标单申请表

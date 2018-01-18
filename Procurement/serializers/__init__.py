@@ -33,7 +33,7 @@ from .other import (
 
 from .comment import (BaseBiddingCommentSerializer,)
 
-from .contact_detail import (ContractDetailSerializer,)
+from .contact_detail import (ContractSerializer, ContractDetailSerializer,)
 
 __all__ = [
     'MaterialSubApplySerializer', 'MaterialSubApplyListSerializer',
@@ -57,5 +57,5 @@ __all__ = [
     'BaseSupplierCheckSerializer', 'BaseProcessFollowingInfoSerializer',
     'BaseArrivalInspectionSerializer', 'BaseParityRatioCardSerializer',
     'BaseBiddingCommentSerializer', 'BaseDynamicFieldSerializer',
-    'BaseTransitionSerializer',
+    'BaseTransitionSerializer', 'ContractSerializer'
 ]

@@ -13,7 +13,7 @@ from .supplier import (
     SupplierViewSet, SupplierDocumentViewSet, QuotationViewSet,
     SupplyRelationshipViewSet, SupplierCheckViewSet)
 
-from .contact_detail import (ContractDetailViewSet,)
+from .contact_detail import (ContractViewset, ContractDetailViewSet,)
 
 from .bidding import (BiddingSheetViewSet, BiddingApplicationViewSet,
                       BiddingAcceptanceViewSet, ParityRatioCardViewSet)
@@ -27,7 +27,8 @@ __all__ = [
     'MaterialSubApplyCommentViewSet', 'MaterialExecutionViewSet',
     'MaterialExecutionDetailViewSet', 'StatusChangeViewSet', 'SupplierViewSet',
     'SupplierDocumentViewSet', 'SupplierCheckViewSet',
-    'QuotationViewSet', 'ContractDetailViewSet', 'PurchaseOrderViewSet',
+    'QuotationViewSet', 'ContractViewset', 'ContractDetailViewSet',
+    'PurchaseOrderViewSet',
     'ProcurementMaterialViewSet', 'BiddingSheetViewSet',
     'BiddingApplicationViewSet', 'SupplyRelationshipViewSet',
     'BiddingAcceptanceViewSet', 'ProcessFollowingInfoViewSet',

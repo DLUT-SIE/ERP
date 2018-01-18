@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.db.models import Sum
 from Core.utils import gen_uuid
 from Procurement import (BIDDING_SHEET_STATUS_CHOICES, COMMENT_STATUS_CHOICES,
                          IMPLEMENT_CLASS_CHOICES)
@@ -58,6 +58,17 @@ class BiddingSheet(models.Model, metaclass=TransitionMeta):
 
     def __str__(self):
         return self.uid
+
+    @property
+    def prepaid_amount(self):
+        if not hasattr(self, '__prepaid_amount'):
+            self.__prepaid_amount = self.contractdetail_set.aggregate(
+                Sum('amount'))['amount__sum'] or 0
+        return self.__prepaid_amount
+
+    @property
+    def payable_amount(self):
+        return self.billing_amount - self.prepaid_amount
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_CREATE,
                 target=BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED)

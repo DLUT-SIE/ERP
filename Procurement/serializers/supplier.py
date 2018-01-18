@@ -7,7 +7,6 @@ from Procurement.serializers import (BaseTransitionSerializer,
 
 
 class SupplierSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Supplier
         fields = '__all__'
@@ -30,6 +29,8 @@ class SupplierDocumentSerializer(serializers.ModelSerializer):
 
 
 class QuotationSerializer(serializers.ModelSerializer):
+    pretty_inventory_type = serializers.CharField(
+            source='get_inventory_type_display')
 
     class Meta:
         model = Quotation
