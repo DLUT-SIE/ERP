@@ -9,6 +9,8 @@ from Procurement import (
     PURCHASE_ORDER_STATUS_BEGIN, PURCHASE_ORDER_STATUS_ESTABLISHMENT,
     PURCHASE_ORDER_STATUS_AUDIT, PURCHASE_ORDER_STATUS_APPROVED,
     PURCHASE_ORDER_STATUS_FINISH)
+from Procurement import (
+    PROCUREMENT_MATERIAL_WAITED, PROCUREMENT_MATERIAL_STATUS)
 from Core.utils.fsm import transition, TransitionMeta
 
 
@@ -115,8 +117,9 @@ class ProcurementMaterial(models.Model):
     category = models.CharField(verbose_name='材料分类', max_length=50,
                                 blank=True, default='')
     finished = models.BooleanField(verbose_name='是否结束', default=False)
-    add_to_detail = models.BooleanField(verbose_name='已加入物料汇总',
-                                        default=False)
+    status = models.IntegerField(verbose_name='物料状态',
+                                 choices=PROCUREMENT_MATERIAL_STATUS,
+                                 default=PROCUREMENT_MATERIAL_WAITED)
     count = models.IntegerField(verbose_name='数量')
     weight = models.FloatField(verbose_name='重量')
 

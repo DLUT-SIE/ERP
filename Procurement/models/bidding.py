@@ -32,6 +32,7 @@ from Procurement import (
 )
 
 
+# TODO: BiddingSheet and Contract ?
 class BiddingSheet(models.Model, metaclass=TransitionMeta):
     """
     标单

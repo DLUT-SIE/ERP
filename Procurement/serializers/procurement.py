@@ -13,7 +13,7 @@ class BaseProcurementMaterialSerializer(BaseDynamicFieldSerializer):
         fields = (
             'id', 'process_material', 'merged_material', 'purchase_order',
             'sub_order', 'inventory_type', 'batch_number', 'material_number',
-            'delivery_dt', 'category', 'finished', 'add_to_detail', 'count',
+            'delivery_dt', 'category', 'finished', 'status', 'count',
             'weight')
 
 
@@ -27,7 +27,7 @@ class ProcurementMaterialReadSerializer(BaseProcurementMaterialSerializer):
         fields = (
             'id', 'process_material', 'merged_material', 'purchase_order',
             'sub_order', 'inventory_type', 'batch_number', 'material_number',
-            'delivery_dt', 'category', 'finished', 'add_to_detail', 'count',
+            'delivery_dt', 'category', 'finished', 'status', 'count',
             'weight')
 
 
@@ -42,7 +42,7 @@ class ProcurementMaterialListSerializer(BaseProcurementMaterialSerializer):
         fields = (
             'id', 'process_material', 'merged_material', 'purchase_order',
             'sub_order', 'inventory_type', 'batch_number', 'material_number',
-            'delivery_dt', 'category', 'finished', 'add_to_detail', 'count',
+            'delivery_dt', 'category', 'finished', 'status', 'count',
             'weight', 'total_weight')
 
     def get_total_weight(self, obj):
