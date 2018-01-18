@@ -1,4 +1,4 @@
-from django.db import models, transaction
+from django.db import models
 from django.contrib.auth.models import User
 
 from Process import (

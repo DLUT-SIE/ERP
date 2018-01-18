@@ -4,8 +4,8 @@ from Production.models import ProcessDetail
 
 
 class ManHourMessageSerializer(serializers.ModelSerializer):
-    sub_order = serializers.CharField(source='sub_material.sub_order',
-                                      read_only=True)
+    sub_order_uid = serializers.CharField(source='sub_material.sub_order.uid',
+                                          read_only=True)
     ticket_number = serializers.CharField(
         source='sub_material.material.ticket_number', read_only=True)
     step = serializers.CharField(source='process_step.step',
@@ -23,7 +23,7 @@ class ManHourMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProcessDetail
-        fields = ('id', 'sub_order', 'ticket_number', 'work_group_name',
+        fields = ('id', 'sub_order_uid', 'ticket_number', 'work_group_name',
                   'step', 'man_hours', 'writer', 'quota_clerk',
                   'actual_finish_dt')
         read_only_fields = ('id', 'work_group_name', 'actual_finish_dt')
