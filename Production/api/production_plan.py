@@ -1,5 +1,4 @@
 from rest_framework import viewsets
-from rest_framework.exceptions import MethodNotAllowed
 
 from Core.utils.pagination import SmallResultsSetPagination
 from Production.models import ProductionPlan
@@ -19,6 +18,3 @@ class ProductionPlanViewSet(viewsets.ModelViewSet):
             return serializers.ProductionPlanCreateSerializer
         else:
             return serializers.ProductionPlanUpdateSerializer
-
-    def destroy(self, request, pk=None):
-        raise MethodNotAllowed(request.method)
