@@ -8,11 +8,11 @@ class ManHourMessageFilter(filters.FilterSet):
                                        method='filter_sub_order_uid')
     ticket_number = filters.CharFilter(
         label='工作票号', name='sub_material__material__ticket_number')
-    work_group = filters.CharFilter(label='组号', name='work_group')
+    work_group_name = filters.CharFilter(label='组名', name='work_group__name')
 
     class Meta:
         model = ProcessDetail
-        fields = ('sub_order_uid', 'ticket_number', 'work_group')
+        fields = ('sub_order_uid', 'ticket_number', 'work_group_name')
 
     def filter_sub_order_uid(self, queryset, name, value):
         splits = value.rsplit('-', 1)  # eg, WO1234-1

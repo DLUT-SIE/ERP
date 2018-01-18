@@ -18,10 +18,12 @@ class ManHourMessageSerializer(serializers.ModelSerializer):
     quota_clerk = serializers.CharField(
         source='sub_material.sub_order.work_order.process_library.quota_clerk',
         read_only=True)
+    work_group_name = serializers.CharField(source='work_group.name',
+                                            read_only=True)
 
     class Meta:
         model = ProcessDetail
-        fields = ('id', 'sub_order', 'ticket_number', 'work_group',
+        fields = ('id', 'sub_order', 'ticket_number', 'work_group_name',
                   'step', 'man_hours', 'writer', 'quota_clerk',
                   'actual_finish_dt')
-        read_only_fields = ('id', 'work_group', 'actual_finish_dt')
+        read_only_fields = ('id', 'work_group_name', 'actual_finish_dt')
