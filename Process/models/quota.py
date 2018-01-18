@@ -83,7 +83,8 @@ class QuotaList(models.Model, metaclass=TransitionMeta):
                     procurement_material.category = \
                         item.process_material.material.category
                     procurement_material.count = item.process_material.count
-                    procurement_material.weight = item.process_material.weight
+                    procurement_material.weight = \
+                        item.process_material.piece_weight or 0
                     procurement_material_list.append(procurement_material)
         else:
             for sub_order in work_order.subworkorder_set.all():
@@ -92,10 +93,16 @@ class QuotaList(models.Model, metaclass=TransitionMeta):
                     procurement_material = ProcurementMaterial()
                     procurement_material.sub_order = sub_order
                     procurement_material.inventory_type = self.category
-                    procurement_material.material_number = item.material.uid
-                    procurement_material.category = item.material.category
-                    procurement_material.count = item.count
-                    procurement_material.weight = item.weight
+                    if self.category != QUOTA_LIST_CATEGORY_AUXILIARY:
+                        procurement_material.material_number = \
+                            item.material.uid
+                        procurement_material.category = item.material.category
+                    if self.category == QUOTA_LIST_CATEGORY_PRINCIPAL:
+                        procurement_material.count = item.count
+                        procurement_material.weight = item.weight
+                    else:
+                        procurement_material.weight = item.quota or 0
+                        procurement_material.count = 0
                     procurement_material_list.append(procurement_material)
         ProcurementMaterial.objects.bulk_create(procurement_material_list)
 
