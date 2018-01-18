@@ -24,7 +24,6 @@ class FileUploadView(APIView):
             with transaction.atomic():
                 self.file_deal(process_library, data_file)
         except Exception as e:
-            print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_204_NO_CONTENT)

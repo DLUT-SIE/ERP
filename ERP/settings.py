@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'Messaging',
     'Core.apps.CoreConfig',
     'Distribution',
-    'Process',
+    'Process.apps.ProcessConfig',
     'Procurement',
     'Inventory.apps.InventoryConfig',
     'Production.apps.ProductionConfig',

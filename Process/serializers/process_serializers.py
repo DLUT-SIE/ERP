@@ -9,6 +9,7 @@ from Process.models import (
     TotalWeldingMaterial, WeldingMaterial, FluxMaterial, WeldingCertification,
     WeldingProcessSpecification, WeldingJointProcessAnalysis,
     WeldingWorkInstruction)
+from Core.utils.fsm import TransitionSerializerMixin as TSMixin
 
 
 class GetCirculationRoutesMixin(serializers.Serializer):
@@ -16,6 +17,8 @@ class GetCirculationRoutesMixin(serializers.Serializer):
 
     def get_circulation_routes(self, obj):
         circulation_routes = []
+        if hasattr(obj.process_material, 'circulation_route'):
+            return None
         routes = obj.process_material.circulation_route
         for i in range(10):
             cur = getattr(routes, 'C{}'.format(i + 1))
@@ -357,7 +360,7 @@ class PrincipalQuotaItemSerializer(serializers.ModelSerializer):
         return 0
 
 
-class QuotaListSerializer(serializers.ModelSerializer):
+class QuotaListSerializer(TSMixin, serializers.ModelSerializer):
     product_name = serializers.CharField(source='lib.work_order.product',
                                          read_only=True)
     work_order_uid = serializers.CharField(source='lib.work_order.uid',
@@ -369,7 +372,8 @@ class QuotaListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuotaList
-        fields = ('id', 'writer', 'reviewer', 'product_name', 'work_order_uid')
+        fields = ('id', 'status', 'actions', 'writer', 'reviewer',
+                  'product_name', 'work_order_uid')
 
 
 class PrincipalQuotaItemCreateSerializer(PrincipalQuotaItemSerializer):
