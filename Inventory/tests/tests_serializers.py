@@ -171,7 +171,8 @@ class WeldingMaterialEntryDetailSerializerTest(TestCase):
             self.entry_detail).data
         expected_keys = {
             'id', 'entry', 'procurement_material', 'weight', 'count',
-            'unit', 'factory', 'remark', 'production_dt',
+            'unit', 'factory', 'remark', 'production_dt', 'batch_number',
+            'material_number',
         }
         self.assertEqual(set(data.keys()), expected_keys)
 
@@ -186,7 +187,7 @@ class SteelMaterialEntryDetailSerializerTest(TestCase):
             self.entry_detail).data
         expected_keys = {
             'id', 'entry', 'procurement_material', 'weight', 'count',
-            'unit', 'factory', 'remark', 'length',
+            'unit', 'factory', 'remark', 'length', 'batch_number',
         }
         self.assertEqual(set(data.keys()), expected_keys)
 
@@ -216,7 +217,7 @@ class BoughtInComponentEntryDetailSerializerTest(TestCase):
             self.entry_detail).data
         expected_keys = {
             'id', 'entry', 'procurement_material', 'weight', 'count',
-            'unit', 'factory', 'remark',
+            'unit', 'factory', 'remark', 'batch_number',
         }
         self.assertEqual(set(data.keys()), expected_keys)
 
