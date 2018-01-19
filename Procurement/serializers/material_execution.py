@@ -5,10 +5,6 @@ from Procurement.models import MaterialExecution, MaterialExecutionDetail
 
 
 class MaterialExecutionDetailSerializer(serializers.ModelSerializer):
-    execution_uid = serializers.CharField(
-        source='material_execution.uid', read_only=True)
-    execution_type = serializers.CharField(
-        source='material_execution.material_type', read_only=True)
     sub_order = serializers.CharField(
         source='material.sub_order', read_only=True)
     batch_number = serializers.CharField(
@@ -18,7 +14,8 @@ class MaterialExecutionDetailSerializer(serializers.ModelSerializer):
     material_uid = serializers.CharField(
         source='material.process_material.material.uid', read_only=True)
     material_category = serializers.CharField(
-        source='material.process_material.material.category', read_only=True)
+        source='material.process_material.material.get_category_display',
+        read_only=True)
     count = serializers.CharField(
         source='material.count', read_only=True)
     weight = serializers.CharField(
@@ -33,6 +30,8 @@ class MaterialExecutionDetailSerializer(serializers.ModelSerializer):
 
 
 class MaterialExecutionSerializer(serializers.ModelSerializer):
+    material_type = serializers.CharField(
+        source='get_material_type_display', read_only=True)
 
     class Meta:
         model = MaterialExecution
@@ -67,5 +66,5 @@ class MaterialExecutionCreateSerializer(serializers.ModelSerializer):
 class MaterialExecutionListSerializer(MaterialExecutionSerializer):
 
     class Meta(MaterialExecutionSerializer.Meta):
-        fields = ('uid', 'lister', 'list_dt', 'material_type',
+        fields = ('id', 'uid', 'lister', 'list_dt', 'material_type',
                   'process_requirement')
