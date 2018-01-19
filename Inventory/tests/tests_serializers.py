@@ -100,7 +100,8 @@ class SteelMaterialEntrySerializerTest(TestCase):
         data = entry_serializers.SteelMaterialEntrySerializer(self.entry).data
         expected_keys = {'id', 'uid', 'bidding_sheet', 'source', 'create_dt',
                          'purchaser', 'inspector', 'keeper', 'status',
-                         'pretty_status', 'details', 'actions'}
+                         'pretty_status', 'details', 'actions',
+                         'steel_type', 'pretty_steel_type'}
         self.assertEqual(set(data.keys()), expected_keys)
 
     def test_steel_material_entry_list_serializer_fields(self):

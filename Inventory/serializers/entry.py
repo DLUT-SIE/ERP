@@ -92,20 +92,20 @@ class SteelMaterialEntrySerializer(TransitionSerializerMixin,
     keeper = serializers.CharField(source='keeper.username',
                                    allow_null=True,
                                    read_only=True)
+    pretty_steel_type = serializers.CharField(source='get_steel_type_display',
+                                              read_only=True)
     details = SteelMaterialEntryDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = SteelMaterialEntry
         fields = ('id', 'uid', 'bidding_sheet', 'source', 'create_dt',
                   'purchaser', 'inspector', 'keeper', 'status',
-                  'pretty_status', 'details', 'actions')
+                  'pretty_status', 'details', 'actions', 'steel_type',
+                  'pretty_steel_type')
         read_only_fields = ('purchaser', 'inspector', 'keeper')
 
 
 class SteelMaterialEntryListSerializer(SteelMaterialEntrySerializer):
-    pretty_steel_type = serializers.CharField(source='get_steel_type_display',
-                                              read_only=True)
-
     class Meta(SteelMaterialEntrySerializer.Meta):
         fields = ('id', 'uid', 'create_dt', 'purchaser', 'inspector',
                   'steel_type', 'pretty_steel_type', 'status',
