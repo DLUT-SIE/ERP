@@ -10,7 +10,9 @@ from Procurement import (
     PURCHASE_ORDER_STATUS_AUDIT, PURCHASE_ORDER_STATUS_APPROVED,
     PURCHASE_ORDER_STATUS_FINISH)
 from Procurement import (
-    PROCUREMENT_MATERIAL_WAITED, PROCUREMENT_MATERIAL_STATUS)
+    PROCUREMENT_MATERIAL_WAITED, PROCUREMENT_MATERIAL_STATUS,
+    PROCUREMENT_MATERIAL_ADDED_EXECUTION,
+    PROCUREMENT_MATERIAL_EXECUTION_FINISHED)
 from Core.utils.fsm import transition, TransitionMeta
 
 
@@ -126,6 +128,12 @@ class ProcurementMaterial(models.Model):
     class Meta:
         verbose_name = '采购物料'
         verbose_name_plural = '采购物料'
+
+    @transition(
+        field='status', source=PROCUREMENT_MATERIAL_ADDED_EXECUTION,
+        target=PROCUREMENT_MATERIAL_EXECUTION_FINISHED, name='材料执行完成')
+    def material_execution_finished(self, request):
+        pass
 
     def __str__(self):
         return '{} {}'.format(self.sub_order_id, self.process_material_id)

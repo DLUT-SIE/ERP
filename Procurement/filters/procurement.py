@@ -21,4 +21,4 @@ class ProcurementMaterialFilter(filters.FilterSet):
 
     class Meta:
         model = ProcurementMaterial
-        fields = ('purchase_order',)
+        fields = ('purchase_order', 'status')

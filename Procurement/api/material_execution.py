@@ -24,6 +24,6 @@ class MaterialExecutionViewSet(viewsets.ModelViewSet):
 # 材料执行表明细
 class MaterialExecutionDetailViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
-    queryset = MaterialExecutionDetail.objects.all().filter(
-        material_execution=None).order_by('-pk')
+    queryset = MaterialExecutionDetail.objects.all().order_by('-pk')
     serializer_class = serializers.MaterialExecutionDetailSerializer
+    filter_class = filters.MaterialExecutionDetailFilter

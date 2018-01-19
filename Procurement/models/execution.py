@@ -33,13 +33,11 @@ class MaterialExecutionDetail(models.Model):
     material_execution = models.ForeignKey(MaterialExecution,
                                            verbose_name='材料执行表',
                                            null=True, blank=True,
-                                           related_name='materialexecution',
+                                           related_name='execution_details',
                                            on_delete=models.SET_NULL)
     material = models.ForeignKey('ProcurementMaterial', verbose_name='物料',
                                  related_name='material',
                                  on_delete=models.CASCADE)
-    batch_number = models.CharField(verbose_name='出厂批号', max_length=50,
-                                    null=True, blank=True)
     quota = models.CharField(verbose_name='定额', max_length=50,
                              null=True, blank=True)
     part = models.CharField(verbose_name='零件', max_length=50,
@@ -54,4 +52,4 @@ class MaterialExecutionDetail(models.Model):
         verbose_name_plural = '材料执行表明细'
 
     def __str__(self):
-        return '{}-{}'.format(self.material_execution, self.materiel)
+        return '{}-{}'.format(self.material_execution, self.material)
