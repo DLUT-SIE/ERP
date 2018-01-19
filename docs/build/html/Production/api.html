@@ -656,9 +656,9 @@
 <td>参数类型</td>
 <td>描述</td>
 </tr>
-<tr class="row-even"><td>id</td>
-<td>int</td>
-<td>生产计划id</td>
+<tr class="row-even"><td>work_order_ids</td>
+<td>list</td>
+<td>生产计划id列表</td>
 </tr>
 </tbody>
 </table>
@@ -2361,9 +2361,9 @@
 <p><span class="get">GET</span> <span class="code">/api/man_hour_messages/</span></p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="37%" />
-<col width="18%" />
-<col width="45%" />
+<col width="39%" />
+<col width="17%" />
+<col width="44%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>参数</td>
@@ -2386,9 +2386,9 @@
 <td>str</td>
 <td>工作票号</td>
 </tr>
-<tr class="row-even"><td>work_group(Optional)</td>
+<tr class="row-even"><td>work_group_name(Optional)</td>
 <td>str</td>
-<td>组号</td>
+<td>组名</td>
 </tr>
 </tbody>
 </table>
@@ -2407,7 +2407,7 @@
 <td>int</td>
 <td>工时详情id</td>
 </tr>
-<tr class="row-odd"><td>sub_order</td>
+<tr class="row-odd"><td>sub_order_uid</td>
 <td>str</td>
 <td>工作令</td>
 </tr>
@@ -2415,9 +2415,9 @@
 <td>str</td>
 <td>工作票号</td>
 </tr>
-<tr class="row-odd"><td>work_group</td>
+<tr class="row-odd"><td>work_group_name</td>
 <td>str</td>
-<td>组号</td>
+<td>组名</td>
 </tr>
 <tr class="row-even"><td>step</td>
 <td>int</td>
