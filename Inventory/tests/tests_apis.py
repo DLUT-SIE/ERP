@@ -1323,7 +1323,11 @@ class SteelMaterialRefundCardAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     @patch('Inventory.api.refund.SteelMaterialRefundCardViewSet.get_object')
-    def test_detail(self, mocked_get_object):
+    @patch('Inventory.serializers.refund'
+           '.SteelMaterialRefundCardSerializer.data',
+           new_callable=PropertyMock)
+    def test_detail(self, mocked_data, mocked_get_object):
+        mocked_data.return_value = {}
         mocked_get_object.return_value = mommy.prepare(
             'SteelMaterialRefundCard')
         url = reverse('steelmaterialrefundcard-detail', args=('1',))

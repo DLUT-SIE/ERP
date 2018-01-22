@@ -104,7 +104,9 @@ class SteelMaterialRefundCardSerializer(TransitionSerializerMixin,
                                         serializers.ModelSerializer):
     sub_order_uid = serializers.CharField(source='apply_card.sub_order.uid',
                                           read_only=True)
-    steel_type = serializers.CharField(default='', read_only=True)
+    # TODO: steel_type
+    steel_type = serializers.SerializerMethodField()
+    pretty_steel_type = serializers.SerializerMethodField()
     pretty_status = serializers.CharField(source='get_status_display',
                                           read_only=True)
     board_details = BoardSteelMaterialRefundDetailSerializer(many=True,
@@ -112,11 +114,23 @@ class SteelMaterialRefundCardSerializer(TransitionSerializerMixin,
     bar_details = BarSteelMaterialRefundDetailSerializer(many=True,
                                                          read_only=True)
 
+    def get_steel_type(self, obj):
+        src = (obj.bar_details.all()[0] if obj.bar_details.exists()
+               else obj.board_details.all()[0])
+        return src.apply_detail.inventory_detail.entry_detail.entry.steel_type
+
+    def get_pretty_steel_type(self, obj):
+        src = (obj.bar_details.all()[0] if obj.bar_details.exists()
+               else obj.board_details.all()[0])
+        return (src.apply_detail.inventory_detail
+                .entry_detail.entry.get_steel_type_display())
+
     class Meta:
         model = SteelMaterialRefundCard
         fields = ('id', 'sub_order_uid', 'create_dt', 'uid', 'steel_type',
                   'refunder', 'inspector', 'keeper', 'status', 'pretty_status',
-                  'board_details', 'bar_details', 'actions')
+                  'board_details', 'bar_details', 'actions',
+                  'pretty_steel_type')
         read_only_fields = ('refunder', 'inspector', 'keeper')
 
 
@@ -124,7 +138,7 @@ class SteelMaterialRefundCardListSerializer(
         SteelMaterialRefundCardSerializer):
     class Meta(SteelMaterialRefundCardSerializer.Meta):
         fields = ('id', 'create_dt', 'uid', 'sub_order_uid', 'steel_type',
-                  'refunder', 'status', 'pretty_status')
+                  'refunder', 'status', 'pretty_status', 'pretty_steel_type')
 
 
 class SteelMaterialRefundCardCreateSerializer(

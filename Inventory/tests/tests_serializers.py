@@ -825,24 +825,32 @@ class SteelMaterialRefundCardSerializerTest(TestCase):
 
     @patch('Inventory.serializers.refund'
            '.SteelMaterialRefundCardSerializer.get_actions')
-    def test_fields(self, mocked_get_actions):
+    @patch('Inventory.serializers.refund'
+           '.SteelMaterialRefundCardSerializer.get_steel_type')
+    @patch('Inventory.serializers.refund'
+           '.SteelMaterialRefundCardSerializer.get_pretty_steel_type')
+    def test_fields(self, *args):
         cls = refund_serializers.SteelMaterialRefundCardSerializer
         data = cls(self.refund_card).data
         expected_keys = {
             'id', 'sub_order_uid', 'create_dt', 'uid', 'steel_type',
             'refunder', 'inspector', 'keeper', 'status', 'pretty_status',
-            'board_details', 'bar_details', 'actions'
+            'board_details', 'bar_details', 'actions', 'pretty_steel_type',
         }
         self.assertEqual(set(data.keys()), expected_keys)
 
     @patch('Inventory.serializers.refund'
            '.SteelMaterialRefundCardListSerializer.get_actions')
-    def test_list_fields(self, mocked_get_actions):
+    @patch('Inventory.serializers.refund'
+           '.SteelMaterialRefundCardListSerializer.get_steel_type')
+    @patch('Inventory.serializers.refund'
+           '.SteelMaterialRefundCardListSerializer.get_pretty_steel_type')
+    def test_list_fields(self, *args):
         cls = refund_serializers.SteelMaterialRefundCardListSerializer
         data = cls(self.refund_card).data
         expected_keys = {
             'id', 'create_dt', 'uid', 'sub_order_uid', 'steel_type',
-            'refunder', 'status', 'pretty_status'
+            'refunder', 'status', 'pretty_status', 'pretty_steel_type',
         }
         self.assertEqual(set(data.keys()), expected_keys)
 
