@@ -35,7 +35,7 @@ class SteelMaterialEntryLedgerSerializer(serializers.ModelSerializer):
         source='procurement_material.process_material.material.uid',
         allow_null=True, read_only=True)
     work_order_uid = serializers.CharField(
-        source='entry.bidding_sheet.purchase_order.work_order.uid',
+        source='procurement_material.sub_order.uid',
         allow_null=True, read_only=True)
 
     class Meta:
@@ -65,7 +65,8 @@ class BoughtInComponentEntryLedgerSerializer(serializers.ModelSerializer):
         source='procurement_material.process_material.spec')
     entry_dt = serializers.DateTimeField(source='entry.create_dt')
     work_order_uid = serializers.CharField(
-        source='entry.bidding_sheet.purchase_order.work_order.uid')
+        source='procurement_material.sub_order.uid',
+        allow_null=True)
     material_number = serializers.CharField(
         source='procurement_material.process_material.material.uid')
     entry_uid = serializers.CharField(source='entry.uid')
