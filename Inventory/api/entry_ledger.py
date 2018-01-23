@@ -22,8 +22,7 @@ class SteelMaterialEntryLedgerViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.SteelMaterialEntryLedgerSerializer
     queryset = (SteelMaterialEntryDetail.objects.all().order_by('-pk')
                 .select_related(
-                    'procurement_material__process_material__material',
-                    'entry__bidding_sheet__purchase_order__work_order'))
+                    'procurement_material__process_material__material'))
     filter_class = filters.SteelMaterialEntryLedgerFilter
 
 
@@ -32,8 +31,7 @@ class AuxiliaryMaterialEntryLedgerViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.AuxiliaryMaterialEntryLedgerSerializer
     queryset = (AuxiliaryMaterialEntryDetail.objects.all().order_by('-pk')
                 .select_related(
-                    'procurement_material__process_material__material',
-                    'entry__bidding_sheet__purchase_order__work_order'))
+                    'procurement_material__process_material__material',))
     filter_class = filters.AuxiliaryMaterialEntryLedgerFilter
 
 
@@ -42,6 +40,5 @@ class BoughtInComponentEntryLedgerViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.BoughtInComponentEntryLedgerSerializer
     queryset = (BoughtInComponentEntryDetail.objects.all().order_by('-pk')
                 .select_related(
-                    'procurement_material__process_material__material',
-                    'entry__bidding_sheet__purchase_order__work_order'))
+                    'procurement_material__process_material__material'))
     filter_class = filters.BoughtInComponentEntryLedgerFilter

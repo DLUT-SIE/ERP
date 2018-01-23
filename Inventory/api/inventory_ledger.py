@@ -26,8 +26,6 @@ class SteelMaterialInventoryLedgerViewSet(viewsets.ReadOnlyModelViewSet):
                     ('entry_detail__procurement_material'
                      '__process_material__material'),
                     'entry_detail__entry',
-                    ('entry_detail__entry__bidding_sheet'
-                     '__purchase_order__work_order'),
                     'warehouse'))
     filter_class = filters.SteelMaterialInventoryLedgerFilter
 
@@ -49,7 +47,5 @@ class BoughtInComponentInventoryLedgerViewSet(viewsets.ReadOnlyModelViewSet):
                 .select_related(
                     ('entry_detail__procurement_material'
                      '__process_material__material'),
-                    'entry_detail__entry',
-                    ('entry_detail__entry__bidding_sheet'
-                     '__purchase_order__work_order')))
+                    'entry_detail__entry'))
     filter_class = filters.BoughtInComponentInventoryLedgerFilter
