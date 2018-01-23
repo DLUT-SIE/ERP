@@ -16,4 +16,4 @@ class WorkOrderSerializer(serializers.ModelSerializer):
 class SubWorkOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubWorkOrder
-        fields = ('id', 'work_order', 'index', 'finished')
+        fields = ('id', 'work_order', 'index', 'finished', 'uid')

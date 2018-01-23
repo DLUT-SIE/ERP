@@ -38,5 +38,6 @@ class SubWorkOrderViewSet(mixins.UpdateModelMixin,
     """
     serializer_class = SubWorkOrderSerializer
     pagination_class = SmallResultsSetPagination
-    queryset = SubWorkOrder.objects.all().order_by('-pk')
+    queryset = (SubWorkOrder.objects.all().order_by('-pk')
+                .select_related('work_order'))
     filter_class = SubWorkOrderFilter
