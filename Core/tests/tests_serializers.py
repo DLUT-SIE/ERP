@@ -130,5 +130,5 @@ class SubWorkOrderSerializerTest(TestCase):
     def test_sub_work_order_serializer_fields(self):
         data = work_order_serializers.SubWorkOrderSerializer(
             self.sub_order).data
-        expected_keys = {'id', 'work_order', 'index', 'finished'}
+        expected_keys = {'id', 'work_order', 'index', 'finished', 'uid'}
         self.assertEqual(set(data.keys()), expected_keys)
