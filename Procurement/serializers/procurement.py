@@ -8,13 +8,16 @@ from Procurement.serializers import (BaseTransitionSerializer,
 # 采购物料
 class BaseProcurementMaterialSerializer(BaseDynamicFieldSerializer):
 
+    pretty_status = serializers.CharField(source='get_status_display',
+                                          read_only=True)
+
     class Meta:
         model = ProcurementMaterial
         fields = (
             'id', 'process_material', 'merged_material', 'purchase_order',
             'sub_order', 'inventory_type', 'batch_number', 'material_number',
             'delivery_dt', 'category', 'finished', 'status', 'count',
-            'weight')
+            'weight', 'pretty_status')
 
 
 # Read & Update
@@ -28,7 +31,8 @@ class ProcurementMaterialReadSerializer(BaseProcurementMaterialSerializer):
             'id', 'process_material', 'merged_material', 'purchase_order',
             'sub_order', 'inventory_type', 'batch_number', 'material_number',
             'delivery_dt', 'category', 'finished', 'status', 'count',
-            'weight')
+            'weight', 'pretty_status')
+        read_only_fields = ('material_number', 'category')
 
 
 class ProcurementMaterialListSerializer(BaseProcurementMaterialSerializer):
@@ -43,7 +47,7 @@ class ProcurementMaterialListSerializer(BaseProcurementMaterialSerializer):
             'id', 'process_material', 'merged_material', 'purchase_order',
             'sub_order', 'inventory_type', 'batch_number', 'material_number',
             'delivery_dt', 'category', 'finished', 'status', 'count',
-            'weight', 'total_weight')
+            'weight', 'total_weight', 'pretty_status')
 
     def get_total_weight(self, obj):
         return obj.count * obj.weight
@@ -52,16 +56,13 @@ class ProcurementMaterialListSerializer(BaseProcurementMaterialSerializer):
 # 采购单
 class BasePurchaseOrderSerializer(BaseTransitionSerializer):
 
-    work_order_uid = serializers.CharField(source='work_order.uid',
-                                           read_only=True)
     create_dt = serializers.DateTimeField(format='%Y-%m-%d', read_only=True)
 
     class Meta:
         model = PurchaseOrder
-        fields = ('id', 'uid', 'work_order', 'create_dt', 'status', 'lister',
+        fields = ('id', 'uid', 'create_dt', 'status', 'lister',
                   'list_dt', 'chief', 'audit_dt', 'approver', 'approve_dt',
-                  'tech_requirement', 'category', 'revised_number',
-                  'work_order_uid')
+                  'tech_requirement', 'category', 'revised_number')
 
 
 # 嵌套写
@@ -70,21 +71,21 @@ class PurchaseOrderCreateSerializer(BasePurchaseOrderSerializer):
     class Meta(BasePurchaseOrderSerializer.Meta):
         read_only_fields = ('id', 'create_dt', 'lister', 'list_dt',
                             'chief', 'audit_dt', 'approver', 'approve_dt',
-                            'tech_requirement', 'revised_number',
-                            'work_order_uid')
+                            'tech_requirement', 'category', 'revised_number',
+                            'status')
 
 
 # Read &  Update
 class PurchaseOrderReadSerializer(BasePurchaseOrderSerializer):
 
-    status_name = serializers.CharField(source='get_status_display',
-                                        read_only=True)
+    pretty_status = serializers.CharField(source='get_status_display',
+                                          read_only=True)
 
     class Meta(BasePurchaseOrderSerializer.Meta):
-        fields = ('id', 'uid', 'work_order', 'create_dt', 'status', 'lister',
-                  'list_dt', 'chief', 'audit_dt', 'approver', 'approve_dt',
+        fields = ('id', 'uid', 'create_dt', 'status', 'lister', 'list_dt',
+                  'chief', 'audit_dt', 'approver', 'approve_dt',
                   'tech_requirement', 'category', 'revised_number',
-                  'work_order_uid', 'status_name')
+                  'pretty_status')
 
 
 # List

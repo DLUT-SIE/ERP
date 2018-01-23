@@ -17,6 +17,7 @@ class BaseBiddingSheetSerializer(BaseTransitionSerializer):
 
 
 class BiddingSheetListSerializer(BaseBiddingSheetSerializer):
+
     pretty_status = serializers.CharField(source='get_status_display')
 
     class Meta(BaseBiddingSheetSerializer.Meta):
