@@ -34,6 +34,8 @@ class ProcurementMaterialFilter(filters.FilterSet):
 
     finished = filters.BooleanFilter(name='finished', lookup_expr='exact')
 
+    sub_work_order_uid = filters.CharFilter(method='filter_sub_work_order_uid')
+
     class Meta:
         model = ProcurementMaterial
         fields = ('purchase_order', 'inventory_type', 'purchase_order_uid',
@@ -55,4 +57,14 @@ class ProcurementMaterialFilter(filters.FilterSet):
             return self.Meta.model.objects.none()
         procurement_materials = self.Meta.model.objects.filter(
             process_material__in=process_materials)
+        return procurement_materials
+
+    def filter_sub_work_order_uid(self, query_set, name, value):
+        value = value.split('-') #参见SubWorkOrder模型定义
+        if not value or len(value) != 2 or '' in value:
+            return self.Meta.model.objects.none()
+        procurement_materials = self.Meta.model.objects.filter(
+            sub_order__work_order__id=value[0], sub_order__index=value[1])
+        if not procurement_materials:
+            return self.Meta.model.objects.none()
         return procurement_materials
