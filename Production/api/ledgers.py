@@ -20,3 +20,6 @@ class SubMaterialLedgersViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request, pk=None):
         raise MethodNotAllowed(request.method)
+
+    def create(self, request, pk=None):
+        raise MethodNotAllowed(request.method)
