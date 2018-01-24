@@ -28,6 +28,10 @@ class WeldingMaterialHumitureRecordViewSet(viewsets.ModelViewSet):
         else:
             return serializers.WeldingMaterialHumitureRecordSerializer
 
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(keeper=user)
+
 
 class WeldingMaterialBakeRecordViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination

@@ -22,6 +22,7 @@ class WeldingMaterialHumitureRecordSerializer(serializers.ModelSerializer):
         fields = ('id', 'create_dt', 'keeper', 'actual_temp_1',
                   'actual_humid_1', 'actual_temp_2', 'actual_humid_2',
                   'remark')
+        read_only_fields = ('keeper',)
 
 
 class WeldingMaterialHumitureRecordListSerializer(
