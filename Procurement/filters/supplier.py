@@ -14,11 +14,11 @@ class SupplyRelationshipFilter(filters.FilterSet):
 
 
 class SupplierFilter(filters.FilterSet):
-    uid = filters.CharFilter(name='uid', lookup_expr='icontains')
+    name = filters.CharFilter(name='name', lookup_expr='icontains')
 
     class Meta:
         model = models.Supplier
-        fields = ('uid',)
+        fields = ('name',)
 
 
 class SupplyDocumentFilter(filters.FilterSet):

@@ -26,7 +26,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
 
     @list_route()
     def bidding_sheet(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         context = self.get_serializer_context()
         if page is not None:
