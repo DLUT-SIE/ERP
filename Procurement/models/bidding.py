@@ -44,7 +44,7 @@ class BiddingSheet(models.Model, metaclass=TransitionMeta):
     # TODO: auto_now_add?
     create_dt = models.DateTimeField(verbose_name='创建时间',
                                      blank=True, null=True)
-    status = models.IntegerField(verbose_name='标单状态', unique=True,
+    status = models.IntegerField(verbose_name='标单状态',
                                  choices=BIDDING_SHEET_STATUS_CHOICES)
     contract_number = models.CharField(verbose_name='合同编号', max_length=50,
                                        blank=True, default=gen_uuid)
