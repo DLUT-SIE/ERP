@@ -23,9 +23,9 @@ from .supplier import (
 
 from .bidding import (
     BaseBiddingSheetSerializer, BiddingSheetListSerializer,
-    BaseBiddingApplicationSerializer, BiddingApplicationListSerializer,
-    BiddingApplicationCreateSerializer, BaseBiddingAcceptanceSerializer,
-    BaseParityRatioCardSerializer,
+    BiddingSheetReadSerializer, BaseBiddingApplicationSerializer,
+    BiddingApplicationListSerializer, BiddingApplicationCreateSerializer,
+    BaseBiddingAcceptanceSerializer, BaseParityRatioCardSerializer
     )
 
 from .other import (

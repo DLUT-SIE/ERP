@@ -3,7 +3,7 @@ from django_filters import rest_framework as filters
 from Procurement.models import (PurchaseOrder, ProcurementMaterial)
 from Procurement import PURCHASE_ORDER_STATUS_CHOICES
 from Process.models import (ProcessMaterial)
-from Procurement import (PROCUREMENT_MATERIAL_STATUS, )
+from Procurement import (PROCUREMENT_MATERIAL_STATUS, INVENTORY_TYPE)
 
 
 class PurchaseOrderFilter(filters.FilterSet):
@@ -19,27 +19,29 @@ class PurchaseOrderFilter(filters.FilterSet):
 
 
 class ProcurementMaterialFilter(filters.FilterSet):
-
-    purchase_order = filters.CharFilter(name='purchase_order',
-                                        lookup_expr='exact')
-    inventory_type = filters.CharFilter(name='inventory_type',
-                                        lookup_expr='exact')
     purchase_order_uid = filters.CharFilter(method='filter_purchase_order')
 
     process_material_name = filters.CharFilter(
         method='filter_process_material_name')
+
+    sub_work_order_uid = filters.CharFilter(method='filter_sub_work_order_uid')
 
     status = filters.MultipleChoiceFilter(name='status',
                                           choices=PROCUREMENT_MATERIAL_STATUS)
 
     finished = filters.BooleanFilter(name='finished', lookup_expr='exact')
 
-    sub_work_order_uid = filters.CharFilter(method='filter_sub_work_order_uid')
+    purchase_order = filters.CharFilter(name='purchase_order',
+                                        lookup_expr='exact')
+   
+    inventory_type = filters.ChoiceFilter(name='inventory_type',
+                                          choices=INVENTORY_TYPE)
 
     class Meta:
         model = ProcurementMaterial
-        fields = ('purchase_order', 'inventory_type', 'purchase_order_uid',
-                  'process_material_name', 'status', 'finished')
+        fields = ('purchase_order_uid', 'process_material_name',
+                  'sub_work_order_uid', 'purchase_order', 'status', 'finished',
+                  'inventory_type')
 
     def filter_purchase_order(self, query_set, name, value):
         purchase_order = PurchaseOrder.objects.filter(uid=value)
@@ -64,7 +66,7 @@ class ProcurementMaterialFilter(filters.FilterSet):
         if not value or len(value) != 2 or '' in value:
             return self.Meta.model.objects.none()
         procurement_materials = self.Meta.model.objects.filter(
-            sub_order__work_order__id=value[0], sub_order__index=value[1])
+            sub_order__work_order__uid=value[0], sub_order__index=value[1])
         if not procurement_materials:
             return self.Meta.model.objects.none()
         return procurement_materials

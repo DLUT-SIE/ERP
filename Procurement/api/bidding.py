@@ -12,10 +12,13 @@ class BiddingSheetViewSet(viewsets.ModelViewSet):
     filter_class = filters.BiddingSheetFilter
 
     def get_serializer_class(self):
+        print(self.action)
         if self.action == 'list':
             return serializers.BiddingSheetListSerializer
-        else:
-            return serializers.BaseBiddingSheetSerializer
+        elif self.action == 'retrieve':
+            print("####")
+            return serializers.BiddingSheetReadSerializer
+        return serializers.BaseBiddingSheetSerializer
 
 
 # 招标申请
@@ -38,6 +41,7 @@ class BiddingAcceptanceViewSet(viewsets.ModelViewSet):
     pagination_class = SmallResultsSetPagination
     queryset = models.BiddingAcceptance.objects.all().order_by('-pk')
     serializer_class = serializers.BaseBiddingAcceptanceSerializer
+    filter_class = filters.BiddingAcceptanceFilter
 
 
 # 比质比价卡

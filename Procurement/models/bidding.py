@@ -73,130 +73,130 @@ class BiddingSheet(models.Model, metaclass=TransitionMeta):
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_CREATE,
                 target=BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED)
-    def select_supplier_approved():
+    def select_supplier_approved(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED,
         target=BIDDING_SHEET_STATUS_INVITE_BID_APPLY_SELECT)
-    def invite_bid_apply_selected():
+    def invite_bid_apply_selected(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_APPLY_SELECT,
         target=BIDDING_SHEET_STATUS_INVITE_BID_FILL)
-    def invite_bid_filled():
+    def invite_bid_filled(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_FILL,
                 target=BIDDING_SHEET_STATUS_INVITE_BID_CARRY)
-    def invite_bid_carried():
+    def invite_bid_carried(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_CARRY,
                 target=BIDDING_SHEET_STATUS_INVITE_BID_COMPLETE)
-    def invite_bid_completed():
+    def invite_bid_completed(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_COMPLETE,
         target=BIDDING_SHEET_STATUS_PROCESS_FOLLOW)
-    def process_followed():
+    def process_followed(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_PROCESS_FOLLOW,
                 target=BIDDING_SHEET_STATUS_CHECK)
-    def checked():
+    def checked(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_CHECK,
                 target=BIDDING_SHEET_STATUS_STORE)
-    def stored():
+    def stored(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_STORE,
                 target=BIDDING_SHEET_STATUS_COMPLETE)
-    def completed():
+    def completed(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_COMPLETE,
                 target=BIDDING_SHEET_STATUS_STOP)
-    def stopped():
+    def stopped(self, request):
         # TODO
         pass
 
     # 状态回溯
     @transition(field='status', source=BIDDING_SHEET_STATUS_STOP,
                 target=BIDDING_SHEET_STATUS_COMPLETE)
-    def completed_rollback():
+    def completed_rollback(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=BIDDING_SHEET_STATUS_COMPLETE,
         target=BIDDING_SHEET_STATUS_STORE)
-    def stored_rollback():
+    def stored_rollback(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=BIDDING_SHEET_STATUS_STORE,
         target=BIDDING_SHEET_STATUS_CHECK)
-    def checked_rollback():
+    def checked_rollback(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_CHECK,
                 target=BIDDING_SHEET_STATUS_PROCESS_FOLLOW)
-    def process_follow_rollbacked():
+    def process_follow_rollbacked(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_PROCESS_FOLLOW,
                 target=BIDDING_SHEET_STATUS_INVITE_BID_COMPLETE)
-    def invite_bid_completed_rollback():
+    def invite_bid_completed_rollback(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_COMPLETE,
         target=BIDDING_SHEET_STATUS_INVITE_BID_CARRY)
-    def invite_bid_carried_rollback():
+    def invite_bid_carried_rollback(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_CARRY,
                 target=BIDDING_SHEET_STATUS_INVITE_BID_FILL)
-    def invite_bid_filled_rollback():
+    def invite_bid_filled_rollback(self, request):
         # TODO
         pass
 
     @transition(field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_FILL,
                 target=BIDDING_SHEET_STATUS_INVITE_BID_APPLY_SELECT)
-    def invite_bid_apply_selected_rollback():
+    def invite_bid_apply_selected_rollback(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=BIDDING_SHEET_STATUS_INVITE_BID_APPLY_SELECT,
         target=BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED)
-    def select_supplier_approved_rollback():
+    def select_supplier_approved_rollback(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=BIDDING_SHEET_STATUS_SELECT_SUPPLLER_APPROVED,
         target=BIDDING_SHEET_STATUS_CREATE)
-    def created_rollback():
+    def created_rollback(self, request):
         # TODO
         pass
 
@@ -207,6 +207,7 @@ class BiddingApplication(models.Model, metaclass=TransitionMeta):
     标单申请表
     """
     bidding_sheet = models.OneToOneField(BiddingSheet, verbose_name='标单',
+                                         related_name='bidding_application',
                                          on_delete=models.CASCADE)
     uid = models.CharField(verbose_name='标单申请编号', max_length=50,
                            unique=True)
@@ -247,49 +248,49 @@ class BiddingApplication(models.Model, metaclass=TransitionMeta):
     @transition(
         field='status', source=COMMENT_STATUS_APPLY_FILL,
         target=COMMENT_STATUS_APPLY_OPERATOR_COMMENT)
-    def operator_comment():
+    def operator_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_APPLY_OPERATOR_COMMENT,
         target=COMMENT_STATUS_APPLY_LEAD_COMMENT)
-    def lead_comment():
+    def lead_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_APPLY_LEAD_COMMENT,
         target=COMMENT_STATUS_APPLY_NEED_COMMENT)
-    def need_comment():
+    def need_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_APPLY_NEED_COMMENT,
         target=COMMENT_STATUS_APPLY_CENTRALIZE_COMMENT)
-    def centralize_comment():
+    def centralize_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_APPLY_CENTRALIZE_COMMENT,
         target=COMMENT_STATUS_APPLY_LOGISTICAL_COMMENT)
-    def logistical_comment():
+    def logistical_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_APPLY_LOGISTICAL_COMMENT,
         target=COMMENT_STATUS_APPLY_COMPANY_COMMENT)
-    def company_comment():
+    def company_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_APPLY_COMPANY_COMMENT,
         target=COMMENT_STATUS_APPLY_FINISH)
-    def finish():
+    def finish(self, request):
         # TODO
         pass
 
@@ -299,6 +300,7 @@ class ParityRatioCard(models.Model, metaclass=TransitionMeta):
     比质比价卡
     """
     bidding_sheet = models.OneToOneField(BiddingSheet, verbose_name='标单',
+                                         related_name='parity_ratio_card',
                                          on_delete=models.CASCADE)
     apply_id = models.CharField(verbose_name='标单申请编号', max_length=20)
     applicant = models.CharField(verbose_name='申请单位', max_length=40)
@@ -328,35 +330,35 @@ class ParityRatioCard(models.Model, metaclass=TransitionMeta):
     @transition(
         field='status', source=COMMENT_STATUS_QUALITY_FILL,
         target=COMMENT_STATUS_QUALITY_OPERATOR_COMMENT)
-    def operator_comment():
+    def operator_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_QUALITY_OPERATOR_COMMENT,
         target=COMMENT_STATUS_QUALITY_NEED_TECH_COMMENT)
-    def need_tech_comment():
+    def need_tech_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_QUALITY_NEED_TECH_COMMENT,
         target=COMMENT_STATUS_QUALITY_NEED_LEAD_COMMENT)
-    def need_lead_comment():
+    def need_lead_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_QUALITY_NEED_LEAD_COMMENT,
         target=COMMENT_STATUS_QUALITY_COMPREHENSIVE_COMMENT)
-    def comprehensive_comment():
+    def comprehensive_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_QUALITY_COMPREHENSIVE_COMMENT,
         target=COMMENT_STATUS_QUALITY_COMPANY_COMMENT)
-    def company_comment():
+    def company_comment(self, request):
         # TODO
         pass
 
@@ -366,6 +368,7 @@ class BiddingAcceptance(models.Model):
     中标通知书
     """
     bidding_sheet = models.OneToOneField(BiddingSheet, verbose_name='标单',
+                                         related_name='bidding_acceptance',
                                          on_delete=models.CASCADE)
     uid = models.CharField(verbose_name='标书编号', max_length=50, unique=True)
     # TODO: auto relate?

@@ -59,35 +59,35 @@ class SupplierCheck(models.Model, metaclass=TransitionMeta):
     @transition(
         field='status', source=COMMENT_STATUS_CHECK_FILL,
         target=COMMENT_STATUS_CHECK_OPERATOR_COMMENT)
-    def operator_comment():
+    def operator_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_CHECK_OPERATOR_COMMENT,
         target=COMMENT_STATUS_CHECK_LEAD_COMMENT)
-    def lead_comment():
+    def lead_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_CHECK_LEAD_COMMENT,
         target=COMMENT_STATUS_CHECK_QUALITY_COMMENT)
-    def quality_comment():
+    def quality_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_CHECK_QUALITY_COMMENT,
         target=COMMENT_STATUS_CHECK_ECONOMIC_COMMENT)
-    def economic_comment():
+    def economic_comment(self, request):
         # TODO
         pass
 
     @transition(
         field='status', source=COMMENT_STATUS_CHECK_ECONOMIC_COMMENT,
         target=COMMENT_STATUS_CHECK_COMPREHENSIVE_COMMENT)
-    def comprehensive_comment():
+    def comprehensive_comment(self, request):
         # TODO
         pass
 

@@ -1,28 +1,7 @@
 from rest_framework import serializers
 from Procurement import models
-from Procurement.serializers import (BaseTransitionSerializer,
-                                     BaseDynamicFieldSerializer)
-
-
-# 标单
-class BaseBiddingSheetSerializer(BaseTransitionSerializer):
-    purchase_order_uid = serializers.CharField(source='purchase_order.uid',
-                                               read_only=True)
-
-    class Meta:
-        model = models.BiddingSheet
-        fields = ('id', 'uid', 'purchase_order', 'purchase_order_uid',
-                  'create_dt', 'status', 'contract_amount', 'billing_amount',
-                  'category')
-
-
-class BiddingSheetListSerializer(BaseBiddingSheetSerializer):
-
-    pretty_status = serializers.CharField(source='get_status_display')
-
-    class Meta(BaseBiddingSheetSerializer.Meta):
-        fields = ('id', 'uid', 'purchase_order', 'purchase_order_uid',
-                  'create_dt', 'status', 'category', 'pretty_status')
+from Procurement.serializers import (
+    BaseTransitionSerializer, BaseDynamicFieldSerializer)
 
 
 # 标单申请表
@@ -60,8 +39,8 @@ class BaseBiddingAcceptanceSerializer(BaseDynamicFieldSerializer):
     class Meta:
         model = models.BiddingAcceptance
         fields = ('id', 'uid', 'bidding_sheet', 'requestor', 'content',
-                  'amount', 'accept_dt', 'accept_money', 'contact',
-                  'contact_phone')
+                  'amount', 'accept_dt', 'accept_money', 'accept_supplier',
+                  'contact', 'contact_phone')
 
 
 # 比质比价卡
@@ -71,3 +50,37 @@ class BaseParityRatioCardSerializer(BaseTransitionSerializer):
         fields = ('id', 'bidding_sheet', 'apply_id', 'applicant', 'requestor',
                   'work_order', 'amount', 'unit', 'content', 'material',
                   'delivery_period', 'status')
+
+
+# 标单
+class BaseBiddingSheetSerializer(BaseTransitionSerializer):
+    purchase_order_uid = serializers.CharField(source='purchase_order.uid',
+                                               read_only=True)
+
+    class Meta:
+        model = models.BiddingSheet
+        fields = ('id', 'uid', 'purchase_order', 'purchase_order_uid',
+                  'create_dt', 'status', 'contract_amount', 'billing_amount',
+                  'category')
+
+
+class BiddingSheetListSerializer(BaseBiddingSheetSerializer):
+
+    pretty_status = serializers.CharField(source='get_status_display')
+
+    class Meta(BaseBiddingSheetSerializer.Meta):
+        fields = ('id', 'uid', 'purchase_order', 'purchase_order_uid',
+                  'create_dt', 'status', 'category', 'pretty_status')
+
+
+class BiddingSheetReadSerializer(BaseBiddingSheetSerializer):
+    pretty_status = serializers.CharField(source='get_status_display')
+    bidding_application = BaseBiddingApplicationSerializer(read_only=True)
+    bidding_acceptance = BaseBiddingAcceptanceSerializer(read_only=True)
+    parity_ratio_card = BaseParityRatioCardSerializer(read_only=True)
+
+    class Meta(BaseBiddingSheetSerializer.Meta):
+        fields = ('id', 'uid', 'purchase_order', 'purchase_order_uid',
+                  'create_dt', 'status', 'category', 'pretty_status',
+                  'bidding_application', 'bidding_acceptance',
+                  'parity_ratio_card')
