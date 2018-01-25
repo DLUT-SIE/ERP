@@ -12,7 +12,6 @@ class BiddingSheetViewSet(viewsets.ModelViewSet):
     filter_class = filters.BiddingSheetFilter
 
     def get_serializer_class(self):
-        print(self.action)
         if self.action == 'list':
             return serializers.BiddingSheetListSerializer
         elif self.action == 'retrieve':
