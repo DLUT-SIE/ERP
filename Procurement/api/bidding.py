@@ -16,7 +16,6 @@ class BiddingSheetViewSet(viewsets.ModelViewSet):
         if self.action == 'list':
             return serializers.BiddingSheetListSerializer
         elif self.action == 'retrieve':
-            print("####")
             return serializers.BiddingSheetReadSerializer
         return serializers.BaseBiddingSheetSerializer
 
