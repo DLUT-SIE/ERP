@@ -33,7 +33,7 @@ class ProcurementMaterialFilter(filters.FilterSet):
 
     purchase_order = filters.CharFilter(name='purchase_order',
                                         lookup_expr='exact')
-   
+
     inventory_type = filters.ChoiceFilter(name='inventory_type',
                                           choices=INVENTORY_TYPE)
 
@@ -62,7 +62,7 @@ class ProcurementMaterialFilter(filters.FilterSet):
         return procurement_materials
 
     def filter_sub_work_order_uid(self, query_set, name, value):
-        value = value.split('-') #参见SubWorkOrder模型定义
+        value = value.split('-')  # 参见SubWorkOrder模型定义
         if not value or len(value) != 2 or '' in value:
             return self.Meta.model.objects.none()
         procurement_materials = self.Meta.model.objects.filter(

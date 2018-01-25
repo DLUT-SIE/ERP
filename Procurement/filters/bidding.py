@@ -26,7 +26,7 @@ class BiddingApplicationFilter(filters.FilterSet):
 class BiddingAcceptanceFilter(filters.FilterSet):
     bidding_sheet = filters.CharFilter(name='bidding_sheet',
                                        lookup_expr='exact')
-    
+
     class Meta:
         model = models.BiddingAcceptance
         fields = ('bidding_sheet',)

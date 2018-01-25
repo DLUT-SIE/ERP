@@ -1,7 +1,7 @@
 from .procurement import (PurchaseOrderFilter, ProcurementMaterialFilter)
 
 from .bidding import (BiddingSheetFilter, BiddingApplicationFilter,
-	                  BiddingAcceptanceFilter)
+                      BiddingAcceptanceFilter)
 
 from .supplier import (SupplyRelationshipFilter, SupplyDocumentFilter,
                        SupplyQuotationFilter, SupplierFilter)
