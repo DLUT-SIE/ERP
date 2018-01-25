@@ -26,7 +26,7 @@ class SteelMaterialInventoryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = SteelMaterialInventoryDetail
         fields = ('id', 'entry_detail', 'length', 'refund_times', 'weight',
-                  'count', 'unit', 'status', 'pretty_status')
+                  'count', 'unit', 'status', 'pretty_status', 'warehouse')
 
 
 class AuxiliaryMaterialInventoryDetailSerializer(serializers.ModelSerializer):

@@ -325,7 +325,7 @@ class SteelMaterialInventoryDetailSerializerTest(TestCase):
             self.inventory_detail).data
         expected_keys = {
             'id', 'entry_detail', 'length', 'refund_times', 'weight', 'count',
-            'unit', 'status', 'pretty_status',
+            'unit', 'status', 'pretty_status', 'warehouse',
         }
         self.assertEqual(set(data.keys()), expected_keys)
 
