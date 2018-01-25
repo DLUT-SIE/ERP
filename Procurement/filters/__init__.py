@@ -4,7 +4,7 @@ from .bidding import (BiddingSheetFilter, BiddingApplicationFilter,
 	                  BiddingAcceptanceFilter)
 
 from .supplier import (SupplyRelationshipFilter, SupplyDocumentFilter,
-                       SupplyQuotationFilter)
+                       SupplyQuotationFilter, SupplierFilter)
 
 from .status_change import (StatusChangeFilter, )
 
@@ -21,4 +21,4 @@ __all__ = ['PurchaseOrderFilter', 'BiddingSheetFilter',
            'MaterialSubApplyFilter', 'MaterialExcutionFilter',
            'SupplyDocumentFilter', 'SupplyQuotationFilter',
            'ContractDetailFilter', 'MaterialExecutionDetailFilter',
-           'BiddingAcceptanceFilter']
+           'BiddingAcceptanceFilter', 'SupplierFilter']

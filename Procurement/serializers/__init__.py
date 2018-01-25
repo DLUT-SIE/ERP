@@ -19,7 +19,8 @@ from .status_change import (
 from .supplier import (
     SupplierSerializer, SupplierDocumentSerializer, QuotationSerializer,
     SupplierListSerializer, SupplierDetailSerializer,
-    BaseSupplyRelationshipSerializer, BaseSupplierCheckSerializer)
+    BaseSupplyRelationshipSerializer, BaseSupplierCheckSerializer,
+    SupplyRelationshipCreateSerializer, SupplierBiddingListSerializer)
 
 from .bidding import (
     BaseBiddingSheetSerializer, BiddingSheetListSerializer,
@@ -57,5 +58,6 @@ __all__ = [
     'BaseSupplierCheckSerializer', 'BaseProcessFollowingInfoSerializer',
     'BaseArrivalInspectionSerializer', 'BaseParityRatioCardSerializer',
     'BaseBiddingCommentSerializer', 'BaseDynamicFieldSerializer',
-    'BaseTransitionSerializer', 'ContractSerializer'
+    'BaseTransitionSerializer', 'ContractSerializer',
+    'SupplyRelationshipCreateSerializer', 'SupplierBiddingListSerializer'
 ]

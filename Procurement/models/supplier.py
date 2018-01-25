@@ -122,7 +122,8 @@ class SupplyRelationship(models.Model):
     # TODO: what are these fields?
     A = models.BooleanField(verbose_name='A', blank=True, default=False)
     B = models.BooleanField(verbose_name='B', blank=True, default=False)
-    C = models.IntegerField(verbose_name='C', choices=SUPPLIER_REL_C_CHOICES)
+    C = models.IntegerField(verbose_name='C', choices=SUPPLIER_REL_C_CHOICES,
+                            blank=True, null=True)
     D = models.BooleanField(verbose_name='D', blank=True, default=False)
     E = models.BooleanField(verbose_name='E', blank=True, default=False)
     F = models.BooleanField(verbose_name='F', blank=True, default=False)
@@ -131,7 +132,7 @@ class SupplyRelationship(models.Model):
                              blank=True, default='')
     supplier_code = models.CharField(verbose_name='供方代码', max_length=40,
                                      blank=True, default='')
-    price = models.FloatField(verbose_name='价格')
+    price = models.FloatField(verbose_name='价格', blank=True, null=True)
     status = models.CharField(verbose_name='厂家协作能力质量情况及业绩',
                               max_length=100, blank=True, default='')
     delivery_payment = models.CharField(verbose_name='交货及支付条件',
