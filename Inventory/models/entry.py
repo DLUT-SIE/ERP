@@ -97,7 +97,7 @@ class AbstractEntry(models.Model, metaclass=TransitionMeta):
         """
         entry = cls(
             bidding_sheet=bidding_sheet,
-            source=bidding_sheet.biddingacceptance.accept_supplier.name)
+            source=bidding_sheet.bidding_acceptance.accept_supplier.name)
         entry.save()
         details = []
         for inspection in inspections:
