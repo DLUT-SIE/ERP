@@ -1,0 +1,15 @@
+<!doctype html><html lang=en><head><title>太重滨海煤化工分公司生产管理系统</title><meta charset=utf-8><script>/* eslint-disable */
+    var env = 'production'
+    if (env !== 'production') {
+      window.erpConfig = JSON.parse('')
+      window.erpConfig.deptMap = JSON.stringify(window.erpConfig.deptMap)
+      window.erpConfig.menus = JSON.stringify(window.erpConfig.menus)
+    } else {
+      window.erpConfig = {
+        employeeId: '{{employee_id}}',
+        employeeName: '{{employee_name}}',
+        employeeMail: '{{email}}',
+        deptMap: '{{ deptMap|safe }}',
+        menus: '{{ menu|safe }}'
+      }
+    }</script><link href=/static/css/app.20ad268c14cc30547a6d967ca6d0baf8.css rel=stylesheet></head><body><div id=root style="height: 100%"></div><script type=text/javascript src=/static/js/vendor.d76e8cbaf64069d7f043.js></script><script type=text/javascript src=/static/js/app.c7b61b2f6f8c71fc38d6.js></script></body></html>

@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import url, include
 
+from Core.views.index import IndexView
+
 
 urlpatterns = [
     url(r'^', include('Core.urls')),
@@ -24,6 +26,7 @@ urlpatterns = [
     url(r'^', include('Procurement.urls')),
     url(r'^', include('Inventory.urls')),
     url(r'^', include('Production.urls')),
+    url(r'^', IndexView.as_view()),
 ]
 
 if settings.DEBUG:
